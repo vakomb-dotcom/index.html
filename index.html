@@ -1,48 +1,139 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTYVACIJOS</title>
+
+<style>
+body {margin:0;background: radial-gradient(circle at top,#0a0f1f,#05070f);color:white;font-family: system-ui;}
+.container {max-width:500px;margin:auto;padding:20px;}
+.card {background:#111827;padding:16px;border-radius:18px;margin-top:15px;box-shadow:0 0 20px rgba(0,255,136,0.1);}
+h1 {text-align:center;color:#00ff88;}
+
+.progress {height:12px;background:#222;border-radius:10px;overflow:hidden;}
+.fill {height:100%;background:#00ff88;transition:0.4s;}
+
+button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;font-size:15px;cursor:pointer;}
+button:hover {transform:scale(1.03);}
+button:active {transform:scale(0.97);}
+button:disabled {opacity:0.5;cursor:not-allowed;transform:none;}
+
+.task {background:#0f172a;border:1px solid #00ff88;}
+.task.done {background:#14532d;color:#fff;}
+
+.shop {border:1px solid gold;}
+.toggle {background:#1f2937;color:#00ff88;}
+.hidden {display:none;}
+.locked {opacity:0.5;border:1px dashed red;}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>MOTYVACIJOS</h1>
+
+<div class="card">
+<h2 id="level"></h2>
+<p id="xp"></p>
+<div class="progress"><div id="bar" class="fill"></div></div>
+<p>💰 Monetos: <span id="coins"></span></p>
+</div>
+
+<div class="card">
+<button class="toggle" onclick="toggle('sveik')">💪 Sveikata</button>
+<div id="sveik" class="hidden"></div>
+
+<button class="toggle" onclick="toggle('prod')">📋 Produktyvumas</button>
+<div id="prod" class="hidden"></div>
+
+<button class="toggle" onclick="toggle('tobul')">🧠 Tobulėjimas</button>
+<div id="tobul" class="hidden"></div>
+</div>
+
+<div class="card">
+<button class="toggle" onclick="toggle('shopWrap')">🎁 Apdovanojimai</button>
+<div id="shopWrap" class="hidden">
+<button class="shop" onclick="buy(2)">📱 Scrollinimas (30)</button>
+<button class="shop" onclick="buy(6)">☕ Kava (35)</button>
+<button class="shop" onclick="buy(5)">🎬 Filmas (40)</button>
+<button class="shop" onclick="buy(3)">🎮 Žaidimai (50)</button>
+<button class="shop" onclick="buy(0)">🍕 Picos vakaras (60)</button>
+<button class="shop" onclick="buy(4)">🍔 Cheat maistas (80)</button>
+<button class="shop" onclick="buy(1)">🛍️ Naujas drabužis (100)</button>
+</div>
+</div>
+
+</div>
+
 <script>
 
-// VISAS TAVO ORIGINALUS JS PALIKTAS
+// ===== DEFAULT TASKS =====
+const defaultTasks = [
 
+{id:1,cat:"sveik",text:"2L vandens",xp:10},
+{id:2,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10},
+{id:3,cat:"sveik",text:"30min pasivaikščiojimas",xp:12},
+{id:4,cat:"sveik",text:"50 atsispaudimų",xp:15},
+{id:5,cat:"sveik",text:"20 prisitraukimų",xp:15},
+{id:6,cat:"sveik",text:"3 kartai valgymas",xp:10},
+{id:7,cat:"sveik",text:"24h be priklausomybių",xp:25},
+
+{id:8,cat:"prod",text:"30min pas mamą",xp:20},
+{id:9,cat:"prod",text:"Sutvarkyti namus",xp:25},
+{id:10,cat:"prod",text:"5 pardavimo sutartys",xp:20},
+{id:11,cat:"prod",text:"2h darbas garaže",xp:25},
+{id:12,cat:"prod",text:"Įdėti automobilį",xp:35},
+{id:13,cat:"prod",text:"Nupirkti automobilį",xp:35},
+{id:14,cat:"prod",text:"Parduoti automobilį",xp:35},
+{id:15,cat:"prod",text:"Atidėliotas dalykas 1",xp:20},
+{id:16,cat:"prod",text:"Atidėliotas dalykas 2",xp:30},
+
+{id:17,cat:"tobul",text:"60min mokymasis",xp:15},
+{id:18,cat:"tobul",text:"20 puslapių skaitymas",xp:15},
+{id:19,cat:"tobul",text:"CE teorija",xp:20},
+{id:20,cat:"tobul",text:"Dantys ryte",xp:10},
+{id:21,cat:"tobul",text:"Dantys vakare",xp:15},
+{id:22,cat:"tobul",text:"Prausimasis ryte",xp:15},
+{id:23,cat:"tobul",text:"Prausimasis vakare",xp:15},
+{id:24,cat:"tobul",text:"Diena be TV",xp:20}
+
+];
+
+// ===== STATE =====
 let xp=0, level=1, coins=0;
 let totalTasks=0, totalXP=0;
 let weeklyTasks=0;
 let historyLog=[];
-let lastDay="";
 
-const rewards = [
-{price:60,text:"picos vakarą"},
-{price:100,text:"drabužį"},
-{price:30,text:"scrollinimą"},
-{price:50,text:"žaidimus"},
-{price:80,text:"cheat maistą"},
-{price:40,text:"filmą"},
-{price:35,text:"kavą"}
-];
+// ===== LOAD =====
+function load(){
+let data = JSON.parse(localStorage.getItem("klik_ultra"));
 
-function buy(i){
-let r = rewards[i];
-if(!r) return;
-
-if(coins < r.price){
-alert("❌ Neužtenka monetų");
-return;
+if(data){
+xp=data.xp||0;
+level=data.level||1;
+coins=data.coins||0;
+totalTasks=data.totalTasks||0;
+totalXP=data.totalXP||0;
+weeklyTasks=data.weeklyTasks||0;
+historyLog=data.historyLog||[];
 }
 
-coins -= r.price;
-log("atsiėmei "+r.text);
-alert("🎁 Gavai: "+r.text);
-
-save(); render();
+// 🔥 VISADA naudok naujas tasks (FIX)
+tasks = defaultTasks.map(t=>({...t,done:false}));
 }
 
-function toggle(id){document.getElementById(id).classList.toggle("hidden");}
+let tasks = [];
 
-function resetGame(){
-if(confirm("Ar tikrai nori ištrinti visą progresą?")){
-localStorage.clear();
-location.reload();
-}
+// ===== SAVE =====
+function save(){
+localStorage.setItem("klik_ultra", JSON.stringify({
+xp,level,coins,totalTasks,totalXP,weeklyTasks,historyLog
+}));
 }
 
+// ===== CORE =====
 function addXP(val){
 xp+=val;
 totalXP+=val;
@@ -52,96 +143,23 @@ while(xp>=100){
 xp-=100;
 level++;
 }
-
-save();
 }
 
 function completeTask(id){
-let task = tasks.find(t=>t.id===id);
-if(!task || task.done) return;
+let t = tasks.find(x=>x.id===id);
+if(!t || t.done) return;
 
-task.done = true;
+t.done = true;
 
-addXP(task.xp);
+addXP(t.xp);
 totalTasks++;
 weeklyTasks++;
-
-log("atlikai "+task.text+" užduotį");
 
 save();
 render();
 }
 
-function weekReward(x,c,need){
-if(weeklyTasks<need){
-alert("Nepasiektas tikslas: "+weeklyTasks+"/"+need);
-return;
-}
-xp+=x;
-coins+=c;
-weeklyTasks=0;
-log("atsiėmei savaitės tikslą "+need+" užduočių");
-alert("🎯 Gavai reward!");
-save(); render();
-}
-
-function showHistory(){
-if(historyLog.length===0){alert("Tuščia");return;}
-alert(historyLog.slice(-20).join("\n"));
-}
-
-function showStats(){
-alert(`📊 Statistika
-Užduotys: ${totalTasks}
-XP: ${totalXP}`);
-}
-
-function showLevels(){
-alert(`🏆 Lygiai
-5 → unlock
-10 → special
-20 → PRO`);
-}
-
-function log(txt){
-historyLog.push(new Date().toLocaleTimeString()+" - "+txt);
-}
-
-// 🔥 NAUJOS UŽDUOTYS
-let tasks = [
-
-/* SVEIKATA */
-{id:1,cat:"sveik",text:"2L vandens",xp:10,done:false},
-{id:2,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10,done:false},
-{id:3,cat:"sveik",text:"30min pasivaikščiojimas",xp:12,done:false},
-{id:4,cat:"sveik",text:"50 atsispaudimų",xp:15,done:false},
-{id:5,cat:"sveik",text:"20 prisitraukimų",xp:15,done:false},
-{id:6,cat:"sveik",text:"3 kartai valgymas per dieną",xp:10,done:false},
-{id:7,cat:"sveik",text:"24h be priklausomybių",xp:25,done:false},
-
-/* PRODUKTYVUMAS */
-{id:8,cat:"prod",text:"30min pas mamą",xp:20,done:false},
-{id:9,cat:"prod",text:"Sutvarkyti namus",xp:25,done:false},
-{id:10,cat:"prod",text:"5 pateiktos pardavimo sutartys",xp:20,done:false},
-{id:11,cat:"prod",text:"2h darbas garaže",xp:25,done:false},
-{id:12,cat:"prod",text:"1 įkeltas automobilis į skelbimus",xp:35,done:false},
-{id:13,cat:"prod",text:"1 nupirktas automobilis",xp:35,done:false},
-{id:14,cat:"prod",text:"1 parduotas automobilis",xp:35,done:false},
-{id:15,cat:"prod",text:"Padaryti atidėliotą dalyką (1)",xp:20,done:false},
-{id:16,cat:"prod",text:"Padaryti atidėliotą dalyką (2)",xp:30,done:false},
-
-/* TOBULĖJIMAS */
-{id:17,cat:"tobul",text:"60min kažko naujo mokymasis",xp:15,done:false},
-{id:18,cat:"tobul",text:"20 puslapių knygos skaitymas",xp:15,done:false},
-{id:19,cat:"tobul",text:"60min CE teorijos mokymasis",xp:20,done:false},
-{id:20,cat:"tobul",text:"Dantų valymas ryte",xp:10,done:false},
-{id:21,cat:"tobul",text:"Dantų valymas vakare",xp:15,done:false},
-{id:22,cat:"tobul",text:"Prausimasis ryte",xp:15,done:false},
-{id:23,cat:"tobul",text:"Prausimasis vakare",xp:15,done:false},
-{id:24,cat:"tobul",text:"Diena be televizoriaus",xp:20,done:false}
-
-];
-
+// ===== UI =====
 function render(){
 document.getElementById("level").innerText="Lygis: "+level;
 document.getElementById("xp").innerText="XP: "+xp+"/100";
@@ -159,8 +177,9 @@ div.innerHTML="";
 
 tasks.filter(t=>t.cat===cat).forEach(t=>{
 let b=document.createElement("button");
+
 b.className="task"+(t.done?" done":"");
-b.innerText=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
+b.textContent=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
 
 if(t.done){
 b.disabled = true;
@@ -172,25 +191,15 @@ div.appendChild(b);
 });
 }
 
-function save(){
-localStorage.setItem("klik_ultra", JSON.stringify({
-xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,historyLog,lastDay
-}));
-}
-
-function load(){
-let data = JSON.parse(localStorage.getItem("klik_ultra"));
-if(data){
-xp=data.xp; level=data.level; coins=data.coins; tasks=data.tasks;
-totalTasks=data.totalTasks||0;
-totalXP=data.totalXP||0;
-weeklyTasks=data.weeklyTasks||0;
-historyLog=data.historyLog||[];
-lastDay=data.lastDay||"";
-}
+// ===== OTHER =====
+function toggle(id){
+document.getElementById(id).classList.toggle("hidden");
 }
 
 load();
 render();
 
 </script>
+
+</body>
+</html>
