@@ -18,28 +18,6 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 .shop {border:1px solid gold;}
 .toggle {background:#1f2937;color:#00ff88;}
 .hidden {display:none;}
-
-/* MENU */
-.menu-btn {
-position:fixed;
-bottom:20px;
-left:50%;
-transform:translateX(-50%);
-background:#00ff88;
-color:black;
-font-weight:bold;
-max-width:300px;
-}
-.menu-box{
-position:fixed;
-bottom:80px;
-left:50%;
-transform:translateX(-50%);
-background:#111827;
-padding:12px;
-border-radius:12px;
-width:300px;
-}
 </style>
 </head>
 
@@ -67,35 +45,36 @@ width:300px;
 </div>
 
 <div class="card">
-<button class="toggle" onclick="toggle('shopWrap')">🛒 Shop</button>
+<button class="toggle" onclick="toggle('shopWrap')">🛒 Parduotuvė</button>
 <div id="shopWrap" class="hidden">
-<button class="shop" onclick="buy(0)">🍕 Premium pica vakaras (60)</button>
+<button class="shop" onclick="buy(0)">🍕 Premium picos vakaras (60)</button>
 <button class="shop" onclick="buy(1)">🛍️ Naujas drabužis (100)</button>
-<button class="shop" onclick="buy(2)">📱 2h scroll be guilt (30)</button>
-<button class="shop" onclick="buy(3)">🎮 2h gaming chill (50)</button>
+<button class="shop" onclick="buy(2)">📱 2 val. scroll be kaltės (30)</button>
+<button class="shop" onclick="buy(3)">🎮 2 val. žaidimų laikas (50)</button>
 <button class="shop" onclick="buy(4)">🍔 Cheat meal + desertas (80)</button>
-<button class="shop" onclick="buy(5)">🎬 Filmas + snacks (40)</button>
-<button class="shop" onclick="buy(6)">☕ Kava mieste + desertukas (35)</button>
-<button class="shop" onclick="buy(7)">🛏️ Full chill vakaras (45)</button>
+<button class="shop" onclick="buy(5)">🎬 Filmas + užkandžiai (40)</button>
+<button class="shop" onclick="buy(6)">☕ Kava mieste + desertas (35)</button>
+<button class="shop" onclick="buy(7)">🛏️ Pilnas poilsio vakaras (45)</button>
 </div>
 </div>
 
 <button onclick="newDay()">🔄 Nauja diena</button>
 
+<div class="card">
+<button class="toggle" onclick="toggle('menuWrap')">☰ MENIU</button>
+
+<div id="menuWrap" class="hidden">
+<button onclick="resetGame()">❌ Iš naujo pradėti</button>
+</div>
 </div>
 
-<!-- MENU -->
-<button class="menu-btn" onclick="toggle('menuBox')">☰ MENU</button>
-
-<div id="menuBox" class="menu-box hidden">
-<button onclick="resetGame()">❌ Reset Game</button>
 </div>
 
 <script>
 
 let xp=0, level=1, coins=0, streak=0;
 
-let tasks = [/* tas pats kaip buvo */ 
+let tasks = [
 {id:1,cat:"sveik",text:"💪 50 atsispaudimų",xp:12,done:false},
 {id:2,cat:"sveik",text:"🏋️ 20 prisitraukimų",xp:18,done:false},
 {id:3,cat:"sveik",text:"💧 2L vandens",xp:10,done:false},
@@ -164,14 +143,14 @@ save(); render();
 }
 
 function buy(i){
-if(i==0 && coins>=60){coins-=60;alert("🍕 Premium pica");}
-if(i==1 && coins>=100){coins-=100;alert("🛍️ Treat yourself");}
-if(i==2 && coins>=30){coins-=30;alert("📱 No guilt scroll");}
-if(i==3 && coins>=50){coins-=50;alert("🎮 Gaming time");}
-if(i==4 && coins>=80){coins-=80;alert("🍔 Cheat meal");}
-if(i==5 && coins>=40){coins-=40;alert("🎬 Movie night");}
-if(i==6 && coins>=35){coins-=35;alert("☕ Coffee time");}
-if(i==7 && coins>=45){coins-=45;alert("🛏️ Full chill");}
+if(i==0 && coins>=60){coins-=60;alert("🍕 Mėgaukis pica!");}
+if(i==1 && coins>=100){coins-=100;alert("🛍️ Pasilepink!");}
+if(i==2 && coins>=30){coins-=30;alert("📱 Scrollink be kaltės");}
+if(i==3 && coins>=50){coins-=50;alert("🎮 Žaidimų laikas");}
+if(i==4 && coins>=80){coins-=80;alert("🍔 Cheat meal!");}
+if(i==5 && coins>=40){coins-=40;alert("🎬 Filmų vakaras");}
+if(i==6 && coins>=35){coins-=35;alert("☕ Kavos pertrauka");}
+if(i==7 && coins>=45){coins-=45;alert("🛏️ Poilsio vakaras");}
 save(); render();
 }
 
