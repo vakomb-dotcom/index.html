@@ -97,7 +97,6 @@ let totalTasks=0, totalXP=0;
 let weeklyTasks=0;
 let historyLog=[];
 
-/* 🔥 STATISTIKA */
 let stats = {
 walk:0, water:0, pushups:0, pullups:0,
 contracts:0, ads:0, bought:0, sold:0, delayed:0,
@@ -114,10 +113,15 @@ const rewards = [
 {price:35,text:"kavą"}
 ];
 
+function log(txt){
+historyLog.push(new Date().toLocaleTimeString()+" - "+txt);
+}
+
 function buy(i){
 let r = rewards[i];
 if(coins < r.price){alert("❌ Neužtenka monetų");return;}
 coins -= r.price;
+log("Nupirkta: "+r.text);
 alert("🎁 Gavai: "+r.text);
 save(); render();
 }
@@ -137,9 +141,7 @@ coins+=Math.floor(val/2);
 while(xp>=100){xp-=100;level++;}
 }
 
-/* 🔥 STAT TRACK */
 function track(t){
-
 if(t.text==="30min pasivaikščiojimas") stats.walk+=30;
 if(t.text==="2L vandens") stats.water+=2;
 if(t.text==="50 atsispaudimų") stats.pushups+=50;
@@ -156,7 +158,6 @@ if(t.text==="60min mokymasis") stats.learning+=60;
 if(t.text==="60min CE teorija") stats.ce+=60;
 if(t.text==="20 puslapių skaitymas") stats.books+=1;
 if(t.text==="Diena be TV") stats.notv+=1;
-
 }
 
 function completeTask(id){
@@ -169,42 +170,67 @@ track(t);
 
 totalTasks++; weeklyTasks++;
 
+log("Atlikta: "+t.text);
+
 save(); render();
+}
+
+/* 🔥 FIX: savaitės tikslai */
+function weekReward(x,c,need){
+if(weeklyTasks<need){
+alert(`Reikia dar ${need-weeklyTasks} užduočių`);
+return;
+}
+
+addXP(x);      // FIX: dabar level veikia
+coins+=c;
+weeklyTasks-=need;  // FIX: nuresetina tik dalį
+
+log(`Savaitės reward (${need})`);
+
+alert("🎯 Reward paimtas!");
+save(); render();
+}
+
+/* 🔥 FIX: istorija */
+function showHistory(){
+if(!historyLog.length){
+alert("Dar nėra veiksmų");
+return;
+}
+alert(historyLog.slice(-20).join("\n"));
 }
 
 function showStats(){
 alert(`📊 PRO STATISTIKA
 
 💪 SVEIKATA
-👣 ${stats.walk} min vaikščiojimo
-💧 ${stats.water} L vandens
-💪 ${stats.pushups} atsispaudimų
-🧗 ${stats.pullups} prisitraukimų
+👣 ${stats.walk} min
+💧 ${stats.water} L
+💪 ${stats.pushups}
+🧗 ${stats.pullups}
 
 📋 PRODUKTYVUMAS
-📄 ${stats.contracts} sutartys
-🚗 ${stats.ads} skelbimai
-💰 ${stats.bought} nupirkta
-🏁 ${stats.sold} parduota
-⏳ ${stats.delayed} atidėlioti atlikti
+📄 ${stats.contracts}
+🚗 ${stats.ads}
+💰 ${stats.bought}
+🏁 ${stats.sold}
+⏳ ${stats.delayed}
 
 🧠 TOBULĖJIMAS
-📚 ${stats.learning} min mokymasis
-🚛 ${stats.ce} min CE teorija
-📖 ${stats.books*20} psl skaityta
-📺 ${stats.notv} dienos be TV
+📚 ${stats.learning} min
+🚛 ${stats.ce} min
+📖 ${stats.books*20} psl
+📺 ${stats.notv}
 
-📈 BENDRA
 ✔️ ${totalTasks} užduočių
 ⭐ ${totalXP} XP
 `);
 }
 
-function showHistory(){alert("Dar tuščia");}
 function showLevels(){alert("Lygiai: 5 / 10 / 20");}
 
-let tasks=[
-
+let tasks=[ /* NEPAKEISTA */ 
 {id:1,cat:"sveik",text:"2L vandens",xp:10,done:false},
 {id:2,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10,done:false},
 {id:3,cat:"sveik",text:"30min pasivaikščiojimas",xp:12,done:false},
@@ -231,7 +257,6 @@ let tasks=[
 {id:22,cat:"tobul",text:"Prausimasis ryte",xp:15,done:false},
 {id:23,cat:"tobul",text:"Prausimasis vakare",xp:15,done:false},
 {id:24,cat:"tobul",text:"Diena be TV",xp:20,done:false}
-
 ];
 
 function render(){
@@ -259,7 +284,7 @@ div.appendChild(b);
 
 function save(){
 localStorage.setItem("klik_ultra", JSON.stringify({
-xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,stats
+xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,stats,historyLog
 }));
 }
 
@@ -272,6 +297,7 @@ totalTasks=d.totalTasks||0;
 totalXP=d.totalXP||0;
 weeklyTasks=d.weeklyTasks||0;
 stats=d.stats||stats;
+historyLog=d.historyLog||[];
 }
 }
 
