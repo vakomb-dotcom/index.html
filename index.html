@@ -3,39 +3,81 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KLIK ULTRA</title>
+<title>MOTYVACIJOS</title>
 
 <style>
 body {margin:0;background: radial-gradient(circle at top,#0a0f1f,#05070f);color:white;font-family: system-ui;}
 .container {max-width:500px;margin:auto;padding:20px;}
 .card {background:#111827;padding:16px;border-radius:18px;margin-top:15px;box-shadow:0 0 20px rgba(0,255,136,0.1);}
-h1 {text-align:center;color:#00ff88;}
+h1 {text-align:center;color:#00ff88;letter-spacing:1px;}
+
 .progress {height:12px;background:#222;border-radius:10px;overflow:hidden;}
-.fill {height:100%;background:#00ff88;transition:0.3s;}
-button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;font-size:15px;cursor:pointer;}
+.fill {height:100%;background:#00ff88;transition:0.4s;}
+
+button {
+width:100%;
+padding:14px;
+margin-top:8px;
+border-radius:14px;
+border:none;
+font-size:15px;
+cursor:pointer;
+transition:0.2s;
+}
+
+button:hover {transform:scale(1.03);}
+button:active {transform:scale(0.97);}
+
 .task {background:#0f172a;border:1px solid #00ff88;}
 .task.done {background:#14532d;opacity:0.6;}
+
 .shop {border:1px solid gold;}
+
 .toggle {background:#1f2937;color:#00ff88;}
 .hidden {display:none;}
+
 .locked {opacity:0.5;border:1px dashed red;}
+
+/* 🔥 XP popup */
+.xp-popup {
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+color:#00ff88;
+font-size:24px;
+animation:fadeUp 0.8s forwards;
+pointer-events:none;
+}
+
+@keyframes fadeUp {
+0% {opacity:0; transform:translate(-50%,-40%);}
+50% {opacity:1;}
+100% {opacity:0; transform:translate(-50%,-80%);}
+}
+
+/* 🔥 level glow */
+.level-up {
+box-shadow:0 0 25px #00ff88 !important;
+transition:0.5s;
+}
 </style>
 </head>
 
 <body>
 <div class="container">
-<h1>KLIK ULTRA</h1>
+<h1>MOTYVACIJOS</h1>
 
-<div class="card">
+<div id="mainCard" class="card">
 <h2 id="level"></h2>
 <p id="xp"></p>
 <div class="progress"><div id="bar" class="fill"></div></div>
-<p>💰 Coins: <span id="coins"></span></p>
-<p>🔥 Streak: <span id="streak"></span></p>
+<p>💰 Monetos: <span id="coins"></span></p>
+<p>🔥 Serija: <span id="streak"></span></p>
 </div>
 
 <div class="card">
-<button class="toggle" onclick="toggle('sveik')">💪 Sveikatingumas</button>
+<button class="toggle" onclick="toggle('sveik')">💪 Sveikata</button>
 <div id="sveik" class="hidden"></div>
 
 <button class="toggle" onclick="toggle('prod')">📋 Produktyvumas</button>
@@ -46,18 +88,18 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 </div>
 
 <div class="card">
-<button class="toggle" onclick="toggle('shopWrap')">🎁 Rewards</button>
+<button class="toggle" onclick="toggle('shopWrap')">🎁 Apdovanojimai</button>
 <div id="shopWrap" class="hidden">
-<button class="shop" onclick="buy(0)">🍕 Premium pica (60)</button>
-<button class="shop" onclick="buy(1)">🛍️ Naujas fit (100)</button>
-<button class="shop" onclick="buy(2)">📱 Scroll chill (30)</button>
-<button class="shop" onclick="buy(3)">🎮 Gaming time (50)</button>
-<button class="shop" onclick="buy(4)">🍔 Cheat meal (80)</button>
-<button class="shop" onclick="buy(5)">🎬 Movie night (40)</button>
-<button class="shop" onclick="buy(6)">☕ Coffee break (35)</button>
+<button class="shop" onclick="buy(0)">🍕 Picos vakaras (60)</button>
+<button class="shop" onclick="buy(1)">🛍️ Naujas drabužis (100)</button>
+<button class="shop" onclick="buy(2)">📱 Scrollinimas (30)</button>
+<button class="shop" onclick="buy(3)">🎮 Žaidimai (50)</button>
+<button class="shop" onclick="buy(4)">🍔 Cheat maistas (80)</button>
+<button class="shop" onclick="buy(5)">🎬 Filmas (40)</button>
+<button class="shop" onclick="buy(6)">☕ Kava (35)</button>
 
-<button id="lvl5" class="shop locked">🔒 Premium reward (nuo lvl 5)</button>
-<button id="lvl10" class="shop locked">🔒 Special reward (nuo lvl 10)</button>
+<button id="lvl5" class="shop locked">🔒 Premium (nuo 5 lygio)</button>
+<button id="lvl10" class="shop locked">🔒 Specialus (nuo 10 lygio)</button>
 </div>
 </div>
 
@@ -67,16 +109,16 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 <div id="menuWrap" class="hidden">
 <button onclick="newDay()">🔄 Nauja diena</button>
 <button onclick="showStats()">📊 Statistika</button>
-<button onclick="showLevels()">🏆 Level rewards</button>
+<button onclick="showLevels()">🏆 Lygiai</button>
 
-<button onclick="toggle('weekWrap')">📅 Savaitės goals</button>
+<button onclick="toggle('weekWrap')">📅 Savaitės tikslai</button>
 <div id="weekWrap" class="hidden">
-<button onclick="weekReward(50,20)">✔️ 10 tasks → +50XP +20 coins</button>
-<button onclick="weekReward(120,50)">✔️ 25 tasks → +120XP +50 coins</button>
-<button onclick="weekReward(250,120)">✔️ 50 tasks → +250XP +120 coins</button>
+<button onclick="weekReward(50,20)">✔️ 10 užduočių → +50XP +20 monetų</button>
+<button onclick="weekReward(120,50)">✔️ 25 užduotys → +120XP +50 monetų</button>
+<button onclick="weekReward(250,120)">✔️ 50 užduočių → +250XP +120 monetų</button>
 </div>
 
-<button onclick="resetGame()">❌ Reset game</button>
+<button onclick="resetGame()">❌ Atstatyti žaidimą</button>
 </div>
 </div>
 
@@ -100,27 +142,34 @@ let tasks = [/* tas pats */
 {id:9,cat:"prod",text:"📋 planas",xp:10,done:false},
 {id:10,cat:"prod",text:"📧 laiškai",xp:10,done:false},
 {id:11,cat:"prod",text:"🧹 tvarka",xp:8,done:false},
-{id:12,cat:"prod",text:"⏳ deep work",xp:18,done:false},
-{id:13,cat:"prod",text:"📵 be soc",xp:14,done:false},
-{id:14,cat:"prod",text:"📒 task",xp:16,done:false},
+{id:12,cat:"prod",text:"⏳ gilus darbas",xp:18,done:false},
+{id:13,cat:"prod",text:"📵 be soc tinklų",xp:14,done:false},
+{id:14,cat:"prod",text:"📒 užduotis",xp:16,done:false},
 {id:15,cat:"prod",text:"💻 fokusas",xp:12,done:false},
 {id:16,cat:"prod",text:"📊 tikslai",xp:10,done:false},
 
 {id:17,cat:"tobul",text:"📖 skaityti",xp:12,done:false},
 {id:18,cat:"tobul",text:"🎧 podcast",xp:10,done:false},
-{id:19,cat:"tobul",text:"🧠 skill",xp:15,done:false},
+{id:19,cat:"tobul",text:"🧠 mokytis",xp:15,done:false},
 {id:20,cat:"tobul",text:"✍️ refleksija",xp:10,done:false},
 {id:21,cat:"tobul",text:"📈 progresas",xp:12,done:false},
 {id:22,cat:"tobul",text:"🎯 tikslai",xp:10,done:false},
 {id:23,cat:"tobul",text:"💡 idėjos",xp:14,done:false},
-{id:24,cat:"tobul",text:"📚 mokytis",xp:16,done:false}
+{id:24,cat:"tobul",text:"📚 mokymasis",xp:16,done:false}
 ];
 
 function toggle(id){
 document.getElementById(id).classList.toggle("hidden");
 }
 
-// 🔥 FIXED RESET
+function showXP(val){
+let el=document.createElement("div");
+el.className="xp-popup";
+el.innerText="+"+val+" XP";
+document.body.appendChild(el);
+setTimeout(()=>el.remove(),800);
+}
+
 function resetGame(){
 if(confirm("Ar tikrai nori ištrinti visą progresą?")){
 localStorage.clear();
@@ -132,7 +181,16 @@ function addXP(val){
 xp+=val;
 totalXP+=val;
 coins+=Math.floor(val/2);
-if(xp>=100){xp-=100;level++;}
+
+showXP(val);
+
+if(xp>=100){
+xp-=100;
+level++;
+document.getElementById("mainCard").classList.add("level-up");
+setTimeout(()=>document.getElementById("mainCard").classList.remove("level-up"),500);
+}
+
 save(); render();
 }
 
@@ -155,13 +213,13 @@ save(); render();
 }
 
 function buy(i){
-if(i==0 && coins>=60){coins-=60;alert("🍕 Pica");}
+if(i==0 && coins>=60){coins-=60;alert("🍕 Skanaus!");}
 if(i==1 && coins>=100){coins-=100;alert("🛍️ Pasilepinai");}
-if(i==2 && coins>=30){coins-=30;alert("📱 Chill");}
-if(i==3 && coins>=50){coins-=50;alert("🎮 Gaming");}
-if(i==4 && coins>=80){coins-=80;alert("🍔 Cheat");}
-if(i==5 && coins>=40){coins-=40;alert("🎬 Filmas");}
-if(i==6 && coins>=35){coins-=35;alert("☕ Kava");}
+if(i==2 && coins>=30){coins-=30;alert("📱 Poilsis");}
+if(i==3 && coins>=50){coins-=50;alert("🎮 Smagaus žaidimo");}
+if(i==4 && coins>=80){coins-=80;alert("🍔 Cheat diena");}
+if(i==5 && coins>=40){coins-=40;alert("🎬 Filmų vakaras");}
+if(i==6 && coins>=35){coins-=35;alert("☕ Kavos laikas");}
 save(); render();
 }
 
@@ -169,20 +227,20 @@ function showStats(){
 alert(`📊 Statistika
 Užduotys: ${totalTasks}
 XP: ${totalXP}
-Best streak: ${bestStreak}`);
+Geriausia serija: ${bestStreak}`);
 }
 
 function showLevels(){
-alert(`🏆 Level sistema
-Lvl 5 → unlock reward
-Lvl 10 → special reward
-Lvl 20 → PRO mode`);
+alert(`🏆 Lygiai
+5 lygis → atrakina reward
+10 lygis → specialus reward
+20 lygis → PRO režimas`);
 }
 
 function weekReward(x,c){
 xp+=x;
 coins+=c;
-alert("🎯 Weekly reward!");
+alert("🎯 Savaitinis bonusas!");
 save(); render();
 }
 
