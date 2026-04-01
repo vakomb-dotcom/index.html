@@ -32,15 +32,21 @@ button{width:100%;padding:14px;margin-top:8px;border:none;border-radius:12px;fon
 </div>
 
 <div class="card">
-<button class="toggle" onclick="toggle('tasksWrap')">🎯 Užduotys</button>
-<div id="tasksWrap" class="hidden"></div>
+<button class="toggle" onclick="toggle('sveik')">💪 Sveikatingumas</button>
+<div id="sveik" class="hidden"></div>
+
+<button class="toggle" onclick="toggle('prod')">📋 Produktyvumas</button>
+<div id="prod" class="hidden"></div>
+
+<button class="toggle" onclick="toggle('tobul')">🧠 Tobulėjimas</button>
+<div id="tobul" class="hidden"></div>
 </div>
 
 <div class="card">
 <button class="toggle" onclick="toggle('shopWrap')">🛒 Shop</button>
 <div id="shopWrap" class="hidden">
 <button class="shop" onclick="buy(0)">🍕 Pica (50)</button>
-<button class="shop" onclick="buy(1)">🛍️ Vinted 20Eur (70)</button>
+<button class="shop" onclick="buy(1)">🛍️ Vinted (70)</button>
 <button class="shop" onclick="buy(2)">📱 TikTok 1h (20)</button>
 <button class="shop" onclick="buy(3)">🎮 Game 1h (40)</button>
 </div>
@@ -58,16 +64,35 @@ button{width:100%;padding:14px;margin-top:8px;border:none;border-radius:12px;fon
 let xp=0,level=1,coins=0,streak=0;
 
 let tasks=[
-{id:1,text:"📖 Skaityti 20 puslapių",xp:10,done:false},
-{id:2,text:"💪 50 atsispaudimų",xp:10,done:false},
-{id:3,text:"🏠 Susitvarkyti namus",xp:20,done:false},
-{id:4,text:"🚶 30 min pasivaikščiojimas",xp:15,done:false},
-{id:5,text:"🧠 Išmokti kažką naujo",xp:15,done:false},
-{id:6,text:"📵 1h be telefono",xp:20,done:false},
-{id:7,text:"💧 Išgerti 2L vandens",xp:10,done:false},
-{id:8,text:"🛏️ Susitvarkyti lovą",xp:5,done:false},
-{id:9,text:"📒 Parašyti tikslus",xp:12,done:false},
-{id:10,text:"🏃 Sportas 20min",xp:18,done:false}
+// SVEIKATINGUMAS (8)
+{id:1,cat:"Sveikatingumas",text:"💪 50 atsispaudimų",xp:12,done:false},
+{id:2,cat:"Sveikatingumas",text:"🏋️ 20 prisitraukimų",xp:18,done:false},
+{id:3,cat:"Sveikatingumas",text:"💧 Išgerti 2L vandens",xp:10,done:false},
+{id:4,cat:"Sveikatingumas",text:"🚶 30 min pasivaikščiojimas",xp:14,done:false},
+{id:5,cat:"Sveikatingumas",text:"🏃 20 min kardio",xp:16,done:false},
+{id:6,cat:"Sveikatingumas",text:"🧘 10 min tempimai",xp:8,done:false},
+{id:7,cat:"Sveikatingumas",text:"😴 8h miego",xp:12,done:false},
+{id:8,cat:"Sveikatingumas",text:"🥗 Sveikas maistas visą dieną",xp:15,done:false},
+
+// PRODUKTYVUMAS (8)
+{id:9,cat:"Produktyvumas",text:"📋 Susiplanuoti dieną",xp:10,done:false},
+{id:10,cat:"Produktyvumas",text:"📧 Atsakyti į svarbius laiškus",xp:10,done:false},
+{id:11,cat:"Produktyvumas",text:"🧹 Susitvarkyti darbo vietą",xp:8,done:false},
+{id:12,cat:"Produktyvumas",text:"⏳ 1h deep work (be distrakcijų)",xp:18,done:false},
+{id:13,cat:"Produktyvumas",text:"📵 2h be social media",xp:14,done:false},
+{id:14,cat:"Produktyvumas",text:"📒 Užbaigti vieną svarbią užduotį",xp:16,done:false},
+{id:15,cat:"Produktyvumas",text:"💻 30 min fokusinis darbas",xp:12,done:false},
+{id:16,cat:"Produktyvumas",text:"📊 Peržiūrėti savo tikslus",xp:10,done:false},
+
+// TOBULĖJIMAS (8)
+{id:17,cat:"Tobulėjimas",text:"📖 Skaityti 20 puslapių",xp:12,done:false},
+{id:18,cat:"Tobulėjimas",text:"🎧 Klausyti edukacinio podcasto 20min",xp:10,done:false},
+{id:19,cat:"Tobulėjimas",text:"🧠 Išmokti naują skill (20min)",xp:15,done:false},
+{id:20,cat:"Tobulėjimas",text:"✍️ Parašyti dienos refleksiją",xp:10,done:false},
+{id:21,cat:"Tobulėjimas",text:"📈 Analizuoti savo progresą",xp:12,done:false},
+{id:22,cat:"Tobulėjimas",text:"🎯 Nustatyti rytojaus tikslus",xp:10,done:false},
+{id:23,cat:"Tobulėjimas",text:"💡 Sugeneruoti 5 idėjas",xp:14,done:false},
+{id:24,cat:"Tobulėjimas",text:"📚 Mokytis 30 min",xp:16,done:false}
 ];
 
 function toggle(id){
@@ -127,16 +152,23 @@ document.getElementById("coins").innerText=coins;
 document.getElementById("streak").innerText=streak;
 document.getElementById("bar").style.width=xp+"%";
 
-let wrap=document.getElementById("tasksWrap");
+renderCategory("Sveikatingumas","sveik");
+renderCategory("Produktyvumas","prod");
+renderCategory("Tobulėjimas","tobul");
+}
+
+function renderCategory(cat,id){
+let wrap=document.getElementById(id);
 wrap.innerHTML="";
 
-tasks.forEach(t=>{
+tasks.filter(t=>t.cat===cat).forEach(t=>{
 let b=document.createElement("button");
 b.className="task"+(t.done?" done":"");
 b.innerText=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
 b.onclick=()=>completeTask(t.id);
 wrap.appendChild(b);
 });
+}
 }
 
 function animate(txt){
