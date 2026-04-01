@@ -45,7 +45,6 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 <div id="tobul" class="hidden"></div>
 </div>
 
-<!-- REWARDS -->
 <div class="card">
 <button class="toggle" onclick="toggle('shopWrap')">🎁 Rewards</button>
 <div id="shopWrap" class="hidden">
@@ -62,12 +61,11 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 </div>
 </div>
 
-<button onclick="newDay()">🔄 Nauja diena</button>
-
 <div class="card">
 <button class="toggle" onclick="toggle('menuWrap')">☰ MENIU</button>
 
 <div id="menuWrap" class="hidden">
+<button onclick="newDay()">🔄 Nauja diena</button>
 <button onclick="showStats()">📊 Statistika</button>
 <button onclick="showLevels()">🏆 Level rewards</button>
 
@@ -89,7 +87,7 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 let xp=0, level=1, coins=0, streak=0;
 let totalTasks=0, totalXP=0, bestStreak=0;
 
-let tasks = [/* tavo tasks */ 
+let tasks = [
 {id:1,cat:"sveik",text:"💪 50 atsispaudimų",xp:12,done:false},
 {id:2,cat:"sveik",text:"🏋️ 20 prisitraukimų",xp:18,done:false},
 {id:3,cat:"sveik",text:"💧 2L vandens",xp:10,done:false},
