@@ -6,83 +6,27 @@
 <title>MOTYVACIJOS</title>
 
 <style>
+body {margin:0;background: linear-gradient(180deg,#0f172a,#111827,#020617);color:#e5e7eb;font-family: system-ui;}
+.container {max-width:500px;margin:auto;padding:20px;}
+h1 {text-align:center;color:#4ade80;font-weight:700;letter-spacing:1px;}
 
-body {
-margin:0;
-background: linear-gradient(180deg,#0f172a,#111827,#020617);
-color:#e5e7eb;
-font-family: system-ui;
-}
+.card {background:rgba(17,24,39,0.8);backdrop-filter: blur(12px);padding:18px;border-radius:20px;margin-top:15px;border:1px solid rgba(255,255,255,0.05);box-shadow:0 10px 30px rgba(0,0,0,0.5);}
 
-.container {
-max-width:500px;
-margin:auto;
-padding:20px;
-}
+.progress {height:12px;background:#1f2937;border-radius:20px;overflow:hidden;margin-top:8px;}
+.fill {height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);box-shadow:0 0 10px #22c55e;transition:0.4s;}
 
-h1 {
-text-align:center;
-color:#4ade80;
-letter-spacing:1px;
-}
+button {width:100%;padding:14px;margin-top:10px;border-radius:14px;border:none;font-size:15px;cursor:pointer;transition:0.2s;}
+button:hover {transform:translateY(-2px);}
+button:active {transform:scale(0.97);}
+button:disabled {opacity:0.5;cursor:not-allowed;}
 
-.card {
-background:rgba(17,24,39,0.8);
-backdrop-filter: blur(12px);
-padding:18px;
-border-radius:20px;
-margin-top:15px;
-border:1px solid rgba(255,255,255,0.05);
-box-shadow:0 10px 30px rgba(0,0,0,0.5);
-}
+.toggle {background:#1f2937;color:#4ade80;font-weight:600;}
 
-.progress {
-height:12px;
-background:#1f2937;
-border-radius:20px;
-overflow:hidden;
-margin-top:8px;
-}
+.task {background:#020617;border:1px solid #1f2937;text-align:left;}
+.task.done {background:#052e1b;color:#4ade80;}
 
-.fill {
-height:100%;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-transition:0.4s;
-}
-
-button {
-width:100%;
-padding:14px;
-margin-top:10px;
-border-radius:14px;
-border:none;
-cursor:pointer;
-}
-
-.toggle {
-background:#1f2937;
-color:#4ade80;
-}
-
-.task {
-background:#020617;
-border:1px solid #1f2937;
-text-align:left;
-}
-
-.task.done {
-background:#052e1b;
-color:#4ade80;
-}
-
-.shop {
-background:#1f2937;
-border:1px solid #facc15;
-color:#facc15;
-}
-
+.shop {background:#1f2937;border:1px solid #facc15;color:#facc15;}
 .hidden {display:none;}
-
 </style>
 </head>
 
@@ -96,7 +40,7 @@ color:#facc15;
 <h2 id="level"></h2>
 <p id="xp"></p>
 <div class="progress"><div id="bar" class="fill"></div></div>
-<p>💰 Monetos: <span id="coins"></span></p>
+<p style="margin-top:10px;">💰 Monetos: <span id="coins"></span></p>
 </div>
 
 <div class="card">
@@ -117,32 +61,31 @@ color:#facc15;
 <button class="shop" onclick="buy(6)">☕ Kava (35)</button>
 <button class="shop" onclick="buy(5)">🎬 Filmas (40)</button>
 <button class="shop" onclick="buy(3)">🎮 Žaidimai (50)</button>
-<button class="shop" onclick="buy(0)">🍕 Pica (60)</button>
-<button class="shop" onclick="buy(4)">🍔 Cheat (80)</button>
-<button class="shop" onclick="buy(1)">🛍️ Drabužis (100)</button>
+<button class="shop" onclick="buy(0)">🍕 Picos vakaras (60)</button>
+<button class="shop" onclick="buy(4)">🍔 Cheat maistas (80)</button>
+<button class="shop" onclick="buy(1)">🛍️ Naujas drabužis (100)</button>
 </div>
 </div>
 
 <div class="card">
 <button class="toggle" onclick="toggle('menuWrap')">☰ MENIU</button>
-
 <div id="menuWrap" class="hidden">
 
 <button onclick="showStats()">📊 Statistika</button>
 <button onclick="showLevels()">🏆 Lygiai</button>
 <button onclick="showHistory()">📜 Istorija</button>
 
+<!-- 🏆 ACHIEVEMENTS -->
 <button onclick="toggle('achWrap')">🏆 Pasiekimai</button>
-
 <div id="achWrap" class="hidden">
 
-<button onclick="toggle('achSveik')">💪 Sveikata</button>
+<button class="toggle" onclick="toggle('achSveik')">💪 Sveikata</button>
 <div id="achSveik" class="hidden"></div>
 
-<button onclick="toggle('achProd')">📋 Produktyvumas</button>
+<button class="toggle" onclick="toggle('achProd')">📋 Produktyvumas</button>
 <div id="achProd" class="hidden"></div>
 
-<button onclick="toggle('achTobul')">🧠 Tobulėjimas</button>
+<button class="toggle" onclick="toggle('achTobul')">🧠 Tobulėjimas</button>
 <div id="achTobul" class="hidden"></div>
 
 </div>
@@ -150,12 +93,12 @@ color:#facc15;
 <button onclick="toggle('weekWrap')">📅 Savaitės tikslai</button>
 
 <div id="weekWrap" class="hidden">
-<button onclick="weekReward(50,20,10)">10 užduočių</button>
-<button onclick="weekReward(120,50,25)">25 užduotys</button>
-<button onclick="weekReward(250,120,50)">50 užduočių</button>
+<button onclick="weekReward(50,20,10)">✔️ 10 → +50XP +20 monetų</button>
+<button onclick="weekReward(120,50,25)">✔️ 25 → +120XP +50 monetų</button>
+<button onclick="weekReward(250,120,50)">✔️ 50 → +250XP +120 monetų</button>
 </div>
 
-<button onclick="resetGame()">❌ Reset</button>
+<button onclick="resetGame()">❌ Atstatyti žaidimą</button>
 
 </div>
 </div>
@@ -165,139 +108,86 @@ color:#facc15;
 <script>
 
 let xp=0, level=1, coins=0;
-let totalTasks=0, totalXP=0, weeklyTasks=0;
+let totalTasks=0, totalXP=0;
+let weeklyTasks=0;
 let historyLog=[];
 
-let stats={
-pushups:0,pullups:0,nosocial:0,
-contracts:0,sold:0,delayed:0,
-books:0,ce:0,notv:0
+let stats = {
+walk:0, water:0, pushups:0, pullups:0,
+contracts:0, ads:0, bought:0, sold:0, delayed:0,
+learning:0, ce:0, books:0, notv:0, nosocial:0
 };
 
-const rewards=[
-{price:60,text:"pica"},
-{price:100,text:"drabužis"},
-{price:30,text:"scroll"},
-{price:50,text:"žaidimai"},
-{price:80,text:"cheat"},
-{price:40,text:"filmas"},
-{price:35,text:"kava"}
+const rewards = [
+{price:60,text:"picos vakarą"},
+{price:100,text:"drabužį"},
+{price:30,text:"scrollinimą"},
+{price:50,text:"žaidimus"},
+{price:80,text:"cheat maistą"},
+{price:40,text:"filmą"},
+{price:35,text:"kavą"}
 ];
 
-function toggle(id){
-document.getElementById(id).classList.toggle("hidden");
-}
-
-function log(t){
-historyLog.push(new Date().toLocaleTimeString()+" - "+t);
-}
-
-function addXP(v){
-xp+=v;
-totalXP+=v;
-coins+=Math.floor(v/2);
-
-let old=level;
-
-while(xp>=100){
-xp-=100;
-level++;
-}
-
-if(level>old){
-alert("🔥 LEVEL UP!");
-}
+function log(txt){
+historyLog.push(new Date().toLocaleTimeString()+" - "+txt);
 }
 
 function buy(i){
-let r=rewards[i];
-if(coins<r.price){alert("Neužtenka");return;}
-coins-=r.price;
-log("Pirko "+r.text);
+let r = rewards[i];
+if(coins < r.price){alert("❌ Neužtenka monetų");return;}
+coins -= r.price;
+log("Nupirkta: "+r.text);
+alert("🎁 Gavai: "+r.text);
 save(); render();
 }
 
-function track(t){
-if(t.text==="50 atsispaudimų") stats.pushups+=50;
-if(t.text==="20 prisitraukimų") stats.pullups+=20;
-if(t.text==="60min be soc tinklų ir darbo") stats.nosocial+=60;
-
-if(t.text==="5 pardavimo sutartys") stats.contracts+=5;
-if(t.text==="1 parduotas automobilis") stats.sold+=1;
-if(t.text.includes("Atidėliotas")) stats.delayed+=1;
-
-if(t.text==="20 puslapių skaitymas") stats.books+=1;
-if(t.text==="60min CE teorija") stats.ce+=60;
-if(t.text==="Diena be TV") stats.notv+=1;
-}
-
-function completeTask(id){
-let t=tasks.find(x=>x.id===id);
-if(!t||t.done)return;
-
-t.done=true;
-addXP(t.xp);
-track(t);
-
-totalTasks++;
-weeklyTasks++;
-
-log("Atlikta "+t.text);
-
-checkAchievements();
-
-save();
-render();
-}
-
-function weekReward(x,c,n){
-if(weeklyTasks<n){alert("Per mažai");return;}
-addXP(x);
-coins+=c;
-weeklyTasks-=n;
-}
-
-function showHistory(){
-alert(historyLog.slice(-20).join("\n"));
-}
-
-function showStats(){
-alert(JSON.stringify(stats,null,2));
-}
-
-function showLevels(){
-alert("Level sistema aktyvi");
-}
+function toggle(id){document.getElementById(id).classList.toggle("hidden");}
 
 function resetGame(){
-if(confirm("Reset?")){
-localStorage.clear();
-location.reload();
+if(confirm("Ištrinti progresą?")){
+localStorage.clear(); location.reload();
 }
 }
 
-/* TASKS */
+/* 🔥 LEVEL UP */
+function addXP(val){
+xp+=val;
+totalXP+=val;
+coins+=Math.floor(val/2);
 
-let tasks=[
+let before = level;
 
-{id:4,cat:"sveik",text:"50 atsispaudimų",xp:15,done:false},
-{id:5,cat:"sveik",text:"20 prisitraukimų",xp:15,done:false},
-{id:2,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10,done:false},
+while(xp>=100){xp-=100;level++;}
 
-{id:10,cat:"prod",text:"5 pardavimo sutartys",xp:20,done:false},
-{id:14,cat:"prod",text:"1 parduotas automobilis",xp:35,done:false},
-{id:15,cat:"prod",text:"Atidėliotas dalykas (1)",xp:20,done:false},
+if(level > before){
+alert("🔥 LEVEL UP! 🔥");
+}
+}
 
-{id:18,cat:"tobul",text:"20 puslapių skaitymas",xp:15,done:false},
-{id:19,cat:"tobul",text:"60min CE teorija",xp:20,done:false},
-{id:24,cat:"tobul",text:"Diena be TV",xp:20,done:false}
+/* TRACK */
+function track(t){
+if(t.text==="30min pasivaikščiojimas") stats.walk+=30;
+if(t.text==="2L vandens") stats.water+=2;
+if(t.text==="50 atsispaudimų") stats.pushups+=50;
+if(t.text==="20 prisitraukimų") stats.pullups+=20;
 
-];
+if(t.text==="5 pardavimo sutartys") stats.contracts+=5;
+if(t.text==="1 į skelbimus automobilis") stats.ads+=1;
+if(t.text==="1 nupirktas automobilis") stats.bought+=1;
+if(t.text==="1 parduotas automobilis") stats.sold+=1;
+if(t.text==="Atidėliotas dalykas (1)") stats.delayed+=1;
+if(t.text==="Atidėliotas dalykas (2)") stats.delayed+=2;
+
+if(t.text==="60min mokymasis") stats.learning+=60;
+if(t.text==="60min CE teorija") stats.ce+=60;
+if(t.text==="20 puslapių skaitymas") stats.books+=1;
+if(t.text==="Diena be TV") stats.notv+=1;
+
+if(t.text==="60min be soc tinklų ir darbo") stats.nosocial+=60;
+}
 
 /* ACHIEVEMENTS */
-
-let achievements=[
-
+let achievements = [
 {cat:"achSveik",stat:"pushups",req:100,reward:25,text:"100 atsispaudimų"},
 {cat:"achSveik",stat:"pushups",req:300,reward:60,text:"300 atsispaudimų"},
 {cat:"achSveik",stat:"pushups",req:500,reward:100,text:"500 atsispaudimų"},
@@ -314,9 +204,9 @@ let achievements=[
 {cat:"achProd",stat:"contracts",req:20,reward:30,text:"20 sutarčių"},
 {cat:"achProd",stat:"contracts",req:50,reward:80,text:"50 sutarčių"},
 
-{cat:"achProd",stat:"sold",req:3,reward:100,text:"3 parduoti auto"},
-{cat:"achProd",stat:"sold",req:5,reward:200,text:"5 parduoti auto"},
-{cat:"achProd",stat:"sold",req:10,reward:500,text:"10 parduotų auto"},
+{cat:"achProd",stat:"sold",req:3,reward:100,text:"3 parduoti"},
+{cat:"achProd",stat:"sold",req:5,reward:200,text:"5 parduoti"},
+{cat:"achProd",stat:"sold",req:10,reward:500,text:"10 parduoti"},
 
 {cat:"achProd",stat:"delayed",req:3,reward:30,text:"3 atidėliojimai"},
 {cat:"achProd",stat:"delayed",req:7,reward:60,text:"7 atidėliojimai"},
@@ -331,9 +221,8 @@ let achievements=[
 {cat:"achTobul",stat:"ce",req:500,reward:120,text:"500 min CE"},
 
 {cat:"achTobul",stat:"notv",req:1,reward:20,text:"1 diena be TV"},
-{cat:"achTobul",stat:"notv",req:3,reward:50,text:"3 dienos"},
-{cat:"achTobul",stat:"notv",req:7,reward:70,text:"7 dienos"}
-
+{cat:"achTobul",stat:"notv",req:3,reward:50,text:"3 dienos be TV"},
+{cat:"achTobul",stat:"notv",req:7,reward:70,text:"7 dienos be TV"}
 ];
 
 function checkAchievements(){
@@ -341,9 +230,26 @@ achievements.forEach(a=>{
 if(!a.done && stats[a.stat]>=a.req){
 a.done=true;
 coins+=a.reward;
-alert("🏆 "+a.text);
+alert("🏆 "+a.text+" +"+a.reward+" monetų");
 }
 });
+}
+
+function completeTask(id){
+let t=tasks.find(x=>x.id===id);
+if(!t||t.done)return;
+
+t.done=true;
+addXP(t.xp);
+track(t);
+
+checkAchievements();
+
+totalTasks++; weeklyTasks++;
+
+log("Atlikta: "+t.text);
+
+save(); render();
 }
 
 function renderAchievements(cat){
@@ -352,55 +258,63 @@ div.innerHTML="";
 achievements.filter(a=>a.cat===cat).forEach(a=>{
 let b=document.createElement("button");
 b.className="task"+(a.done?" done":"");
-b.textContent=(a.done?"🏆 ":"🔒 ")+a.text;
+b.textContent=(a.done?"🏆 ":"🔒 ")+a.text+" +"+a.reward;
 div.appendChild(b);
 });
 }
 
 function render(){
-document.getElementById("level").innerText="Lygis "+level;
-document.getElementById("xp").innerText=xp+"/100";
+document.getElementById("level").innerText="Lygis: "+level;
+document.getElementById("xp").innerText="XP: "+xp+"/100";
 document.getElementById("coins").innerText=coins;
 document.getElementById("bar").style.width=xp+"%";
 
-["sveik","prod","tobul"].forEach(cat=>{
+renderCategory("sveik");
+renderCategory("prod");
+renderCategory("tobul");
+
+renderAchievements("achSveik");
+renderAchievements("achProd");
+renderAchievements("achTobul");
+}
+
+/* VISA KITA TAVO PALIKTA */
+
+function renderCategory(cat){
 let div=document.getElementById(cat);
 div.innerHTML="";
 tasks.filter(t=>t.cat===cat).forEach(t=>{
 let b=document.createElement("button");
 b.className="task"+(t.done?" done":"");
-b.textContent=t.text;
+b.textContent=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
 if(!t.done) b.onclick=()=>completeTask(t.id);
+else b.disabled=true;
 div.appendChild(b);
 });
-});
-
-renderAchievements("achSveik");
-renderAchievements("achProd");
-renderAchievements("achTobul");
-
 }
 
+/* SAVE LOAD */
+
 function save(){
-localStorage.setItem("game",JSON.stringify({
-xp,level,coins,tasks,stats,historyLog
+localStorage.setItem("klik_ultra", JSON.stringify({
+xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,stats,historyLog
 }));
 }
 
 function load(){
-let d=JSON.parse(localStorage.getItem("game"));
+let d=JSON.parse(localStorage.getItem("klik_ultra"));
 if(d){
-xp=d.xp;
-level=d.level;
-coins=d.coins;
-tasks=d.tasks;
-stats=d.stats;
-historyLog=d.historyLog;
+xp=d.xp||0; level=d.level||1; coins=d.coins||0;
+tasks=d.tasks||tasks;
+totalTasks=d.totalTasks||0;
+totalXP=d.totalXP||0;
+weeklyTasks=d.weeklyTasks||0;
+stats=d.stats||stats;
+historyLog=d.historyLog||[];
 }
 }
 
-load();
-render();
+load(); render();
 
 </script>
 
