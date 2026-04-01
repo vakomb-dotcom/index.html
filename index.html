@@ -248,7 +248,147 @@ alert(historyLog.join("\n") || "Tuščia");
 }
 
 load(); render();
+/* ========================= */
+/* 🔥 LEVEL UP + ACHIEVEMENTS */
+/* ========================= */
 
+/* ➕ pridėtas stat */
+stats.nosocial = stats.nosocial || 0;
+
+/* 🏆 ACHIEVEMENTS */
+let achievements = [
+{cat:"achSveik",stat:"pushups",req:100,reward:25,text:"100 atsispaudimų"},
+{cat:"achSveik",stat:"pushups",req:300,reward:60,text:"300 atsispaudimų"},
+{cat:"achSveik",stat:"pushups",req:500,reward:100,text:"500 atsispaudimų"},
+
+{cat:"achSveik",stat:"pullups",req:50,reward:35,text:"50 prisitraukimų"},
+{cat:"achSveik",stat:"pullups",req:100,reward:60,text:"100 prisitraukimų"},
+{cat:"achSveik",stat:"pullups",req:300,reward:100,text:"300 prisitraukimų"},
+
+{cat:"achSveik",stat:"nosocial",req:200,reward:20,text:"200 min be soc tinklų"},
+{cat:"achSveik",stat:"nosocial",req:500,reward:50,text:"500 min be soc tinklų"},
+{cat:"achSveik",stat:"nosocial",req:1000,reward:90,text:"1000 min be soc tinklų"},
+
+{cat:"achProd",stat:"contracts",req:10,reward:20,text:"10 sutarčių"},
+{cat:"achProd",stat:"contracts",req:20,reward:30,text:"20 sutarčių"},
+{cat:"achProd",stat:"contracts",req:50,reward:80,text:"50 sutarčių"},
+
+{cat:"achProd",stat:"sold",req:3,reward:100,text:"3 parduoti auto"},
+{cat:"achProd",stat:"sold",req:5,reward:200,text:"5 parduoti auto"},
+{cat:"achProd",stat:"sold",req:10,reward:500,text:"10 parduotų auto"},
+
+{cat:"achProd",stat:"delayed",req:3,reward:30,text:"3 atidėliojimai"},
+{cat:"achProd",stat:"delayed",req:7,reward:60,text:"7 atidėliojimai"},
+{cat:"achProd",stat:"delayed",req:10,reward:90,text:"10 atidėliojimų"},
+
+{cat:"achTobul",stat:"books",req:2,reward:20,text:"40 puslapių"},
+{cat:"achTobul",stat:"books",req:5,reward:50,text:"100 puslapių"},
+{cat:"achTobul",stat:"books",req:10,reward:100,text:"200 puslapių"},
+
+{cat:"achTobul",stat:"ce",req:180,reward:60,text:"180 min CE"},
+{cat:"achTobul",stat:"ce",req:300,reward:90,text:"300 min CE"},
+{cat:"achTobul",stat:"ce",req:500,reward:120,text:"500 min CE"},
+
+{cat:"achTobul",stat:"notv",req:1,reward:20,text:"1 diena be TV"},
+{cat:"achTobul",stat:"notv",req:3,reward:50,text:"3 dienos be TV"},
+{cat:"achTobul",stat:"notv",req:7,reward:70,text:"7 dienos be TV"}
+];
+
+/* 🔥 PATCH addXP (neperrašo logikos) */
+const oldAddXP = addXP;
+addXP = function(val){
+let before = level;
+oldAddXP(val);
+if(level > before){
+alert("🔥 LEVEL UP! 🔥");
+}
+};
+
+/* 🔥 PATCH track */
+const oldTrack = track;
+track = function(t){
+oldTrack(t);
+if(t.text==="60min be soc tinklų ir darbo"){
+stats.nosocial += 60;
+}
+};
+
+/* 🏆 CHECK */
+function checkAchievements(){
+achievements.forEach(a=>{
+if(!a.done && stats[a.stat] >= a.req){
+a.done = true;
+coins += a.reward;
+alert("🏆 "+a.text+" +" + a.reward + " monetų");
+}
+});
+}
+
+/* 🔥 PATCH completeTask */
+const oldCompleteTask = completeTask;
+completeTask = function(id){
+oldCompleteTask(id);
+checkAchievements();
+};
+
+/* 🏆 UI sukūrimas */
+function createAchievementsUI(){
+let menu = document.getElementById("menuWrap");
+
+if(document.getElementById("achWrap")) return;
+
+let btn = document.createElement("button");
+btn.innerText="🏆 Pasiekimai";
+btn.onclick=()=>toggle('achWrap');
+
+menu.insertBefore(btn, menu.children[3]);
+
+let wrap = document.createElement("div");
+wrap.id="achWrap";
+wrap.className="hidden";
+
+wrap.innerHTML = `
+<button class="toggle" onclick="toggle('achSveik')">💪 Sveikata</button>
+<div id="achSveik" class="hidden"></div>
+
+<button class="toggle" onclick="toggle('achProd')">📋 Produktyvumas</button>
+<div id="achProd" class="hidden"></div>
+
+<button class="toggle" onclick="toggle('achTobul')">🧠 Tobulėjimas</button>
+<div id="achTobul" class="hidden"></div>
+`;
+
+menu.insertBefore(wrap, menu.children[4]);
+}
+
+/* 🏆 render */
+function renderAchievements(cat){
+let div=document.getElementById(cat);
+if(!div) return;
+
+div.innerHTML="";
+achievements.filter(a=>a.cat===cat).forEach(a=>{
+let b=document.createElement("button");
+b.className="task"+(a.done?" done":"");
+b.textContent=(a.done?"🏆 ":"🔒 ")+a.text+" → "+a.reward+" monetų";
+div.appendChild(b);
+});
+}
+
+/* 🔥 PATCH render */
+const oldRender2 = render;
+render = function(){
+oldRender2();
+renderAchievements("achSveik");
+renderAchievements("achProd");
+renderAchievements("achTobul");
+};
+
+/* 🔥 INIT */
+setTimeout(()=>{
+createAchievementsUI();
+render();
+},100);
 </script>
 
 </body>
