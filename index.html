@@ -100,6 +100,22 @@ let totalTasks=0, totalXP=0;
 let weeklyTasks=0;
 let historyLog=[];
 
+/* DAILY (added only) */
+let lastDate = "";
+
+function today(){
+return new Date().toISOString().split("T")[0];
+}
+
+function checkNewDay(){
+if(lastDate !== today()){
+tasks.forEach(t => t.done = false);
+lastDate = today();
+save();
+}
+}
+/* END DAILY */
+
 let stats = {
 walk:0, water:0, pushups:0, pullups:0,
 contracts:0, ads:0, bought:0, sold:0, delayed:0,
@@ -179,16 +195,15 @@ log("Atlikta: "+t.text);
 save(); render();
 }
 
-/* 🔥 FIX: savaitės tikslai */
 function weekReward(x,c,need){
 if(weeklyTasks<need){
 alert(`Reikia dar ${need-weeklyTasks} užduočių`);
 return;
 }
 
-addXP(x);      // FIX: dabar level veikia
+addXP(x);
 coins+=c;
-weeklyTasks-=need;  // FIX: nuresetina tik dalį
+weeklyTasks-=need;
 
 log(`Savaitės reward (${need})`);
 
@@ -196,7 +211,6 @@ alert("🎯 Reward paimtas!");
 save(); render();
 }
 
-/* 🔥 FIX: istorija */
 function showHistory(){
 if(!historyLog.length){
 alert("Dar nėra veiksmų");
@@ -234,7 +248,7 @@ alert(`📊 PRO STATISTIKA
 
 function showLevels(){alert("Lygiai: 5 / 10 / 20");}
 
-let tasks=[ /* NEPAKEISTA */ 
+let tasks=[
 {id:1,cat:"sveik",text:"2L vandens",xp:10,done:false},
 {id:2,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10,done:false},
 {id:3,cat:"sveik",text:"30min pasivaikščiojimas",xp:12,done:false},
@@ -288,7 +302,7 @@ div.appendChild(b);
 
 function save(){
 localStorage.setItem("klik_ultra", JSON.stringify({
-xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,stats,historyLog
+xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,stats,historyLog,lastDate
 }));
 }
 
@@ -302,10 +316,13 @@ totalXP=d.totalXP||0;
 weeklyTasks=d.weeklyTasks||0;
 stats=d.stats||stats;
 historyLog=d.historyLog||[];
+lastDate=d.lastDate||"";
 }
 }
 
-load(); render();
+load();
+checkNewDay();
+render();
 
 </script>
 
