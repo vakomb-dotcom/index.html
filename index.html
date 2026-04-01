@@ -3,14 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KLIK MAX</title>
+<title>KLIK PRO</title>
 
 <style>
-body{
+body {
   margin:0;
-  background:#05070f;
+  background: radial-gradient(circle at top,#0a0f1f,#05070f);
   color:white;
-  font-family:system-ui;
+  font-family: system-ui;
 }
 
 .container{
@@ -19,31 +19,17 @@ body{
   padding:20px;
 }
 
+h1{
+  color:#00ff88;
+  text-align:center;
+}
+
 .card{
   background:#111827;
   padding:16px;
   border-radius:18px;
   margin-top:15px;
-  box-shadow:0 0 15px rgba(0,255,136,0.15);
-}
-
-button{
-  width:100%;
-  padding:16px;
-  margin-top:10px;
-  border-radius:14px;
-  border:none;
-  font-size:16px;
-}
-
-.task{
-  background:#0f172a;
-  border:1px solid #00ff88;
-}
-
-.task.done{
-  background:#14532d;
-  opacity:0.6;
+  box-shadow:0 0 20px rgba(0,255,136,0.1);
 }
 
 .progress{
@@ -55,8 +41,38 @@ button{
 
 .fill{
   height:100%;
-  background:#00ff88;
+  background:linear-gradient(90deg,#00ff88,#00ffa2);
   transition:0.3s;
+}
+
+button{
+  width:100%;
+  padding:16px;
+  margin-top:10px;
+  border-radius:14px;
+  border:none;
+  font-size:16px;
+  transition:0.2s;
+}
+
+button:active{
+  transform:scale(0.95);
+}
+
+.task{
+  background:#0f172a;
+  color:white;
+  border:1px solid #00ff88;
+}
+
+.task.done{
+  background:#14532d;
+  opacity:0.6;
+}
+
+.shop-item{
+  background:#0f172a;
+  border:1px solid gold;
 }
 </style>
 </head>
@@ -65,91 +81,78 @@ button{
 
 <div class="container">
 
-<h1 style="color:#00ff88;text-align:center;">KLIK MAX</h1>
+<h1>KLIK PRO</h1>
 
 <div class="card">
 <h2 id="level"></h2>
 <p id="xp"></p>
-<div class="progress"><div id="bar" class="fill"></div></div>
-<p>💰 <span id="coins"></span> | 🔥 <span id="streak"></span></p>
+<div class="progress"><div class="fill" id="bar"></div></div>
+<p>💰 Coins: <span id="coins"></span></p>
 </div>
 
 <div class="card">
-<h3>🎯 Misijos</h3>
+🔥 Streak: <span id="streak"></span>
+</div>
+
+<div class="card">
+<h3>🔥 Dienos misijos</h3>
 <div id="tasks"></div>
 </div>
 
 <div class="card">
-<h3>🏆 Achievements</h3>
-<div id="achievements"></div>
+<h3>🛒 Shop (reward system)</h3>
+
+<button class="shop-item" onclick="buy(0)">🍕 Pica (50 coins)</button>
+<button class="shop-item" onclick="buy(1)">🛍️ Vinted apsipirkimas (70 coins)</button>
+<button class="shop-item" onclick="buy(2)">📱 TikTok 1h (20 coins)</button>
+
 </div>
 
-<button onclick="addXP(5)">⚡ Quick XP</button>
+<button onclick="addXP(5)">⚡ Quick XP (+5)</button>
 <button onclick="newDay()">🔄 Nauja diena</button>
 
 </div>
 
 <script>
-let xp=0,level=1,coins=0,streak=0,combo=1;
+let xp=0,level=1,streak=0,coins=0;
 
 let tasks=[
- {id:1,text:"📖 Skaityti",xp:8,done:false},
- {id:2,text:"💪 Sportas",xp:8,done:false},
- {id:3,text:"🏠 Tvarka",xp:30,done:false},
- {id:4,text:"🚶‍♂️ Pasivaikščiojimas",xp:20,done:false},
- {id:5,text:"🧠 Mokymasis",xp:15,done:false}
+ {id:1,text:"📖 20 puslapių knygos",xp:8,done:false},
+ {id:2,text:"💪 50 atsispaudimų",xp:8,done:false},
+ {id:3,text:"🏠 Idealiai sutvarkyti namus",xp:30,done:false},
+ {id:4,text:"🚶‍♂️ Pasivaikščioti 30 min",xp:20,done:false},
+ {id:5,text:"🧠 Išmokti kažką naujo",xp:15,done:false}
 ];
 
-let achievements=[
- {id:1,text:"Pirma užduotis",done:false},
- {id:2,text:"5 užduotys iš eilės",done:false},
- {id:3,text:"100 XP per dieną",done:false}
-];
-
-// DAILY RESET
-let today=new Date().toDateString();
-let saved=JSON.parse(localStorage.getItem("klik_max")||"{}");
-
-if(saved.date!==today){
- tasks.forEach(t=>t.done=false);
-}else{
- Object.assign(window,saved);
+// LOAD
+const saved=localStorage.getItem("klik_pro");
+if(saved){
+ let d=JSON.parse(saved);
+ xp=d.xp||0;
+ level=d.level||1;
+ streak=d.streak||0;
+ coins=d.coins||0;
+ tasks=d.tasks||tasks;
 }
 
+// SAVE
 function save(){
- localStorage.setItem("klik_max",JSON.stringify({
-  xp,level,coins,streak,combo,tasks,achievements,date:today
- }));
+ localStorage.setItem("klik_pro",JSON.stringify({xp,level,streak,coins,tasks}));
 }
 
 // XP SYSTEM
 function addXP(val){
- let gain=val*combo;
-
- xp+=gain;
- coins+=Math.floor(gain/2);
-
- if(combo<3) combo+=0.2;
+ xp+=val;
+ coins+=Math.floor(val);
 
  while(xp>=100){
   xp-=100;
   level++;
  }
 
- randomReward();
- checkAchievements();
-
- animate("+"+gain+" XP");
+ animateXP(val);
  save();
  render();
-}
-
-// RANDOM REWARD
-function randomReward(){
- if(Math.random()<0.2){
-  coins+=10;
-  animate("🎁 +10 coins");
- }
 }
 
 // TASK CLICK
@@ -161,6 +164,7 @@ function completeTask(id){
   }
   return t;
  });
+ save();
  render();
 }
 
@@ -168,73 +172,71 @@ function completeTask(id){
 function newDay(){
  if(tasks.every(t=>t.done)){
   streak++;
-  combo=1;
+  addXP(20);
  }
- tasks.forEach(t=>t.done=false);
+ tasks=tasks.map(t=>({...t,done:false}));
  save();
  render();
 }
 
-// ACHIEVEMENTS
-function checkAchievements(){
- if(tasks.some(t=>t.done)){
-  achievements[0].done=true;
+// SHOP
+function buy(i){
+ if(i==0 && coins>=50){
+  coins-=50;
+  alert("🍕 Nusipirkai picą!");
  }
- if(tasks.filter(t=>t.done).length>=5){
-  achievements[1].done=true;
+ if(i==1 && coins>=70){
+  coins-=70;
+  alert("🛍️ Vinted reward unlocked!");
  }
- if(xp>=100){
-  achievements[2].done=true;
+ if(i==2 && coins>=20){
+  coins-=20;
+  alert("📱 Enjoy TikTok 1h 😄");
  }
+ save();
+ render();
 }
 
-// UI
+// RENDER
 function render(){
- levelEl.innerText="Lygis "+level;
- xpEl.innerText="XP: "+xp;
- coinsEl.innerText=coins+" coins";
- streakEl.innerText=streak+" streak";
+ levelEl.innerText="Lygis: "+level;
+ xpEl.innerText="XP: "+xp+" / 100";
+ coinsEl.innerText=coins;
+ streakEl.innerText=streak;
  bar.style.width=xp+"%";
 
  tasksDiv.innerHTML="";
  tasks.forEach(t=>{
-  let b=document.createElement("button");
-  b.className="task"+(t.done?" done":"");
-  b.innerText=(t.done?"✅ ":"⬜ ")+t.text;
-  b.onclick=()=>completeTask(t.id);
-  tasksDiv.appendChild(b);
- });
-
- achDiv.innerHTML="";
- achievements.forEach(a=>{
-  let el=document.createElement("div");
-  el.innerText=(a.done?"🏆 ":"🔒 ")+a.text;
-  achDiv.appendChild(el);
+  let btn=document.createElement("button");
+  btn.className="task"+(t.done?" done":"");
+  btn.innerText=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+" XP)";
+  btn.onclick=()=>completeTask(t.id);
+  tasksDiv.appendChild(btn);
  });
 }
 
-// ANIMATION
-function animate(text){
+// XP ANIMATION
+function animateXP(val){
  let el=document.createElement("div");
- el.innerText=text;
+ el.innerText="+"+val+" XP";
  el.style.position="fixed";
  el.style.top="50%";
  el.style.left="50%";
  el.style.transform="translate(-50%,-50%)";
  el.style.color="#00ff88";
- el.style.fontSize="24px";
+ el.style.fontSize="22px";
  document.body.appendChild(el);
- setTimeout(()=>el.remove(),800);
+
+ setTimeout(()=>el.remove(),700);
 }
 
 // refs
 const levelEl=document.getElementById("level");
 const xpEl=document.getElementById("xp");
-const coinsEl=document.getElementById("coins");
 const streakEl=document.getElementById("streak");
+const coinsEl=document.getElementById("coins");
 const bar=document.getElementById("bar");
 const tasksDiv=document.getElementById("tasks");
-const achDiv=document.getElementById("achievements");
 
 render();
 </script>
