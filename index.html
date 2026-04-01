@@ -3,25 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KLIK ULTRA+</title>
+<title>KLIK ULTRA</title>
+
 <style>
-body{margin:0;font-family:system-ui;background:radial-gradient(circle,#0a0f1f,#05070f);color:#fff}
-.container{max-width:520px;margin:auto;padding:20px}
-h1{text-align:center;color:#00ff88}
-.card{background:#111827;padding:16px;border-radius:16px;margin-top:12px}
-.progress{height:10px;background:#222;border-radius:10px;overflow:hidden}
-.fill{height:100%;background:#00ff88}
-button{width:100%;padding:14px;margin-top:8px;border:none;border-radius:12px;font-size:15px}
-.toggle{background:#1f2937;color:#00ff88}
-.task{background:#0f172a;border:1px solid #00ff88}
-.task.done{background:#14532d;opacity:.6}
-.shop{border:1px solid gold;background:#111}
-.hidden{display:none}
+body {margin:0;background: radial-gradient(circle at top,#0a0f1f,#05070f);color:white;font-family: system-ui;}
+.container {max-width:500px;margin:auto;padding:20px;}
+.card {background:#111827;padding:16px;border-radius:18px;margin-top:15px;box-shadow:0 0 20px rgba(0,255,136,0.1);}
+h1 {text-align:center;color:#00ff88;}
+.progress {height:12px;background:#222;border-radius:10px;overflow:hidden;}
+.fill {height:100%;background:#00ff88;transition:0.3s;}
+button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;font-size:15px;cursor:pointer;}
+.task {background:#0f172a;border:1px solid #00ff88;}
+.task.done {background:#14532d;opacity:0.6;}
+.shop {border:1px solid gold;}
+.toggle {background:#1f2937;color:#00ff88;}
+.hidden {display:none;}
 </style>
 </head>
+
 <body>
 <div class="container">
-<h1>KLIK ULTRA+</h1>
+<h1>KLIK ULTRA</h1>
 
 <div class="card">
 <h2 id="level"></h2>
@@ -43,106 +45,94 @@ button{width:100%;padding:14px;margin-top:8px;border:none;border-radius:12px;fon
 </div>
 
 <div class="card">
-<button class="toggle" onclick="toggle('shopWrap')">🛒 Shop</button>
-<div id="shopWrap" class="hidden">
+<h3>🛒 Shop</h3>
 <button class="shop" onclick="buy(0)">🍕 Pica (50)</button>
 <button class="shop" onclick="buy(1)">🛍️ Vinted (70)</button>
 <button class="shop" onclick="buy(2)">📱 TikTok 1h (20)</button>
-<button class="shop" onclick="buy(3)">🎮 Game 1h (40)</button>
-</div>
 </div>
 
-<div class="card">
 <button onclick="addXP(5)">⚡ Quick XP</button>
 <button onclick="newDay()">🔄 Nauja diena</button>
-<button onclick="resetGame()">❌ Reset</button>
-</div>
 
 </div>
 
 <script>
-let xp=0,level=1,coins=0,streak=0;
 
-let tasks=[
-// SVEIKATINGUMAS (8)
-{id:1,cat:"Sveikatingumas",text:"💪 50 atsispaudimų",xp:12,done:false},
-{id:2,cat:"Sveikatingumas",text:"🏋️ 20 prisitraukimų",xp:18,done:false},
-{id:3,cat:"Sveikatingumas",text:"💧 Išgerti 2L vandens",xp:10,done:false},
-{id:4,cat:"Sveikatingumas",text:"🚶 30 min pasivaikščiojimas",xp:14,done:false},
-{id:5,cat:"Sveikatingumas",text:"🏃 20 min kardio",xp:16,done:false},
-{id:6,cat:"Sveikatingumas",text:"🧘 10 min tempimai",xp:8,done:false},
-{id:7,cat:"Sveikatingumas",text:"😴 8h miego",xp:12,done:false},
-{id:8,cat:"Sveikatingumas",text:"🥗 Sveikas maistas visą dieną",xp:15,done:false},
+let xp=0, level=1, coins=0, streak=0;
 
-// PRODUKTYVUMAS (8)
-{id:9,cat:"Produktyvumas",text:"📋 Susiplanuoti dieną",xp:10,done:false},
-{id:10,cat:"Produktyvumas",text:"📧 Atsakyti į svarbius laiškus",xp:10,done:false},
-{id:11,cat:"Produktyvumas",text:"🧹 Susitvarkyti darbo vietą",xp:8,done:false},
-{id:12,cat:"Produktyvumas",text:"⏳ 1h deep work (be distrakcijų)",xp:18,done:false},
-{id:13,cat:"Produktyvumas",text:"📵 2h be social media",xp:14,done:false},
-{id:14,cat:"Produktyvumas",text:"📒 Užbaigti vieną svarbią užduotį",xp:16,done:false},
-{id:15,cat:"Produktyvumas",text:"💻 30 min fokusinis darbas",xp:12,done:false},
-{id:16,cat:"Produktyvumas",text:"📊 Peržiūrėti savo tikslus",xp:10,done:false},
+let tasks = [
 
-// TOBULĖJIMAS (8)
-{id:17,cat:"Tobulėjimas",text:"📖 Skaityti 20 puslapių",xp:12,done:false},
-{id:18,cat:"Tobulėjimas",text:"🎧 Klausyti edukacinio podcasto 20min",xp:10,done:false},
-{id:19,cat:"Tobulėjimas",text:"🧠 Išmokti naują skill (20min)",xp:15,done:false},
-{id:20,cat:"Tobulėjimas",text:"✍️ Parašyti dienos refleksiją",xp:10,done:false},
-{id:21,cat:"Tobulėjimas",text:"📈 Analizuoti savo progresą",xp:12,done:false},
-{id:22,cat:"Tobulėjimas",text:"🎯 Nustatyti rytojaus tikslus",xp:10,done:false},
-{id:23,cat:"Tobulėjimas",text:"💡 Sugeneruoti 5 idėjas",xp:14,done:false},
-{id:24,cat:"Tobulėjimas",text:"📚 Mokytis 30 min",xp:16,done:false}
+/* SVEIKATA */
+{id:1,cat:"sveik",text:"💪 50 atsispaudimų",xp:12,done:false},
+{id:2,cat:"sveik",text:"🏋️ 20 prisitraukimų",xp:18,done:false},
+{id:3,cat:"sveik",text:"💧 2L vandens",xp:10,done:false},
+{id:4,cat:"sveik",text:"🚶 30 min vaikščiojimas",xp:14,done:false},
+{id:5,cat:"sveik",text:"🏃 20 min sportas",xp:16,done:false},
+{id:6,cat:"sveik",text:"🧘 tempimai 10min",xp:8,done:false},
+{id:7,cat:"sveik",text:"😴 8h miego",xp:12,done:false},
+{id:8,cat:"sveik",text:"🥗 sveikas maistas",xp:15,done:false},
+
+/* PRODUKTYVUMAS */
+{id:9,cat:"prod",text:"📋 susiplanuoti dieną",xp:10,done:false},
+{id:10,cat:"prod",text:"📧 atsakyti į laiškus",xp:10,done:false},
+{id:11,cat:"prod",text:"🧹 susitvarkyti stalą",xp:8,done:false},
+{id:12,cat:"prod",text:"⏳ 1h deep work",xp:18,done:false},
+{id:13,cat:"prod",text:"📵 2h be soc. tinklų",xp:14,done:false},
+{id:14,cat:"prod",text:"📒 užbaigti užduotį",xp:16,done:false},
+{id:15,cat:"prod",text:"💻 30 min fokusas",xp:12,done:false},
+{id:16,cat:"prod",text:"📊 peržiūrėti tikslus",xp:10,done:false},
+
+/* TOBULĖJIMAS */
+{id:17,cat:"tobul",text:"📖 20 puslapių",xp:12,done:false},
+{id:18,cat:"tobul",text:"🎧 podcast 20min",xp:10,done:false},
+{id:19,cat:"tobul",text:"🧠 naujas skill",xp:15,done:false},
+{id:20,cat:"tobul",text:"✍️ refleksija",xp:10,done:false},
+{id:21,cat:"tobul",text:"📈 analizuoti progresą",xp:12,done:false},
+{id:22,cat:"tobul",text:"🎯 rytojaus tikslai",xp:10,done:false},
+{id:23,cat:"tobul",text:"💡 5 idėjos",xp:14,done:false},
+{id:24,cat:"tobul",text:"📚 mokytis 30min",xp:16,done:false}
+
 ];
 
 function toggle(id){
-let el=document.getElementById(id);
-el.classList.toggle('hidden');
+document.getElementById(id).classList.toggle("hidden");
+}
+
+function save(){
+localStorage.setItem("klik_ultra", JSON.stringify({xp,level,coins,streak,tasks}));
+}
+
+function load(){
+let data = JSON.parse(localStorage.getItem("klik_ultra"));
+if(data){ xp=data.xp; level=data.level; coins=data.coins; streak=data.streak; tasks=data.tasks; }
 }
 
 function addXP(val){
 xp+=val;
 coins+=Math.floor(val/2);
-if(xp>=100){xp-=100;level++;animate("LEVEL UP!");}
-save();render();
+if(xp>=100){xp-=100;level++;}
+save(); render();
 }
 
 function completeTask(id){
 tasks=tasks.map(t=>{
-if(t.id===id && !t.done){addXP(t.xp);return {...t,done:true}}
+if(t.id===id && !t.done){ addXP(t.xp); return {...t,done:true}; }
 return t;
 });
 render();
 }
 
 function newDay(){
-if(tasks.every(t=>t.done)){streak++;addXP(30)}
+if(tasks.every(t=>t.done)){ streak++; addXP(30); }
 tasks=tasks.map(t=>({...t,done:false}));
-save();render();
+save(); render();
 }
 
 function buy(i){
-if(i==0 && coins>=50){coins-=50;alert("🍕 nice");}
-if(i==1 && coins>=70){coins-=70;alert("🛍️ shopping");}
-if(i==2 && coins>=20){coins-=20;alert("📱 unlocked");}
-if(i==3 && coins>=40){coins-=40;alert("🎮 enjoy");}
-save();render();
-}
-
-function resetGame(){
-if(confirm("Reset game?")){
-localStorage.removeItem("klik_ultra");
-location.reload();
-}
-}
-
-function save(){
-localStorage.setItem("klik_ultra",JSON.stringify({xp,level,coins,streak,tasks}));
-}
-
-function load(){
-let d=JSON.parse(localStorage.getItem("klik_ultra"));
-if(d){xp=d.xp;level=d.level;coins=d.coins;streak=d.streak;tasks=d.tasks}
+if(i==0 && coins>=50){coins-=50;alert("🍕 Enjoy pizza");}
+if(i==1 && coins>=70){coins-=70;alert("🛍️ Shopping time");}
+if(i==2 && coins>=20){coins-=20;alert("📱 TikTok unlocked");}
+save(); render();
 }
 
 function render(){
@@ -152,40 +142,27 @@ document.getElementById("coins").innerText=coins;
 document.getElementById("streak").innerText=streak;
 document.getElementById("bar").style.width=xp+"%";
 
-renderCategory("Sveikatingumas","sveik");
-renderCategory("Produktyvumas","prod");
-renderCategory("Tobulėjimas","tobul");
+renderCategory("sveik");
+renderCategory("prod");
+renderCategory("tobul");
 }
 
-function renderCategory(cat,id){
-let wrap=document.getElementById(id);
-wrap.innerHTML="";
+function renderCategory(cat){
+let div=document.getElementById(cat);
+div.innerHTML="";
 
 tasks.filter(t=>t.cat===cat).forEach(t=>{
 let b=document.createElement("button");
 b.className="task"+(t.done?" done":"");
 b.innerText=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
 b.onclick=()=>completeTask(t.id);
-wrap.appendChild(b);
+div.appendChild(b);
 });
-}
-}
-
-function animate(txt){
-let el=document.createElement("div");
-el.innerText=txt;
-el.style.position="fixed";
-el.style.top="50%";
-el.style.left="50%";
-el.style.transform="translate(-50%,-50%)";
-el.style.color="#00ff88";
-el.style.fontSize="28px";
-document.body.appendChild(el);
-setTimeout(()=>el.remove(),1000);
 }
 
 load();
 render();
+
 </script>
 </body>
 </html>
