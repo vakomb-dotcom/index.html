@@ -323,7 +323,11 @@ lastDate=d.lastDate||"";
 load();
 checkNewDay();
 render();
-
+// 🔥 AUTO DAILY CHECK (kas 30 sek)
+setInterval(() => {
+checkNewDay();
+render();
+}, 30000);
 </script>
 
 </body>
