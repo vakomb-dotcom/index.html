@@ -44,11 +44,20 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 <div id="tobul" class="hidden"></div>
 </div>
 
+<!-- 🔥 SHOP -->
 <div class="card">
-<h3>🛒 Shop</h3>
-<button class="shop" onclick="buy(0)">🍕 Pica (50)</button>
-<button class="shop" onclick="buy(1)">🛍️ Vinted (70)</button>
-<button class="shop" onclick="buy(2)">📱 TikTok 1h (20)</button>
+<button class="toggle" onclick="toggle('shopWrap')">🛒 Shop</button>
+
+<div id="shopWrap" class="hidden">
+<button class="shop" onclick="buy(0)">🍕 Premium pica vakaras (60)</button>
+<button class="shop" onclick="buy(1)">🛍️ Naujas drabužis (100)</button>
+<button class="shop" onclick="buy(2)">📱 2h scroll be guilt (30)</button>
+<button class="shop" onclick="buy(3)">🎮 2h gaming chill (50)</button>
+<button class="shop" onclick="buy(4)">🍔 Cheat meal + desertas (80)</button>
+<button class="shop" onclick="buy(5)">🎬 Filmas + snacks (40)</button>
+<button class="shop" onclick="buy(6)">☕ Kava mieste + desertukas (35)</button>
+<button class="shop" onclick="buy(7)">🛏️ Full chill vakaras (45)</button>
+</div>
 </div>
 
 <button onclick="addXP(5)">⚡ Quick XP</button>
@@ -61,8 +70,6 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 let xp=0, level=1, coins=0, streak=0;
 
 let tasks = [
-
-/* SVEIKATA */
 {id:1,cat:"sveik",text:"💪 50 atsispaudimų",xp:12,done:false},
 {id:2,cat:"sveik",text:"🏋️ 20 prisitraukimų",xp:18,done:false},
 {id:3,cat:"sveik",text:"💧 2L vandens",xp:10,done:false},
@@ -72,7 +79,6 @@ let tasks = [
 {id:7,cat:"sveik",text:"😴 8h miego",xp:12,done:false},
 {id:8,cat:"sveik",text:"🥗 sveikas maistas",xp:15,done:false},
 
-/* PRODUKTYVUMAS */
 {id:9,cat:"prod",text:"📋 susiplanuoti dieną",xp:10,done:false},
 {id:10,cat:"prod",text:"📧 atsakyti į laiškus",xp:10,done:false},
 {id:11,cat:"prod",text:"🧹 susitvarkyti stalą",xp:8,done:false},
@@ -82,7 +88,6 @@ let tasks = [
 {id:15,cat:"prod",text:"💻 30 min fokusas",xp:12,done:false},
 {id:16,cat:"prod",text:"📊 peržiūrėti tikslus",xp:10,done:false},
 
-/* TOBULĖJIMAS */
 {id:17,cat:"tobul",text:"📖 20 puslapių",xp:12,done:false},
 {id:18,cat:"tobul",text:"🎧 podcast 20min",xp:10,done:false},
 {id:19,cat:"tobul",text:"🧠 naujas skill",xp:15,done:false},
@@ -91,7 +96,6 @@ let tasks = [
 {id:22,cat:"tobul",text:"🎯 rytojaus tikslai",xp:10,done:false},
 {id:23,cat:"tobul",text:"💡 5 idėjos",xp:14,done:false},
 {id:24,cat:"tobul",text:"📚 mokytis 30min",xp:16,done:false}
-
 ];
 
 function toggle(id){
@@ -129,9 +133,14 @@ save(); render();
 }
 
 function buy(i){
-if(i==0 && coins>=50){coins-=50;alert("🍕 Enjoy pizza");}
-if(i==1 && coins>=70){coins-=70;alert("🛍️ Shopping time");}
-if(i==2 && coins>=20){coins-=20;alert("📱 TikTok unlocked");}
+if(i==0 && coins>=60){coins-=60;alert("🍕 Premium pica");}
+if(i==1 && coins>=100){coins-=100;alert("🛍️ Treat yourself");}
+if(i==2 && coins>=30){coins-=30;alert("📱 No guilt scroll");}
+if(i==3 && coins>=50){coins-=50;alert("🎮 Gaming time");}
+if(i==4 && coins>=80){coins-=80;alert("🍔 Cheat meal");}
+if(i==5 && coins>=40){coins-=40;alert("🎬 Movie night");}
+if(i==6 && coins>=35){coins-=35;alert("☕ Coffee time");}
+if(i==7 && coins>=45){coins-=45;alert("🛏️ Full chill");}
 save(); render();
 }
 
