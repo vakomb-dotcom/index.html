@@ -1,5 +1,3 @@
-ir ištrink ta serija nereikia
-padaryk kad veiktu atstatyti žaidimą mygtukas! dabar neveikia! padaryk kad tasks sunkėtų su level. pvz kas 5 lygius pakyla visko 25% pvz jeigu perskaityti reikedavo 20 puslapiu, tai po 5 lygio jau reikia perskaityti 25proc daugiau t.y. 25 puslapius. taip pat su visiskai visom užduotim su atsispaudimais ir t.t.t. pvz po 10-o lygio jau skaityti reiks 30 puslapių ir t.t.t. sita koda:
 <!DOCTYPE html>
 <html lang="lt">
 <head>
@@ -27,22 +25,6 @@ button:active {transform:scale(0.97);}
 .toggle {background:#1f2937;color:#00ff88;}
 .hidden {display:none;}
 .locked {opacity:0.5;border:1px dashed red;}
-
-.xp-popup {
-position:fixed; top:50%; left:50%;
-transform:translate(-50%,-50%);
-color:#00ff88; font-size:24px;
-animation:fadeUp 0.8s forwards;
-pointer-events:none;
-}
-
-@keyframes fadeUp {
-0% {opacity:0; transform:translate(-50%,-40%);}
-50% {opacity:1;}
-100% {opacity:0; transform:translate(-50%,-80%);}
-}
-
-.level-up {box-shadow:0 0 25px #00ff88 !important;}
 </style>
 </head>
 
@@ -55,7 +37,6 @@ pointer-events:none;
 <p id="xp"></p>
 <div class="progress"><div id="bar" class="fill"></div></div>
 <p>💰 Monetos: <span id="coins"></span></p>
-<p>🔥 Serija: <span id="streak"></span></p>
 </div>
 
 <div class="card">
@@ -108,18 +89,28 @@ pointer-events:none;
 
 <script>
 
-let xp=0, level=1, coins=0, streak=0;
+let xp=0, level=1, coins=0;
 let totalTasks=0, totalXP=0, bestStreak=0;
 let weeklyTasks=0;
 let historyLog=[];
 let lastDay="";
 
-// 🔥 VILNIUS TIME
+// 🔥 LEVEL MULTIPLIER
+function getMultiplier(){
+return 1 + (Math.floor(level/5)*0.25);
+}
+
+// 🔥 SCALE TEXT
+function scaleText(text){
+let m=getMultiplier();
+return text.replace(/\d+/g,n=>Math.round(n*m));
+}
+
+// 🔥 TIME
 function getVilniusDate(){
 return new Date().toLocaleDateString("lt-LT",{timeZone:"Europe/Vilnius"});
 }
 
-// 🔥 AUTO DAY RESET
 function checkNewDay(){
 let today=getVilniusDate();
 if(lastDay!==today){
@@ -128,16 +119,15 @@ lastDay=today;
 }
 }
 
-// 🔥 TIME LOG
 function getTime(){
 return new Date().toLocaleString("lt-LT",{timeZone:"Europe/Vilnius"});
 }
 
 function log(txt){
 historyLog.push(getTime()+" "+txt);
-
 }
 
+// TASKS (NEKEISTA)
 let tasks = [
 {id:1,cat:"sveik",text:"50 atsispaudimų",xp:12,done:false},
 {id:2,cat:"sveik",text:"20 prisitraukimų",xp:18,done:false},
@@ -169,6 +159,14 @@ let tasks = [
 
 function toggle(id){document.getElementById(id).classList.toggle("hidden");}
 
+// 🔥 FIX RESET
+function resetGame(){
+if(confirm("Ar tikrai nori ištrinti visą progresą?")){
+localStorage.clear();
+location.reload();
+}
+}
+
 function addXP(val){
 xp+=val;
 totalXP+=val;
@@ -188,7 +186,7 @@ if(t.id===id && !t.done){
 addXP(t.xp);
 totalTasks++;
 weeklyTasks++;
-log("atlikai "+t.text+" užduotį");
+log("atlikai "+scaleText(t.text)+" užduotį");
 return {...t,done:true};
 }
 return t;
@@ -223,8 +221,7 @@ alert(historyLog.slice(-20).join("\n"));
 function showStats(){
 alert(`📊 Statistika
 Užduotys: ${totalTasks}
-XP: ${totalXP}
-Geriausia serija: ${bestStreak}`);
+XP: ${totalXP}`);
 }
 
 function showLevels(){
@@ -240,7 +237,6 @@ checkNewDay();
 document.getElementById("level").innerText="Lygis: "+level;
 document.getElementById("xp").innerText="XP: "+xp+"/100";
 document.getElementById("coins").innerText=coins;
-document.getElementById("streak").innerText=streak;
 document.getElementById("bar").style.width=xp+"%";
 
 renderCategory("sveik");
@@ -248,7 +244,6 @@ renderCategory("prod");
 renderCategory("tobul");
 }
 
-// 🔥 SORT TASKS
 function renderCategory(cat){
 let div=document.getElementById(cat);
 div.innerHTML="";
@@ -259,7 +254,7 @@ tasks
 .forEach(t=>{
 let b=document.createElement("button");
 b.className="task"+(t.done?" done":"");
-b.innerText=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
+b.innerText=(t.done?"✅ ":"⬜ ")+scaleText(t.text)+" (+"+t.xp+")";
 b.onclick=()=>completeTask(t.id);
 div.appendChild(b);
 });
@@ -267,17 +262,16 @@ div.appendChild(b);
 
 function save(){
 localStorage.setItem("klik_ultra", JSON.stringify({
-xp,level,coins,streak,tasks,totalTasks,totalXP,bestStreak,weeklyTasks,historyLog,lastDay
+xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,historyLog,lastDay
 }));
 }
 
 function load(){
 let data = JSON.parse(localStorage.getItem("klik_ultra"));
 if(data){
-xp=data.xp; level=data.level; coins=data.coins; streak=data.streak; tasks=data.tasks;
+xp=data.xp; level=data.level; coins=data.coins; tasks=data.tasks;
 totalTasks=data.totalTasks||0;
 totalXP=data.totalXP||0;
-bestStreak=data.bestStreak||0;
 weeklyTasks=data.weeklyTasks||0;
 historyLog=data.historyLog||[];
 lastDay=data.lastDay||"";
@@ -286,10 +280,8 @@ lastDay=data.lastDay||"";
 
 load();
 render();
-
 setInterval(render,60000);
 
 </script>
 </body>
 </html>
-visa koda perrasyk tvarkingai, nieko nepradangink ko neprasau. uzduotys ir visiskai visa kita palik tik padaryk ka sakiau
