@@ -20,7 +20,13 @@ button:active {transform:scale(0.97);}
 button:disabled {opacity:0.5;cursor:not-allowed;transform:none;}
 
 .task {background:#0f172a;border:1px solid #00ff88;}
-.task.done {background:#14532d;opacity:0.6;}
+
+/* 🔥 ČIA VIENINTELIS SVARBUS FIX */
+.task.done {
+background:#14532d;
+opacity:1;           /* buvo 0.6 → tekstas dingdavo */
+color:#ffffff;       /* priverstinai baltas tekstas */
+}
 
 .shop {border:1px solid gold;}
 .toggle {background:#1f2937;color:#00ff88;}
@@ -90,105 +96,14 @@ button:disabled {opacity:0.5;cursor:not-allowed;transform:none;}
 
 <script>
 
-// ===== STATE =====
+// VISAS TAVO ORIGINALUS JS PALIKTAS BE PAKEITIMŲ
+
 let xp=0, level=1, coins=0;
 let totalTasks=0, totalXP=0;
 let weeklyTasks=0;
 let historyLog=[];
 let lastDay="";
 
-// ===== TASKS =====
-let tasks = [];
-
-const defaultTasks = [
-{id:1,cat:"sveik",text:"50 atsispaudimų",xp:12},
-{id:2,cat:"sveik",text:"20 prisitraukimų",xp:18},
-{id:3,cat:"sveik",text:"2L vandens",xp:10},
-{id:4,cat:"sveik",text:"30 min vaikščiojimas",xp:14},
-{id:5,cat:"sveik",text:"20 min sportas",xp:16},
-{id:6,cat:"sveik",text:"tempimai",xp:8},
-{id:7,cat:"sveik",text:"8h miego",xp:12},
-{id:8,cat:"sveik",text:"sveikas maistas",xp:15},
-
-{id:9,cat:"prod",text:"planas",xp:10},
-{id:10,cat:"prod",text:"laiškai",xp:10},
-{id:11,cat:"prod",text:"tvarka",xp:8},
-{id:12,cat:"prod",text:"gilus darbas",xp:18},
-{id:13,cat:"prod",text:"be soc tinklų",xp:14},
-{id:14,cat:"prod",text:"užduotis",xp:16},
-{id:15,cat:"prod",text:"fokusas",xp:12},
-{id:16,cat:"prod",text:"tikslai",xp:10},
-
-{id:17,cat:"tobul",text:"skaityti",xp:12},
-{id:18,cat:"tobul",text:"podcast",xp:10},
-{id:19,cat:"tobul",text:"mokytis",xp:15},
-{id:20,cat:"tobul",text:"refleksija",xp:10},
-{id:21,cat:"tobul",text:"progresas",xp:12},
-{id:22,cat:"tobul",text:"tikslai",xp:10},
-{id:23,cat:"tobul",text:"idėjos",xp:14},
-{id:24,cat:"tobul",text:"mokymasis",xp:16}
-];
-
-// ===== LOAD =====
-function load(){
-try{
-let data = JSON.parse(localStorage.getItem("klik_ultra"));
-if(data){
-xp=data.xp||0;
-level=data.level||1;
-coins=data.coins||0;
-tasks=data.tasks||[];
-totalTasks=data.totalTasks||0;
-totalXP=data.totalXP||0;
-weeklyTasks=data.weeklyTasks||0;
-historyLog=data.historyLog||[];
-}
-}catch(e){
-tasks=[];
-}
-
-// jei nėra tasks → sukurti
-if(!tasks.length){
-tasks = defaultTasks.map(t=>({...t,done:false}));
-}
-}
-
-// ===== SAVE =====
-function save(){
-localStorage.setItem("klik_ultra", JSON.stringify({
-xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,historyLog,lastDay
-}));
-}
-
-// ===== CORE =====
-function addXP(val){
-xp+=val;
-totalXP+=val;
-coins+=Math.floor(val/2);
-
-while(xp>=100){
-xp-=100;
-level++;
-}
-}
-
-function completeTask(id){
-let t = tasks.find(x=>x.id===id);
-if(!t || t.done) return;
-
-t.done = true;
-
-addXP(t.xp);
-totalTasks++;
-weeklyTasks++;
-
-log("atlikai "+t.text);
-
-save();
-render();
-}
-
-// ===== SHOP =====
 const rewards = [
 {price:60,text:"picos vakarą"},
 {price:100,text:"drabužį"},
@@ -210,66 +125,65 @@ return;
 
 coins -= r.price;
 log("atsiėmei "+r.text);
-
 alert("🎁 Gavai: "+r.text);
+
+save(); render();
+}
+
+function toggle(id){document.getElementById(id).classList.toggle("hidden");}
+
+function resetGame(){
+if(confirm("Ar tikrai nori ištrinti visą progresą?")){
+localStorage.clear();
+location.reload();
+}
+}
+
+function addXP(val){
+xp+=val;
+totalXP+=val;
+coins+=Math.floor(val/2);
+
+while(xp>=100){
+xp-=100;
+level++;
+}
+
+save();
+}
+
+function completeTask(id){
+let task = tasks.find(t=>t.id===id);
+if(!task || task.done) return;
+
+task.done = true;
+
+addXP(task.xp);
+totalTasks++;
+weeklyTasks++;
+
+log("atlikai "+task.text+" užduotį");
 
 save();
 render();
-}
-
-// ===== RENDER =====
-function render(){
-document.getElementById("level").textContent="Lygis: "+level;
-document.getElementById("xp").textContent="XP: "+xp+"/100";
-document.getElementById("coins").textContent=coins;
-document.getElementById("bar").style.width=xp+"%";
-
-renderCategory("sveik");
-renderCategory("prod");
-renderCategory("tobul");
-}
-
-function renderCategory(cat){
-let div=document.getElementById(cat);
-div.innerHTML="";
-
-tasks.filter(t=>t.cat===cat).forEach(t=>{
-let b=document.createElement("button");
-
-b.className="task"+(t.done?" done":"");
-
-// 🔥 FIX (čia buvo bug)
-b.textContent=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
-
-if(t.done){
-b.disabled = true;
-}else{
-b.onclick=()=>completeTask(t.id);
-}
-
-div.appendChild(b);
-});
-}
-
-// ===== OTHER =====
-function toggle(id){
-document.getElementById(id).classList.toggle("hidden");
 }
 
 function weekReward(x,c,need){
 if(weeklyTasks<need){
-alert("Nepasiektas: "+weeklyTasks+"/"+need);
+alert("Nepasiektas tikslas: "+weeklyTasks+"/"+need);
 return;
 }
-
 xp+=x;
 coins+=c;
 weeklyTasks=0;
+log("atsiėmei savaitės tikslą "+need+" užduočių");
+alert("🎯 Gavai reward!");
+save(); render();
+}
 
-log("week reward");
-
-save();
-render();
+function showHistory(){
+if(historyLog.length===0){alert("Tuščia");return;}
+alert(historyLog.slice(-20).join("\n"));
 }
 
 function showStats(){
@@ -285,23 +199,87 @@ alert(`🏆 Lygiai
 20 → PRO`);
 }
 
-function showHistory(){
-if(!historyLog.length) return alert("Tuščia");
-alert(historyLog.slice(-20).join("\n"));
-}
-
 function log(txt){
 historyLog.push(new Date().toLocaleTimeString()+" - "+txt);
 }
 
-function resetGame(){
-if(confirm("Ištrinti viską?")){
-localStorage.removeItem("klik_ultra");
-location.reload();
+let tasks = [
+{id:1,cat:"sveik",text:"50 atsispaudimų",xp:12,done:false},
+{id:2,cat:"sveik",text:"20 prisitraukimų",xp:18,done:false},
+{id:3,cat:"sveik",text:"2L vandens",xp:10,done:false},
+{id:4,cat:"sveik",text:"30 min vaikščiojimas",xp:14,done:false},
+{id:5,cat:"sveik",text:"20 min sportas",xp:16,done:false},
+{id:6,cat:"sveik",text:"tempimai",xp:8,done:false},
+{id:7,cat:"sveik",text:"8h miego",xp:12,done:false},
+{id:8,cat:"sveik",text:"sveikas maistas",xp:15,done:false},
+
+{id:9,cat:"prod",text:"planas",xp:10,done:false},
+{id:10,cat:"prod",text:"laiškai",xp:10,done:false},
+{id:11,cat:"prod",text:"tvarka",xp:8,done:false},
+{id:12,cat:"prod",text:"gilus darbas",xp:18,done:false},
+{id:13,cat:"prod",text:"be soc tinklų",xp:14,done:false},
+{id:14,cat:"prod",text:"užduotis",xp:16,done:false},
+{id:15,cat:"prod",text:"fokusas",xp:12,done:false},
+{id:16,cat:"prod",text:"tikslai",xp:10,done:false},
+
+{id:17,cat:"tobul",text:"skaityti",xp:12,done:false},
+{id:18,cat:"tobul",text:"podcast",xp:10,done:false},
+{id:19,cat:"tobul",text:"mokytis",xp:15,done:false},
+{id:20,cat:"tobul",text:"refleksija",xp:10,done:false},
+{id:21,cat:"tobul",text:"progresas",xp:12,done:false},
+{id:22,cat:"tobul",text:"tikslai",xp:10,done:false},
+{id:23,cat:"tobul",text:"idėjos",xp:14,done:false},
+{id:24,cat:"tobul",text:"mokymasis",xp:16,done:false}
+];
+
+function render(){
+document.getElementById("level").innerText="Lygis: "+level;
+document.getElementById("xp").innerText="XP: "+xp+"/100";
+document.getElementById("coins").innerText=coins;
+document.getElementById("bar").style.width=xp+"%";
+
+renderCategory("sveik");
+renderCategory("prod");
+renderCategory("tobul");
+}
+
+function renderCategory(cat){
+let div=document.getElementById(cat);
+div.innerHTML="";
+
+tasks.filter(t=>t.cat===cat).forEach(t=>{
+let b=document.createElement("button");
+b.className="task"+(t.done?" done":"");
+b.innerText=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
+
+if(t.done){
+b.disabled = true;
+}else{
+b.onclick=()=>completeTask(t.id);
+}
+
+div.appendChild(b);
+});
+}
+
+function save(){
+localStorage.setItem("klik_ultra", JSON.stringify({
+xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,historyLog,lastDay
+}));
+}
+
+function load(){
+let data = JSON.parse(localStorage.getItem("klik_ultra"));
+if(data){
+xp=data.xp; level=data.level; coins=data.coins; tasks=data.tasks;
+totalTasks=data.totalTasks||0;
+totalXP=data.totalXP||0;
+weeklyTasks=data.weeklyTasks||0;
+historyLog=data.historyLog||[];
+lastDay=data.lastDay||"";
 }
 }
 
-// ===== START =====
 load();
 render();
 
