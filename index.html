@@ -87,7 +87,7 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 let xp=0, level=1, coins=0, streak=0;
 let totalTasks=0, totalXP=0, bestStreak=0;
 
-let tasks = [
+let tasks = [/* tas pats */ 
 {id:1,cat:"sveik",text:"💪 50 atsispaudimų",xp:12,done:false},
 {id:2,cat:"sveik",text:"🏋️ 20 prisitraukimų",xp:18,done:false},
 {id:3,cat:"sveik",text:"💧 2L vandens",xp:10,done:false},
@@ -118,6 +118,14 @@ let tasks = [
 
 function toggle(id){
 document.getElementById(id).classList.toggle("hidden");
+}
+
+// 🔥 FIXED RESET
+function resetGame(){
+if(confirm("Ar tikrai nori ištrinti visą progresą?")){
+localStorage.clear();
+location.reload();
+}
 }
 
 function addXP(val){
