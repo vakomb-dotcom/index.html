@@ -14,17 +14,7 @@ h1 {text-align:center;color:#00ff88;letter-spacing:1px;}
 .progress {height:12px;background:#222;border-radius:10px;overflow:hidden;}
 .fill {height:100%;background:#00ff88;transition:0.4s;}
 
-button {
-width:100%;
-padding:14px;
-margin-top:8px;
-border-radius:14px;
-border:none;
-font-size:15px;
-cursor:pointer;
-transition:0.2s;
-}
-
+button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;font-size:15px;cursor:pointer;transition:0.2s;}
 button:hover {transform:scale(1.03);}
 button:active {transform:scale(0.97);}
 
@@ -32,20 +22,14 @@ button:active {transform:scale(0.97);}
 .task.done {background:#14532d;opacity:0.6;}
 
 .shop {border:1px solid gold;}
-
 .toggle {background:#1f2937;color:#00ff88;}
 .hidden {display:none;}
-
 .locked {opacity:0.5;border:1px dashed red;}
 
-/* 🔥 XP popup */
 .xp-popup {
-position:fixed;
-top:50%;
-left:50%;
+position:fixed; top:50%; left:50%;
 transform:translate(-50%,-50%);
-color:#00ff88;
-font-size:24px;
+color:#00ff88; font-size:24px;
 animation:fadeUp 0.8s forwards;
 pointer-events:none;
 }
@@ -56,11 +40,7 @@ pointer-events:none;
 100% {opacity:0; transform:translate(-50%,-80%);}
 }
 
-/* 🔥 level glow */
-.level-up {
-box-shadow:0 0 25px #00ff88 !important;
-transition:0.5s;
-}
+.level-up {box-shadow:0 0 25px #00ff88 !important; transition:0.5s;}
 </style>
 </head>
 
@@ -110,12 +90,13 @@ transition:0.5s;
 <button onclick="newDay()">🔄 Nauja diena</button>
 <button onclick="showStats()">📊 Statistika</button>
 <button onclick="showLevels()">🏆 Lygiai</button>
+<button onclick="showHistory()">📜 Istorija</button>
 
 <button onclick="toggle('weekWrap')">📅 Savaitės tikslai</button>
 <div id="weekWrap" class="hidden">
-<button onclick="weekReward(50,20)">✔️ 10 užduočių → +50XP +20 monetų</button>
-<button onclick="weekReward(120,50)">✔️ 25 užduotys → +120XP +50 monetų</button>
-<button onclick="weekReward(250,120)">✔️ 50 užduočių → +250XP +120 monetų</button>
+<button onclick="weekReward(50,20,10)">✔️ 10 užduočių → +50XP +20 monetų</button>
+<button onclick="weekReward(120,50,25)">✔️ 25 užduotys → +120XP +50 monetų</button>
+<button onclick="weekReward(250,120,50)">✔️ 50 užduočių → +250XP +120 monetų</button>
 </div>
 
 <button onclick="resetGame()">❌ Atstatyti žaidimą</button>
@@ -129,38 +110,51 @@ transition:0.5s;
 let xp=0, level=1, coins=0, streak=0;
 let totalTasks=0, totalXP=0, bestStreak=0;
 
-let tasks = [/* tas pats */ 
-{id:1,cat:"sveik",text:"💪 50 atsispaudimų",xp:12,done:false},
-{id:2,cat:"sveik",text:"🏋️ 20 prisitraukimų",xp:18,done:false},
-{id:3,cat:"sveik",text:"💧 2L vandens",xp:10,done:false},
-{id:4,cat:"sveik",text:"🚶 30 min vaikščiojimas",xp:14,done:false},
-{id:5,cat:"sveik",text:"🏃 20 min sportas",xp:16,done:false},
-{id:6,cat:"sveik",text:"🧘 tempimai",xp:8,done:false},
-{id:7,cat:"sveik",text:"😴 8h miego",xp:12,done:false},
-{id:8,cat:"sveik",text:"🥗 sveikas maistas",xp:15,done:false},
+let weeklyTasks=0;
+let historyLog=[];
 
-{id:9,cat:"prod",text:"📋 planas",xp:10,done:false},
-{id:10,cat:"prod",text:"📧 laiškai",xp:10,done:false},
-{id:11,cat:"prod",text:"🧹 tvarka",xp:8,done:false},
-{id:12,cat:"prod",text:"⏳ gilus darbas",xp:18,done:false},
-{id:13,cat:"prod",text:"📵 be soc tinklų",xp:14,done:false},
-{id:14,cat:"prod",text:"📒 užduotis",xp:16,done:false},
-{id:15,cat:"prod",text:"💻 fokusas",xp:12,done:false},
-{id:16,cat:"prod",text:"📊 tikslai",xp:10,done:false},
+// 🔥 TIME
+function getTime(){
+let d=new Date();
+return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,'0')+"-"+String(d.getDate()).padStart(2,'0')
++" "+String(d.getHours()).padStart(2,'0')+":"+String(d.getMinutes()).padStart(2,'0');
+}
 
-{id:17,cat:"tobul",text:"📖 skaityti",xp:12,done:false},
-{id:18,cat:"tobul",text:"🎧 podcast",xp:10,done:false},
-{id:19,cat:"tobul",text:"🧠 mokytis",xp:15,done:false},
-{id:20,cat:"tobul",text:"✍️ refleksija",xp:10,done:false},
-{id:21,cat:"tobul",text:"📈 progresas",xp:12,done:false},
-{id:22,cat:"tobul",text:"🎯 tikslai",xp:10,done:false},
-{id:23,cat:"tobul",text:"💡 idėjos",xp:14,done:false},
-{id:24,cat:"tobul",text:"📚 mokymasis",xp:16,done:false}
+// 🔥 LOG
+function log(txt){
+historyLog.push(getTime()+" "+txt);
+}
+
+let tasks = [/* tas pats */
+{id:1,cat:"sveik",text:"50 atsispaudimų",xp:12,done:false},
+{id:2,cat:"sveik",text:"20 prisitraukimų",xp:18,done:false},
+{id:3,cat:"sveik",text:"2L vandens",xp:10,done:false},
+{id:4,cat:"sveik",text:"30 min vaikščiojimas",xp:14,done:false},
+{id:5,cat:"sveik",text:"20 min sportas",xp:16,done:false},
+{id:6,cat:"sveik",text:"tempimai",xp:8,done:false},
+{id:7,cat:"sveik",text:"8h miego",xp:12,done:false},
+{id:8,cat:"sveik",text:"sveikas maistas",xp:15,done:false},
+
+{id:9,cat:"prod",text:"planas",xp:10,done:false},
+{id:10,cat:"prod",text:"laiškai",xp:10,done:false},
+{id:11,cat:"prod",text:"tvarka",xp:8,done:false},
+{id:12,cat:"prod",text:"gilus darbas",xp:18,done:false},
+{id:13,cat:"prod",text:"be soc tinklų",xp:14,done:false},
+{id:14,cat:"prod",text:"užduotis",xp:16,done:false},
+{id:15,cat:"prod",text:"fokusas",xp:12,done:false},
+{id:16,cat:"prod",text:"tikslai",xp:10,done:false},
+
+{id:17,cat:"tobul",text:"skaityti",xp:12,done:false},
+{id:18,cat:"tobul",text:"podcast",xp:10,done:false},
+{id:19,cat:"tobul",text:"mokytis",xp:15,done:false},
+{id:20,cat:"tobul",text:"refleksija",xp:10,done:false},
+{id:21,cat:"tobul",text:"progresas",xp:12,done:false},
+{id:22,cat:"tobul",text:"tikslai",xp:10,done:false},
+{id:23,cat:"tobul",text:"idėjos",xp:14,done:false},
+{id:24,cat:"tobul",text:"mokymasis",xp:16,done:false}
 ];
 
-function toggle(id){
-document.getElementById(id).classList.toggle("hidden");
-}
+function toggle(id){document.getElementById(id).classList.toggle("hidden");}
 
 function showXP(val){
 let el=document.createElement("div");
@@ -181,7 +175,6 @@ function addXP(val){
 xp+=val;
 totalXP+=val;
 coins+=Math.floor(val/2);
-
 showXP(val);
 
 if(xp>=100){
@@ -196,31 +189,41 @@ save(); render();
 
 function completeTask(id){
 tasks=tasks.map(t=>{
-if(t.id===id && !t.done){ addXP(t.xp); totalTasks++; return {...t,done:true}; }
+if(t.id===id && !t.done){
+addXP(t.xp);
+totalTasks++;
+weeklyTasks++;
+log("atlikai "+t.text+" užduotį");
+return {...t,done:true};
+}
 return t;
 });
 render();
 }
 
-function newDay(){
-if(tasks.every(t=>t.done)){
-streak++;
-if(streak>bestStreak) bestStreak=streak;
-addXP(30);
-}
-tasks=tasks.map(t=>({...t,done:false}));
+function buy(i){
+if(i==0 && coins>=60){coins-=60;log("atsiėmei picos vakarą");}
+if(i==1 && coins>=100){coins-=100;log("atsiėmei drabužį");}
 save(); render();
 }
 
-function buy(i){
-if(i==0 && coins>=60){coins-=60;alert("🍕 Skanaus!");}
-if(i==1 && coins>=100){coins-=100;alert("🛍️ Pasilepinai");}
-if(i==2 && coins>=30){coins-=30;alert("📱 Poilsis");}
-if(i==3 && coins>=50){coins-=50;alert("🎮 Smagaus žaidimo");}
-if(i==4 && coins>=80){coins-=80;alert("🍔 Cheat diena");}
-if(i==5 && coins>=40){coins-=40;alert("🎬 Filmų vakaras");}
-if(i==6 && coins>=35){coins-=35;alert("☕ Kavos laikas");}
+// 🔥 WEEKLY FIX
+function weekReward(x,c,need){
+if(weeklyTasks<need){
+alert("Nepasiektas tikslas: "+weeklyTasks+"/"+need);
+return;
+}
+xp+=x;
+coins+=c;
+weeklyTasks=0;
+log("atsiėmei savaitės tikslą "+need+" užduočių");
+alert("🎯 Gavai reward!");
 save(); render();
+}
+
+function showHistory(){
+if(historyLog.length===0){alert("Tuščia");return;}
+alert(historyLog.slice(-20).join("\n"));
 }
 
 function showStats(){
@@ -232,15 +235,13 @@ Geriausia serija: ${bestStreak}`);
 
 function showLevels(){
 alert(`🏆 Lygiai
-5 lygis → atrakina reward
-10 lygis → specialus reward
-20 lygis → PRO režimas`);
+5 → unlock
+10 → special
+20 → PRO`);
 }
 
-function weekReward(x,c){
-xp+=x;
-coins+=c;
-alert("🎯 Savaitinis bonusas!");
+function newDay(){
+tasks=tasks.map(t=>({...t,done:false}));
 save(); render();
 }
 
@@ -262,7 +263,6 @@ renderCategory("tobul");
 function renderCategory(cat){
 let div=document.getElementById(cat);
 div.innerHTML="";
-
 tasks.filter(t=>t.cat===cat).forEach(t=>{
 let b=document.createElement("button");
 b.className="task"+(t.done?" done":"");
@@ -273,7 +273,9 @@ div.appendChild(b);
 }
 
 function save(){
-localStorage.setItem("klik_ultra", JSON.stringify({xp,level,coins,streak,tasks,totalTasks,totalXP,bestStreak}));
+localStorage.setItem("klik_ultra", JSON.stringify({
+xp,level,coins,streak,tasks,totalTasks,totalXP,bestStreak,weeklyTasks,historyLog
+}));
 }
 
 function load(){
@@ -283,6 +285,8 @@ xp=data.xp; level=data.level; coins=data.coins; streak=data.streak; tasks=data.t
 totalTasks=data.totalTasks||0;
 totalXP=data.totalXP||0;
 bestStreak=data.bestStreak||0;
+weeklyTasks=data.weeklyTasks||0;
+historyLog=data.historyLog||[];
 }
 }
 
