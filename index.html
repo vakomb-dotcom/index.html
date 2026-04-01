@@ -3,159 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>KLIK PRO</title>
-
+<title>KLIK ULTRA</title>
 <style>
-body {
-  margin:0;
-  background: radial-gradient(circle at top,#0a0f1f,#05070f);
-  color:white;
-  font-family: system-ui;
-}
-
-.container{
-  max-width:500px;
-  margin:auto;
-  padding:20px;
-}
-
-h1{
-  color:#00ff88;
-  text-align:center;
-}
-
-.card{
-  background:#111827;
-  padding:16px;
-  border-radius:18px;
-  margin-top:15px;
-  box-shadow:0 0 20px rgba(0,255,136,0.1);
-}
-
-.progress{
-  height:12px;
-  background:#222;
-  border-radius:10px;
-  overflow:hidden;
-}
-
-.fill{
-  height:100%;
-  background:linear-gradient(90deg,#00ff88,#00ffa2);
-  transition:0.3s;
-}
-
-button{
-  width:100%;
-  padding:16px;
-  margin-top:10px;
-  border-radius:14px;
-  border:none;
-  font-size:16px;
-  transition:0.2s;
-}
-
-button:active{
-  transform:scale(0.95);
-}
-
-.task{
-  background:#0f172a;
-  color:white;
-  border:1px solid #00ff88;
-}
-
-.task.done{
-  background:#14532d;
-  opacity:0.6;
-}
-
-.shop-item{
-  background:#0f172a;
-  border:1px solid gold;
-}
+body {margin:0;background: radial-gradient(circle at top,#0a0f1f,#05070f);color:white;font-family: system-ui;}
+.container {max-width:500px;margin:auto;padding:20px;}
+.card {background:#111827;padding:16px;border-radius:18px;margin-top:15px;box-shadow:0 0 20px rgba(0,255,136,0.1);}
+h1 {text-align:center;color:#00ff88;}
+.progress {height:12px;background:#222;border-radius:10px;overflow:hidden;}
+.fill {height:100%;background:#00ff88;transition:0.3s;}
+button {width:100%;padding:16px;margin-top:10px;border-radius:14px;border:none;font-size:16px;}
+.task {background:#0f172a;border:1px solid #00ff88;}
+.task.done {background:#14532d;opacity:0.6;}
+.shop {border:1px solid gold;}
 </style>
 </head>
-
 <body>
-
 <div class="container">
-
-<h1>KLIK PRO</h1>
+<h1>KLIK ULTRA</h1>
 
 <div class="card">
 <h2 id="level"></h2>
 <p id="xp"></p>
-<div class="progress"><div class="fill" id="bar"></div></div>
+<div class="progress"><div id="bar" class="fill"></div></div>
 <p>💰 Coins: <span id="coins"></span></p>
+<p>🔥 Streak: <span id="streak"></span></p>
 </div>
 
 <div class="card">
-🔥 Streak: <span id="streak"></span>
-</div>
-
-<div class="card">
-<h3>🔥 Dienos misijos</h3>
+<h3>🎯 Dienos užduotys</h3>
 <div id="tasks"></div>
 </div>
 
 <div class="card">
-<h3>🛒 Shop (reward system)</h3>
-
-<button class="shop-item" onclick="buy(0)">🍕 Pica (50 coins)</button>
-<button class="shop-item" onclick="buy(1)">🛍️ Vinted apsipirkimas (70 coins)</button>
-<button class="shop-item" onclick="buy(2)">📱 TikTok 1h (20 coins)</button>
-
+<h3>🛒 Shop</h3>
+<button class="shop" onclick="buy(0)">🍕 Pica (50)</button>
+<button class="shop" onclick="buy(1)">🛍️ Vinted (70)</button>
+<button class="shop" onclick="buy(2)">📱 TikTok 1h (20)</button>
 </div>
 
-<button onclick="addXP(5)">⚡ Quick XP (+5)</button>
+<button onclick="addXP(5)">⚡ Quick XP</button>
 <button onclick="newDay()">🔄 Nauja diena</button>
-
 </div>
 
 <script>
-let xp=0,level=1,streak=0,coins=0;
+let xp=0, level=1, coins=0, streak=0;
 
-let tasks=[
- {id:1,text:"📖 20 puslapių knygos",xp:8,done:false},
+let tasks = [
+ {id:1,text:"📖 Skaityti 20 puslapių",xp:8,done:false},
  {id:2,text:"💪 50 atsispaudimų",xp:8,done:false},
- {id:3,text:"🏠 Idealiai sutvarkyti namus",xp:30,done:false},
- {id:4,text:"🚶‍♂️ Pasivaikščioti 30 min",xp:20,done:false},
- {id:5,text:"🧠 Išmokti kažką naujo",xp:15,done:false}
+ {id:3,text:"🏠 Susitvarkyti namus",xp:30,done:false},
+ {id:4,text:"🚶 30 min pasivaikščiojimas",xp:20,done:false},
+ {id:5,text:"🧠 Išmokti kažką naujo",xp:15,done:false},
+ {id:6,text:"📵 1h be telefono",xp:25,done:false},
+ {id:7,text:"💧 Išgerti 2L vandens",xp:10,done:false},
+ {id:8,text:"🛏️ Susitvarkyti lovą",xp:5,done:false},
+ {id:9,text:"📒 Parašyti tikslus",xp:12,done:false},
+ {id:10,text:"🏃 Sportas 20min",xp:18,done:false}
 ];
 
-// LOAD
-const saved=localStorage.getItem("klik_pro");
-if(saved){
- let d=JSON.parse(saved);
- xp=d.xp||0;
- level=d.level||1;
- streak=d.streak||0;
- coins=d.coins||0;
- tasks=d.tasks||tasks;
-}
-
-// SAVE
 function save(){
- localStorage.setItem("klik_pro",JSON.stringify({xp,level,streak,coins,tasks}));
+ localStorage.setItem("klik_ultra", JSON.stringify({xp,level,coins,streak,tasks}));
 }
 
-// XP SYSTEM
+function load(){
+ let data = JSON.parse(localStorage.getItem("klik_ultra"));
+ if(data){
+  xp=data.xp||0;
+  level=data.level||1;
+  coins=data.coins||0;
+  streak=data.streak||0;
+  tasks=data.tasks||tasks;
+ }
+}
+
 function addXP(val){
  xp+=val;
- coins+=Math.floor(val);
-
- while(xp>=100){
-  xp-=100;
-  level++;
- }
-
- animateXP(val);
+ coins+=Math.floor(val/2);
+ if(xp>=100){xp-=100;level++;}
+ animate("+"+val+" XP");
  save();
  render();
 }
 
-// TASK CLICK
 function completeTask(id){
  tasks=tasks.map(t=>{
   if(t.id===id && !t.done){
@@ -164,80 +93,59 @@ function completeTask(id){
   }
   return t;
  });
- save();
  render();
 }
 
-// NEW DAY
 function newDay(){
  if(tasks.every(t=>t.done)){
   streak++;
-  addXP(20);
+  addXP(30);
  }
  tasks=tasks.map(t=>({...t,done:false}));
  save();
  render();
 }
 
-// SHOP
 function buy(i){
- if(i==0 && coins>=50){
-  coins-=50;
-  alert("🍕 Nusipirkai picą!");
- }
- if(i==1 && coins>=70){
-  coins-=70;
-  alert("🛍️ Vinted reward unlocked!");
- }
- if(i==2 && coins>=20){
-  coins-=20;
-  alert("📱 Enjoy TikTok 1h 😄");
- }
+ if(i==0 && coins>=50){coins-=50;alert("🍕 Enjoy pizza");}
+ if(i==1 && coins>=70){coins-=70;alert("🛍️ Shopping time");}
+ if(i==2 && coins>=20){coins-=20;alert("📱 TikTok unlocked");}
  save();
  render();
 }
 
-// RENDER
 function render(){
- levelEl.innerText="Lygis: "+level;
- xpEl.innerText="XP: "+xp+" / 100";
- coinsEl.innerText=coins;
- streakEl.innerText=streak;
- bar.style.width=xp+"%";
+ document.getElementById("level").innerText="Lygis: "+level;
+ document.getElementById("xp").innerText="XP: "+xp+"/100";
+ document.getElementById("coins").innerText=coins;
+ document.getElementById("streak").innerText=streak;
+ document.getElementById("bar").style.width=xp+"%";
 
- tasksDiv.innerHTML="";
+ let div=document.getElementById("tasks");
+ div.innerHTML="";
  tasks.forEach(t=>{
-  let btn=document.createElement("button");
-  btn.className="task"+(t.done?" done":"");
-  btn.innerText=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+" XP)";
-  btn.onclick=()=>completeTask(t.id);
-  tasksDiv.appendChild(btn);
+  let b=document.createElement("button");
+  b.className="task"+(t.done?" done":"");
+  b.innerText=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
+  b.onclick=()=>completeTask(t.id);
+  div.appendChild(b);
  });
 }
 
-// XP ANIMATION
-function animateXP(val){
+function animate(text){
  let el=document.createElement("div");
- el.innerText="+"+val+" XP";
+ el.innerText=text;
  el.style.position="fixed";
  el.style.top="50%";
  el.style.left="50%";
  el.style.transform="translate(-50%,-50%)";
  el.style.color="#00ff88";
- el.style.fontSize="22px";
+ el.style.fontSize="24px";
  document.body.appendChild(el);
-
- setTimeout(()=>el.remove(),700);
+ setTimeout(()=>el.remove(),800);
 }
 
-// refs
-const levelEl=document.getElementById("level");
-const xpEl=document.getElementById("xp");
-const streakEl=document.getElementById("streak");
-const coinsEl=document.getElementById("coins");
-const bar=document.getElementById("bar");
-const tasksDiv=document.getElementById("tasks");
-
+load();
 render();
 </script>
 
