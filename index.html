@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MOTYVACIJA</title>
+<title>KLIK APP</title>
 
 <style>
 body{
   margin:0;
-  background: radial-gradient(circle at top,#0a0f1f,#05070f);
-  color:white;
+  background:#f5f7fb;
+  color:#111;
   font-family:system-ui;
 }
 
@@ -20,28 +20,28 @@ body{
 }
 
 .card{
-  background:#111827;
+  background:white;
   padding:16px;
-  border-radius:18px;
+  border-radius:16px;
   margin-top:15px;
-  box-shadow:0 0 20px rgba(0,255,136,0.1);
+  box-shadow:0 4px 20px rgba(0,0,0,0.05);
 }
 
 h1{
   text-align:center;
-  color:#00ff88;
+  color:#16a34a;
 }
 
 .progress{
-  height:12px;
-  background:#222;
+  height:10px;
+  background:#eee;
   border-radius:10px;
   overflow:hidden;
 }
 
 .fill{
   height:100%;
-  background:#00ff88;
+  background:#22c55e;
   transition:0.3s;
 }
 
@@ -59,17 +59,18 @@ button:active{
 }
 
 .task{
-  background:#0f172a;
-  border:1px solid #00ff88;
+  background:#f1f5f9;
+  border:1px solid #22c55e;
 }
 
 .task.done{
-  background:#14532d;
-  opacity:0.6;
+  background:#dcfce7;
+  opacity:0.7;
 }
 
 .shop{
-  border:1px solid gold;
+  background:#fff7ed;
+  border:1px solid #f59e0b;
 }
 
 .dropdown{
@@ -82,6 +83,12 @@ button:active{
 .hidden{
   display:none;
 }
+
+.section-title{
+  margin-top:10px;
+  font-weight:bold;
+  color:#374151;
+}
 </style>
 </head>
 
@@ -89,7 +96,7 @@ button:active{
 
 <div class="container">
 
-<h1>KLIK PRO MAX</h1>
+<h1>KLIK</h1>
 
 <div class="card">
 <h2 id="level"></h2>
@@ -110,16 +117,16 @@ button:active{
 <span>▼</span>
 </div>
 
-<div id="tasksBox" class="hidden">
+<div id="tasksBox">
 
-<div onclick="toggle('prod')">📚 Produktyvumas</div>
-<div id="prod" class="hidden"></div>
+<div class="section-title">📚 Produktyvumas</div>
+<div id="prod"></div>
 
-<div onclick="toggle('health')">💪 Sveikata</div>
-<div id="health" class="hidden"></div>
+<div class="section-title">💪 Sveikata</div>
+<div id="health"></div>
 
-<div onclick="toggle('grow')">🧠 Tobulėjimas</div>
-<div id="grow" class="hidden"></div>
+<div class="section-title">🧠 Tobulėjimas</div>
+<div id="grow"></div>
 
 </div>
 </div>
@@ -145,46 +152,50 @@ button:active{
 
 <script>
 
+// STATE
 let xp=0, level=1, coins=0, streak=0;
 
-let tasks = [
+// TASKS (8 + 8 + 8)
+let tasks=[
 
- // PRODUKTYVUMAS (8)
- {id:1,cat:"prod",text:"📖 Skaityti 20 puslapių",xp:8,done:false},
- {id:2,cat:"prod",text:"📒 Parašyti planą",xp:10,done:false},
- {id:3,cat:"prod",text:"🧹 Susitvarkyti stalą",xp:6,done:false},
- {id:4,cat:"prod",text:"📚 Mokytis 30 min",xp:12,done:false},
- {id:5,cat:"prod",text:"📧 Sutvarkyti emailus",xp:6,done:false},
- {id:6,cat:"prod",text:"🎯 Padaryti svarbų darbą",xp:15,done:false},
- {id:7,cat:"prod",text:"📵 1h be telefono",xp:20,done:false},
- {id:8,cat:"prod",text:"🧠 Fokusas 1h",xp:15,done:false},
+// PRODUKTYVUMAS
+{id:1,cat:"prod",text:"Skaityti 20 puslapių",xp:8,done:false},
+{id:2,cat:"prod",text:"Parašyti planą",xp:10,done:false},
+{id:3,cat:"prod",text:"Susitvarkyti stalą",xp:6,done:false},
+{id:4,cat:"prod",text:"Mokytis 30 min",xp:12,done:false},
+{id:5,cat:"prod",text:"Sutvarkyti emailus",xp:6,done:false},
+{id:6,cat:"prod",text:"Padaryti svarbų darbą",xp:15,done:false},
+{id:7,cat:"prod",text:"1h be telefono",xp:20,done:false},
+{id:8,cat:"prod",text:"Fokusas 1h",xp:15,done:false},
 
- // SVEIKATA (8)
- {id:9,cat:"health",text:"💪 50 atsispaudimų",xp:8,done:false},
- {id:10,cat:"health",text:"🚶 30 min pasivaikščiojimas",xp:20,done:false},
- {id:11,cat:"health",text:"💧 2L vandens",xp:10,done:false},
- {id:12,cat:"health",text:"🏃 Sportas 20min",xp:18,done:false},
- {id:13,cat:"health",text:"🥗 Sveikas maistas",xp:12,done:false},
- {id:14,cat:"health",text:"🧘 Meditacija",xp:10,done:false},
- {id:15,cat:"health",text:"😴 8h miego",xp:15,done:false},
- {id:16,cat:"health",text:"🚴 Judėjimas dienoje",xp:12,done:false},
+// SVEIKATA
+{id:9,cat:"health",text:"50 atsispaudimų",xp:8,done:false},
+{id:10,cat:"health",text:"30 min pasivaikščiojimas",xp:20,done:false},
+{id:11,cat:"health",text:"2L vandens",xp:10,done:false},
+{id:12,cat:"health",text:"Sportas 20min",xp:18,done:false},
+{id:13,cat:"health",text:"Sveikas maistas",xp:12,done:false},
+{id:14,cat:"health",text:"Meditacija",xp:10,done:false},
+{id:15,cat:"health",text:"8h miego",xp:15,done:false},
+{id:16,cat:"health",text:"Judėjimas dienoje",xp:12,done:false},
 
- // TOBULĖJIMAS (8)
- {id:17,cat:"grow",text:"🧠 Išmokti kažką naujo",xp:15,done:false},
- {id:18,cat:"grow",text:"🎧 Podcast",xp:10,done:false},
- {id:19,cat:"grow",text:"📹 Edukacinis video",xp:8,done:false},
- {id:20,cat:"grow",text:"✍️ Rašyti mintis",xp:10,done:false},
- {id:21,cat:"grow",text:"📖 Skaityti apie verslą",xp:12,done:false},
- {id:22,cat:"grow",text:"💡 Generuoti idėjas",xp:12,done:false},
- {id:23,cat:"grow",text:"🧩 Spręsti problemą",xp:15,done:false},
- {id:24,cat:"grow",text:"🚀 Kurti kažką",xp:20,done:false}
+// TOBULĖJIMAS
+{id:17,cat:"grow",text:"Išmokti kažką naujo",xp:15,done:false},
+{id:18,cat:"grow",text:"Podcast",xp:10,done:false},
+{id:19,cat:"grow",text:"Edukacinis video",xp:8,done:false},
+{id:20,cat:"grow",text:"Rašyti mintis",xp:10,done:false},
+{id:21,cat:"grow",text:"Skaityti apie verslą",xp:12,done:false},
+{id:22,cat:"grow",text:"Generuoti idėjas",xp:12,done:false},
+{id:23,cat:"grow",text:"Spręsti problemą",xp:15,done:false},
+{id:24,cat:"grow",text:"Kurti kažką",xp:20,done:false}
 
 ];
 
+// TOGGLE
 function toggle(id){
  document.getElementById(id).classList.toggle("hidden");
 }
 
+// XP
 function addXP(val){
  xp+=val;
  coins+=Math.floor(val/2);
@@ -198,6 +209,7 @@ function addXP(val){
  render();
 }
 
+// TASK CLICK
 function completeTask(id){
  tasks=tasks.map(t=>{
   if(t.id===id && !t.done){
@@ -206,10 +218,10 @@ function completeTask(id){
   }
   return t;
  });
-
  render();
 }
 
+// NEW DAY
 function newDay(){
  if(tasks.every(t=>t.done)){
   streak++;
@@ -222,29 +234,31 @@ function newDay(){
  render();
 }
 
+// SHOP
 function buy(price){
  if(coins>=price){
   coins-=price;
   alert("Nupirkta!");
  }
-
  save();
  render();
 }
 
+// RENDER
 function render(){
- document.getElementById("level").innerText="Lygis: "+level;
- document.getElementById("xp").innerText="XP: "+xp+"/100";
- document.getElementById("coins").innerText=coins;
- document.getElementById("streak").innerText=streak;
- document.getElementById("bar").style.width=xp+"%";
+ level.innerText="Lygis: "+level;
+ xpText.innerText="XP: "+xp+"/100";
+ coinsEl.innerText=coins;
+ streakEl.innerText=streak;
+ bar.style.width=xp+"%";
 
- renderCategory("prod");
- renderCategory("health");
- renderCategory("grow");
+ renderCat("prod");
+ renderCat("health");
+ renderCat("grow");
 }
 
-function renderCategory(cat){
+// RENDER CATEGORY
+function renderCat(cat){
  let div=document.getElementById(cat);
  div.innerHTML="";
 
@@ -257,22 +271,31 @@ function renderCategory(cat){
  });
 }
 
-// SAVE/LOAD
+// SAVE
 function save(){
- localStorage.setItem("klik_max", JSON.stringify({xp,level,coins,streak,tasks}));
+ localStorage.setItem("klik_light", JSON.stringify({xp,level,coins,streak,tasks}));
 }
 
+// LOAD
 function load(){
- let data=JSON.parse(localStorage.getItem("klik_max"));
+ let data=JSON.parse(localStorage.getItem("klik_light"));
  if(data){
-  xp=data.xp;
-  level=data.level;
-  coins=data.coins;
-  streak=data.streak;
-  tasks=data.tasks;
+  xp=data.xp||0;
+  level=data.level||1;
+  coins=data.coins||0;
+  streak=data.streak||0;
+  tasks=data.tasks||tasks;
  }
 }
 
+// REFS
+const level=document.getElementById("level");
+const xpText=document.getElementById("xp");
+const coinsEl=document.getElementById("coins");
+const streakEl=document.getElementById("streak");
+const bar=document.getElementById("bar");
+
+// START
 load();
 render();
 
