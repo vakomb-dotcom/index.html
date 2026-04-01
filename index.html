@@ -10,19 +10,14 @@ body {margin:0;background: linear-gradient(180deg,#0f172a,#111827,#020617);color
 .container {max-width:500px;margin:auto;padding:20px;}
 h1 {text-align:center;color:#4ade80;font-weight:700;}
 
-.card {background:rgba(17,24,39,0.8);padding:18px;border-radius:20px;margin-top:15px;border:1px solid rgba(255,255,255,0.05);}
-
+.card {background:rgba(17,24,39,0.8);padding:18px;border-radius:20px;margin-top:15px;}
 .progress {height:12px;background:#1f2937;border-radius:20px;overflow:hidden;margin-top:8px;}
 .fill {height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);}
-
-button {width:100%;padding:14px;margin-top:10px;border-radius:14px;border:none;cursor:pointer;}
+button {width:100%;padding:14px;margin-top:10px;border-radius:14px;border:none;}
 .toggle {background:#1f2937;color:#4ade80;}
 .task {background:#020617;border:1px solid #1f2937;text-align:left;}
 .task.done {background:#052e1b;color:#4ade80;}
-.shop {background:#1f2937;border:1px solid #facc15;color:#facc15;}
 .hidden {display:none;}
-.ach {background:#020617;border:1px solid #374151;text-align:left;}
-.ach.done {background:#14532d;color:#4ade80;}
 </style>
 </head>
 
@@ -50,27 +45,19 @@ button {width:100%;padding:14px;margin-top:10px;border-radius:14px;border:none;c
 </div>
 
 <div class="card">
-<button class="toggle" onclick="toggle('achWrap')">🏆 Pasiekimai</button>
-<div id="achWrap" class="hidden">
-
-<button class="toggle" onclick="toggle('achSveik')">💪 Sveikata</button>
-<div id="achSveik" class="hidden"></div>
-
-<button class="toggle" onclick="toggle('achProd')">📋 Produktyvumas</button>
-<div id="achProd" class="hidden"></div>
-
-<button class="toggle" onclick="toggle('achTobul')">🧠 Tobulėjimas</button>
-<div id="achTobul" class="hidden"></div>
-
-</div>
-</div>
-
-<div class="card">
 <button class="toggle" onclick="toggle('menuWrap')">☰ MENIU</button>
 <div id="menuWrap" class="hidden">
 
 <button onclick="showStats()">📊 Statistika</button>
 <button onclick="showHistory()">📜 Istorija</button>
+
+<button onclick="toggle('achWrap')">🏆 Pasiekimai</button>
+
+<div id="achWrap" class="hidden">
+<div id="achSveik"></div>
+<div id="achProd"></div>
+<div id="achTobul"></div>
+</div>
 
 </div>
 </div>
@@ -79,59 +66,21 @@ button {width:100%;padding:14px;margin-top:10px;border-radius:14px;border:none;c
 
 <script>
 
+/* ORIGINAL */
 let xp=0, level=1, coins=0;
 let totalTasks=0, totalXP=0;
 let weeklyTasks=0;
 let historyLog=[];
 
 let stats = {
-pushups:0, pullups:0, contracts:0, sold:0, delayed:0,
-books:0, ce:0, notv:0, nosocial:0
+walk:0, water:0, pushups:0, pullups:0,
+contracts:0, ads:0, bought:0, sold:0, delayed:0,
+learning:0, ce:0, books:0, notv:0, nosocial:0
 };
-
-let achievements = [
-/* SVEIKATA */
-{cat:"achSveik", req:100, stat:"pushups", reward:25, text:"100 atsispaudimų"},
-{cat:"achSveik", req:300, stat:"pushups", reward:60, text:"300 atsispaudimų"},
-{cat:"achSveik", req:500, stat:"pushups", reward:100, text:"500 atsispaudimų"},
-
-{cat:"achSveik", req:50, stat:"pullups", reward:35, text:"50 prisitraukimų"},
-{cat:"achSveik", req:100, stat:"pullups", reward:60, text:"100 prisitraukimų"},
-{cat:"achSveik", req:300, stat:"pullups", reward:100, text:"300 prisitraukimų"},
-
-{cat:"achSveik", req:200, stat:"nosocial", reward:20, text:"200 min be soc tinklų"},
-{cat:"achSveik", req:500, stat:"nosocial", reward:50, text:"500 min be soc tinklų"},
-{cat:"achSveik", req:1000, stat:"nosocial", reward:90, text:"1000 min be soc tinklų"},
-
-/* PRODUKTYVUMAS */
-{cat:"achProd", req:10, stat:"contracts", reward:20, text:"10 sutarčių"},
-{cat:"achProd", req:20, stat:"contracts", reward:30, text:"20 sutarčių"},
-{cat:"achProd", req:50, stat:"contracts", reward:80, text:"50 sutarčių"},
-
-{cat:"achProd", req:3, stat:"sold", reward:100, text:"3 parduoti auto"},
-{cat:"achProd", req:5, stat:"sold", reward:200, text:"5 parduoti auto"},
-{cat:"achProd", req:10, stat:"sold", reward:500, text:"10 parduotų auto"},
-
-{cat:"achProd", req:3, stat:"delayed", reward:30, text:"3 atidėliojimai"},
-{cat:"achProd", req:7, stat:"delayed", reward:60, text:"7 atidėliojimai"},
-{cat:"achProd", req:10, stat:"delayed", reward:90, text:"10 atidėliojimų"},
-
-/* TOBULĖJIMAS */
-{cat:"achTobul", req:40, stat:"books", reward:20, text:"40 puslapių"},
-{cat:"achTobul", req:100, stat:"books", reward:50, text:"100 puslapių"},
-{cat:"achTobul", req:200, stat:"books", reward:100, text:"200 puslapių"},
-
-{cat:"achTobul", req:180, stat:"ce", reward:60, text:"180 min CE"},
-{cat:"achTobul", req:300, stat:"ce", reward:90, text:"300 min CE"},
-{cat:"achTobul", req:500, stat:"ce", reward:120, text:"500 min CE"},
-
-{cat:"achTobul", req:1, stat:"notv", reward:20, text:"1 diena be TV"},
-{cat:"achTobul", req:3, stat:"notv", reward:50, text:"3 dienos be TV"},
-{cat:"achTobul", req:7, stat:"notv", reward:70, text:"7 dienos be TV"}
-];
 
 function toggle(id){document.getElementById(id).classList.toggle("hidden");}
 
+/* 🔥 LEVEL UP */
 function addXP(val){
 xp+=val;
 totalXP+=val;
@@ -144,28 +93,73 @@ alert("🔥 LEVEL UP! 🔥");
 }
 }
 
-function checkAchievements(){
-achievements.forEach(a=>{
-if(!a.done && stats[a.stat] >= a.req){
-a.done=true;
-coins+=a.reward;
-alert(`🏆 Pasiekimas: ${a.text} (+${a.reward} monetų)`);
-}
-});
-}
-
+/* TRACK */
 function track(t){
 if(t.text==="50 atsispaudimų") stats.pushups+=50;
 if(t.text==="20 prisitraukimų") stats.pullups+=20;
-if(t.text.includes("soc")) stats.nosocial+=60;
+if(t.text==="60min be soc tinklų ir darbo") stats.nosocial+=60;
 if(t.text==="5 pardavimo sutartys") stats.contracts+=5;
 if(t.text==="1 parduotas automobilis") stats.sold+=1;
 if(t.text.includes("Atidėliotas")) stats.delayed+=1;
-if(t.text==="20 puslapių skaitymas") stats.books+=20;
+if(t.text==="20 puslapių skaitymas") stats.books+=1;
 if(t.text==="60min CE teorija") stats.ce+=60;
 if(t.text==="Diena be TV") stats.notv+=1;
 }
 
+/* 🏆 ACHIEVEMENTS */
+let achievements=[
+{cat:"achSveik",stat:"pushups",req:100,reward:25,text:"100 atsispaudimų"},
+{cat:"achSveik",stat:"pushups",req:300,reward:60,text:"300 atsispaudimų"},
+{cat:"achSveik",stat:"pushups",req:500,reward:100,text:"500 atsispaudimų"},
+{cat:"achSveik",stat:"pullups",req:50,reward:35,text:"50 prisitraukimų"},
+{cat:"achSveik",stat:"pullups",req:100,reward:60,text:"100 prisitraukimų"},
+{cat:"achSveik",stat:"pullups",req:300,reward:100,text:"300 prisitraukimų"},
+{cat:"achSveik",stat:"nosocial",req:200,reward:20,text:"200min be soc"},
+{cat:"achSveik",stat:"nosocial",req:500,reward:50,text:"500min be soc"},
+{cat:"achSveik",stat:"nosocial",req:1000,reward:90,text:"1000min be soc"}
+];
+
+function checkAchievements(){
+achievements.forEach(a=>{
+if(!a.done && stats[a.stat]>=a.req){
+a.done=true;
+coins+=a.reward;
+alert("🏆 "+a.text+" +"+a.reward);
+}
+});
+}
+
+/* TASKS (NEPAKEISTA) */
+let tasks=[ 
+{id:1,cat:"sveik",text:"2L vandens",xp:10,done:false},
+{id:2,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10,done:false},
+{id:3,cat:"sveik",text:"30min pasivaikščiojimas",xp:12,done:false},
+{id:4,cat:"sveik",text:"50 atsispaudimų",xp:15,done:false},
+{id:5,cat:"sveik",text:"20 prisitraukimų",xp:15,done:false},
+{id:6,cat:"sveik",text:"3 kartai valgymas",xp:10,done:false},
+{id:7,cat:"sveik",text:"24h be priklausomybių",xp:25,done:false},
+
+{id:8,cat:"prod",text:"30min pas mamą",xp:20,done:false},
+{id:9,cat:"prod",text:"Sutvarkyti namus",xp:25,done:false},
+{id:10,cat:"prod",text:"5 pardavimo sutartys",xp:20,done:false},
+{id:11,cat:"prod",text:"2h darbas garaže",xp:25,done:false},
+{id:12,cat:"prod",text:"1 į skelbimus automobilis",xp:35,done:false},
+{id:13,cat:"prod",text:"1 nupirktas automobilis",xp:35,done:false},
+{id:14,cat:"prod",text:"1 parduotas automobilis",xp:35,done:false},
+{id:15,cat:"prod",text:"Atidėliotas dalykas (1)",xp:20,done:false},
+{id:16,cat:"prod",text:"Atidėliotas dalykas (2)",xp:30,done:false},
+
+{id:17,cat:"tobul",text:"60min mokymasis",xp:15,done:false},
+{id:18,cat:"tobul",text:"20 puslapių skaitymas",xp:15,done:false},
+{id:19,cat:"tobul",text:"60min CE teorija",xp:20,done:false},
+{id:20,cat:"tobul",text:"Dantys ryte",xp:10,done:false},
+{id:21,cat:"tobul",text:"Dantys vakare",xp:15,done:false},
+{id:22,cat:"tobul",text:"Prausimasis ryte",xp:15,done:false},
+{id:23,cat:"tobul",text:"Prausimasis vakare",xp:15,done:false},
+{id:24,cat:"tobul",text:"Diena be TV",xp:20,done:false}
+];
+
+/* COMPLETE */
 function completeTask(id){
 let t=tasks.find(x=>x.id===id);
 if(!t||t.done)return;
@@ -175,221 +169,30 @@ addXP(t.xp);
 track(t);
 checkAchievements();
 
-save(); render();
+render();
 }
 
-let tasks=[
-{id:1,cat:"sveik",text:"50 atsispaudimų",xp:15,done:false},
-{id:2,cat:"sveik",text:"20 prisitraukimų",xp:15,done:false},
-{id:3,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10,done:false},
-
-{id:4,cat:"prod",text:"5 pardavimo sutartys",xp:20,done:false},
-{id:5,cat:"prod",text:"1 parduotas automobilis",xp:35,done:false},
-{id:6,cat:"prod",text:"Atidėliotas dalykas (1)",xp:20,done:false},
-
-{id:7,cat:"tobul",text:"20 puslapių skaitymas",xp:15,done:false},
-{id:8,cat:"tobul",text:"60min CE teorija",xp:20,done:false},
-{id:9,cat:"tobul",text:"Diena be TV",xp:20,done:false}
-];
-
+/* RENDER */
 function render(){
 document.getElementById("level").innerText="Lygis: "+level;
 document.getElementById("xp").innerText="XP: "+xp+"/100";
 document.getElementById("coins").innerText=coins;
-document.getElementById("bar").style.width=xp+"%";
 
-["sveik","prod","tobul"].forEach(renderCategory);
-["achSveik","achProd","achTobul"].forEach(renderAch);
-}
-
-function renderCategory(cat){
+["sveik","prod","tobul"].forEach(cat=>{
 let div=document.getElementById(cat);
 div.innerHTML="";
 tasks.filter(t=>t.cat===cat).forEach(t=>{
 let b=document.createElement("button");
 b.className="task"+(t.done?" done":"");
-b.textContent=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
+b.textContent=(t.done?"✅ ":"⬜ ")+t.text;
 if(!t.done) b.onclick=()=>completeTask(t.id);
 div.appendChild(b);
 });
-}
-
-function renderAch(cat){
-let div=document.getElementById(cat);
-div.innerHTML="";
-achievements.filter(a=>a.cat===cat).forEach(a=>{
-let b=document.createElement("button");
-b.className="ach"+(a.done?" done":"");
-b.textContent=(a.done?"🏆 ":"🔒 ")+a.text+" → "+a.reward+" monetų";
-div.appendChild(b);
 });
 }
 
-function save(){
-localStorage.setItem("motyvacija", JSON.stringify({
-xp,level,coins,tasks,stats,achievements
-}));
-}
-
-function load(){
-let d=JSON.parse(localStorage.getItem("motyvacija"));
-if(d){
-xp=d.xp; level=d.level; coins=d.coins;
-tasks=d.tasks; stats=d.stats; achievements=d.achievements;
-}
-}
-
-function showStats(){
-alert(JSON.stringify(stats,null,2));
-}
-
-function showHistory(){
-alert(historyLog.join("\n") || "Tuščia");
-}
-
-load(); render();
-/* ========================= */
-/* 🔥 LEVEL UP + ACHIEVEMENTS */
-/* ========================= */
-
-/* ➕ pridėtas stat */
-stats.nosocial = stats.nosocial || 0;
-
-/* 🏆 ACHIEVEMENTS */
-let achievements = [
-{cat:"achSveik",stat:"pushups",req:100,reward:25,text:"100 atsispaudimų"},
-{cat:"achSveik",stat:"pushups",req:300,reward:60,text:"300 atsispaudimų"},
-{cat:"achSveik",stat:"pushups",req:500,reward:100,text:"500 atsispaudimų"},
-
-{cat:"achSveik",stat:"pullups",req:50,reward:35,text:"50 prisitraukimų"},
-{cat:"achSveik",stat:"pullups",req:100,reward:60,text:"100 prisitraukimų"},
-{cat:"achSveik",stat:"pullups",req:300,reward:100,text:"300 prisitraukimų"},
-
-{cat:"achSveik",stat:"nosocial",req:200,reward:20,text:"200 min be soc tinklų"},
-{cat:"achSveik",stat:"nosocial",req:500,reward:50,text:"500 min be soc tinklų"},
-{cat:"achSveik",stat:"nosocial",req:1000,reward:90,text:"1000 min be soc tinklų"},
-
-{cat:"achProd",stat:"contracts",req:10,reward:20,text:"10 sutarčių"},
-{cat:"achProd",stat:"contracts",req:20,reward:30,text:"20 sutarčių"},
-{cat:"achProd",stat:"contracts",req:50,reward:80,text:"50 sutarčių"},
-
-{cat:"achProd",stat:"sold",req:3,reward:100,text:"3 parduoti auto"},
-{cat:"achProd",stat:"sold",req:5,reward:200,text:"5 parduoti auto"},
-{cat:"achProd",stat:"sold",req:10,reward:500,text:"10 parduotų auto"},
-
-{cat:"achProd",stat:"delayed",req:3,reward:30,text:"3 atidėliojimai"},
-{cat:"achProd",stat:"delayed",req:7,reward:60,text:"7 atidėliojimai"},
-{cat:"achProd",stat:"delayed",req:10,reward:90,text:"10 atidėliojimų"},
-
-{cat:"achTobul",stat:"books",req:2,reward:20,text:"40 puslapių"},
-{cat:"achTobul",stat:"books",req:5,reward:50,text:"100 puslapių"},
-{cat:"achTobul",stat:"books",req:10,reward:100,text:"200 puslapių"},
-
-{cat:"achTobul",stat:"ce",req:180,reward:60,text:"180 min CE"},
-{cat:"achTobul",stat:"ce",req:300,reward:90,text:"300 min CE"},
-{cat:"achTobul",stat:"ce",req:500,reward:120,text:"500 min CE"},
-
-{cat:"achTobul",stat:"notv",req:1,reward:20,text:"1 diena be TV"},
-{cat:"achTobul",stat:"notv",req:3,reward:50,text:"3 dienos be TV"},
-{cat:"achTobul",stat:"notv",req:7,reward:70,text:"7 dienos be TV"}
-];
-
-/* 🔥 PATCH addXP (neperrašo logikos) */
-const oldAddXP = addXP;
-addXP = function(val){
-let before = level;
-oldAddXP(val);
-if(level > before){
-alert("🔥 LEVEL UP! 🔥");
-}
-};
-
-/* 🔥 PATCH track */
-const oldTrack = track;
-track = function(t){
-oldTrack(t);
-if(t.text==="60min be soc tinklų ir darbo"){
-stats.nosocial += 60;
-}
-};
-
-/* 🏆 CHECK */
-function checkAchievements(){
-achievements.forEach(a=>{
-if(!a.done && stats[a.stat] >= a.req){
-a.done = true;
-coins += a.reward;
-alert("🏆 "+a.text+" +" + a.reward + " monetų");
-}
-});
-}
-
-/* 🔥 PATCH completeTask */
-const oldCompleteTask = completeTask;
-completeTask = function(id){
-oldCompleteTask(id);
-checkAchievements();
-};
-
-/* 🏆 UI sukūrimas */
-function createAchievementsUI(){
-let menu = document.getElementById("menuWrap");
-
-if(document.getElementById("achWrap")) return;
-
-let btn = document.createElement("button");
-btn.innerText="🏆 Pasiekimai";
-btn.onclick=()=>toggle('achWrap');
-
-menu.insertBefore(btn, menu.children[3]);
-
-let wrap = document.createElement("div");
-wrap.id="achWrap";
-wrap.className="hidden";
-
-wrap.innerHTML = `
-<button class="toggle" onclick="toggle('achSveik')">💪 Sveikata</button>
-<div id="achSveik" class="hidden"></div>
-
-<button class="toggle" onclick="toggle('achProd')">📋 Produktyvumas</button>
-<div id="achProd" class="hidden"></div>
-
-<button class="toggle" onclick="toggle('achTobul')">🧠 Tobulėjimas</button>
-<div id="achTobul" class="hidden"></div>
-`;
-
-menu.insertBefore(wrap, menu.children[4]);
-}
-
-/* 🏆 render */
-function renderAchievements(cat){
-let div=document.getElementById(cat);
-if(!div) return;
-
-div.innerHTML="";
-achievements.filter(a=>a.cat===cat).forEach(a=>{
-let b=document.createElement("button");
-b.className="task"+(a.done?" done":"");
-b.textContent=(a.done?"🏆 ":"🔒 ")+a.text+" → "+a.reward+" monetų";
-div.appendChild(b);
-});
-}
-
-/* 🔥 PATCH render */
-const oldRender2 = render;
-render = function(){
-oldRender2();
-renderAchievements("achSveik");
-renderAchievements("achProd");
-renderAchievements("achTobul");
-};
-
-/* 🔥 INIT */
-setTimeout(()=>{
-createAchievementsUI();
 render();
-},100);
-</script>
 
+</script>
 </body>
 </html>
