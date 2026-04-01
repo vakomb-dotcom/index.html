@@ -98,54 +98,76 @@ let historyLog=[];
 let lastDay="";
 
 // ===== TASKS =====
-let tasks = [
-{id:1,cat:"sveik",text:"50 atsispaudimų",xp:12,done:false},
-{id:2,cat:"sveik",text:"20 prisitraukimų",xp:18,done:false},
-{id:3,cat:"sveik",text:"2L vandens",xp:10,done:false},
-{id:4,cat:"sveik",text:"30 min vaikščiojimas",xp:14,done:false},
-{id:5,cat:"sveik",text:"20 min sportas",xp:16,done:false},
-{id:6,cat:"sveik",text:"tempimai",xp:8,done:false},
-{id:7,cat:"sveik",text:"8h miego",xp:12,done:false},
-{id:8,cat:"sveik",text:"sveikas maistas",xp:15,done:false},
+let tasks = [];
 
-{id:9,cat:"prod",text:"planas",xp:10,done:false},
-{id:10,cat:"prod",text:"laiškai",xp:10,done:false},
-{id:11,cat:"prod",text:"tvarka",xp:8,done:false},
-{id:12,cat:"prod",text:"gilus darbas",xp:18,done:false},
-{id:13,cat:"prod",text:"be soc tinklų",xp:14,done:false},
-{id:14,cat:"prod",text:"užduotis",xp:16,done:false},
-{id:15,cat:"prod",text:"fokusas",xp:12,done:false},
-{id:16,cat:"prod",text:"tikslai",xp:10,done:false},
+const defaultTasks = [
+{id:1,cat:"sveik",text:"50 atsispaudimų",xp:12},
+{id:2,cat:"sveik",text:"20 prisitraukimų",xp:18},
+{id:3,cat:"sveik",text:"2L vandens",xp:10},
+{id:4,cat:"sveik",text:"30 min vaikščiojimas",xp:14},
+{id:5,cat:"sveik",text:"20 min sportas",xp:16},
+{id:6,cat:"sveik",text:"tempimai",xp:8},
+{id:7,cat:"sveik",text:"8h miego",xp:12},
+{id:8,cat:"sveik",text:"sveikas maistas",xp:15},
 
-{id:17,cat:"tobul",text:"skaityti",xp:12,done:false},
-{id:18,cat:"tobul",text:"podcast",xp:10,done:false},
-{id:19,cat:"tobul",text:"mokytis",xp:15,done:false},
-{id:20,cat:"tobul",text:"refleksija",xp:10,done:false},
-{id:21,cat:"tobul",text:"progresas",xp:12,done:false},
-{id:22,cat:"tobul",text:"tikslai",xp:10,done:false},
-{id:23,cat:"tobul",text:"idėjos",xp:14,done:false},
-{id:24,cat:"tobul",text:"mokymasis",xp:16,done:false}
+{id:9,cat:"prod",text:"planas",xp:10},
+{id:10,cat:"prod",text:"laiškai",xp:10},
+{id:11,cat:"prod",text:"tvarka",xp:8},
+{id:12,cat:"prod",text:"gilus darbas",xp:18},
+{id:13,cat:"prod",text:"be soc tinklų",xp:14},
+{id:14,cat:"prod",text:"užduotis",xp:16},
+{id:15,cat:"prod",text:"fokusas",xp:12},
+{id:16,cat:"prod",text:"tikslai",xp:10},
+
+{id:17,cat:"tobul",text:"skaityti",xp:12},
+{id:18,cat:"tobul",text:"podcast",xp:10},
+{id:19,cat:"tobul",text:"mokytis",xp:15},
+{id:20,cat:"tobul",text:"refleksija",xp:10},
+{id:21,cat:"tobul",text:"progresas",xp:12},
+{id:22,cat:"tobul",text:"tikslai",xp:10},
+{id:23,cat:"tobul",text:"idėjos",xp:14},
+{id:24,cat:"tobul",text:"mokymasis",xp:16}
 ];
 
-// ===== REWARDS =====
-const rewards = [
-{price:60,text:"picos vakarą"},
-{price:100,text:"drabužį"},
-{price:30,text:"scrollinimą"},
-{price:50,text:"žaidimus"},
-{price:80,text:"cheat maistą"},
-{price:40,text:"filmą"},
-{price:35,text:"kavą"}
-];
+// ===== LOAD =====
+function load(){
+try{
+let data = JSON.parse(localStorage.getItem("klik_ultra"));
+if(data){
+xp=data.xp||0;
+level=data.level||1;
+coins=data.coins||0;
+tasks=data.tasks||[];
+totalTasks=data.totalTasks||0;
+totalXP=data.totalXP||0;
+weeklyTasks=data.weeklyTasks||0;
+historyLog=data.historyLog||[];
+}
+}catch(e){
+tasks=[];
+}
+
+// jei nėra tasks → sukurti
+if(!tasks.length){
+tasks = defaultTasks.map(t=>({...t,done:false}));
+}
+}
+
+// ===== SAVE =====
+function save(){
+localStorage.setItem("klik_ultra", JSON.stringify({
+xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,historyLog,lastDay
+}));
+}
 
 // ===== CORE =====
 function addXP(val){
-xp += val;
-totalXP += val;
-coins += Math.floor(val/2);
+xp+=val;
+totalXP+=val;
+coins+=Math.floor(val/2);
 
-while(xp >= 100){
-xp -= 100;
+while(xp>=100){
+xp-=100;
 level++;
 }
 }
@@ -166,6 +188,17 @@ save();
 render();
 }
 
+// ===== SHOP =====
+const rewards = [
+{price:60,text:"picos vakarą"},
+{price:100,text:"drabužį"},
+{price:30,text:"scrollinimą"},
+{price:50,text:"žaidimus"},
+{price:80,text:"cheat maistą"},
+{price:40,text:"filmą"},
+{price:35,text:"kavą"}
+];
+
 function buy(i){
 let r = rewards[i];
 if(!r) return;
@@ -184,11 +217,11 @@ save();
 render();
 }
 
-// ===== UI =====
+// ===== RENDER =====
 function render(){
-document.getElementById("level").innerText="Lygis: "+level;
-document.getElementById("xp").innerText="XP: "+xp+"/100";
-document.getElementById("coins").innerText=coins;
+document.getElementById("level").textContent="Lygis: "+level;
+document.getElementById("xp").textContent="XP: "+xp+"/100";
+document.getElementById("coins").textContent=coins;
 document.getElementById("bar").style.width=xp+"%";
 
 renderCategory("sveik");
@@ -204,7 +237,9 @@ tasks.filter(t=>t.cat===cat).forEach(t=>{
 let b=document.createElement("button");
 
 b.className="task"+(t.done?" done":"");
-b.innerText=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
+
+// 🔥 FIX (čia buvo bug)
+b.textContent=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
 
 if(t.done){
 b.disabled = true;
@@ -266,28 +301,7 @@ location.reload();
 }
 }
 
-// ===== SAVE =====
-function save(){
-localStorage.setItem("klik_ultra", JSON.stringify({
-xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,historyLog,lastDay
-}));
-}
-
-function load(){
-let data = JSON.parse(localStorage.getItem("klik_ultra"));
-if(data){
-xp=data.xp;
-level=data.level;
-coins=data.coins;
-tasks=data.tasks || tasks;
-totalTasks=data.totalTasks||0;
-totalXP=data.totalXP||0;
-weeklyTasks=data.weeklyTasks||0;
-historyLog=data.historyLog||[];
-lastDay=data.lastDay||"";
-}
-}
-
+// ===== START =====
 load();
 render();
 
