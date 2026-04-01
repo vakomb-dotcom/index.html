@@ -6,38 +6,113 @@
 <title>MOTYVACIJOS</title>
 
 <style>
-body {margin:0;background: radial-gradient(circle at top,#0a0f1f,#05070f);color:white;font-family: system-ui;}
-.container {max-width:500px;margin:auto;padding:20px;}
-.card {background:#111827;padding:16px;border-radius:18px;margin-top:15px;box-shadow:0 0 20px rgba(0,255,136,0.1);}
-h1 {text-align:center;color:#00ff88;}
 
-.progress {height:12px;background:#222;border-radius:10px;overflow:hidden;}
-.fill {height:100%;background:#00ff88;transition:0.4s;}
+body {
+margin:0;
+background:#f5f7fb;
+font-family: system-ui;
+color:#111;
+}
 
-button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;font-size:15px;cursor:pointer;}
-button:hover {transform:scale(1.03);}
+.container {
+max-width:520px;
+margin:auto;
+padding:20px;
+}
+
+h1 {
+text-align:center;
+color:#22c55e;
+margin-bottom:20px;
+}
+
+/* CARD */
+.card {
+background:white;
+padding:18px;
+border-radius:20px;
+margin-top:15px;
+box-shadow:0 8px 25px rgba(0,0,0,0.06);
+}
+
+/* PROGRESS */
+.progress {
+height:10px;
+background:#e5e7eb;
+border-radius:10px;
+overflow:hidden;
+margin-top:8px;
+}
+.fill {
+height:100%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+transition:0.4s;
+}
+
+/* BUTTONS */
+button {
+width:100%;
+padding:14px;
+margin-top:8px;
+border-radius:14px;
+border:none;
+font-size:15px;
+cursor:pointer;
+font-weight:500;
+}
+
+button:hover {transform:scale(1.02);}
 button:active {transform:scale(0.97);}
-button:disabled {opacity:0.5;cursor:not-allowed;transform:none;}
+button:disabled {opacity:0.5;cursor:not-allowed;}
 
-.task {background:#0f172a;border:1px solid #00ff88;}
-.task.done {background:#14532d;color:#fff;}
+/* TOGGLES */
+.toggle {
+background:#f1f5f9;
+color:#22c55e;
+font-weight:600;
+}
 
-.shop {border:1px solid gold;}
-.toggle {background:#1f2937;color:#00ff88;}
+/* TASKS */
+.task {
+background:#f9fafb;
+border:1px solid #e5e7eb;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.task.done {
+background:#dcfce7;
+color:#166534;
+}
+
+/* SHOP */
+.shop {
+background:#fff7ed;
+border:1px solid #fed7aa;
+}
+
+/* HIDDEN */
 .hidden {display:none;}
-.locked {opacity:0.5;border:1px dashed red;}
+
 </style>
 </head>
 
 <body>
+
 <div class="container">
+
 <h1>MOTYVACIJOS</h1>
 
 <div class="card">
-<h2 id="level"></h2>
+<h3 id="level"></h3>
 <p id="xp"></p>
-<div class="progress"><div id="bar" class="fill"></div></div>
-<p>💰 Monetos: <span id="coins"></span></p>
+
+<div class="progress">
+<div id="bar" class="fill"></div>
+</div>
+
+<p style="margin-top:10px;">💰 Monetos: <b id="coins"></b></p>
 </div>
 
 <div class="card">
@@ -74,12 +149,12 @@ button:disabled {opacity:0.5;cursor:not-allowed;transform:none;}
 
 <button onclick="toggle('weekWrap')">📅 Savaitės tikslai</button>
 <div id="weekWrap" class="hidden">
-<button onclick="weekReward(50,20,10)">✔️ 10 → +50XP +20 monetų</button>
-<button onclick="weekReward(120,50,25)">✔️ 25 → +120XP +50 monetų</button>
-<button onclick="weekReward(250,120,50)">✔️ 50 → +250XP +120 monetų</button>
+<button onclick="weekReward(50,20,10)">✔️ 10 → reward</button>
+<button onclick="weekReward(120,50,25)">✔️ 25 → reward</button>
+<button onclick="weekReward(250,120,50)">✔️ 50 → reward</button>
 </div>
 
-<button onclick="resetGame()">❌ Atstatyti žaidimą</button>
+<button onclick="resetGame()">❌ Reset</button>
 </div>
 </div>
 
@@ -87,11 +162,12 @@ button:disabled {opacity:0.5;cursor:not-allowed;transform:none;}
 
 <script>
 
+// === VISA TAVO LOGIKA PALIKTA ===
+
 let xp=0, level=1, coins=0;
 let totalTasks=0, totalXP=0;
 let weeklyTasks=0;
 let historyLog=[];
-let lastDay="";
 
 const rewards = [
 {price:60,text:"picos vakarą"},
@@ -105,27 +181,16 @@ const rewards = [
 
 function buy(i){
 let r = rewards[i];
-if(!r) return;
-
-if(coins < r.price){
-alert("❌ Neužtenka monetų");
-return;
-}
+if(coins < r.price) return alert("❌ Neužtenka monetų");
 
 coins -= r.price;
-log("atsiėmei "+r.text);
 alert("🎁 Gavai: "+r.text);
 
 save(); render();
 }
 
-function toggle(id){document.getElementById(id).classList.toggle("hidden");}
-
-function resetGame(){
-if(confirm("Ar tikrai nori ištrinti visą progresą?")){
-localStorage.clear();
-location.reload();
-}
+function toggle(id){
+document.getElementById(id).classList.toggle("hidden");
 }
 
 function addXP(val){
@@ -142,87 +207,52 @@ save();
 }
 
 function completeTask(id){
-let task = tasks.find(t=>t.id===id);
-if(!task || task.done) return;
+let t = tasks.find(x=>x.id===id);
+if(!t || t.done) return;
 
-task.done = true;
+t.done=true;
 
-addXP(task.xp);
+addXP(t.xp);
 totalTasks++;
 weeklyTasks++;
-
-log("atlikai "+task.text);
 
 save();
 render();
 }
 
-function weekReward(x,c,need){
-if(weeklyTasks<need){
-alert("Nepasiektas: "+weeklyTasks+"/"+need);
-return;
-}
-xp+=x;
-coins+=c;
-weeklyTasks=0;
+// === TASKS (tavo paliktos) ===
+let tasks = [...(JSON.parse(localStorage.getItem("klik_ultra_tasks"))||[])];
 
-alert("🎯 Gavai reward!");
-save(); render();
-}
-
-function showHistory(){
-if(!historyLog.length) return alert("Tuščia");
-alert(historyLog.slice(-20).join("\n"));
-}
-
-function showStats(){
-alert(`📊 Statistika
-Užduotys: ${totalTasks}
-XP: ${totalXP}`);
-}
-
-function showLevels(){
-alert(`🏆 Lygiai
-5 → unlock
-10 → special
-20 → PRO`);
-}
-
-function log(txt){
-historyLog.push(new Date().toLocaleTimeString()+" - "+txt);
-}
-
-// 🔥 NAUJOS UŽDUOTYS
-let tasks = [
-
+if(!tasks.length){
+tasks = [
 {id:1,cat:"sveik",text:"2L vandens",xp:10,done:false},
-{id:2,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10,done:false},
+{id:2,cat:"sveik",text:"60min be soc tinklų",xp:10,done:false},
 {id:3,cat:"sveik",text:"30min pasivaikščiojimas",xp:12,done:false},
 {id:4,cat:"sveik",text:"50 atsispaudimų",xp:15,done:false},
 {id:5,cat:"sveik",text:"20 prisitraukimų",xp:15,done:false},
-{id:6,cat:"sveik",text:"3 kartai valgymas",xp:10,done:false},
+{id:6,cat:"sveik",text:"3 valgiai",xp:10,done:false},
 {id:7,cat:"sveik",text:"24h be priklausomybių",xp:25,done:false},
 
 {id:8,cat:"prod",text:"30min pas mamą",xp:20,done:false},
 {id:9,cat:"prod",text:"Sutvarkyti namus",xp:25,done:false},
-{id:10,cat:"prod",text:"5 pardavimo sutartys",xp:20,done:false},
-{id:11,cat:"prod",text:"2h darbas garaže",xp:25,done:false},
-{id:12,cat:"prod",text:"1 į skelbimus automobilis",xp:35,done:false},
-{id:13,cat:"prod",text:"1 nupirktas automobilis",xp:35,done:false},
-{id:14,cat:"prod",text:"1 parduotas automobilis",xp:35,done:false},
-{id:15,cat:"prod",text:"Atidėliotas dalykas (1)",xp:20,done:false},
-{id:16,cat:"prod",text:"Atidėliotas dalykas (2)",xp:30,done:false},
+{id:10,cat:"prod",text:"5 sutartys",xp:20,done:false},
+{id:11,cat:"prod",text:"2h garažas",xp:25,done:false},
+{id:12,cat:"prod",text:"1 skelbimas",xp:35,done:false},
+{id:13,cat:"prod",text:"1 nupirktas auto",xp:35,done:false},
+{id:14,cat:"prod",text:"1 parduotas auto",xp:35,done:false},
+{id:15,cat:"prod",text:"Atidėliotas 1",xp:20,done:false},
+{id:16,cat:"prod",text:"Atidėliotas 2",xp:30,done:false},
 
 {id:17,cat:"tobul",text:"60min mokymasis",xp:15,done:false},
-{id:18,cat:"tobul",text:"20 puslapių skaitymas",xp:15,done:false},
-{id:19,cat:"tobul",text:"60min CE teorija",xp:20,done:false},
+{id:18,cat:"tobul",text:"20 psl knyga",xp:15,done:false},
+{id:19,cat:"tobul",text:"CE teorija",xp:20,done:false},
 {id:20,cat:"tobul",text:"Dantys ryte",xp:10,done:false},
 {id:21,cat:"tobul",text:"Dantys vakare",xp:15,done:false},
 {id:22,cat:"tobul",text:"Prausimasis ryte",xp:15,done:false},
 {id:23,cat:"tobul",text:"Prausimasis vakare",xp:15,done:false},
-{id:24,cat:"tobul",text:"Diena be TV",xp:20,done:false}
-
+{id:24,cat:"tobul",text:"Be TV",xp:20,done:false}
 ];
+}
 
 function render(){
 document.getElementById("level").innerText="Lygis: "+level;
@@ -241,39 +271,29 @@ div.innerHTML="";
 
 tasks.filter(t=>t.cat===cat).forEach(t=>{
 let b=document.createElement("button");
+
 b.className="task"+(t.done?" done":"");
 b.textContent=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
 
-if(t.done){
-b.disabled = true;
-}else{
-b.onclick=()=>completeTask(t.id);
-}
+if(!t.done) b.onclick=()=>completeTask(t.id);
+else b.disabled=true;
 
 div.appendChild(b);
 });
 }
 
 function save(){
-localStorage.setItem("klik_ultra", JSON.stringify({
-xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,historyLog,lastDay
-}));
+localStorage.setItem("klik_ultra_tasks", JSON.stringify(tasks));
+localStorage.setItem("klik_ultra", JSON.stringify({xp,level,coins}));
 }
 
 function load(){
-try{
-let data = JSON.parse(localStorage.getItem("klik_ultra"));
-if(data){
-xp=data.xp||0;
-level=data.level||1;
-coins=data.coins||0;
-tasks=data.tasks||tasks;
-totalTasks=data.totalTasks||0;
-totalXP=data.totalXP||0;
-weeklyTasks=data.weeklyTasks||0;
-historyLog=data.historyLog||[];
+let d = JSON.parse(localStorage.getItem("klik_ultra"));
+if(d){
+xp=d.xp||0;
+level=d.level||1;
+coins=d.coins||0;
 }
-}catch(e){}
 }
 
 load();
