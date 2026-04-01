@@ -3,97 +3,75 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MOTYVACIJOS</title>
+<title>MOTYVACIJOS PRO MAX</title>
 
 <style>
 
 body {
 margin:0;
-background:#f5f7fb;
-font-family: system-ui;
-color:#111;
+font-family:system-ui;
+background:#0f172a;
+color:white;
+transition:0.3s;
+}
+
+.light {
+background:#f3f4f6;
+color:black;
 }
 
 .container {
-max-width:520px;
+max-width:500px;
 margin:auto;
 padding:20px;
+}
+
+.card {
+background:#111827;
+padding:16px;
+border-radius:18px;
+margin-top:15px;
+}
+
+.light .card {
+background:white;
 }
 
 h1 {
 text-align:center;
 color:#22c55e;
-margin-bottom:20px;
 }
 
-/* CARD */
-.card {
-background:white;
-padding:18px;
-border-radius:20px;
-margin-top:15px;
-box-shadow:0 8px 25px rgba(0,0,0,0.06);
-}
-
-/* PROGRESS */
-.progress {
-height:10px;
-background:#e5e7eb;
-border-radius:10px;
-overflow:hidden;
-margin-top:8px;
-}
-.fill {
-height:100%;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-transition:0.4s;
-}
-
-/* BUTTONS */
 button {
 width:100%;
 padding:14px;
 margin-top:8px;
 border-radius:14px;
 border:none;
-font-size:15px;
 cursor:pointer;
-font-weight:500;
 }
 
-button:hover {transform:scale(1.02);}
-button:active {transform:scale(0.97);}
-button:disabled {opacity:0.5;cursor:not-allowed;}
-
-/* TOGGLES */
-.toggle {
-background:#f1f5f9;
-color:#22c55e;
-font-weight:600;
+input {
+width:100%;
+padding:12px;
+margin-top:8px;
+border-radius:10px;
+border:none;
 }
 
-/* TASKS */
-.task {
-background:#f9fafb;
-border:1px solid #e5e7eb;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
+.task {background:#1f2937;}
+.task.done {background:#14532d;}
 
-.task.done {
-background:#dcfce7;
-color:#166534;
-}
-
-/* SHOP */
-.shop {
-background:#fff7ed;
-border:1px solid #fed7aa;
-}
-
-/* HIDDEN */
 .hidden {display:none;}
+
+.popup {
+position:fixed;
+top:20px;
+right:20px;
+background:#22c55e;
+padding:10px;
+border-radius:10px;
+}
 
 </style>
 </head>
@@ -102,201 +80,254 @@ border:1px solid #fed7aa;
 
 <div class="container">
 
-<h1>MOTYVACIJOS</h1>
+<h1>MOTYVACIJOS PRO</h1>
+
+<!-- LOGIN -->
+<div id="authBox" class="card">
+<input id="email" placeholder="Email">
+<input id="pass" type="password" placeholder="Password">
+
+<button onclick="register()">Registruotis</button>
+<button onclick="login()">Prisijungti</button>
+</div>
+
+<!-- APP -->
+<div id="app" class="hidden">
 
 <div class="card">
-<h3 id="level"></h3>
+<h2 id="level"></h2>
 <p id="xp"></p>
-
-<div class="progress">
-<div id="bar" class="fill"></div>
-</div>
-
-<p style="margin-top:10px;">💰 Monetos: <b id="coins"></b></p>
+<p>💰 <span id="coins"></span></p>
+<p>🔥 Streak: <span id="streak"></span></p>
 </div>
 
 <div class="card">
-<button class="toggle" onclick="toggle('sveik')">💪 Sveikata</button>
-<div id="sveik" class="hidden"></div>
-
-<button class="toggle" onclick="toggle('prod')">📋 Produktyvumas</button>
-<div id="prod" class="hidden"></div>
-
-<button class="toggle" onclick="toggle('tobul')">🧠 Tobulėjimas</button>
-<div id="tobul" class="hidden"></div>
+<div id="tasks"></div>
 </div>
 
 <div class="card">
-<button class="toggle" onclick="toggle('shopWrap')">🎁 Apdovanojimai</button>
-<div id="shopWrap" class="hidden">
-<button class="shop" onclick="buy(2)">📱 Scrollinimas (30)</button>
-<button class="shop" onclick="buy(6)">☕ Kava (35)</button>
-<button class="shop" onclick="buy(5)">🎬 Filmas (40)</button>
-<button class="shop" onclick="buy(3)">🎮 Žaidimai (50)</button>
-<button class="shop" onclick="buy(0)">🍕 Picos vakaras (60)</button>
-<button class="shop" onclick="buy(4)">🍔 Cheat maistas (80)</button>
-<button class="shop" onclick="buy(1)">🛍️ Naujas drabužis (100)</button>
-</div>
+<h3>🏆 Pasiekimai</h3>
+<div id="achievements"></div>
 </div>
 
 <div class="card">
-<button class="toggle" onclick="toggle('menuWrap')">☰ MENIU</button>
-
-<div id="menuWrap" class="hidden">
-<button onclick="showStats()">📊 Statistika</button>
-<button onclick="showLevels()">🏆 Lygiai</button>
-<button onclick="showHistory()">📜 Istorija</button>
-
-<button onclick="toggle('weekWrap')">📅 Savaitės tikslai</button>
-<div id="weekWrap" class="hidden">
-<button onclick="weekReward(50,20,10)">✔️ 10 → reward</button>
-<button onclick="weekReward(120,50,25)">✔️ 25 → reward</button>
-<button onclick="weekReward(250,120,50)">✔️ 50 → reward</button>
+<h3>📊 Statistika</h3>
+<p id="stats"></p>
 </div>
 
-<button onclick="resetGame()">❌ Reset</button>
+<div class="card">
+<h3>⚙️ Nustatymai</h3>
+<button onclick="toggleTheme()">Tema</button>
+<button onclick="resetProgress()">Reset progresą</button>
 </div>
+
+<button onclick="logout()">Logout</button>
+
 </div>
 
 </div>
 
 <script>
 
-// === VISA TAVO LOGIKA PALIKTA ===
+// ===== AUTH =====
+
+function register(){
+let users = JSON.parse(localStorage.getItem("users")||"{}");
+
+users[email.value] = {
+pass:pass.value,
+data:null
+};
+
+localStorage.setItem("users", JSON.stringify(users));
+alert("Sukurta!");
+}
+
+function login(){
+let users = JSON.parse(localStorage.getItem("users")||"{}");
+
+let u = users[email.value];
+
+if(!u || u.pass !== pass.value){
+alert("Blogi duomenys");
+return;
+}
+
+currentUser = email.value;
+
+authBox.classList.add("hidden");
+app.classList.remove("hidden");
+
+load();
+render();
+}
+
+function logout(){
+location.reload();
+}
+
+// ===== STATE =====
+
+let currentUser = null;
 
 let xp=0, level=1, coins=0;
-let totalTasks=0, totalXP=0;
-let weeklyTasks=0;
-let historyLog=[];
+let streak=0;
+let totalTasks=0;
+let lastLogin="";
 
-const rewards = [
-{price:60,text:"picos vakarą"},
-{price:100,text:"drabužį"},
-{price:30,text:"scrollinimą"},
-{price:50,text:"žaidimus"},
-{price:80,text:"cheat maistą"},
-{price:40,text:"filmą"},
-{price:35,text:"kavą"}
+let tasks = [
+{id:1,text:"2L vandens",xp:10,done:false},
+{id:2,text:"Sportas",xp:15,done:false},
+{id:3,text:"Darbas",xp:20,done:false}
 ];
 
-function buy(i){
-let r = rewards[i];
-if(coins < r.price) return alert("❌ Neužtenka monetų");
+let achievements = [
+{id:1,text:"Pirma užduotis",done:false},
+{id:2,text:"10 užduočių",done:false},
+{id:3,text:"Level 5",done:false}
+];
 
-coins -= r.price;
-alert("🎁 Gavai: "+r.text);
+// ===== DAILY =====
 
-save(); render();
+function dailyCheck(){
+let today = new Date().toDateString();
+
+if(lastLogin !== today){
+tasks.forEach(t=>t.done=false);
+streak++;
+lastLogin = today;
+}
 }
 
-function toggle(id){
-document.getElementById(id).classList.toggle("hidden");
-}
-
-function addXP(val){
-xp+=val;
-totalXP+=val;
-coins+=Math.floor(val/2);
-
-while(xp>=100){
-xp-=100;
-level++;
-}
-
-save();
-}
+// ===== TASK =====
 
 function completeTask(id){
 let t = tasks.find(x=>x.id===id);
 if(!t || t.done) return;
 
-t.done=true;
+t.done = true;
 
-addXP(t.xp);
+xp += t.xp;
+coins += Math.floor(t.xp/2);
 totalTasks++;
-weeklyTasks++;
+
+if(xp>=100){
+xp -= 100;
+level++;
+showPopup("LEVEL UP!");
+}
+
+checkAchievements();
+showPopup("+"+t.xp+" XP");
 
 save();
 render();
 }
 
-// === TASKS (tavo paliktos) ===
-let tasks = [...(JSON.parse(localStorage.getItem("klik_ultra_tasks"))||[])];
+// ===== ACHIEVEMENTS =====
 
-if(!tasks.length){
-tasks = [
-{id:1,cat:"sveik",text:"2L vandens",xp:10,done:false},
-{id:2,cat:"sveik",text:"60min be soc tinklų",xp:10,done:false},
-{id:3,cat:"sveik",text:"30min pasivaikščiojimas",xp:12,done:false},
-{id:4,cat:"sveik",text:"50 atsispaudimų",xp:15,done:false},
-{id:5,cat:"sveik",text:"20 prisitraukimų",xp:15,done:false},
-{id:6,cat:"sveik",text:"3 valgiai",xp:10,done:false},
-{id:7,cat:"sveik",text:"24h be priklausomybių",xp:25,done:false},
-
-{id:8,cat:"prod",text:"30min pas mamą",xp:20,done:false},
-{id:9,cat:"prod",text:"Sutvarkyti namus",xp:25,done:false},
-{id:10,cat:"prod",text:"5 sutartys",xp:20,done:false},
-{id:11,cat:"prod",text:"2h garažas",xp:25,done:false},
-{id:12,cat:"prod",text:"1 skelbimas",xp:35,done:false},
-{id:13,cat:"prod",text:"1 nupirktas auto",xp:35,done:false},
-{id:14,cat:"prod",text:"1 parduotas auto",xp:35,done:false},
-{id:15,cat:"prod",text:"Atidėliotas 1",xp:20,done:false},
-{id:16,cat:"prod",text:"Atidėliotas 2",xp:30,done:false},
-
-{id:17,cat:"tobul",text:"60min mokymasis",xp:15,done:false},
-{id:18,cat:"tobul",text:"20 psl knyga",xp:15,done:false},
-{id:19,cat:"tobul",text:"CE teorija",xp:20,done:false},
-{id:20,cat:"tobul",text:"Dantys ryte",xp:10,done:false},
-{id:21,cat:"tobul",text:"Dantys vakare",xp:15,done:false},
-{id:22,cat:"tobul",text:"Prausimasis ryte",xp:15,done:false},
-{id:23,cat:"tobul",text:"Prausimasis vakare",xp:15,done:false},
-{id:24,cat:"tobul",text:"Be TV",xp:20,done:false}
-];
+function checkAchievements(){
+if(totalTasks>=1) achievements[0].done=true;
+if(totalTasks>=10) achievements[1].done=true;
+if(level>=5) achievements[2].done=true;
 }
+
+// ===== UI =====
 
 function render(){
-document.getElementById("level").innerText="Lygis: "+level;
-document.getElementById("xp").innerText="XP: "+xp+"/100";
-document.getElementById("coins").innerText=coins;
-document.getElementById("bar").style.width=xp+"%";
+levelEl.innerText="Level "+level;
+xpEl.innerText="XP "+xp;
+coinsEl.innerText=coins;
+streakEl.innerText=streak;
 
-renderCategory("sveik");
-renderCategory("prod");
-renderCategory("tobul");
-}
+tasksDiv.innerHTML="";
 
-function renderCategory(cat){
-let div=document.getElementById(cat);
-div.innerHTML="";
-
-tasks.filter(t=>t.cat===cat).forEach(t=>{
+tasks.forEach(t=>{
 let b=document.createElement("button");
-
 b.className="task"+(t.done?" done":"");
-b.textContent=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
-
-if(!t.done) b.onclick=()=>completeTask(t.id);
-else b.disabled=true;
-
-div.appendChild(b);
+b.innerText=t.text+" +"+t.xp;
+b.onclick=()=>completeTask(t.id);
+tasksDiv.appendChild(b);
 });
+
+achievementsDiv.innerHTML="";
+achievements.forEach(a=>{
+let div=document.createElement("div");
+div.innerText=(a.done?"🏆 ":"🔒 ")+a.text;
+achievementsDiv.appendChild(div);
+});
+
+stats.innerText = "Užduotys: "+totalTasks;
 }
+
+// ===== POPUP =====
+
+function showPopup(text){
+let p=document.createElement("div");
+p.className="popup";
+p.innerText=text;
+document.body.appendChild(p);
+
+setTimeout(()=>p.remove(),1000);
+}
+
+// ===== SETTINGS =====
+
+function toggleTheme(){
+document.body.classList.toggle("light");
+}
+
+function resetProgress(){
+if(confirm("Reset?")){
+xp=0;level=1;coins=0;streak=0;totalTasks=0;
+tasks.forEach(t=>t.done=false);
+save();
+render();
+}
+}
+
+// ===== SAVE =====
 
 function save(){
-localStorage.setItem("klik_ultra_tasks", JSON.stringify(tasks));
-localStorage.setItem("klik_ultra", JSON.stringify({xp,level,coins}));
+let users = JSON.parse(localStorage.getItem("users")||"{}");
+
+users[currentUser].data = {
+xp,level,coins,streak,totalTasks,tasks,achievements,lastLogin
+};
+
+localStorage.setItem("users", JSON.stringify(users));
 }
 
+// ===== LOAD =====
+
 function load(){
-let d = JSON.parse(localStorage.getItem("klik_ultra"));
-if(d){
+let users = JSON.parse(localStorage.getItem("users")||"{}");
+
+let d = users[currentUser].data;
+
+if(!d) return;
+
 xp=d.xp||0;
 level=d.level||1;
 coins=d.coins||0;
-}
+streak=d.streak||0;
+totalTasks=d.totalTasks||0;
+tasks=d.tasks||tasks;
+achievements=d.achievements||achievements;
+lastLogin=d.lastLogin||"";
+
+dailyCheck();
 }
 
-load();
+// ===== INIT =====
+
+const levelEl = document.getElementById("level");
+const xpEl = document.getElementById("xp");
+const coinsEl = document.getElementById("coins");
+const streakEl = document.getElementById("streak");
+const tasksDiv = document.getElementById("tasks");
+const achievementsDiv = document.getElementById("achievements");
+
 render();
 
 </script>
