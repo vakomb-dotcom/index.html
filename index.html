@@ -12,15 +12,35 @@ body {margin:0;background: radial-gradient(circle at top,#0a0f1f,#05070f);color:
 h1 {text-align:center;color:#00ff88;}
 
 .progress {height:12px;background:#222;border-radius:10px;overflow:hidden;}
-.fill {height:100%;background:#00ff88;}
+.fill {height:100%;background:#00ff88;transition:0.4s;}
 
 button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;font-size:15px;cursor:pointer;}
+button:hover {transform:scale(1.03);}
+button:active {transform:scale(0.97);}
+
 .task {background:#0f172a;border:1px solid #00ff88;}
 .task.done {background:#14532d;opacity:0.6;}
+
 .shop {border:1px solid gold;}
 .toggle {background:#1f2937;color:#00ff88;}
 .hidden {display:none;}
 .locked {opacity:0.5;border:1px dashed red;}
+
+.xp-popup {
+position:fixed; top:50%; left:50%;
+transform:translate(-50%,-50%);
+color:#00ff88; font-size:24px;
+animation:fadeUp 0.8s forwards;
+pointer-events:none;
+}
+
+@keyframes fadeUp {
+0% {opacity:0; transform:translate(-50%,-40%);}
+50% {opacity:1;}
+100% {opacity:0; transform:translate(-50%,-80%);}
+}
+
+.level-up {box-shadow:0 0 25px #00ff88 !important;}
 </style>
 </head>
 
@@ -28,7 +48,7 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 <div class="container">
 <h1>MOTYVACIJOS</h1>
 
-<div class="card">
+<div id="mainCard" class="card">
 <h2 id="level"></h2>
 <p id="xp"></p>
 <div class="progress"><div id="bar" class="fill"></div></div>
@@ -49,15 +69,35 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 
 <div class="card">
 <button class="toggle" onclick="toggle('shopWrap')">🎁 Apdovanojimai</button>
-<div id="shopWrap" class="hidden"></div>
+<div id="shopWrap" class="hidden">
+<button class="shop" onclick="buy(2)">📱 Scrollinimas (30)</button>
+<button class="shop" onclick="buy(6)">☕ Kava (35)</button>
+<button class="shop" onclick="buy(5)">🎬 Filmas (40)</button>
+<button class="shop" onclick="buy(3)">🎮 Žaidimai (50)</button>
+<button class="shop" onclick="buy(0)">🍕 Picos vakaras (60)</button>
+<button class="shop" onclick="buy(4)">🍔 Cheat maistas (80)</button>
+<button class="shop" onclick="buy(1)">🛍️ Naujas drabužis (100)</button>
+
+<button id="lvl5" class="shop locked">🔒 Premium (nuo 5 lygio)</button>
+<button id="lvl10" class="shop locked">🔒 Specialus (nuo 10 lygio)</button>
+</div>
 </div>
 
 <div class="card">
 <button class="toggle" onclick="toggle('menuWrap')">☰ MENIU</button>
+
 <div id="menuWrap" class="hidden">
 <button onclick="showStats()">📊 Statistika</button>
 <button onclick="showLevels()">🏆 Lygiai</button>
 <button onclick="showHistory()">📜 Istorija</button>
+
+<button onclick="toggle('weekWrap')">📅 Savaitės tikslai</button>
+<div id="weekWrap" class="hidden">
+<button onclick="weekReward(50,20,10)">✔️ 10 užduočių → +50XP +20 monetų</button>
+<button onclick="weekReward(120,50,25)">✔️ 25 užduotys → +120XP +50 monetų</button>
+<button onclick="weekReward(250,120,50)">✔️ 50 užduočių → +250XP +120 monetų</button>
+</div>
+
 <button onclick="resetGame()">❌ Atstatyti žaidimą</button>
 </div>
 </div>
@@ -66,18 +106,18 @@ button {width:100%;padding:14px;margin-top:8px;border-radius:14px;border:none;fo
 
 <script>
 
-// 🔥 STATE
 let xp=0, level=1, coins=0, streak=0;
-let totalTasks=0, totalXP=0;
+let totalTasks=0, totalXP=0, bestStreak=0;
+let weeklyTasks=0;
 let historyLog=[];
 let lastDay="";
 
-// 🔥 VILNIUS DATE
+// 🔥 VILNIUS TIME
 function getVilniusDate(){
 return new Date().toLocaleDateString("lt-LT",{timeZone:"Europe/Vilnius"});
 }
 
-// 🔥 DAILY RESET
+// 🔥 AUTO DAY RESET
 function checkNewDay(){
 let today=getVilniusDate();
 if(lastDay!==today){
@@ -86,18 +126,16 @@ lastDay=today;
 }
 }
 
-// 🔥 TIME
+// 🔥 TIME LOG
 function getTime(){
 return new Date().toLocaleString("lt-LT",{timeZone:"Europe/Vilnius"});
 }
 
-// 🔥 LOG
 function log(txt){
 historyLog.push(getTime()+" "+txt);
 }
 
-// 🔥 TASKS
-let tasks=[
+let tasks = [
 {id:1,cat:"sveik",text:"50 atsispaudimų",xp:12,done:false},
 {id:2,cat:"sveik",text:"20 prisitraukimų",xp:18,done:false},
 {id:3,cat:"sveik",text:"2L vandens",xp:10,done:false},
@@ -126,24 +164,18 @@ let tasks=[
 {id:24,cat:"tobul",text:"mokymasis",xp:16,done:false}
 ];
 
-// 🔥 SHOP
-let shopItems=[
-{id:2,text:"📱 Scrollinimas",price:30},
-{id:6,text:"☕ Kava",price:35},
-{id:5,text:"🎬 Filmas",price:40},
-{id:3,text:"🎮 Žaidimai",price:50},
-{id:0,text:"🍕 Picos vakaras",price:60},
-{id:4,text:"🍔 Cheat maistas",price:80},
-{id:1,text:"🛍️ Naujas drabužis",price:100}
-];
-
 function toggle(id){document.getElementById(id).classList.toggle("hidden");}
 
 function addXP(val){
 xp+=val;
 totalXP+=val;
 coins+=Math.floor(val/2);
-if(xp>=100){xp-=100;level++;}
+
+if(xp>=100){
+xp-=100;
+level++;
+}
+
 save(); render();
 }
 
@@ -152,6 +184,7 @@ tasks=tasks.map(t=>{
 if(t.id===id && !t.done){
 addXP(t.xp);
 totalTasks++;
+weeklyTasks++;
 log("atlikai "+t.text+" užduotį");
 return {...t,done:true};
 }
@@ -161,18 +194,62 @@ render();
 }
 
 function buy(i){
-let item=shopItems.find(x=>x.id===i);
-if(item && coins>=item.price){
-coins-=item.price;
-log("atsiėmei "+item.text);
-}
+if(i==0 && coins>=60){coins-=60;log("atsiėmei picos vakarą");}
+if(i==1 && coins>=100){coins-=100;log("atsiėmei drabužį");}
 save(); render();
 }
 
-// 🔥 RENDER TASKS (SORT BY XP)
+function weekReward(x,c,need){
+if(weeklyTasks<need){
+alert("Nepasiektas tikslas: "+weeklyTasks+"/"+need);
+return;
+}
+xp+=x;
+coins+=c;
+weeklyTasks=0;
+log("atsiėmei savaitės tikslą "+need+" užduočių");
+alert("🎯 Gavai reward!");
+save(); render();
+}
+
+function showHistory(){
+if(historyLog.length===0){alert("Tuščia");return;}
+alert(historyLog.slice(-20).join("\n"));
+}
+
+function showStats(){
+alert(`📊 Statistika
+Užduotys: ${totalTasks}
+XP: ${totalXP}
+Geriausia serija: ${bestStreak}`);
+}
+
+function showLevels(){
+alert(`🏆 Lygiai
+5 → unlock
+10 → special
+20 → PRO`);
+}
+
+function render(){
+checkNewDay();
+
+document.getElementById("level").innerText="Lygis: "+level;
+document.getElementById("xp").innerText="XP: "+xp+"/100";
+document.getElementById("coins").innerText=coins;
+document.getElementById("streak").innerText=streak;
+document.getElementById("bar").style.width=xp+"%";
+
+renderCategory("sveik");
+renderCategory("prod");
+renderCategory("tobul");
+}
+
+// 🔥 SORT TASKS
 function renderCategory(cat){
 let div=document.getElementById(cat);
 div.innerHTML="";
+
 tasks
 .filter(t=>t.cat===cat)
 .sort((a,b)=>a.xp-b.xp)
@@ -185,59 +262,28 @@ div.appendChild(b);
 });
 }
 
-// 🔥 RENDER SHOP (SORT BY PRICE)
-function renderShop(){
-let div=document.getElementById("shopWrap");
-div.innerHTML="";
-shopItems
-.sort((a,b)=>a.price-b.price)
-.forEach(item=>{
-let b=document.createElement("button");
-b.className="shop";
-b.innerText=item.text+" ("+item.price+")";
-b.onclick=()=>buy(item.id);
-div.appendChild(b);
-});
-}
-
-// 🔥 UI
-function render(){
-checkNewDay();
-
-document.getElementById("level").innerText="Lygis: "+level;
-document.getElementById("xp").innerText="XP: "+xp+"/100";
-document.getElementById("coins").innerText=coins;
-
-renderCategory("sveik");
-renderCategory("prod");
-renderCategory("tobul");
-renderShop();
-}
-
-// 🔥 SAVE
 function save(){
 localStorage.setItem("klik_ultra", JSON.stringify({
-xp,level,coins,tasks,totalTasks,totalXP,historyLog,lastDay
+xp,level,coins,streak,tasks,totalTasks,totalXP,bestStreak,weeklyTasks,historyLog,lastDay
 }));
 }
 
 function load(){
-let d=JSON.parse(localStorage.getItem("klik_ultra"));
-if(d){
-xp=d.xp;level=d.level;coins=d.coins;
-tasks=d.tasks;
-totalTasks=d.totalTasks||0;
-totalXP=d.totalXP||0;
-historyLog=d.historyLog||[];
-lastDay=d.lastDay||"";
+let data = JSON.parse(localStorage.getItem("klik_ultra"));
+if(data){
+xp=data.xp; level=data.level; coins=data.coins; streak=data.streak; tasks=data.tasks;
+totalTasks=data.totalTasks||0;
+totalXP=data.totalXP||0;
+bestStreak=data.bestStreak||0;
+weeklyTasks=data.weeklyTasks||0;
+historyLog=data.historyLog||[];
+lastDay=data.lastDay||"";
 }
 }
 
-// 🔥 INIT
 load();
 render();
 
-// 🔥 AUTO CHECK (live)
 setInterval(render,60000);
 
 </script>
