@@ -3,46 +3,30 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AutoDeal AI PRO</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<title>ŽAISK GYVENIMĄ</title>
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif;}
-body{background:#f4f7ff;color:#111;}
-.container{max-width:1000px;margin:auto;padding:30px;}
-.card{background:white;padding:30px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.1);}
-h1{text-align:center;margin-bottom:20px;}
+body {margin:0;background: linear-gradient(180deg,#0f172a,#111827,#020617);color:#e5e7eb;font-family: system-ui;}
+.container {max-width:500px;margin:auto;padding:20px;}
+h1 {text-align:center;color:#4ade80;font-weight:700;letter-spacing:1px;}
 
-.benefits{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-margin-bottom:30px;
-}
+.card {background:rgba(17,24,39,0.8);backdrop-filter: blur(12px);padding:18px;border-radius:20px;margin-top:15px;border:1px solid rgba(255,255,255,0.05);box-shadow:0 10px 30px rgba(0,0,0,0.5);}
 
-.benefit{
-background:linear-gradient(135deg,#4f46e5,#3b82f6);
-color:white;
-padding:20px;
-border-radius:14px;
-text-align:center;
-}
+.progress {height:12px;background:#1f2937;border-radius:20px;overflow:hidden;margin-top:8px;}
+.fill {height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);box-shadow:0 0 10px #22c55e;transition:0.4s;}
 
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;margin-bottom:30px;}
-.plan{border:2px solid #2563eb;padding:20px;border-radius:14px;text-align:center;cursor:pointer;}
-.plan:hover{transform:scale(1.03);}
-.price{font-size:26px;font-weight:800;margin:10px 0;color:#2563eb;}
+button {width:100%;padding:14px;margin-top:10px;border-radius:14px;border:none;font-size:15px;cursor:pointer;transition:0.2s;}
+button:hover {transform:translateY(-2px);}
+button:active {transform:scale(0.97);}
+button:disabled {opacity:0.5;cursor:not-allowed;}
 
-.info{
-background:#eef2ff;
-padding:15px;
-border-radius:12px;
-margin-bottom:15px;
-display:none;
-}
+.toggle {background:#1f2937;color:#4ade80;font-weight:600;}
 
-input,textarea{width:100%;padding:12px;margin:10px 0;border-radius:8px;border:1px solid #ddd;}
-button{padding:14px;background:#2563eb;color:white;border:none;border-radius:10px;width:100%;cursor:pointer;}
+.task {background:#020617;border:1px solid #1f2937;text-align:left;}
+.task.done {background:#052e1b;color:#4ade80;}
+
+.shop {background:#1f2937;border:1px solid #facc15;color:#facc15;}
+.hidden {display:none;}
 </style>
 </head>
 
@@ -50,71 +34,300 @@ button{padding:14px;background:#2563eb;color:white;border:none;border-radius:10p
 
 <div class="container">
 
-<h1>Parduok automobilį GREIČIAU ir BRANGIAU</h1>
+<h1>ŽAISK GYVENIMĄ</h1>
 
-<div class="benefits">
-<div class="benefit"><b>⚡ Greitas pardavimas</b><br>2–5 dienos</div>
-<div class="benefit"><b>💰 Didesnė kaina</b><br>Maksimali vertė</div>
-<div class="benefit"><b>🤝 Be streso</b><br>Mes viską padarome</div>
+<div class="card">
+<h2 id="level"></h2>
+<p id="xp"></p>
+<div class="progress"><div id="bar" class="fill"></div></div>
+<p style="margin-top:10px;">💰 Monetos: <span id="coins"></span></p>
 </div>
 
-<div class="cards">
+<div class="card">
+<button class="toggle" onclick="toggle('sveik')">💪 Sveikata</button>
+<div id="sveik" class="hidden"></div>
 
-<div class="plan" onclick="start('mini')">
-<h3>MINI PLANAS</h3>
-<div class="price">59€ + 1€/km</div>
-<p>Greitam pardavimui</p>
+<button class="toggle" onclick="toggle('prod')">📋 Produktyvumas</button>
+<div id="prod" class="hidden"></div>
+
+<button class="toggle" onclick="toggle('tobul')">🧠 Tobulėjimas</button>
+<div id="tobul" class="hidden"></div>
 </div>
 
-<div class="plan" onclick="start('standard')">
-<h3>STANDARD</h3>
-<div class="price">Nuo 149 €</div>
-<p>Maksimaliai kainai</p>
-</div>
+<div class="card">
+<button class="toggle" onclick="toggle('shopWrap')">🎁 Apdovanojimai</button>
+<div id="shopWrap" class="hidden">
+
+<button class="shop" onclick="buy(0)">🛍️ Premium pirkinys (50)</button>
+<button class="shop" onclick="buy(1)">🍕 Picos vakaras (70)</button>
+<button class="shop" onclick="buy(2)">👕 Vinted drabužis iki 17€ (80)</button>
+<button class="shop" onclick="buy(3)">💸 Išlaidos iki 25€ (100)</button>
+<button class="shop" onclick="buy(4)">🎬 Kino vakaras (200)</button>
+<button class="shop" onclick="buy(5)">💆‍♂️ Masažas (300)</button>
+<button class="shop" onclick="buy(6)">🛒 Pirkinys iki 80€ (500)</button>
+<button class="shop" onclick="buy(7)">✈️ 3 dienų kelionė (1000)</button>
 
 </div>
+</div>
 
-<div class="card" id="app" style="display:none;">
+<div class="card">
+<button class="toggle" onclick="toggle('menuWrap')">☰ MENIU</button>
+<div id="menuWrap" class="hidden">
 
-<div class="info" id="info"></div>
+<button onclick="showStats()">📊 Statistika</button>
+<button onclick="showLevels()">🏆 Lygiai</button>
+<button onclick="showHistory()">📜 Istorija</button>
 
-<h2>Užpildyk informaciją</h2>
+<button onclick="toggle('weekWrap')">📅 Savaitės tikslai</button>
 
-<input placeholder="Markė">
-<input placeholder="Modelis">
-<input placeholder="Metai">
-<input placeholder="Rida">
-<input placeholder="TA galioja iki">
-<textarea placeholder="Defektai"></textarea>
-<input placeholder="Telefono numeris">
-<input type="file" multiple>
+<div id="weekWrap" class="hidden">
+<button onclick="weekReward(50,20,10)">✔️ 10 → +50XP +20 monetų</button>
+<button onclick="weekReward(120,50,25)">✔️ 25 → +120XP +50 monetų</button>
+<button onclick="weekReward(250,120,50)">✔️ 50 → +250XP +120 monetų</button>
+</div>
 
-<button>Siųsti paraišką</button>
+<button onclick="resetGame()">❌ Atstatyti žaidimą</button>
 
+</div>
 </div>
 
 </div>
 
 <script>
-function start(plan){
-let info=document.getElementById('info');
-let text="";
 
-if(plan==="mini"){
-text="<b>Kaip atliekame paslaugą (Mini planas):</b><br><br>1. Atvykstame pas jus į vietą<br>2. Atliekame profesionalias nuotraukas<br>3. Paruošiame ir įdedame skelbimus į autoplius / autogidas<br>4. Pradedame pardavimo procesą";
+let xp=0, level=1, coins=0;
+let totalTasks=0, totalXP=0;
+let weeklyTasks=0;
+let historyLog=[];
+
+/* DAILY (added only) */
+let lastDate = "";
+
+function today(){
+return new Date().toISOString().split("T")[0];
 }
 
-if(plan==="standard"){
-text="<b>Kaip atliekame paslaugą (Standard planas):</b><br><br>1. Atgabenate automobilį į Ukmergę<br>2. Išsiurbiame ir išplauname automobilį<br>3. Jei reikia – atliekame cheminį valymą<br>4. Jei reikia – poliruojame kėbulą ir žibintus<br>5. Atliekame profesionalias nuotraukas<br>6. Įdedame skelbimus ir pradedame pardavimą";
+function checkNewDay(){
+if(lastDate !== today()){
+tasks.forEach(t => t.done = false);
+lastDate = today();
+save();
+}
+}
+/* END DAILY */
+
+let stats = {
+walk:0, water:0, pushups:0, pullups:0,
+contracts:0, ads:0, bought:0, sold:0, delayed:0,
+learning:0, ce:0, books:0, notv:0
+};
+
+const rewards = [
+{price:50,text:"premium pirkinį"},
+{price:70,text:"picos vakarą"},
+{price:80,text:"drabužį iš Vinted (iki 17€)"},
+{price:100,text:"išlaidas iki 25€"},
+{price:200,text:"kino vakarą"},
+{price:300,text:"masažą"},
+{price:500,text:"pirkinį iki 80€"},
+{price:1000,text:"3 dienų kelionę"}
+];
+
+function log(txt){
+historyLog.push(new Date().toLocaleTimeString()+" - "+txt);
 }
 
-info.innerHTML=text;
-info.style.display="block";
-
-document.getElementById('app').style.display='block';
-
-window.scrollTo({top:document.getElementById('app').offsetTop,behavior:'smooth'});
+function buy(i){
+let r = rewards[i];
+if(coins < r.price){alert("❌ Neužtenka monetų");return;}
+coins -= r.price;
+log("Nupirkta: "+r.text);
+alert("🎁 Gavai: "+r.text);
+save(); render();
 }
+
+function toggle(id){document.getElementById(id).classList.toggle("hidden");}
+
+function resetGame(){
+if(confirm("Ištrinti progresą?")){
+localStorage.clear(); location.reload();
+}
+}
+
+function addXP(val){
+xp+=val;
+totalXP+=val;
+coins+=Math.floor(val/2);
+while(xp>=100){xp-=100;level++;}
+}
+
+function track(t){
+if(t.text==="30min pasivaikščiojimas") stats.walk+=30;
+if(t.text==="2L vandens") stats.water+=2;
+if(t.text==="50 atsispaudimų") stats.pushups+=50;
+if(t.text==="20 prisitraukimų") stats.pullups+=20;
+
+if(t.text==="5 pardavimo sutartys") stats.contracts+=5;
+if(t.text==="1 į skelbimus automobilis") stats.ads+=1;
+if(t.text==="1 nupirktas automobilis") stats.bought+=1;
+if(t.text==="1 parduotas automobilis") stats.sold+=1;
+if(t.text==="Atidėliotas dalykas (1)") stats.delayed+=1;
+if(t.text==="Atidėliotas dalykas (2)") stats.delayed+=2;
+
+if(t.text==="60min mokymasis") stats.learning+=60;
+if(t.text==="60min CE teorija") stats.ce+=60;
+if(t.text==="20 puslapių skaitymas") stats.books+=1;
+if(t.text==="Diena be TV") stats.notv+=1;
+}
+
+function completeTask(id){
+let t=tasks.find(x=>x.id===id);
+if(!t||t.done)return;
+
+t.done=true;
+addXP(t.xp);
+track(t);
+
+totalTasks++; weeklyTasks++;
+
+log("Atlikta: "+t.text);
+
+save(); render();
+}
+
+function weekReward(x,c,need){
+if(weeklyTasks<need){
+alert(`Reikia dar ${need-weeklyTasks} užduočių`);
+return;
+}
+
+addXP(x);
+coins+=c;
+weeklyTasks-=need;
+
+log(`Savaitės reward (${need})`);
+
+alert("🎯 Reward paimtas!");
+save(); render();
+}
+
+function showHistory(){
+if(!historyLog.length){
+alert("Dar nėra veiksmų");
+return;
+}
+alert(historyLog.slice(-20).join("\n"));
+}
+
+function showStats(){
+alert(`📊 PRO STATISTIKA
+
+💪 SVEIKATA
+👣 ${stats.walk} min
+💧 ${stats.water} L
+💪 ${stats.pushups}
+🧗 ${stats.pullups}
+
+📋 PRODUKTYVUMAS
+📄 ${stats.contracts}
+🚗 ${stats.ads}
+💰 ${stats.bought}
+🏁 ${stats.sold}
+⏳ ${stats.delayed}
+
+🧠 TOBULĖJIMAS
+📚 ${stats.learning} min
+🚛 ${stats.ce} min
+📖 ${stats.books*20} psl
+📺 ${stats.notv}
+
+✔️ ${totalTasks} užduočių
+⭐ ${totalXP} XP
+`);
+}
+
+function showLevels(){alert("Lygiai: 5 / 10 / 20");}
+
+let tasks=[
+{id:1,cat:"sveik",text:"2L vandens",xp:10,done:false},
+{id:2,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10,done:false},
+{id:3,cat:"sveik",text:"30min pasivaikščiojimas",xp:12,done:false},
+{id:4,cat:"sveik",text:"50 atsispaudimų",xp:15,done:false},
+{id:5,cat:"sveik",text:"20 prisitraukimų",xp:15,done:false},
+{id:6,cat:"sveik",text:"3 kartai valgymas",xp:10,done:false},
+{id:7,cat:"sveik",text:"24h be priklausomybių",xp:25,done:false},
+
+{id:8,cat:"prod",text:"30min pas mamą",xp:20,done:false},
+{id:9,cat:"prod",text:"Sutvarkyti namus",xp:25,done:false},
+{id:10,cat:"prod",text:"5 pardavimo sutartys",xp:20,done:false},
+{id:11,cat:"prod",text:"2h darbas garaže",xp:25,done:false},
+{id:12,cat:"prod",text:"1 į skelbimus automobilis",xp:35,done:false},
+{id:13,cat:"prod",text:"1 nupirktas automobilis",xp:35,done:false},
+{id:14,cat:"prod",text:"1 parduotas automobilis",xp:35,done:false},
+{id:15,cat:"prod",text:"Atidėliotas dalykas (1)",xp:20,done:false},
+{id:16,cat:"prod",text:"Atidėliotas dalykas (2)",xp:30,done:false},
+
+{id:17,cat:"tobul",text:"60min mokymasis",xp:15,done:false},
+{id:18,cat:"tobul",text:"20 puslapių skaitymas",xp:15,done:false},
+{id:19,cat:"tobul",text:"60min CE teorija",xp:20,done:false},
+{id:20,cat:"tobul",text:"Dantys ryte",xp:10,done:false},
+{id:21,cat:"tobul",text:"Dantys vakare",xp:15,done:false},
+{id:22,cat:"tobul",text:"Prausimasis ryte",xp:15,done:false},
+{id:23,cat:"tobul",text:"Prausimasis vakare",xp:15,done:false},
+{id:24,cat:"tobul",text:"Diena be TV",xp:20,done:false}
+];
+
+function render(){
+document.getElementById("level").innerText="Lygis: "+level;
+document.getElementById("xp").innerText="XP: "+xp+"/100";
+document.getElementById("coins").innerText=coins;
+document.getElementById("bar").style.width=xp+"%";
+renderCategory("sveik");
+renderCategory("prod");
+renderCategory("tobul");
+}
+
+function renderCategory(cat){
+let div=document.getElementById(cat);
+div.innerHTML="";
+tasks.filter(t=>t.cat===cat).forEach(t=>{
+let b=document.createElement("button");
+b.className="task"+(t.done?" done":"");
+b.textContent=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
+if(!t.done) b.onclick=()=>completeTask(t.id);
+else b.disabled=true;
+div.appendChild(b);
+});
+}
+
+function save(){
+localStorage.setItem("klik_ultra", JSON.stringify({
+xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,stats,historyLog,lastDate
+}));
+}
+
+function load(){
+let d=JSON.parse(localStorage.getItem("klik_ultra"));
+if(d){
+xp=d.xp||0; level=d.level||1; coins=d.coins||0;
+tasks=d.tasks||tasks;
+totalTasks=d.totalTasks||0;
+totalXP=d.totalXP||0;
+weeklyTasks=d.weeklyTasks||0;
+stats=d.stats||stats;
+historyLog=d.historyLog||[];
+lastDate=d.lastDate||"";
+}
+}
+
+load();
+checkNewDay();
+render();
+// 🔥 AUTO DAILY CHECK (kas 30 sek)
+setInterval(() => {
+checkNewDay();
+render();
+}, 30000);
 </script>
 
 </body>
