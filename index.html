@@ -5,60 +5,196 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>10K MISIJA</title>
 
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
 <style>
-body{margin:0;font-family:Inter;background:#f4f7fb;}
-.container{max-width:700px;margin:auto;padding:20px;}
-h1{text-align:center;color:#16a34a;}
 
-.card{
-background:white;
+body{
+margin:0;
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#eef2ff,#f8fafc);
+color:#111;
+}
+
+.container{
+max-width:700px;
+margin:auto;
 padding:20px;
-border-radius:16px;
+}
+
+h1{
+text-align:center;
+color:#16a34a;
+font-size:36px;
+font-weight:800;
+margin-bottom:15px;
+}
+
+/* CARD */
+.card{
+background:rgba(255,255,255,0.9);
+backdrop-filter: blur(12px);
+padding:22px;
+border-radius:20px;
 margin-top:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+transition:0.25s;
 }
 
-.progress{height:18px;background:#e5e7eb;border-radius:20px;overflow:hidden;}
-.fill{height:100%;background:#22c55e;}
-
-.big{font-size:22px;font-weight:bold;}
-.week{color:#2563eb;}
-
-input,textarea{
-width:100%;padding:12px;margin-top:10px;
-border-radius:10px;border:1px solid #ddd;
+.card:hover{
+transform:translateY(-2px);
 }
 
-button{
-width:100%;padding:12px;margin-top:10px;
-border:none;border-radius:10px;
-background:#22c55e;color:white;font-weight:bold;
-cursor:pointer;
+/* HEADERS */
+.card-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
 }
 
-.log{
+.card-header h3{
+margin:0;
+font-size:22px;
+}
+
+/* PROGRESS */
+.progress{
+height:18px;
+background:#e5e7eb;
+border-radius:30px;
+overflow:hidden;
+margin-top:12px;
+}
+
+.fill{
+height:100%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+box-shadow:0 0 12px rgba(34,197,94,0.5);
+transition:0.4s;
+}
+
+.big{
+font-size:26px;
+font-weight:800;
 margin-top:10px;
+}
+
+.week{
+color:#2563eb;
+font-weight:600;
+margin-top:5px;
+}
+
+/* INPUT */
+input, textarea{
+width:100%;
+padding:14px;
+margin-top:10px;
+border-radius:14px;
+border:1px solid #e5e7eb;
+font-size:15px;
 background:#f9fafb;
-padding:10px;
+}
+
+input:focus, textarea:focus{
+outline:none;
+border-color:#22c55e;
+}
+
+/* BUTTON */
+button{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:14px;
+background:linear-gradient(90deg,#22c55e,#16a34a);
+color:white;
+font-weight:700;
+cursor:pointer;
+transition:0.2s;
+}
+
+button:hover{
+transform:translateY(-1px);
+box-shadow:0 6px 18px rgba(34,197,94,0.3);
+}
+
+button:active{
+transform:scale(0.97);
+}
+
+/* SMALL BTN */
+.toggleBtn{
+background:#111;
+font-size:12px;
+padding:6px 10px;
 border-radius:10px;
-max-height:200px;
+width:auto;
+}
+
+/* LOG */
+.log{
+margin-top:12px;
+background:#f1f5f9;
+padding:12px;
+border-radius:14px;
+max-height:220px;
 overflow:auto;
+font-size:14px;
+line-height:1.6;
 display:none;
 }
 
+/* TASK */
 .task{
 display:flex;
 justify-content:space-between;
-background:#f9fafb;
-padding:10px;
-border-radius:10px;
-margin-top:8px;
+align-items:center;
+background:#f8fafc;
+padding:12px;
+border-radius:14px;
+margin-top:10px;
+border:1px solid #e5e7eb;
+transition:0.2s;
 }
 
-.task.done{background:#dcfce7;text-decoration:line-through;}
-.delete{background:#ef4444;color:white;border:none;border-radius:6px;}
-.toggleBtn{background:#111;color:white;margin-top:5px;}
-.reset{background:#ef4444;}
+.task:hover{
+background:#f1f5f9;
+}
+
+.task-left{
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.task.done{
+background:#dcfce7;
+text-decoration:line-through;
+}
+
+.task input{
+transform:scale(1.2);
+cursor:pointer;
+}
+
+/* DELETE */
+.delete{
+background:#ef4444;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* RESET */
+.reset{
+background:#ef4444;
+}
+
 </style>
 </head>
 
@@ -70,14 +206,19 @@ margin-top:8px;
 
 <!-- PROFIT -->
 <div class="card">
-<h3>💰 PELNAS <button class="toggleBtn" onclick="toggle('profitLog')">📜 Log</button></h3>
+<div class="card-header">
+<h3>💰 PELNAS</h3>
+<button class="toggleBtn" onclick="toggle('profitLog')">📜 Log</button>
+</div>
 
-<input id="profitAmount" type="number">
-<textarea id="profitDesc"></textarea>
+<input id="profitAmount" type="number" placeholder="Pvz 800">
+<textarea id="profitDesc" placeholder="Pvz Xtrail pelnas"></textarea>
 
-<button onclick="addProfit()">➕ Pridėti</button>
+<button onclick="addProfit()">➕ Pridėti pelną</button>
 
-<div class="progress"><div id="profitBar" class="fill"></div></div>
+<div class="progress">
+<div id="profitBar" class="fill"></div>
+</div>
 
 <p class="big" id="profitText"></p>
 <p class="week" id="weekProfit"></p>
@@ -87,12 +228,16 @@ margin-top:8px;
 
 <!-- TASKS -->
 <div class="card">
-<h3>📋 VEIKSMAI <button class="toggleBtn" onclick="toggle('taskLog')">📜 Log</button></h3>
+<div class="card-header">
+<h3>📋 VEIKSMAI</h3>
+<button class="toggleBtn" onclick="toggle('taskLog')">📜 Log</button>
+</div>
 
-<input id="taskInput">
-<button onclick="addTask()">➕ Pridėti</button>
+<input id="taskInput" placeholder="Pvz: išplauti mašiną">
+<button onclick="addTask()">➕ Pridėti veiksmą</button>
 
 <div id="taskList"></div>
+
 <div id="taskLog" class="log"></div>
 </div>
 
@@ -121,7 +266,7 @@ return new Date().toLocaleString();
 // DAILY RESET
 function checkDay(){
 if(lastDate!==today()){
-tasks = tasks.filter(t=>!t.done); // ištrina DONE
+tasks = tasks.filter(t=>!t.done);
 lastDate = today();
 save();
 }
@@ -133,7 +278,6 @@ let val=parseInt(profitAmount.value);
 if(!val) return;
 
 profit+=val;
-
 profitLogs.unshift(`${now()} — ${profitDesc.value} +${val}€`);
 
 profitAmount.value="";
@@ -168,7 +312,7 @@ tasks.splice(i,1);
 save(); render();
 }
 
-// WEEK PROFIT
+// WEEK
 function calcWeek(){
 let nowDate=new Date();
 let weekAgo=new Date();
@@ -178,13 +322,16 @@ let sum=0;
 
 profitLogs.forEach(l=>{
 let d=new Date(l.split(" — ")[0]);
-if(d>=weekAgo) sum+=parseInt(l.split("+")[1]);
+if(d>=weekAgo){
+let val=parseInt(l.split("+")[1]);
+if(!isNaN(val)) sum+=val;
+}
 });
 
 return sum;
 }
 
-// TOGGLE LOG
+// TOGGLE
 function toggle(id){
 let el=document.getElementById(id);
 el.style.display = el.style.display==="block"?"none":"block";
@@ -195,25 +342,22 @@ function render(){
 
 checkDay();
 
-// progress
 profitBar.style.width=Math.min(profit/10000*100,100)+"%";
 profitText.innerText=`${profit}€ / 10 000€`;
 weekProfit.innerText=`📅 7 dienos: ${calcWeek()}€`;
 
-// logs
 profitLog.innerHTML=profitLogs.join("<br>");
 taskLog.innerHTML=taskLogs.join("<br>");
 
-// tasks
 taskList.innerHTML="";
 tasks.forEach((t,i)=>{
 let div=document.createElement("div");
 div.className="task"+(t.done?" done":"");
 
 div.innerHTML=`
-<div>
+<div class="task-left">
 <input type="checkbox" ${t.done?"checked":""} onclick="toggleTask(${i})">
-${t.text}
+<span>${t.text}</span>
 </div>
 <button class="delete" onclick="deleteTask(${i})">X</button>
 `;
