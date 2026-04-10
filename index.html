@@ -8,34 +8,36 @@
 <style>
 body{
 margin:0;
-font-family:Arial;
-background:linear-gradient(180deg,#020617,#0f172a);
-color:#e5e7eb;
+font-family:Inter, Arial;
+background:#f3f6fb;
+color:#111;
 }
 
 .container{
-max-width:600px;
+max-width:700px;
 margin:auto;
 padding:20px;
 }
 
 h1{
 text-align:center;
-color:#4ade80;
+color:#16a34a;
 }
 
 .card{
-background:#111827;
+background:white;
 padding:20px;
 border-radius:16px;
 margin-top:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
 .progress{
-height:14px;
-background:#1f2937;
+height:16px;
+background:#e5e7eb;
 border-radius:20px;
 overflow:hidden;
+margin-top:10px;
 }
 
 .fill{
@@ -46,10 +48,10 @@ transition:0.4s;
 
 input, textarea{
 width:100%;
-padding:10px;
+padding:12px;
 margin-top:10px;
 border-radius:10px;
-border:none;
+border:1px solid #ddd;
 }
 
 button{
@@ -59,9 +61,13 @@ margin-top:10px;
 border:none;
 border-radius:10px;
 background:#22c55e;
-color:black;
+color:white;
 font-weight:bold;
 cursor:pointer;
+}
+
+button:hover{
+opacity:0.9;
 }
 
 .log{
@@ -69,9 +75,32 @@ margin-top:15px;
 max-height:200px;
 overflow:auto;
 font-size:14px;
-background:#020617;
+background:#f9fafb;
 padding:10px;
 border-radius:10px;
+}
+
+.task{
+display:flex;
+align-items:center;
+gap:10px;
+background:#f9fafb;
+padding:10px;
+border-radius:10px;
+margin-top:8px;
+}
+
+.task.done{
+background:#dcfce7;
+text-decoration:line-through;
+}
+.reset{
+background:#ef4444;
+}
+.streak{
+text-align:center;
+font-weight:bold;
+color:#16a34a;
 }
 </style>
 </head>
@@ -80,53 +109,61 @@ border-radius:10px;
 
 <div class="container">
 
-<h1>🎯 10K PER 4 SAVAITES</h1>
+<h1>🎯 10K MISIJA</h1>
+
+<div class="streak" id="streak">🔥 Streak: 0 dienų</div>
 
 <!-- PROFIT -->
 <div class="card">
-<h3>💰 PELNAS (tikslas 10 000€)</h3>
+<h3>💰 PELNAS (10 000€)</h3>
 
-<input id="profitAmount" type="number" placeholder="Įrašyk pelną (pvz 800)">
-<textarea id="profitDesc" placeholder="Pvz: Xtrail 2005 pelnas"></textarea>
+<input id="profitAmount" type="number" placeholder="Pvz 800">
+<textarea id="profitDesc" placeholder="Pvz Xtrail pelnas"></textarea>
 
-<button onclick="addProfit()">➕ Pridėti pelną</button>
+<button onclick="addProfit()">➕ Pridėti</button>
 
-<div class="progress">
-<div id="profitBar" class="fill"></div>
-</div>
-
-<p id="profitText">0€ / 10000€</p>
+<div class="progress"><div id="profitBar" class="fill"></div></div>
+<p id="profitText"></p>
 
 <div id="profitLog" class="log"></div>
 </div>
 
 <!-- TURNOVER -->
 <div class="card">
-<h3>💸 APYVARTA (tikslas 20 000€)</h3>
+<h3>💸 APYVARTA (20 000€)</h3>
 
-<input id="turnoverAmount" type="number" placeholder="Įrašyk sumą (pvz 1900)">
-<textarea id="turnoverDesc" placeholder="Pvz: pardavimas"></textarea>
+<input id="turnoverAmount" type="number">
+<textarea id="turnoverDesc"></textarea>
 
-<button onclick="addTurnover()">➕ Pridėti apyvartą</button>
+<button onclick="addTurnover()">➕ Pridėti</button>
 
-<div class="progress">
-<div id="turnoverBar" class="fill"></div>
-</div>
-
-<p id="turnoverText">0€ / 20000€</p>
+<div class="progress"><div id="turnoverBar" class="fill"></div></div>
+<p id="turnoverText"></p>
 
 <div id="turnoverLog" class="log"></div>
 </div>
+
+<!-- TASKS -->
+<div class="card">
+<h3>📋 VEIKSMAI</h3>
+
+<input id="taskInput" placeholder="Pvz: išplauti mašiną">
+<button onclick="addTask()">➕ Pridėti veiksmą</button>
+
+<div id="taskList"></div>
+</div>
+
+<button class="reset" onclick="resetAll()">❌ RESET VISKĄ</button>
 
 </div>
 
 <script>
 
 // STATE
-let profit = 0;
-let turnover = 0;
-let profitLogs = [];
-let turnoverLogs = [];
+let profit=0, turnover=0;
+let profitLogs=[], turnoverLogs=[];
+let tasks=[];
+let streak=0;
 
 // TIME
 function now(){
@@ -135,69 +172,111 @@ return new Date().toLocaleString();
 
 // ADD PROFIT
 function addProfit(){
-let amount = parseInt(document.getElementById("profitAmount").value);
-let desc = document.getElementById("profitDesc").value;
+let val=parseInt(profitAmount.value);
+if(!val) return;
 
-if(!amount) return;
+profit+=val;
+profitLogs.unshift(`${now()} — ${profitDesc.value} +${val}€`);
 
-profit += amount;
+profitAmount.value="";
+profitDesc.value="";
 
-let entry = `${now()} — ${desc} +${amount}€`;
-profitLogs.unshift(entry);
-
-save();
-render();
+save(); render();
 }
 
 // ADD TURNOVER
 function addTurnover(){
-let amount = parseInt(document.getElementById("turnoverAmount").value);
-let desc = document.getElementById("turnoverDesc").value;
+let val=parseInt(turnoverAmount.value);
+if(!val) return;
 
-if(!amount) return;
+turnover+=val;
+turnoverLogs.unshift(`${now()} — ${turnoverDesc.value} +${val}€`);
 
-turnover += amount;
+turnoverAmount.value="";
+turnoverDesc.value="";
 
-let entry = `${now()} — ${desc} +${amount}€`;
-turnoverLogs.unshift(entry);
+save(); render();
+}
 
-save();
-render();
+// TASKS
+function addTask(){
+let text=taskInput.value;
+if(!text) return;
+
+tasks.push({text,done:false});
+taskInput.value="";
+
+save(); render();
+}
+
+function toggleTask(i){
+tasks[i].done=!tasks[i].done;
+save(); render();
 }
 
 // RENDER
 function render(){
 
 // bars
-let pPercent = Math.min((profit/10000)*100,100);
-let tPercent = Math.min((turnover/20000)*100,100);
-
-document.getElementById("profitBar").style.width = pPercent+"%";
-document.getElementById("turnoverBar").style.width = tPercent+"%";
+profitBar.style.width=Math.min(profit/10000*100,100)+"%";
+turnoverBar.style.width=Math.min(turnover/20000*100,100)+"%";
 
 // text
-document.getElementById("profitText").innerText = `${profit}€ / 10000€`;
-document.getElementById("turnoverText").innerText = `${turnover}€ / 20000€`;
+profitText.innerText=`${profit}€ / 10000€`;
+turnoverText.innerText=`${turnover}€ / 20000€`;
 
 // logs
-document.getElementById("profitLog").innerHTML = profitLogs.join("<br>");
-document.getElementById("turnoverLog").innerHTML = turnoverLogs.join("<br>");
+profitLog.innerHTML=profitLogs.join("<br>");
+turnoverLog.innerHTML=turnoverLogs.join("<br>");
+
+// tasks
+taskList.innerHTML="";
+tasks.forEach((t,i)=>{
+let div=document.createElement("div");
+div.className="task"+(t.done?" done":"");
+div.innerHTML=`<input type="checkbox" ${t.done?"checked":""} onclick="toggleTask(${i})"> ${t.text}`;
+taskList.appendChild(div);
+});
+
+// streak
+streakEl=document.getElementById("streak");
+streakEl.innerText=`🔥 Streak: ${streak} dienų`;
 }
 
 // SAVE
 function save(){
-localStorage.setItem("tracker_profit", profit);
-localStorage.setItem("tracker_turnover", turnover);
-localStorage.setItem("tracker_profit_logs", JSON.stringify(profitLogs));
-localStorage.setItem("tracker_turnover_logs", JSON.stringify(turnoverLogs));
+localStorage.setItem("p",profit);
+localStorage.setItem("t",turnover);
+localStorage.setItem("pl",JSON.stringify(profitLogs));
+localStorage.setItem("tl",JSON.stringify(turnoverLogs));
+localStorage.setItem("tasks",JSON.stringify(tasks));
+localStorage.setItem("streak",streak);
 }
 
 // LOAD
 function load(){
-profit = parseInt(localStorage.getItem("tracker_profit")) || 0;
-turnover = parseInt(localStorage.getItem("tracker_turnover")) || 0;
-profitLogs = JSON.parse(localStorage.getItem("tracker_profit_logs")) || [];
-turnoverLogs = JSON.parse(localStorage.getItem("tracker_turnover_logs")) || [];
+profit=parseInt(localStorage.getItem("p"))||0;
+turnover=parseInt(localStorage.getItem("t"))||0;
+profitLogs=JSON.parse(localStorage.getItem("pl"))||[];
+turnoverLogs=JSON.parse(localStorage.getItem("tl"))||[];
+tasks=JSON.parse(localStorage.getItem("tasks"))||[];
+streak=parseInt(localStorage.getItem("streak"))||0;
+}
+
+// RESET
+function resetAll(){
+if(!confirm("Tikrai ištrinti viską?")) return;
+
+localStorage.clear();
+
+profit=0;
+turnover=0;
+profitLogs=[];
+turnoverLogs=[];
+tasks=[];
+streak=0;
+
+render();
 }
 
 // INIT
