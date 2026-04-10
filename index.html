@@ -10,110 +10,122 @@
 
 <style>
 
+*{box-sizing:border-box;}
+
 body{
 margin:0;
 font-family:'Inter',sans-serif;
-background:linear-gradient(135deg,#e0f2fe,#f8fafc);
+background:linear-gradient(180deg,#dbeafe,#f8fafc);
 color:#0f172a;
 }
 
 .container{
-max-width:720px;
+max-width:500px;
 margin:auto;
-padding:20px;
+padding:16px;
 }
 
+/* TOP */
 .topbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
+margin-bottom:10px;
 }
 
 h1{
-font-size:30px;
+font-size:26px;
 font-weight:800;
-background:linear-gradient(90deg,#16a34a,#22c55e);
--webkit-background-clip:text;
-color:transparent;
+color:#22c55e;
 }
 
 .menuBtn{
-background:linear-gradient(90deg,#111,#333);
-color:white;
-padding:8px 14px;
+width:44px;
+height:44px;
 border-radius:12px;
-cursor:pointer;
+background:#111;
+color:white;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:18px;
 }
 
+/* MENU */
 .menu{
 display:none;
-margin-top:12px;
-padding:20px;
+margin-top:10px;
+padding:16px;
 border-radius:18px;
-background:rgba(255,255,255,0.7);
-backdrop-filter:blur(10px);
+background:white;
 box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
 .stat{
 display:flex;
 justify-content:space-between;
-margin-bottom:10px;
+align-items:center;
+margin-bottom:12px;
 }
 
+.stat button{
+width:40px;
+height:40px;
+border-radius:10px;
+}
+
+/* CARD */
 .card{
-background:rgba(255,255,255,0.8);
-backdrop-filter:blur(12px);
-padding:20px;
+background:white;
+padding:16px;
 border-radius:20px;
-margin-top:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+margin-top:16px;
+box-shadow:0 8px 25px rgba(0,0,0,0.06);
 }
 
 .card-header{
 display:flex;
 justify-content:space-between;
 align-items:center;
-}
-
-button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:12px;
-background:linear-gradient(90deg,#22c55e,#16a34a);
-color:white;
-font-weight:600;
-cursor:pointer;
-transition:0.2s;
-}
-
-button:hover{
-transform:scale(1.02);
+margin-bottom:10px;
 }
 
 .toggleBtn{
 background:#0f172a;
-padding:6px 10px;
+color:white;
+padding:6px 12px;
+border-radius:999px;
 font-size:12px;
-width:auto;
 }
 
+/* INPUT */
 input, textarea{
 width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:12px;
+padding:14px;
+border-radius:14px;
 border:1px solid #e5e7eb;
-background:#f8fafc;
+background:#f9fafb;
+margin-top:10px;
+font-size:14px;
 }
 
+/* BUTTON */
+.mainBtn{
+margin-top:12px;
+padding:14px;
+border:none;
+border-radius:14px;
+background:linear-gradient(90deg,#22c55e,#16a34a);
+color:white;
+font-weight:600;
+}
+
+/* PROGRESS */
 .progress{
-height:14px;
+height:10px;
 background:#e5e7eb;
 border-radius:20px;
-margin-top:10px;
+margin-top:12px;
 overflow:hidden;
 }
 
@@ -122,34 +134,22 @@ height:100%;
 background:linear-gradient(90deg,#22c55e,#4ade80);
 }
 
-.big{font-size:24px;font-weight:800;}
-.week{color:#2563eb;}
-
-.log{
-display:none;
+/* TEXT */
+.big{
+font-size:26px;
+font-weight:800;
 margin-top:10px;
-background:#0f172a;
-color:#e2e8f0;
-padding:12px;
-border-radius:12px;
-max-height:200px;
-overflow:auto;
-font-size:13px;
 }
 
+/* TASK */
 .task{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:10px;
+padding:12px;
+border-radius:12px;
 background:#f1f5f9;
-border-radius:10px;
 margin-top:8px;
-transition:0.2s;
-}
-
-.task:hover{
-background:#e2e8f0;
 }
 
 .task.done{
@@ -157,8 +157,31 @@ opacity:0.5;
 text-decoration:line-through;
 }
 
+/* LOG */
+.log{
+display:none;
+margin-top:12px;
+}
+
+.log-item{
+background:#0f172a;
+color:white;
+padding:10px;
+border-radius:10px;
+margin-bottom:8px;
+font-size:13px;
+}
+
+/* RESET */
 .reset{
+margin-top:20px;
+padding:14px;
+width:100%;
+border:none;
+border-radius:14px;
 background:#ef4444;
+color:white;
+font-weight:600;
 }
 
 </style>
@@ -170,13 +193,23 @@ background:#ef4444;
 
 <div class="topbar">
 <h1>🎯 10K MISIJA</h1>
-<div class="menuBtn" onclick="toggle('menu')">☰</div>
+<div class="menuBtn" onclick="toggle('menu')">≡</div>
 </div>
 
 <div id="menu" class="menu">
-<div class="stat">Nupirkta: <b id="boughtText">0</b> <button onclick="bought++;save();render()">+</button></div>
-<div class="stat">Parduota: <b id="soldText">0</b> <button onclick="sold++;save();render()">+</button></div>
+
+<div class="stat">
+<span>Nupirkta: <b id="boughtText">0</b></span>
+<button onclick="bought++;save();render()">+</button>
+</div>
+
+<div class="stat">
+<span>Parduota: <b id="soldText">0</b></span>
+<button onclick="sold++;save();render()">+</button>
+</div>
+
 <canvas id="chart"></canvas>
+
 </div>
 
 <!-- PROFIT -->
@@ -186,15 +219,14 @@ background:#ef4444;
 <button class="toggleBtn" onclick="toggle('profitLog')">Log</button>
 </div>
 
-<input id="profitAmount" type="number" placeholder="Suma">
-<textarea id="profitDesc" placeholder="Aprašymas"></textarea>
+<input id="profitAmount" placeholder="Suma" type="number">
+<textarea id="profitDesc" placeholder="Pvz: Xtrail pardavimas"></textarea>
 
-<button onclick="addProfit()">Pridėti pelną</button>
+<button class="mainBtn" onclick="addProfit()">Pridėti pelną</button>
 
 <div class="progress"><div id="profitBar" class="fill"></div></div>
 
 <p class="big" id="profitText"></p>
-<p class="week" id="weekProfit"></p>
 
 <div id="profitLog" class="log"></div>
 </div>
@@ -207,7 +239,7 @@ background:#ef4444;
 </div>
 
 <input id="taskInput" placeholder="Įrašyk užduotį...">
-<button onclick="addTask()">Pridėti</button>
+<button class="mainBtn" onclick="addTask()">Pridėti</button>
 
 <div id="taskList"></div>
 <div id="taskLog" class="log"></div>
@@ -226,8 +258,7 @@ let lastReset=null;
 let chart;
 
 function now(){
-let d=new Date();
-return d.toLocaleString('lt-LT');
+return new Date().toLocaleString('lt-LT');
 }
 
 // PROFIT
@@ -239,7 +270,11 @@ let desc=profitDesc.value || "—";
 
 profit+=val;
 
-profitLogs.unshift(`${now()} — 💰 +${val}€ (${desc})`);
+profitLogs.unshift({
+time:now(),
+text:`+${val}€`,
+desc:desc
+});
 
 profitAmount.value="";
 profitDesc.value="";
@@ -247,7 +282,7 @@ profitDesc.value="";
 save(); render(); updateChart();
 }
 
-// TASKS
+// TASK
 function addTask(){
 let t=taskInput.value.trim();
 if(!t) return;
@@ -261,12 +296,16 @@ function toggleTask(i){
 tasks[i].done=!tasks[i].done;
 
 if(tasks[i].done){
-taskLogs.unshift(`${now()} — ✅ ${tasks[i].text}`);
+taskLogs.unshift({
+time:now(),
+text:tasks[i].text
+});
 }
 
 save(); renderTasks();
 }
 
+// RENDER TASK
 function renderTasks(){
 taskList.innerHTML=tasks.map((t,i)=>`
 <div class="task ${t.done?'done':''}">
@@ -275,10 +314,12 @@ taskList.innerHTML=tasks.map((t,i)=>`
 </div>
 `).join("");
 
-taskLog.innerHTML=taskLogs.join("<br>");
+taskLog.innerHTML=taskLogs.map(l=>`
+<div class="log-item">${l.time}<br>✅ ${l.text}</div>
+`).join("");
 }
 
-// MIDNIGHT
+// RESET DAY
 function checkReset(){
 let today=new Date().toDateString();
 if(lastReset!==today){
@@ -288,12 +329,13 @@ save();
 }
 }
 
-// CHART
+// CHART FIX
 function updateChart(){
 let map={};
+
 profitLogs.forEach(l=>{
-let d=l.split(",")[0];
-let v=parseInt(l.match(/\+(\d+)/)?.[1]||0);
+let d=l.time.split(" ")[0];
+let v=parseInt(l.text.replace("+",""));
 map[d]=(map[d]||0)+v;
 });
 
@@ -303,7 +345,11 @@ chart=new Chart(document.getElementById("chart"),{
 type:'line',
 data:{
 labels:Object.keys(map),
-datasets:[{data:Object.values(map),borderColor:'#22c55e'}]
+datasets:[{
+data:Object.values(map),
+borderColor:'#22c55e',
+tension:0.4
+}]
 }
 });
 }
@@ -314,11 +360,14 @@ let el=document.getElementById(id);
 el.style.display=el.style.display==="block"?"none":"block";
 }
 
+// RENDER
 function render(){
 profitBar.style.width=Math.min(profit/10000*100,100)+"%";
 profitText.innerText=`${profit}€ / 10 000€`;
 
-profitLog.innerHTML=profitLogs.join("<br>");
+profitLog.innerHTML=profitLogs.map(l=>`
+<div class="log-item">${l.time}<br>💰 ${l.text} (${l.desc})</div>
+`).join("");
 
 boughtText.innerText=bought;
 soldText.innerText=sold;
