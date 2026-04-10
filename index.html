@@ -6,75 +6,18 @@
 <title>10K MISIJA</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
 *{box-sizing:border-box;}
-
 body{
 margin:0;
 font-family:'Inter',sans-serif;
 background:linear-gradient(180deg,#dbeafe,#f8fafc);
 color:#0f172a;
 }
+.container{max-width:500px;margin:auto;padding:16px;}
+h1{color:#22c55e;font-size:24px;}
 
-.container{
-max-width:500px;
-margin:auto;
-padding:16px;
-}
-
-/* TOP */
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-}
-
-h1{
-font-size:26px;
-font-weight:800;
-color:#22c55e;
-}
-
-.menuBtn{
-width:44px;
-height:44px;
-border-radius:12px;
-background:#111;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:18px;
-}
-
-/* MENU */
-.menu{
-display:none;
-margin-top:10px;
-padding:16px;
-border-radius:18px;
-background:white;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
-}
-
-.stat{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:12px;
-}
-
-.stat button{
-width:40px;
-height:40px;
-border-radius:10px;
-}
-
-/* CARD */
 .card{
 background:white;
 padding:16px;
@@ -83,84 +26,35 @@ margin-top:16px;
 box-shadow:0 8px 25px rgba(0,0,0,0.06);
 }
 
-.card-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-}
-
-.toggleBtn{
-background:#0f172a;
-color:white;
-padding:6px 12px;
-border-radius:999px;
-font-size:12px;
-}
-
-/* INPUT */
-input, textarea{
-width:100%;
-padding:14px;
-border-radius:14px;
-border:1px solid #e5e7eb;
-background:#f9fafb;
-margin-top:10px;
-font-size:14px;
-}
-
-/* BUTTON */
-.mainBtn{
-margin-top:12px;
-padding:14px;
+button{
 border:none;
-border-radius:14px;
-background:linear-gradient(90deg,#22c55e,#16a34a);
+border-radius:12px;
+padding:10px 12px;
+background:#22c55e;
 color:white;
-font-weight:600;
+margin-top:6px;
 }
 
-/* PROGRESS */
-.progress{
-height:10px;
-background:#e5e7eb;
-border-radius:20px;
-margin-top:12px;
-overflow:hidden;
+.smallBtn{padding:6px 10px;font-size:12px;border-radius:10px;}
+.dark{background:#0f172a;}
+.red{background:#ef4444;}
+
+input,textarea{
+width:100%;
+padding:12px;
+border-radius:12px;
+border:1px solid #ddd;
+margin-top:8px;
 }
 
-.fill{
-height:100%;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-}
-
-/* TEXT */
-.big{
-font-size:26px;
-font-weight:800;
-margin-top:10px;
-}
-
-/* TASK */
 .task{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:12px;
-border-radius:12px;
 background:#f1f5f9;
-margin-top:8px;
-}
-
-.task.done{
-opacity:0.5;
-text-decoration:line-through;
-}
-
-/* LOG */
-.log{
-display:none;
-margin-top:12px;
+padding:10px;
+border-radius:10px;
+margin-top:6px;
 }
 
 .log-item{
@@ -168,19 +62,36 @@ background:#0f172a;
 color:white;
 padding:10px;
 border-radius:10px;
-margin-bottom:8px;
-font-size:13px;
+margin-top:6px;
+font-size:12px;
 }
 
-/* RESET */
-.reset{
-margin-top:20px;
-padding:14px;
-width:100%;
-border:none;
-border-radius:14px;
-background:#ef4444;
-color:white;
+.menu{
+display:none;
+}
+
+.stat{
+display:flex;
+justify-content:space-between;
+margin-top:6px;
+}
+
+.progress{
+height:8px;
+background:#eee;
+border-radius:10px;
+margin-top:8px;
+overflow:hidden;
+}
+.fill{
+height:100%;
+background:#22c55e;
+}
+
+.xpBox{
+display:flex;
+justify-content:space-between;
+margin-top:10px;
 font-weight:600;
 }
 
@@ -191,95 +102,92 @@ font-weight:600;
 
 <div class="container">
 
-<div class="topbar">
 <h1>🎯 10K MISIJA</h1>
-<div class="menuBtn" onclick="toggle('menu')">≡</div>
-</div>
 
-<div id="menu" class="menu">
-
-<div class="stat">
-<span>Nupirkta: <b id="boughtText">0</b></span>
-<button onclick="bought++;save();render()">+</button>
-</div>
-
-<div class="stat">
-<span>Parduota: <b id="soldText">0</b></span>
-<button onclick="sold++;save();render()">+</button>
-</div>
-
-<canvas id="chart"></canvas>
-
+<div class="xpBox">
+<div>⭐ XP: <b id="xpText">0</b></div>
+<div>🪙 Monetos: <b id="coinText">0</b></div>
 </div>
 
 <!-- PROFIT -->
 <div class="card">
-<div class="card-header">
 <h3>💰 PELNAS</h3>
-<button class="toggleBtn" onclick="toggle('profitLog')">Log</button>
-</div>
 
-<input id="profitAmount" placeholder="Suma" type="number">
-<textarea id="profitDesc" placeholder="Pvz: Xtrail pardavimas"></textarea>
+<input id="profitAmount" placeholder="Suma">
+<textarea id="profitDesc" placeholder="Aprašymas"></textarea>
 
-<button class="mainBtn" onclick="addProfit()">Pridėti pelną</button>
+<button onclick="addProfit()">Pridėti</button>
 
 <div class="progress"><div id="profitBar" class="fill"></div></div>
+<p id="profitText"></p>
 
-<p class="big" id="profitText"></p>
-
-<div id="profitLog" class="log"></div>
+<div id="profitLog"></div>
 </div>
 
-<!-- TASKS -->
+<!-- TASK -->
 <div class="card">
-<div class="card-header">
 <h3>📌 UŽDUOTYS</h3>
-<button class="toggleBtn" onclick="toggle('taskLog')">Log</button>
-</div>
 
-<input id="taskInput" placeholder="Įrašyk užduotį...">
-<button class="mainBtn" onclick="addTask()">Pridėti</button>
+<input id="taskInput" placeholder="Įrašyk užduotį">
+<button onclick="addTask()">Pridėti</button>
 
 <div id="taskList"></div>
-<div id="taskLog" class="log"></div>
+<div id="taskLog"></div>
 </div>
 
-<button class="reset" onclick="resetAll()">RESET</button>
+<!-- DAILY -->
+<div class="card">
+<h3>🔥 KASDIENĖS XP UŽDUOTYS</h3>
+
+<div class="task"><span>Ikelti skelbima (+50xp)</span><button onclick="daily(50,'Skelbimas')">✔</button></div>
+<div class="task"><span>Nupirkti auto (+100xp)</span><button onclick="daily(100,'Pirkimas')">✔</button></div>
+<div class="task"><span>Parduoti auto (+120xp)</span><button onclick="daily(120,'Pardavimas')">✔</button></div>
+<div class="task"><span>5 sutartys (+30xp)</span><button onclick="daily(30,'Sutartys')">✔</button></div>
+<div class="task"><span>5 skambuciai (+50xp)</span><button onclick="daily(50,'Skambuciai')">✔</button></div>
+<div class="task"><span>20min mokymosi (+50xp)</span><button onclick="daily(50,'Mokymasis')">✔</button></div>
+
+</div>
+
+<!-- SHOP -->
+<div class="card">
+<h3>🛒 APDOVANOJIMAI</h3>
+
+<div class="task"><span>Pica - 70</span><button onclick="buy(70,'Pica')">Pirkti</button></div>
+<div class="task"><span>20€ sau - 100</span><button onclick="buy(100,'Pirkinys')">Pirkti</button></div>
+<div class="task"><span>Kinas - 130</span><button onclick="buy(130,'Kinas')">Pirkti</button></div>
+<div class="task"><span>Kartingai - 150</span><button onclick="buy(150,'Kartingai')">Pirkti</button></div>
+<div class="task"><span>Masazas - 200</span><button onclick="buy(200,'Masazas')">Pirkti</button></div>
+<div class="task"><span>Kelione - 2000</span><button onclick="buy(2000,'Kelione')">Pirkti</button></div>
+
+</div>
+
+<!-- GLOBAL LOG -->
+<div class="card">
+<h3>📜 VISAS LOG</h3>
+<div id="globalLog"></div>
+</div>
+
+<button class="red" onclick="resetAll()">RESET</button>
 
 </div>
 
 <script>
 
-let profit=0, profitLogs=[];
-let bought=0, sold=0;
-let tasks=[], taskLogs=[];
-let lastReset=null;
-let chart;
+let profit=0, xp=0, coins=0;
+let logs=[], tasks=[], taskLogs=[], stats={};
 
-function now(){
-return new Date().toLocaleString('lt-LT');
-}
+function now(){return new Date().toLocaleString();}
 
 // PROFIT
 function addProfit(){
-let val=parseInt(profitAmount.value);
-if(!val) return;
+let v=parseInt(profitAmount.value);
+if(!v) return;
 
-let desc=profitDesc.value || "—";
+profit+=v;
 
-profit+=val;
+logs.unshift(`${now()} 💰 +${v}€ (${profitDesc.value})`);
 
-profitLogs.unshift({
-time:now(),
-text:`+${val}€`,
-desc:desc
-});
-
-profitAmount.value="";
-profitDesc.value="";
-
-save(); render(); updateChart();
+save(); render();
 }
 
 // TASK
@@ -288,126 +196,94 @@ let t=taskInput.value.trim();
 if(!t) return;
 
 tasks.push({text:t,done:false});
-taskInput.value="";
-save(); renderTasks();
+save(); render();
 }
 
 function toggleTask(i){
 tasks[i].done=!tasks[i].done;
 
 if(tasks[i].done){
-taskLogs.unshift({
-time:now(),
-text:tasks[i].text
-});
+logs.unshift(`${now()} ✅ ${tasks[i].text}`);
+taskLogs.unshift(`${now()} ${tasks[i].text}`);
 }
 
-save(); renderTasks();
+save(); render();
 }
 
-// RENDER TASK
-function renderTasks(){
+// DAILY XP
+function daily(x,name){
+xp+=x;
+coins+=Math.floor(x/2);
+
+logs.unshift(`${now()} ⭐ ${name} +${x}xp`);
+
+stats[name]=(stats[name]||0)+1;
+
+save(); render();
+}
+
+// SHOP
+function buy(price,name){
+if(coins<price){alert("Nepakanka monetu");return;}
+
+coins-=price;
+logs.unshift(`${now()} 🛒 ${name} nupirkta`);
+save(); render();
+}
+
+// RENDER
+function render(){
+profitText.innerText=`${profit}€ / 10 000€`;
+profitBar.style.width=(profit/10000*100)+"%";
+
+xpText.innerText=xp;
+coinText.innerText=coins;
+
+profitLog.innerHTML=logs.slice(0,5).map(l=>`<div class="log-item">${l}</div>`).join("");
+
 taskList.innerHTML=tasks.map((t,i)=>`
-<div class="task ${t.done?'done':''}">
+<div class="task">
 <span>${t.text}</span>
 <input type="checkbox" ${t.done?'checked':''} onclick="toggleTask(${i})">
 </div>
 `).join("");
 
-taskLog.innerHTML=taskLogs.map(l=>`
-<div class="log-item">${l.time}<br>✅ ${l.text}</div>
-`).join("");
+taskLog.innerHTML=taskLogs.map(l=>`<div class="log-item">${l}</div>`).join("");
+
+globalLog.innerHTML=logs.map(l=>`<div class="log-item">${l}</div>`).join("");
 }
 
-// RESET DAY
-function checkReset(){
-let today=new Date().toDateString();
-if(lastReset!==today){
-tasks=tasks.filter(t=>!t.done);
-lastReset=today;
-save();
-}
-}
-
-// CHART FIX
-function updateChart(){
-let map={};
-
-profitLogs.forEach(l=>{
-let d=l.time.split(" ")[0];
-let v=parseInt(l.text.replace("+",""));
-map[d]=(map[d]||0)+v;
-});
-
-if(chart) chart.destroy();
-
-chart=new Chart(document.getElementById("chart"),{
-type:'line',
-data:{
-labels:Object.keys(map),
-datasets:[{
-data:Object.values(map),
-borderColor:'#22c55e',
-tension:0.4
-}]
-}
-});
-}
-
-// UI
-function toggle(id){
-let el=document.getElementById(id);
-el.style.display=el.style.display==="block"?"none":"block";
-}
-
-// RENDER
-function render(){
-profitBar.style.width=Math.min(profit/10000*100,100)+"%";
-profitText.innerText=`${profit}€ / 10 000€`;
-
-profitLog.innerHTML=profitLogs.map(l=>`
-<div class="log-item">${l.time}<br>💰 ${l.text} (${l.desc})</div>
-`).join("");
-
-boughtText.innerText=bought;
-soldText.innerText=sold;
-
-renderTasks();
-}
-
-// STORAGE
+// SAVE
 function save(){
 localStorage.setItem("profit",profit);
-localStorage.setItem("profitLogs",JSON.stringify(profitLogs));
-localStorage.setItem("bought",bought);
-localStorage.setItem("sold",sold);
+localStorage.setItem("xp",xp);
+localStorage.setItem("coins",coins);
+localStorage.setItem("logs",JSON.stringify(logs));
 localStorage.setItem("tasks",JSON.stringify(tasks));
 localStorage.setItem("taskLogs",JSON.stringify(taskLogs));
-localStorage.setItem("lastReset",lastReset);
+localStorage.setItem("stats",JSON.stringify(stats));
 }
 
+// LOAD
 function load(){
 profit=parseInt(localStorage.getItem("profit"))||0;
-profitLogs=JSON.parse(localStorage.getItem("profitLogs"))||[];
-bought=parseInt(localStorage.getItem("bought"))||0;
-sold=parseInt(localStorage.getItem("sold"))||0;
+xp=parseInt(localStorage.getItem("xp"))||0;
+coins=parseInt(localStorage.getItem("coins"))||0;
+logs=JSON.parse(localStorage.getItem("logs"))||[];
 tasks=JSON.parse(localStorage.getItem("tasks"))||[];
 taskLogs=JSON.parse(localStorage.getItem("taskLogs"))||[];
-lastReset=localStorage.getItem("lastReset");
+stats=JSON.parse(localStorage.getItem("stats"))||{};
 }
 
 // RESET
 function resetAll(){
-if(!confirm("Tikrai reset?")) return;
+if(!confirm("Reset?")) return;
 localStorage.clear();
 location.reload();
 }
 
-// INIT
 load();
-checkReset();
 render();
-updateChart();
 
 </script>
 
