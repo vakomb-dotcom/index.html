@@ -203,6 +203,7 @@ input, textarea{width:100%;padding:14px;border-radius:14px;border:1px solid #e5e
 
 let profit=0, profitLogs=[];
 let globalLogs=[];
+let lastDay = null;
 
 let bought=0, sold=0;
 let tasks=[], taskLogs=[];
@@ -326,6 +327,7 @@ localStorage.setItem("taskLogs",JSON.stringify(taskLogs));
 localStorage.setItem("xp",xp);
 localStorage.setItem("coins",coins);
 localStorage.setItem("stats",JSON.stringify(stats));
+localStorage.setItem("lastDay", new Date().toDateString());
 }
 
 function load(){
@@ -339,6 +341,13 @@ taskLogs=JSON.parse(localStorage.getItem("taskLogs"))||[];
 xp=parseInt(localStorage.getItem("xp"))||0;
 coins=parseInt(localStorage.getItem("coins"))||0;
 stats=JSON.parse(localStorage.getItem("stats"))||{};
+lastDay = localStorage.getItem("lastDay");
+let today = new Date().toDateString();
+
+if(lastDay !== today){
+  tasks = tasks.filter(t => !t.done);
+  localStorage.setItem("lastDay", today);
+}
 }
 
 function resetAll(){
