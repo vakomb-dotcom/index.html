@@ -6,102 +6,59 @@
 <title>10K MISIJA</title>
 
 <style>
-body{
-margin:0;
-font-family:Inter, Arial;
-background:#f3f6fb;
-color:#111;
-}
-
-.container{
-max-width:700px;
-margin:auto;
-padding:20px;
-}
-
-h1{
-text-align:center;
-color:#16a34a;
-}
+body{margin:0;font-family:Inter;background:#f4f7fb;}
+.container{max-width:700px;margin:auto;padding:20px;}
+h1{text-align:center;color:#16a34a;}
 
 .card{
 background:white;
 padding:20px;
 border-radius:16px;
 margin-top:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
-.progress{
-height:16px;
-background:#e5e7eb;
-border-radius:20px;
-overflow:hidden;
-margin-top:10px;
-}
+.progress{height:18px;background:#e5e7eb;border-radius:20px;overflow:hidden;}
+.fill{height:100%;background:#22c55e;}
 
-.fill{
-height:100%;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-transition:0.4s;
-}
+.big{font-size:22px;font-weight:bold;}
+.week{color:#2563eb;}
 
-input, textarea{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:10px;
-border:1px solid #ddd;
+input,textarea{
+width:100%;padding:12px;margin-top:10px;
+border-radius:10px;border:1px solid #ddd;
 }
 
 button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-background:#22c55e;
-color:white;
-font-weight:bold;
+width:100%;padding:12px;margin-top:10px;
+border:none;border-radius:10px;
+background:#22c55e;color:white;font-weight:bold;
 cursor:pointer;
 }
 
-button:hover{
-opacity:0.9;
-}
-
 .log{
-margin-top:15px;
-max-height:200px;
-overflow:auto;
-font-size:14px;
+margin-top:10px;
 background:#f9fafb;
 padding:10px;
 border-radius:10px;
+max-height:200px;
+overflow:auto;
+display:none;
 }
 
 .task{
 display:flex;
-align-items:center;
-gap:10px;
+justify-content:space-between;
 background:#f9fafb;
 padding:10px;
 border-radius:10px;
 margin-top:8px;
 }
 
-.task.done{
-background:#dcfce7;
-text-decoration:line-through;
-}
-.reset{
-background:#ef4444;
-}
-.streak{
-text-align:center;
-font-weight:bold;
-color:#16a34a;
-}
+.task.done{background:#dcfce7;text-decoration:line-through;}
+.delete{background:#ef4444;color:white;border:none;border-radius:6px;}
+.toggleBtn{background:#111;color:white;margin-top:5px;}
+.reset{background:#ef4444;}
 </style>
 </head>
 
@@ -111,71 +68,72 @@ color:#16a34a;
 
 <h1>🎯 10K MISIJA</h1>
 
-<div class="streak" id="streak">🔥 Streak: 0 dienų</div>
-
 <!-- PROFIT -->
 <div class="card">
-<h3>💰 PELNAS (10 000€)</h3>
+<h3>💰 PELNAS <button class="toggleBtn" onclick="toggle('profitLog')">📜 Log</button></h3>
 
-<input id="profitAmount" type="number" placeholder="Pvz 800">
-<textarea id="profitDesc" placeholder="Pvz Xtrail pelnas"></textarea>
+<input id="profitAmount" type="number">
+<textarea id="profitDesc"></textarea>
 
 <button onclick="addProfit()">➕ Pridėti</button>
 
 <div class="progress"><div id="profitBar" class="fill"></div></div>
-<p id="profitText"></p>
+
+<p class="big" id="profitText"></p>
+<p class="week" id="weekProfit"></p>
 
 <div id="profitLog" class="log"></div>
 </div>
 
-<!-- TURNOVER -->
-<div class="card">
-<h3>💸 APYVARTA (20 000€)</h3>
-
-<input id="turnoverAmount" type="number">
-<textarea id="turnoverDesc"></textarea>
-
-<button onclick="addTurnover()">➕ Pridėti</button>
-
-<div class="progress"><div id="turnoverBar" class="fill"></div></div>
-<p id="turnoverText"></p>
-
-<div id="turnoverLog" class="log"></div>
-</div>
-
 <!-- TASKS -->
 <div class="card">
-<h3>📋 VEIKSMAI</h3>
+<h3>📋 VEIKSMAI <button class="toggleBtn" onclick="toggle('taskLog')">📜 Log</button></h3>
 
-<input id="taskInput" placeholder="Pvz: išplauti mašiną">
-<button onclick="addTask()">➕ Pridėti veiksmą</button>
+<input id="taskInput">
+<button onclick="addTask()">➕ Pridėti</button>
 
 <div id="taskList"></div>
+<div id="taskLog" class="log"></div>
 </div>
 
-<button class="reset" onclick="resetAll()">❌ RESET VISKĄ</button>
+<button class="reset" onclick="resetAll()">❌ RESET</button>
 
 </div>
 
 <script>
 
 // STATE
-let profit=0, turnover=0;
-let profitLogs=[], turnoverLogs=[];
+let profit=0;
+let profitLogs=[];
 let tasks=[];
-let streak=0;
+let taskLogs=[];
+let lastDate="";
 
 // TIME
+function today(){
+return new Date().toDateString();
+}
+
 function now(){
 return new Date().toLocaleString();
 }
 
-// ADD PROFIT
+// DAILY RESET
+function checkDay(){
+if(lastDate!==today()){
+tasks = tasks.filter(t=>!t.done); // ištrina DONE
+lastDate = today();
+save();
+}
+}
+
+// PROFIT
 function addProfit(){
 let val=parseInt(profitAmount.value);
 if(!val) return;
 
 profit+=val;
+
 profitLogs.unshift(`${now()} — ${profitDesc.value} +${val}€`);
 
 profitAmount.value="";
@@ -184,23 +142,9 @@ profitDesc.value="";
 save(); render();
 }
 
-// ADD TURNOVER
-function addTurnover(){
-let val=parseInt(turnoverAmount.value);
-if(!val) return;
-
-turnover+=val;
-turnoverLogs.unshift(`${now()} — ${turnoverDesc.value} +${val}€`);
-
-turnoverAmount.value="";
-turnoverDesc.value="";
-
-save(); render();
-}
-
 // TASKS
 function addTask(){
-let text=taskInput.value;
+let text=taskInput.value.trim();
 if(!text) return;
 
 tasks.push({text,done:false});
@@ -211,72 +155,96 @@ save(); render();
 
 function toggleTask(i){
 tasks[i].done=!tasks[i].done;
+
+if(tasks[i].done){
+taskLogs.unshift(`${now()} — ✔️ ${tasks[i].text}`);
+}
+
 save(); render();
+}
+
+function deleteTask(i){
+tasks.splice(i,1);
+save(); render();
+}
+
+// WEEK PROFIT
+function calcWeek(){
+let nowDate=new Date();
+let weekAgo=new Date();
+weekAgo.setDate(nowDate.getDate()-7);
+
+let sum=0;
+
+profitLogs.forEach(l=>{
+let d=new Date(l.split(" — ")[0]);
+if(d>=weekAgo) sum+=parseInt(l.split("+")[1]);
+});
+
+return sum;
+}
+
+// TOGGLE LOG
+function toggle(id){
+let el=document.getElementById(id);
+el.style.display = el.style.display==="block"?"none":"block";
 }
 
 // RENDER
 function render(){
 
-// bars
-profitBar.style.width=Math.min(profit/10000*100,100)+"%";
-turnoverBar.style.width=Math.min(turnover/20000*100,100)+"%";
+checkDay();
 
-// text
-profitText.innerText=`${profit}€ / 10000€`;
-turnoverText.innerText=`${turnover}€ / 20000€`;
+// progress
+profitBar.style.width=Math.min(profit/10000*100,100)+"%";
+profitText.innerText=`${profit}€ / 10 000€`;
+weekProfit.innerText=`📅 7 dienos: ${calcWeek()}€`;
 
 // logs
 profitLog.innerHTML=profitLogs.join("<br>");
-turnoverLog.innerHTML=turnoverLogs.join("<br>");
+taskLog.innerHTML=taskLogs.join("<br>");
 
 // tasks
 taskList.innerHTML="";
 tasks.forEach((t,i)=>{
 let div=document.createElement("div");
 div.className="task"+(t.done?" done":"");
-div.innerHTML=`<input type="checkbox" ${t.done?"checked":""} onclick="toggleTask(${i})"> ${t.text}`;
+
+div.innerHTML=`
+<div>
+<input type="checkbox" ${t.done?"checked":""} onclick="toggleTask(${i})">
+${t.text}
+</div>
+<button class="delete" onclick="deleteTask(${i})">X</button>
+`;
+
 taskList.appendChild(div);
 });
-
-// streak
-streakEl=document.getElementById("streak");
-streakEl.innerText=`🔥 Streak: ${streak} dienų`;
 }
 
 // SAVE
 function save(){
-localStorage.setItem("p",profit);
-localStorage.setItem("t",turnover);
-localStorage.setItem("pl",JSON.stringify(profitLogs));
-localStorage.setItem("tl",JSON.stringify(turnoverLogs));
+localStorage.setItem("profit",profit);
+localStorage.setItem("profitLogs",JSON.stringify(profitLogs));
 localStorage.setItem("tasks",JSON.stringify(tasks));
-localStorage.setItem("streak",streak);
+localStorage.setItem("taskLogs",JSON.stringify(taskLogs));
+localStorage.setItem("lastDate",lastDate);
 }
 
 // LOAD
 function load(){
-profit=parseInt(localStorage.getItem("p"))||0;
-turnover=parseInt(localStorage.getItem("t"))||0;
-profitLogs=JSON.parse(localStorage.getItem("pl"))||[];
-turnoverLogs=JSON.parse(localStorage.getItem("tl"))||[];
+profit=parseInt(localStorage.getItem("profit"))||0;
+profitLogs=JSON.parse(localStorage.getItem("profitLogs"))||[];
 tasks=JSON.parse(localStorage.getItem("tasks"))||[];
-streak=parseInt(localStorage.getItem("streak"))||0;
+taskLogs=JSON.parse(localStorage.getItem("taskLogs"))||[];
+lastDate=localStorage.getItem("lastDate")||today();
 }
 
 // RESET
 function resetAll(){
 if(!confirm("Tikrai ištrinti viską?")) return;
-
 localStorage.clear();
-
-profit=0;
-turnover=0;
-profitLogs=[];
-turnoverLogs=[];
-tasks=[];
-streak=0;
-
-render();
+location.reload();
 }
 
 // INIT
