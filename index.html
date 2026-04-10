@@ -75,9 +75,12 @@ display:none;
 margin-top:10px;
 }
 
+/* 🔥 FIX */
 .task span{
 flex:1;
-word-break:break-word;
+white-space:normal;
+word-break:normal;
+overflow-wrap:break-word;
 }
 
 .xpBox{
@@ -134,29 +137,6 @@ input, textarea{width:100%;padding:14px;border-radius:14px;border:1px solid #e5e
 
 <canvas id="chart"></canvas>
 
-<button class="sectionBtn" onclick="toggle('dailySection')">🔥 Kasdienės XP užduotys</button>
-<div id="dailySection" class="section">
-<div class="task"><span>Ikelti skelbimą (+50xp)</span><button onclick="addXP(50,'Skelbimas')">✔</button></div>
-<div class="task"><span>Nupirkti auto (+100xp)</span><button onclick="addXP(100,'Pirkimas')">✔</button></div>
-<div class="task"><span>Parduoti auto (+120xp)</span><button onclick="addXP(120,'Pardavimas')">✔</button></div>
-<div class="task"><span>5 sutartys (+30xp)</span><button onclick="addXP(30,'Sutartys')">✔</button></div>
-<div class="task"><span>5 skambučiai (+50xp)</span><button onclick="addXP(50,'Skambučiai')">✔</button></div>
-<div class="task"><span>20min mokymosi (+50xp)</span><button onclick="addXP(50,'Mokymasis')">✔</button></div>
-</div>
-
-<button class="sectionBtn" onclick="toggle('shopSection')">🛒 Apdovanojimai</button>
-<div id="shopSection" class="section">
-<div class="task"><span>Pica - 70</span><button onclick="buy(70,'Pica')">Pirkti</button></div>
-<div class="task"><span>20€ sau - 100</span><button onclick="buy(100,'Pirkinys')">Pirkti</button></div>
-<div class="task"><span>Kinas - 130</span><button onclick="buy(130,'Kinas')">Pirkti</button></div>
-<div class="task"><span>Kartingai - 150</span><button onclick="buy(150,'Kartingai')">Pirkti</button></div>
-<div class="task"><span>Masažas - 200</span><button onclick="buy(200,'Masazas')">Pirkti</button></div>
-<div class="task"><span>Kelionė - 2000</span><button onclick="buy(2000,'Kelione')">Pirkti</button></div>
-</div>
-
-<button class="sectionBtn" onclick="toggle('statsSection')">📊 Statistika</button>
-<div id="statsSection" class="section"><div id="statsContent"></div></div>
-
 <button class="sectionBtn" onclick="toggle('globalLogSection')">📜 Visas log</button>
 <div id="globalLogSection" class="section"><div id="globalLog"></div></div>
 
@@ -199,9 +179,10 @@ input, textarea{width:100%;padding:14px;border-radius:14px;border:1px solid #e5e
 <script>
 
 let profit=0, profitLogs=[];
+let globalLogs=[];
+
 let bought=0, sold=0;
 let tasks=[], taskLogs=[];
-let lastReset=null;
 let chart;
 let xp=0, coins=0, stats={};
 
@@ -219,11 +200,14 @@ if(!val) return;
 
 profit+=val;
 
-profitLogs.unshift({
+let log={
 time:now(),
 text:`+${val}€`,
 desc:profitDesc.value || "—"
-});
+};
+
+profitLogs.unshift(log);
+globalLogs.unshift(log);
 
 profitAmount.value="";
 profitDesc.value="";
@@ -242,7 +226,9 @@ save(); renderTasks();
 function toggleTask(i){
 tasks[i].done=!tasks[i].done;
 if(tasks[i].done){
-taskLogs.unshift({time:now(),text:tasks[i].text});
+let log={time:now(),text:"✅",desc:tasks[i].text};
+taskLogs.unshift(log);
+globalLogs.unshift(log);
 }
 save(); renderTasks();
 }
@@ -255,15 +241,16 @@ taskList.innerHTML=tasks.map((t,i)=>`
 </div>`).join("");
 
 taskLog.innerHTML=taskLogs.map(l=>`
-<div class="log-item">${l.time}<br>✅ ${l.text}</div>`).join("");
+<div class="log-item">${l.time}<br>✅ ${l.desc}</div>`).join("");
 }
 
+/* 🔥 FIX — NEBEINA Į PELNO LOG */
 function addXP(v,n){
 xp+=v;
 coins+=Math.floor(v/2);
 stats[n]=(stats[n]||0)+1;
 
-profitLogs.unshift({time:now(),text:`⭐ +${v}xp`,desc:n});
+globalLogs.unshift({time:now(),text:`⭐ +${v}xp`,desc:n});
 
 save(); render();
 }
@@ -271,7 +258,9 @@ save(); render();
 function buy(p,n){
 if(coins<p){alert("Nepakanka monetų");return;}
 coins-=p;
-profitLogs.unshift({time:now(),text:`🛒`,desc:n});
+
+globalLogs.unshift({time:now(),text:`🛒`,desc:n});
+
 save(); render();
 }
 
@@ -294,6 +283,9 @@ profitBar.style.width=Math.min((profit/10000)*100,100)+"%";
 profitText.innerText=`${profit}€ / 10 000€`;
 
 profitLog.innerHTML=profitLogs.map(l=>`
+<div class="log-item">${l.time}<br>💰 ${l.text} (${l.desc})</div>`).join("");
+
+globalLog.innerHTML=globalLogs.map(l=>`
 <div class="log-item">${l.time}<br>${l.text} (${l.desc})</div>`).join("");
 
 boughtText.innerText=bought;
@@ -302,20 +294,13 @@ soldText.innerText=sold;
 xpText.innerText=xp;
 coinText.innerText=coins;
 
-globalLog.innerHTML=profitLogs.map(l=>`
-<div class="log-item">${l.time}<br>${l.text} (${l.desc})</div>`).join("");
-
-statsContent.innerHTML=Object.keys(stats).map(k=>`
-<div class="task"><span>${k}</span><b>${stats[k]}</b></div>`).join("");
-
 renderTasks();
 }
 
 function save(){
 localStorage.setItem("profit",profit);
 localStorage.setItem("profitLogs",JSON.stringify(profitLogs));
-localStorage.setItem("bought",bought);
-localStorage.setItem("sold",sold);
+localStorage.setItem("globalLogs",JSON.stringify(globalLogs));
 localStorage.setItem("tasks",JSON.stringify(tasks));
 localStorage.setItem("taskLogs",JSON.stringify(taskLogs));
 localStorage.setItem("xp",xp);
@@ -326,8 +311,7 @@ localStorage.setItem("stats",JSON.stringify(stats));
 function load(){
 profit=parseInt(localStorage.getItem("profit"))||0;
 profitLogs=JSON.parse(localStorage.getItem("profitLogs"))||[];
-bought=parseInt(localStorage.getItem("bought"))||0;
-sold=parseInt(localStorage.getItem("sold"))||0;
+globalLogs=JSON.parse(localStorage.getItem("globalLogs"))||[];
 tasks=JSON.parse(localStorage.getItem("tasks"))||[];
 taskLogs=JSON.parse(localStorage.getItem("taskLogs"))||[];
 xp=parseInt(localStorage.getItem("xp"))||0;
