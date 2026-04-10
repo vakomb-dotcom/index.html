@@ -6,7 +6,6 @@
 <title>10K MISIJA</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
@@ -15,6 +14,7 @@ body{
 margin:0;
 font-family:'Inter',sans-serif;
 background:linear-gradient(135deg,#eef2ff,#f8fafc);
+color:#111;
 }
 
 .container{
@@ -23,15 +23,53 @@ margin:auto;
 padding:20px;
 }
 
-h1{text-align:center;color:#16a34a;}
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
+
+.menuBtn{
+background:#111;
+color:white;
+padding:8px 14px;
+border-radius:10px;
+cursor:pointer;
+}
+
+.menu{
+display:none;
+background:white;
+padding:15px;
+border-radius:16px;
+margin-bottom:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+h1{
+text-align:center;
+color:#16a34a;
+font-size:34px;
+font-weight:800;
+margin-bottom:10px;
+}
 
 /* CARD */
 .card{
-background:white;
+background:rgba(255,255,255,0.9);
 padding:20px;
 border-radius:20px;
 margin-top:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.08);
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+}
+
+/* HEADER */
+.card-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
 }
 
 /* PROGRESS */
@@ -40,34 +78,83 @@ height:14px;
 background:#e5e7eb;
 border-radius:20px;
 overflow:hidden;
+margin-top:10px;
 }
 
 .fill{
 height:100%;
 background:linear-gradient(90deg,#22c55e,#4ade80);
-transition:0.6s;
-box-shadow:0 0 10px rgba(34,197,94,0.6);
 }
 
-/* ANIMATION */
-.bounce{
-animation:bounce 0.3s;
-}
-@keyframes bounce{
-0%{transform:scale(1)}
-50%{transform:scale(1.3)}
-100%{transform:scale(1)}
+/* TEXT */
+.big{
+font-size:26px;
+font-weight:800;
+margin-top:10px;
 }
 
-/* TASK */
+.week{
+color:#2563eb;
+font-size:15px;
+}
+
+/* INPUT */
+input, textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #e5e7eb;
+font-size:14px;
+background:#f9fafb;
+}
+
+/* BUTTON */
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#22c55e,#16a34a);
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+/* SMALL BTN */
+.toggleBtn{
+background:#111;
+font-size:12px;
+padding:6px 10px;
+border-radius:10px;
+width:auto;
+color:white;
+}
+
+/* LOG */
+.log{
+margin-top:12px;
+background:#f1f5f9;
+padding:12px;
+border-radius:12px;
+max-height:200px;
+overflow:auto;
+font-size:13px;
+display:none;
+}
+
+/* TASK FIX */
 .task{
 display:flex;
-justify-content:space-between;
 align-items:center;
+justify-content:space-between;
+gap:10px;
 background:#f8fafc;
 padding:12px;
 border-radius:12px;
 margin-top:10px;
+border:1px solid #e5e7eb;
 }
 
 .task-left{
@@ -75,50 +162,48 @@ display:flex;
 align-items:center;
 gap:10px;
 flex:1;
+min-width:0;
 }
 
 .task-text{
 flex:1;
 white-space:normal;
+overflow-wrap:anywhere;
 word-break:break-word;
 }
 
+/* DONE */
 .task.done{
 background:#dcfce7;
 text-decoration:line-through;
 }
 
-/* BUTTON */
-button{
-padding:10px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-background:#22c55e;
-color:white;
-cursor:pointer;
-width:100%;
-}
-
+/* DELETE */
 .delete{
 background:#ef4444;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:8px;
+cursor:pointer;
 width:auto;
 }
 
-.small{
+.reset{
+background:#ef4444;
+}
+
+.stat{
+margin-top:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.stat button{
 width:auto;
 padding:6px 10px;
-font-size:12px;
-}
-
-.log{
-display:none;
-background:#f1f5f9;
-padding:10px;
-margin-top:10px;
-border-radius:10px;
-max-height:200px;
-overflow:auto;
+margin-left:10px;
 }
 
 </style>
@@ -128,71 +213,87 @@ overflow:auto;
 
 <div class="container">
 
+<div class="topbar">
 <h1>🎯 10K MISIJA</h1>
+<div class="menuBtn" onclick="toggle('menu')">☰ MENU</div>
+</div>
+
+<div id="menu" class="menu">
+
+<h3>🚗 STATISTIKA</h3>
+
+<div class="stat">
+<span>Nupirkta: <b id="boughtText">0</b></span>
+<button onclick="bought++ ; save(); render()">+</button>
+</div>
+
+<div class="stat">
+<span>Parduota: <b id="soldText">0</b></span>
+<button onclick="sold++ ; save(); render()">+</button>
+</div>
+
+<h3>📊 PELNAS PER DIENAS</h3>
+<canvas id="chart"></canvas>
+
+</div>
 
 <!-- PROFIT -->
 <div class="card">
-<h3>💰 PELNAS <button class="small" onclick="toggle('profitLog')">📜</button></h3>
+<div class="card-header">
+<h3>💰 PELNAS</h3>
+<button class="toggleBtn" onclick="toggle('profitLog')">📜 Log</button>
+</div>
 
 <input id="profitAmount" type="number">
-<input id="profitDesc">
+<textarea id="profitDesc"></textarea>
 
-<button onclick="addProfit()">➕ Pridėti</button>
+<button onclick="addProfit()">➕ Pridėti pelną</button>
 
 <div class="progress">
 <div id="profitBar" class="fill"></div>
 </div>
 
-<h2 id="profitText"></h2>
-<p id="weekProfit"></p>
+<p class="big" id="profitText"></p>
+<p class="week" id="weekProfit"></p>
 
 <div id="profitLog" class="log"></div>
 </div>
 
-<!-- STATS -->
-<div class="card">
-<h3>🚗 STATISTIKA</h3>
-
-<p>Nupirkta: <span id="boughtCount">0</span></p>
-<button onclick="addBought()">➕ Nupirkta</button>
-
-<p>Parduota: <span id="soldCount">0</span></p>
-<button onclick="addSold()">➕ Parduota</button>
-</div>
-
-<!-- GRAPH -->
-<div class="card">
-<h3>📊 Pelnas per dienas</h3>
-<canvas id="chart"></canvas>
-</div>
-
 <!-- TASKS -->
 <div class="card">
-<h3>📋 VEIKSMAI <button class="small" onclick="toggle('taskLog')">📜</button></h3>
+<div class="card-header">
+<h3>📋 VEIKSMAI</h3>
+<button class="toggleBtn" onclick="toggle('taskLog')">📜 Log</button>
+</div>
 
 <input id="taskInput">
-<button onclick="addTask()">➕</button>
+<button onclick="addTask()">➕ Pridėti veiksmą</button>
 
 <div id="taskList"></div>
 <div id="taskLog" class="log"></div>
 </div>
 
-<button onclick="resetAll()" style="background:red;">RESET</button>
+<button class="reset" onclick="resetAll()">❌ RESET</button>
 
 </div>
 
 <script>
 
-// STATE
-let profit=0;
-let logs=[];
-let tasks=[];
-let taskLogs=[];
-let bought=0;
-let sold=0;
+let profit=0, profitLogs=[], tasks=[], taskLogs=[];
+let lastDate="", bought=0, sold=0;
+let chart;
 
-// TIME
+function today(){return new Date().toDateString();}
 function now(){return new Date().toLocaleString();}
+
+// DAILY RESET
+function checkDay(){
+if(lastDate!==today()){
+tasks = tasks.filter(t=>!t.done);
+lastDate = today;
+save();
+}
+}
 
 // PROFIT
 function addProfit(){
@@ -200,18 +301,15 @@ let val=parseInt(profitAmount.value);
 if(!val) return;
 
 profit+=val;
-logs.unshift(`${now()} +${val}`);
+profitLogs.unshift(`${now()} — ${profitDesc.value} +${val}€`);
 
-profitBar.style.width=Math.min(profit/10000*100,100)+"%";
-profitBar.classList.add("bounce");
+profitAmount.value="";
+profitDesc.value="";
 
-setTimeout(()=>profitBar.classList.remove("bounce"),300);
-
-save(); render();
-updateChart();
+save(); render(); updateChart();
 }
 
-// TASK
+// TASKS
 function addTask(){
 let text=taskInput.value.trim();
 if(!text) return;
@@ -226,7 +324,7 @@ function toggleTask(i){
 tasks[i].done=!tasks[i].done;
 
 if(tasks[i].done){
-taskLogs.unshift(`${now()} ✔️ ${tasks[i].text}`);
+taskLogs.unshift(`${now()} — ✔️ ${tasks[i].text}`);
 }
 
 save(); render();
@@ -237,20 +335,70 @@ tasks.splice(i,1);
 save(); render();
 }
 
-// STATS
-function addBought(){bought++; save(); render();}
-function addSold(){sold++; save(); render();}
+// WEEK
+function calcWeek(){
+let nowDate=new Date();
+let weekAgo=new Date();
+weekAgo.setDate(nowDate.getDate()-7);
+
+let sum=0;
+
+profitLogs.forEach(l=>{
+let d=new Date(l.split(" — ")[0]);
+if(d>=weekAgo){
+let val=parseInt(l.split("+")[1]);
+if(!isNaN(val)) sum+=val;
+}
+});
+
+return sum;
+}
+
+// CHART
+function updateChart(){
+
+let map={};
+
+profitLogs.forEach(l=>{
+let date=l.split(",")[0];
+let val=parseInt(l.split("+")[1]);
+map[date]=(map[date]||0)+val;
+});
+
+let labels=Object.keys(map);
+let data=Object.values(map);
+
+if(chart) chart.destroy();
+
+chart=new Chart(document.getElementById("chart"),{
+type:'line',
+data:{
+labels,
+datasets:[{data,borderColor:'#22c55e',fill:false}]
+}
+});
+}
+
+// TOGGLE
+function toggle(id){
+let el=document.getElementById(id);
+el.style.display=el.style.display==="block"?"none":"block";
+}
 
 // RENDER
 function render(){
 
-profitText.innerText=profit+"€ / 10 000€";
+checkDay();
 
-boughtCount.innerText=bought;
-soldCount.innerText=sold;
+profitBar.style.width=Math.min(profit/10000*100,100)+"%";
+profitText.innerText=`${profit}€ / 10 000€`;
+weekProfit.innerText=`📅 7 dienos: ${calcWeek()}€`;
 
-profitLog.innerHTML=logs.join("<br>");
+profitLog.innerHTML=profitLogs.join("<br>");
 taskLog.innerHTML=taskLogs.join("<br>");
+
+boughtText.innerText=bought;
+soldText.innerText=sold;
 
 taskList.innerHTML="";
 tasks.forEach((t,i)=>{
@@ -269,58 +417,31 @@ taskList.appendChild(div);
 });
 }
 
-// GRAPH
-let chart;
-
-function updateChart(){
-let data={};
-
-logs.forEach(l=>{
-let d=l.split(",")[0];
-let val=parseInt(l.split("+")[1]);
-data[d]=(data[d]||0)+val;
-});
-
-let labels=Object.keys(data);
-let values=Object.values(data);
-
-if(chart) chart.destroy();
-
-chart=new Chart(document.getElementById("chart"),{
-type:'line',
-data:{labels,datasets:[{data:values,borderColor:'#22c55e'}]}
-});
-}
-
-// TOGGLE
-function toggle(id){
-let el=document.getElementById(id);
-el.style.display=el.style.display==="block"?"none":"block";
-}
-
 // SAVE
 function save(){
 localStorage.setItem("profit",profit);
-localStorage.setItem("logs",JSON.stringify(logs));
+localStorage.setItem("profitLogs",JSON.stringify(profitLogs));
 localStorage.setItem("tasks",JSON.stringify(tasks));
 localStorage.setItem("taskLogs",JSON.stringify(taskLogs));
 localStorage.setItem("bought",bought);
 localStorage.setItem("sold",sold);
+localStorage.setItem("lastDate",lastDate);
 }
 
 // LOAD
 function load(){
 profit=parseInt(localStorage.getItem("profit"))||0;
-logs=JSON.parse(localStorage.getItem("logs"))||[];
+profitLogs=JSON.parse(localStorage.getItem("profitLogs"))||[];
 tasks=JSON.parse(localStorage.getItem("tasks"))||[];
 taskLogs=JSON.parse(localStorage.getItem("taskLogs"))||[];
 bought=parseInt(localStorage.getItem("bought"))||0;
 sold=parseInt(localStorage.getItem("sold"))||0;
+lastDate=localStorage.getItem("lastDate")||today();
 }
 
 // RESET
 function resetAll(){
-if(!confirm("Reset?")) return;
+if(!confirm("Tikrai ištrinti viską?")) return;
 localStorage.clear();
 location.reload();
 }
