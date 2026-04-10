@@ -9,203 +9,46 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-
 body{
 margin:0;
 font-family:'Inter',sans-serif;
 background:linear-gradient(135deg,#eef2ff,#f8fafc);
 color:#111;
 }
+.container{max-width:700px;margin:auto;padding:20px;}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.menuBtn{background:#111;color:white;padding:8px 14px;border-radius:10px;cursor:pointer;}
+.menu{display:none;background:white;padding:15px;border-radius:16px;margin-bottom:15px;box-shadow:0 10px 25px rgba(0,0,0,0.1);}
+h1{text-align:center;color:#16a34a;font-size:34px;font-weight:800;margin-bottom:10px;}
 
-.container{
-max-width:700px;
-margin:auto;
-padding:20px;
-}
+.card{background:rgba(255,255,255,0.9);padding:20px;border-radius:20px;margin-top:20px;box-shadow:0 15px 35px rgba(0,0,0,0.08);}
+.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
 
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-}
+.progress{height:14px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin-top:10px;}
+.fill{height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);}
 
-.menuBtn{
-background:#111;
-color:white;
-padding:8px 14px;
-border-radius:10px;
-cursor:pointer;
-}
+.big{font-size:26px;font-weight:800;margin-top:10px;}
+.week{color:#2563eb;font-size:15px;}
 
-.menu{
-display:none;
-background:white;
-padding:15px;
-border-radius:16px;
-margin-bottom:15px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
-}
+input, textarea{width:100%;padding:12px;margin-top:10px;border-radius:12px;border:1px solid #e5e7eb;font-size:14px;background:#f9fafb;}
 
-h1{
-text-align:center;
-color:#16a34a;
-font-size:34px;
-font-weight:800;
-margin-bottom:10px;
-}
+button{width:100%;padding:12px;margin-top:10px;border:none;border-radius:12px;background:linear-gradient(90deg,#22c55e,#16a34a);color:white;font-weight:600;cursor:pointer;}
 
-/* CARD */
-.card{
-background:rgba(255,255,255,0.9);
-padding:20px;
-border-radius:20px;
-margin-top:20px;
-box-shadow:0 15px 35px rgba(0,0,0,0.08);
-}
+.toggleBtn{background:#111;font-size:12px;padding:6px 10px;border-radius:10px;width:auto;color:white;}
 
-/* HEADER */
-.card-header{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-}
+.log{margin-top:12px;background:#f1f5f9;padding:12px;border-radius:12px;max-height:200px;overflow:auto;font-size:13px;display:none;}
 
-/* PROGRESS */
-.progress{
-height:14px;
-background:#e5e7eb;
-border-radius:20px;
-overflow:hidden;
-margin-top:10px;
-}
+.task{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f8fafc;padding:12px;border-radius:12px;margin-top:10px;border:1px solid #e5e7eb;}
+.task-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
+.task-text{flex:1;white-space:normal;overflow-wrap:break-word;}
 
-.fill{
-height:100%;
-background:linear-gradient(90deg,#22c55e,#4ade80);
-}
+.task.done{background:#dcfce7;text-decoration:line-through;}
 
-/* TEXT */
-.big{
-font-size:26px;
-font-weight:800;
-margin-top:10px;
-}
+.delete{background:#ef4444;color:white;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;width:auto;}
+.reset{background:#ef4444;}
 
-.week{
-color:#2563eb;
-font-size:15px;
-}
-
-/* INPUT */
-input, textarea{
-width:100%;
-padding:12px;
-margin-top:10px;
-border-radius:12px;
-border:1px solid #e5e7eb;
-font-size:14px;
-background:#f9fafb;
-}
-
-/* BUTTON */
-button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:12px;
-background:linear-gradient(90deg,#22c55e,#16a34a);
-color:white;
-font-weight:600;
-cursor:pointer;
-}
-
-/* SMALL BTN */
-.toggleBtn{
-background:#111;
-font-size:12px;
-padding:6px 10px;
-border-radius:10px;
-width:auto;
-color:white;
-}
-
-/* LOG */
-.log{
-margin-top:12px;
-background:#f1f5f9;
-padding:12px;
-border-radius:12px;
-max-height:200px;
-overflow:auto;
-font-size:13px;
-display:none;
-}
-
-/* TASK FIX */
-.task{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:10px;
-background:#f8fafc;
-padding:12px;
-border-radius:12px;
-margin-top:10px;
-border:1px solid #e5e7eb;
-}
-
-.task-left{
-display:flex;
-align-items:center;
-gap:10px;
-flex:1;
-min-width:0;
-}
-
-.task-text{
-flex:1;
-white-space:normal;
-overflow-wrap:anywhere;
-word-break:break-word;
-}
-
-/* DONE */
-.task.done{
-background:#dcfce7;
-text-decoration:line-through;
-}
-
-/* DELETE */
-.delete{
-background:#ef4444;
-color:white;
-border:none;
-padding:6px 10px;
-border-radius:8px;
-cursor:pointer;
-width:auto;
-}
-
-.reset{
-background:#ef4444;
-}
-
-.stat{
-margin-top:10px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-}
-
-.stat button{
-width:auto;
-padding:6px 10px;
-margin-left:10px;
-}
-
+.stat{margin-top:10px;display:flex;justify-content:space-between;align-items:center;}
+.stat button{width:auto;padding:6px 10px;margin-left:10px;}
 </style>
 </head>
 
@@ -224,12 +67,12 @@ margin-left:10px;
 
 <div class="stat">
 <span>Nupirkta: <b id="boughtText">0</b></span>
-<button onclick="bought++ ; save(); render()">+</button>
+<button onclick="bought++; save(); render()">+</button>
 </div>
 
 <div class="stat">
 <span>Parduota: <b id="soldText">0</b></span>
-<button onclick="sold++ ; save(); render()">+</button>
+<button onclick="sold++; save(); render()">+</button>
 </div>
 
 <h3>📊 PELNAS PER DIENAS</h3>
@@ -237,7 +80,6 @@ margin-left:10px;
 
 </div>
 
-<!-- PROFIT -->
 <div class="card">
 <div class="card-header">
 <h3>💰 PELNAS</h3>
@@ -249,9 +91,7 @@ margin-left:10px;
 
 <button onclick="addProfit()">➕ Pridėti pelną</button>
 
-<div class="progress">
-<div id="profitBar" class="fill"></div>
-</div>
+<div class="progress"><div id="profitBar" class="fill"></div></div>
 
 <p class="big" id="profitText"></p>
 <p class="week" id="weekProfit"></p>
@@ -259,7 +99,6 @@ margin-left:10px;
 <div id="profitLog" class="log"></div>
 </div>
 
-<!-- TASKS -->
 <div class="card">
 <div class="card-header">
 <h3>📋 VEIKSMAI</h3>
@@ -338,7 +177,6 @@ let weekAgo=new Date();
 weekAgo.setDate(nowDate.getDate()-7);
 
 let sum=0;
-
 profitLogs.forEach(l=>{
 let d=new Date(l.split(" — ")[0]);
 if(d>=weekAgo){
@@ -346,14 +184,11 @@ let val=parseInt(l.split("+")[1]);
 if(!isNaN(val)) sum+=val;
 }
 });
-
 return sum;
 }
 
 function updateChart(){
-
 let map={};
-
 profitLogs.forEach(l=>{
 let date=l.split(",")[0];
 let val=parseInt(l.split("+")[1]);
@@ -367,10 +202,7 @@ if(chart) chart.destroy();
 
 chart=new Chart(document.getElementById("chart"),{
 type:'line',
-data:{
-labels,
-datasets:[{data,borderColor:'#22c55e',fill:false}]
-}
+data:{labels,datasets:[{data,borderColor:'#22c55e',fill:false}]}
 });
 }
 
@@ -399,7 +231,7 @@ tasks.forEach((t,i)=>{
 let div=document.createElement("div");
 div.className="task"+(t.done?" done":"");
 
-// 🔥 FIXED BLOCK
+// FIX (be innerHTML)
 let left=document.createElement("div");
 left.className="task-left";
 
