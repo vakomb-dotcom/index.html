@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>10,000 pelno per mėnesį </title>
+<title>10K MISIJA</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -286,16 +286,14 @@ let chart;
 function today(){return new Date().toDateString();}
 function now(){return new Date().toLocaleString();}
 
-// DAILY RESET
 function checkDay(){
 if(lastDate!==today()){
 tasks = tasks.filter(t=>!t.done);
-lastDate = today;
+lastDate = today();
 save();
 }
 }
 
-// PROFIT
 function addProfit(){
 let val=parseInt(profitAmount.value);
 if(!val) return;
@@ -309,7 +307,6 @@ profitDesc.value="";
 save(); render(); updateChart();
 }
 
-// TASKS
 function addTask(){
 let text=taskInput.value.trim();
 if(!text) return;
@@ -335,7 +332,6 @@ tasks.splice(i,1);
 save(); render();
 }
 
-// WEEK
 function calcWeek(){
 let nowDate=new Date();
 let weekAgo=new Date();
@@ -354,7 +350,6 @@ if(!isNaN(val)) sum+=val;
 return sum;
 }
 
-// CHART
 function updateChart(){
 
 let map={};
@@ -379,13 +374,11 @@ datasets:[{data,borderColor:'#22c55e',fill:false}]
 });
 }
 
-// TOGGLE
 function toggle(id){
 let el=document.getElementById(id);
 el.style.display=el.style.display==="block"?"none":"block";
 }
 
-// RENDER
 function render(){
 
 checkDay();
@@ -401,38 +394,40 @@ boughtText.innerText=bought;
 soldText.innerText=sold;
 
 taskList.innerHTML="";
+
 tasks.forEach((t,i)=>{
 let div=document.createElement("div");
 div.className="task"+(t.done?" done":"");
 
-let left = document.createElement("div");
-left.className = "task-left";
+// 🔥 FIXED BLOCK
+let left=document.createElement("div");
+left.className="task-left";
 
-let checkbox = document.createElement("input");
-checkbox.type = "checkbox";
-checkbox.checked = t.done;
-checkbox.onclick = () => toggleTask(i);
+let checkbox=document.createElement("input");
+checkbox.type="checkbox";
+checkbox.checked=t.done;
+checkbox.onclick=()=>toggleTask(i);
 
-let text = document.createElement("div");
-text.className = "task-text";
-text.textContent = t.text; // 🔥 svarbiausia vieta (ne innerHTML)
+let text=document.createElement("div");
+text.className="task-text";
+text.textContent=t.text;
 
 left.appendChild(checkbox);
 left.appendChild(text);
 
-let del = document.createElement("button");
-del.className = "delete";
-del.textContent = "X";
-del.onclick = () => deleteTask(i);
+let del=document.createElement("button");
+del.className="delete";
+del.textContent="X";
+del.onclick=()=>deleteTask(i);
 
 div.appendChild(left);
 div.appendChild(del);
 
 taskList.appendChild(div);
 });
+
 }
 
-// SAVE
 function save(){
 localStorage.setItem("profit",profit);
 localStorage.setItem("profitLogs",JSON.stringify(profitLogs));
@@ -443,7 +438,6 @@ localStorage.setItem("sold",sold);
 localStorage.setItem("lastDate",lastDate);
 }
 
-// LOAD
 function load(){
 profit=parseInt(localStorage.getItem("profit"))||0;
 profitLogs=JSON.parse(localStorage.getItem("profitLogs"))||[];
@@ -454,14 +448,12 @@ sold=parseInt(localStorage.getItem("sold"))||0;
 lastDate=localStorage.getItem("lastDate")||today();
 }
 
-// RESET
 function resetAll(){
 if(!confirm("Tikrai ištrinti viską?")) return;
 localStorage.clear();
 location.reload();
 }
 
-// INIT
 load();
 render();
 updateChart();
