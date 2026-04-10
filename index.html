@@ -9,46 +9,197 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 body{
 margin:0;
 font-family:'Inter',sans-serif;
 background:linear-gradient(135deg,#eef2ff,#f8fafc);
 color:#111;
 }
-.container{max-width:700px;margin:auto;padding:20px;}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.menuBtn{background:#111;color:white;padding:8px 14px;border-radius:10px;cursor:pointer;}
-.menu{display:none;background:white;padding:15px;border-radius:16px;margin-bottom:15px;box-shadow:0 10px 25px rgba(0,0,0,0.1);}
-h1{text-align:center;color:#16a34a;font-size:34px;font-weight:800;margin-bottom:10px;}
 
-.card{background:rgba(255,255,255,0.9);padding:20px;border-radius:20px;margin-top:20px;box-shadow:0 15px 35px rgba(0,0,0,0.08);}
-.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.container{
+max-width:700px;
+margin:auto;
+padding:20px;
+}
 
-.progress{height:14px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin-top:10px;}
-.fill{height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);}
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
 
-.big{font-size:26px;font-weight:800;margin-top:10px;}
-.week{color:#2563eb;font-size:15px;}
+.menuBtn{
+background:#111;
+color:white;
+padding:8px 14px;
+border-radius:10px;
+cursor:pointer;
+}
 
-input, textarea{width:100%;padding:12px;margin-top:10px;border-radius:12px;border:1px solid #e5e7eb;font-size:14px;background:#f9fafb;}
+.menu{
+display:none;
+background:white;
+padding:15px;
+border-radius:16px;
+margin-bottom:15px;
+box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
 
-button{width:100%;padding:12px;margin-top:10px;border:none;border-radius:12px;background:linear-gradient(90deg,#22c55e,#16a34a);color:white;font-weight:600;cursor:pointer;}
+h1{
+text-align:center;
+color:#16a34a;
+font-size:34px;
+font-weight:800;
+margin-bottom:10px;
+}
 
-.toggleBtn{background:#111;font-size:12px;padding:6px 10px;border-radius:10px;width:auto;color:white;}
+.card{
+background:rgba(255,255,255,0.9);
+padding:20px;
+border-radius:20px;
+margin-top:20px;
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+}
 
-.log{margin-top:12px;background:#f1f5f9;padding:12px;border-radius:12px;max-height:200px;overflow:auto;font-size:13px;display:none;}
+.card-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:10px;
+}
 
-.task{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f8fafc;padding:12px;border-radius:12px;margin-top:10px;border:1px solid #e5e7eb;}
-.task-left{display:flex;align-items:center;gap:10px;flex:1;min-width:0;}
-.task-text{flex:1;white-space:normal;overflow-wrap:break-word;}
+.progress{
+height:14px;
+background:#e5e7eb;
+border-radius:20px;
+overflow:hidden;
+margin-top:10px;
+}
 
-.task.done{background:#dcfce7;text-decoration:line-through;}
+.fill{
+height:100%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
+}
 
-.delete{background:#ef4444;color:white;border:none;padding:6px 10px;border-radius:8px;cursor:pointer;width:auto;}
-.reset{background:#ef4444;}
+.big{
+font-size:26px;
+font-weight:800;
+margin-top:10px;
+}
 
-.stat{margin-top:10px;display:flex;justify-content:space-between;align-items:center;}
-.stat button{width:auto;padding:6px 10px;margin-left:10px;}
+.week{
+color:#2563eb;
+font-size:15px;
+}
+
+input, textarea{
+width:100%;
+padding:12px;
+margin-top:10px;
+border-radius:12px;
+border:1px solid #e5e7eb;
+font-size:14px;
+background:#f9fafb;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#22c55e,#16a34a);
+color:white;
+font-weight:600;
+cursor:pointer;
+}
+
+.toggleBtn{
+background:#111;
+font-size:12px;
+padding:6px 10px;
+border-radius:10px;
+width:auto;
+color:white;
+}
+
+.log{
+margin-top:12px;
+background:#f1f5f9;
+padding:12px;
+border-radius:12px;
+max-height:200px;
+overflow:auto;
+font-size:13px;
+display:none;
+}
+
+/* 🔥 FIXED TASK BLOCK */
+.task{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:10px;
+background:#f8fafc;
+padding:12px;
+border-radius:12px;
+margin-top:10px;
+border:1px solid #e5e7eb;
+}
+
+.task-left{
+display:flex;
+align-items:center;
+gap:10px;
+flex:1;
+min-width:0;
+}
+
+.task-text{
+flex:1;
+min-width:0;
+display:block;
+white-space:normal;
+word-break:break-word;
+font-size:15px;
+}
+
+/* DONE */
+.task.done{
+background:#dcfce7;
+text-decoration:line-through;
+}
+
+.delete{
+background:#ef4444;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:8px;
+cursor:pointer;
+width:auto;
+flex-shrink:0;
+}
+
+.reset{
+background:#ef4444;
+}
+
+.stat{
+margin-top:10px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.stat button{
+width:auto;
+padding:6px 10px;
+margin-left:10px;
+}
+
 </style>
 </head>
 
@@ -67,12 +218,12 @@ button{width:100%;padding:12px;margin-top:10px;border:none;border-radius:12px;ba
 
 <div class="stat">
 <span>Nupirkta: <b id="boughtText">0</b></span>
-<button onclick="bought++; save(); render()">+</button>
+<button onclick="bought++ ; save(); render()">+</button>
 </div>
 
 <div class="stat">
 <span>Parduota: <b id="soldText">0</b></span>
-<button onclick="sold++; save(); render()">+</button>
+<button onclick="sold++ ; save(); render()">+</button>
 </div>
 
 <h3>📊 PELNAS PER DIENAS</h3>
@@ -231,7 +382,6 @@ tasks.forEach((t,i)=>{
 let div=document.createElement("div");
 div.className="task"+(t.done?" done":"");
 
-// FIX (be innerHTML)
 let left=document.createElement("div");
 left.className="task-left";
 
