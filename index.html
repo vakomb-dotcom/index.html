@@ -9,15 +9,16 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+
 body{
 margin:0;
 font-family:'Inter',sans-serif;
-background:linear-gradient(135deg,#eef2ff,#f8fafc);
-color:#111;
+background:linear-gradient(135deg,#e0f2fe,#f8fafc);
+color:#0f172a;
 }
 
 .container{
-max-width:700px;
+max-width:720px;
 margin:auto;
 padding:20px;
 }
@@ -28,36 +29,45 @@ justify-content:space-between;
 align-items:center;
 }
 
+h1{
+font-size:30px;
+font-weight:800;
+background:linear-gradient(90deg,#16a34a,#22c55e);
+-webkit-background-clip:text;
+color:transparent;
+}
+
 .menuBtn{
-background:#111;
+background:linear-gradient(90deg,#111,#333);
 color:white;
 padding:8px 14px;
-border-radius:10px;
+border-radius:12px;
 cursor:pointer;
 }
 
 .menu{
 display:none;
-background:white;
-padding:15px;
-border-radius:16px;
-margin-top:10px;
-box-shadow:0 10px 25px rgba(0,0,0,0.1);
+margin-top:12px;
+padding:20px;
+border-radius:18px;
+background:rgba(255,255,255,0.7);
+backdrop-filter:blur(10px);
+box-shadow:0 10px 30px rgba(0,0,0,0.1);
 }
 
-h1{
-text-align:center;
-color:#16a34a;
-font-size:34px;
-font-weight:800;
+.stat{
+display:flex;
+justify-content:space-between;
+margin-bottom:10px;
 }
 
 .card{
-background:white;
+background:rgba(255,255,255,0.8);
+backdrop-filter:blur(12px);
 padding:20px;
 border-radius:20px;
 margin-top:20px;
-box-shadow:0 10px 25px rgba(0,0,0,0.08);
+box-shadow:0 10px 30px rgba(0,0,0,0.08);
 }
 
 .card-header{
@@ -66,26 +76,28 @@ justify-content:space-between;
 align-items:center;
 }
 
-.progress{
-height:14px;
-background:#e5e7eb;
-border-radius:20px;
-overflow:hidden;
+button{
+width:100%;
+padding:12px;
 margin-top:10px;
+border:none;
+border-radius:12px;
+background:linear-gradient(90deg,#22c55e,#16a34a);
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.2s;
 }
 
-.fill{
-height:100%;
-background:linear-gradient(90deg,#22c55e,#4ade80);
+button:hover{
+transform:scale(1.02);
 }
 
-.big{
-font-size:26px;
-font-weight:800;
-}
-
-.week{
-color:#2563eb;
+.toggleBtn{
+background:#0f172a;
+padding:6px 10px;
+font-size:12px;
+width:auto;
 }
 
 input, textarea{
@@ -94,58 +106,59 @@ padding:12px;
 margin-top:10px;
 border-radius:12px;
 border:1px solid #e5e7eb;
-background:#f9fafb;
+background:#f8fafc;
 }
 
-button{
-width:100%;
-padding:12px;
+.progress{
+height:14px;
+background:#e5e7eb;
+border-radius:20px;
 margin-top:10px;
-border:none;
-border-radius:12px;
-background:#16a34a;
-color:white;
-font-weight:600;
-cursor:pointer;
+overflow:hidden;
 }
 
-.toggleBtn{
-background:#111;
-font-size:12px;
-padding:6px 10px;
-border-radius:10px;
-width:auto;
+.fill{
+height:100%;
+background:linear-gradient(90deg,#22c55e,#4ade80);
 }
+
+.big{font-size:24px;font-weight:800;}
+.week{color:#2563eb;}
 
 .log{
 display:none;
 margin-top:10px;
-background:#f1f5f9;
-padding:10px;
-border-radius:10px;
+background:#0f172a;
+color:#e2e8f0;
+padding:12px;
+border-radius:12px;
 max-height:200px;
 overflow:auto;
 font-size:13px;
 }
 
-.reset{
-background:#ef4444;
-}
-
-/* TASKS */
 .task{
 display:flex;
 justify-content:space-between;
 align-items:center;
-background:#f8fafc;
 padding:10px;
+background:#f1f5f9;
 border-radius:10px;
 margin-top:8px;
+transition:0.2s;
+}
+
+.task:hover{
+background:#e2e8f0;
 }
 
 .task.done{
 opacity:0.5;
 text-decoration:line-through;
+}
+
+.reset{
+background:#ef4444;
 }
 
 </style>
@@ -161,12 +174,9 @@ text-decoration:line-through;
 </div>
 
 <div id="menu" class="menu">
-
-<div>Nupirkta: <b id="boughtText">0</b> <button onclick="bought++; save(); render()">+</button></div>
-<div>Parduota: <b id="soldText">0</b> <button onclick="sold++; save(); render()">+</button></div>
-
+<div class="stat">Nupirkta: <b id="boughtText">0</b> <button onclick="bought++;save();render()">+</button></div>
+<div class="stat">Parduota: <b id="soldText">0</b> <button onclick="sold++;save();render()">+</button></div>
 <canvas id="chart"></canvas>
-
 </div>
 
 <!-- PROFIT -->
@@ -176,10 +186,10 @@ text-decoration:line-through;
 <button class="toggleBtn" onclick="toggle('profitLog')">Log</button>
 </div>
 
-<input id="profitAmount" type="number">
-<textarea id="profitDesc"></textarea>
+<input id="profitAmount" type="number" placeholder="Suma">
+<textarea id="profitDesc" placeholder="Aprašymas"></textarea>
 
-<button onclick="addProfit()">Pridėti</button>
+<button onclick="addProfit()">Pridėti pelną</button>
 
 <div class="progress"><div id="profitBar" class="fill"></div></div>
 
@@ -211,18 +221,25 @@ text-decoration:line-through;
 
 let profit=0, profitLogs=[];
 let bought=0, sold=0;
-let tasks=[], taskLog=[], lastReset=null;
+let tasks=[], taskLogs=[];
+let lastReset=null;
 let chart;
 
-function now(){return new Date().toLocaleString();}
+function now(){
+let d=new Date();
+return d.toLocaleString('lt-LT');
+}
 
 // PROFIT
 function addProfit(){
 let val=parseInt(profitAmount.value);
 if(!val) return;
 
+let desc=profitDesc.value || "—";
+
 profit+=val;
-profitLogs.unshift(`${now()} — ${profitDesc.value} +${val}`);
+
+profitLogs.unshift(`${now()} — 💰 +${val}€ (${desc})`);
 
 profitAmount.value="";
 profitDesc.value="";
@@ -244,7 +261,7 @@ function toggleTask(i){
 tasks[i].done=!tasks[i].done;
 
 if(tasks[i].done){
-taskLog.unshift(`${now()} — ${tasks[i].text}`);
+taskLogs.unshift(`${now()} — ✅ ${tasks[i].text}`);
 }
 
 save(); renderTasks();
@@ -258,10 +275,10 @@ taskList.innerHTML=tasks.map((t,i)=>`
 </div>
 `).join("");
 
-taskLog.innerHTML=taskLog.join("<br>");
+taskLog.innerHTML=taskLogs.join("<br>");
 }
 
-// MIDNIGHT RESET
+// MIDNIGHT
 function checkReset(){
 let today=new Date().toDateString();
 if(lastReset!==today){
@@ -276,15 +293,18 @@ function updateChart(){
 let map={};
 profitLogs.forEach(l=>{
 let d=l.split(",")[0];
-let v=parseInt(l.split("+")[1]);
+let v=parseInt(l.match(/\+(\d+)/)?.[1]||0);
 map[d]=(map[d]||0)+v;
 });
 
 if(chart) chart.destroy();
 
-chart=new Chart(chart=document.getElementById("chart"),{
+chart=new Chart(document.getElementById("chart"),{
 type:'line',
-data:{labels:Object.keys(map),datasets:[{data:Object.values(map)}]}
+data:{
+labels:Object.keys(map),
+datasets:[{data:Object.values(map),borderColor:'#22c55e'}]
+}
 });
 }
 
@@ -313,7 +333,7 @@ localStorage.setItem("profitLogs",JSON.stringify(profitLogs));
 localStorage.setItem("bought",bought);
 localStorage.setItem("sold",sold);
 localStorage.setItem("tasks",JSON.stringify(tasks));
-localStorage.setItem("taskLog",JSON.stringify(taskLog));
+localStorage.setItem("taskLogs",JSON.stringify(taskLogs));
 localStorage.setItem("lastReset",lastReset);
 }
 
@@ -323,13 +343,13 @@ profitLogs=JSON.parse(localStorage.getItem("profitLogs"))||[];
 bought=parseInt(localStorage.getItem("bought"))||0;
 sold=parseInt(localStorage.getItem("sold"))||0;
 tasks=JSON.parse(localStorage.getItem("tasks"))||[];
-taskLog=JSON.parse(localStorage.getItem("taskLog"))||[];
+taskLogs=JSON.parse(localStorage.getItem("taskLogs"))||[];
 lastReset=localStorage.getItem("lastReset");
 }
 
 // RESET
 function resetAll(){
-if(!confirm("Reset?")) return;
+if(!confirm("Tikrai reset?")) return;
 localStorage.clear();
 location.reload();
 }
