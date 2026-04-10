@@ -405,13 +405,28 @@ tasks.forEach((t,i)=>{
 let div=document.createElement("div");
 div.className="task"+(t.done?" done":"");
 
-div.innerHTML=`
-<div class="task-left">
-<input type="checkbox" ${t.done?"checked":""} onclick="toggleTask(${i})">
-<div class="task-text">${t.text}</div>
-</div>
-<button class="delete" onclick="deleteTask(${i})">X</button>
-`;
+let left = document.createElement("div");
+left.className = "task-left";
+
+let checkbox = document.createElement("input");
+checkbox.type = "checkbox";
+checkbox.checked = t.done;
+checkbox.onclick = () => toggleTask(i);
+
+let text = document.createElement("div");
+text.className = "task-text";
+text.textContent = t.text; // 🔥 svarbiausia vieta (ne innerHTML)
+
+left.appendChild(checkbox);
+left.appendChild(text);
+
+let del = document.createElement("button");
+del.className = "delete";
+del.textContent = "X";
+del.onclick = () => deleteTask(i);
+
+div.appendChild(left);
+div.appendChild(del);
 
 taskList.appendChild(div);
 });
