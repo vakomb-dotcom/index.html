@@ -4,1393 +4,1061 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>automobilius.lt</title>
-  <meta name="theme-color" content="#0b1020" />
+  <meta name="description" content="Paprasta, aiški pasiūlymų lenta perpardavėjams." />
   <style>
-    :root {
-      --bg: #f5f7fb;
-      --surface: rgba(255,255,255,.86);
-      --surface-strong: #ffffff;
-      --text: #101828;
-      --muted: #667085;
-      --border: rgba(16,24,40,.10);
-      --shadow: 0 18px 50px rgba(16,24,40,.10);
-      --shadow-soft: 0 10px 30px rgba(16,24,40,.08);
-      --brand: #5b5ef7;
-      --brand-2: #8b5cf6;
-      --success: #12b76a;
-      --danger: #f04438;
-      --warning: #f79009;
-      --radius-xl: 28px;
-      --radius-lg: 20px;
-      --radius-md: 16px;
-      --radius-sm: 12px;
-      --container: 1240px;
+    :root{
+      --bg:#f3f4f6;
+      --surface:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --line-2:#d1d5db;
+      --shadow: 0 18px 50px rgba(15,23,42,.08);
+      --shadow-soft: 0 8px 24px rgba(15,23,42,.05);
+      --max: 1220px;
+      --accent:#111827;
+      --good:#0f766e;
+      --warn:#b45309;
+      --danger:#b91c1c;
     }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
       background:
-        radial-gradient(1200px 500px at 15% -10%, rgba(91,94,247,.18), transparent 55%),
-        radial-gradient(900px 400px at 90% 0%, rgba(139,92,246,.12), transparent 50%),
-        linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
-      color: var(--text);
-      min-height: 100vh;
+        radial-gradient(1000px 540px at 10% 0%, rgba(17,24,39,.05), transparent 55%),
+        radial-gradient(900px 520px at 90% 0%, rgba(124,58,237,.05), transparent 50%),
+        var(--bg);
+      color:var(--text);
+      padding-bottom:84px;
+    }
+    a{color:inherit}
+    button,input,select,textarea{font:inherit}
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:16px;
+    }
+    .topbar{
+      position:sticky;
+      top:12px;
+      z-index:30;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      padding:14px 16px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.9);
+      backdrop-filter: blur(12px);
+      border-radius:20px;
+      box-shadow:var(--shadow-soft);
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .logo{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      background:linear-gradient(135deg,#111827,#374151);
+      color:#fff;
+      display:grid;
+      place-items:center;
+      font-weight:800;
+      letter-spacing:-.04em;
+      flex:0 0 auto;
+    }
+    .brand strong{
+      display:block;
+      font-size:15px;
+      line-height:1.15;
+      letter-spacing:-.02em;
+    }
+    .brand span{
+      display:block;
+      margin-top:2px;
+      font-size:12px;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .top-actions,.dock-inner{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+      align-items:center;
+    }
+    .btn{
+      appearance:none;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--text);
+      padding:10px 14px;
+      border-radius:12px;
+      cursor:pointer;
+      transition:.16s ease;
+      box-shadow:0 1px 0 rgba(15,23,42,.02);
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .btn:hover{transform:translateY(-1px); border-color:#cbd5e1}
+    .btn.primary{
+      background:var(--accent);
+      color:#fff;
+      border-color:var(--accent);
+    }
+    .btn.primary:hover{background:#0b1220}
+    .btn.secondary{background:#fff}
+    .btn.danger{
+      background:#fff;
+      color:var(--danger);
+      border-color:#fecaca;
     }
 
-    a { color: inherit; text-decoration: none; }
-    button, input, select, textarea { font: inherit; }
-    button { cursor: pointer; }
-
-    .shell {
-      max-width: var(--container);
-      margin: 0 auto;
-      padding: 18px;
+    .board{
+      margin-top:18px;
+      display:grid;
+      gap:14px;
+    }
+    .posts{
+      display:grid;
+      gap:14px;
     }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      backdrop-filter: blur(16px);
-      background: rgba(248,250,252,.78);
-      border-bottom: 1px solid rgba(16,24,40,.08);
+    .card{
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:rgba(255,255,255,.96);
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
-
-    .topbar-inner {
-      max-width: var(--container);
-      margin: 0 auto;
-      padding: 14px 18px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      justify-content: space-between;
+    .card-inner{
+      display:grid;
+      grid-template-columns: 250px 1fr;
+      min-height: 220px;
     }
-
-    .brand-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      min-width: 0;
+    .cover{
+      position:relative;
+      border-right:1px solid var(--line);
+      background:#f8fafc;
+      overflow:hidden;
+      min-height: 220px;
     }
-
-    .brand-mark {
-      width: 44px;
-      height: 44px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, #0f172a 0%, #5b5ef7 100%);
-      display: grid;
-      place-items: center;
-      color: white;
-      box-shadow: 0 14px 30px rgba(91,94,247,.25);
-      flex: 0 0 auto;
-      font-weight: 800;
-      letter-spacing: .5px;
+    .cover img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+      cursor:pointer;
     }
-
-    .brand-text { min-width: 0; }
-    .brand-title {
-      font-size: 17px;
-      font-weight: 800;
-      line-height: 1.15;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
+    .badges{
+      position:absolute;
+      left:12px;
+      top:12px;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      z-index:2;
     }
-    .brand-sub {
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 2px;
-    }
-
-    .top-actions {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: flex-end;
-    }
-
-    .btn {
-      border: 1px solid transparent;
-      border-radius: 14px;
-      padding: 11px 15px;
-      font-weight: 700;
-      transition: .18s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      justify-content: center;
-      box-shadow: 0 8px 20px rgba(16,24,40,.05);
-      user-select: none;
-    }
-    .btn:hover { transform: translateY(-1px); }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-      color: #fff;
-    }
-    .btn-soft {
-      background: rgba(255,255,255,.8);
-      color: var(--text);
-      border-color: var(--border);
+    .badge{
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.94);
+      border:1px solid rgba(209,213,219,.75);
+      color:#111827;
+      font-size:12px;
       backdrop-filter: blur(8px);
     }
-    .btn-danger {
-      background: rgba(240,68,56,.1);
-      color: #b42318;
-      border-color: rgba(240,68,56,.18);
-    }
-    .btn-ghost {
-      background: transparent;
-      border-color: var(--border);
-      color: var(--text);
-    }
-
-    .hero {
-      margin-top: 22px;
-      padding: 24px;
-      border: 1px solid rgba(16,24,40,.08);
-      border-radius: var(--radius-xl);
-      background:
-        linear-gradient(135deg, rgba(255,255,255,.95) 0%, rgba(248,250,255,.88) 100%);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      position: relative;
+    .badge.good{color:var(--good)}
+    .badge.warn{color:var(--warn)}
+    .content{
+      padding:18px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+      min-width:0;
     }
 
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: auto -80px -80px auto;
-      width: 260px;
-      height: 260px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(91,94,247,.20) 0%, rgba(91,94,247,0) 70%);
-      pointer-events: none;
+    .postedline{
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.01em;
+    }
+    .title h2{
+      margin:0;
+      font-size:24px;
+      line-height:1.05;
+      letter-spacing:-.04em;
+    }
+    .meta{
+      margin-top:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .pill{
+      padding:8px 10px;
+      border-radius:999px;
+      background:#f8fafc;
+      border:1px solid var(--line);
+      color:#334155;
+      font-size:12px;
     }
 
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.45fr .95fr;
-      gap: 18px;
-      align-items: center;
+    .simpleinfo{
+      display:grid;
+      gap:8px;
+      margin-top:2px;
+    }
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:flex-start;
+      line-height:1.5;
+      font-size:14px;
+      color:#111827;
+    }
+    .row .k{
+      min-width: 120px;
+      color:var(--muted);
+      font-weight:600;
+    }
+    .row .v{
+      flex:1;
+      min-width:0;
+      word-break:break-word;
     }
 
-    .hero h1 {
-      margin: 0;
-      font-size: clamp(28px, 5vw, 54px);
-      line-height: 1.04;
-      letter-spacing: -0.04em;
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:auto;
     }
-    .hero p {
-      margin: 14px 0 0;
-      font-size: 16px;
-      color: var(--muted);
-      max-width: 60ch;
-      line-height: 1.55;
-    }
-
-    .hero-cta {
-      margin-top: 18px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
+    .actions .btn{padding:10px 12px}
+    .empty{
+      border:1px dashed #cbd5e1;
+      border-radius:20px;
+      background:rgba(255,255,255,.8);
+      padding:46px 20px;
+      text-align:center;
+      color:var(--muted);
     }
 
-    .stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(15,23,42,.55);
+      backdrop-filter: blur(8px);
+      display:none;
+      place-items:center;
+      z-index:100;
+      padding:16px;
     }
-    .stat {
-      padding: 16px;
-      border-radius: 18px;
-      background: rgba(255,255,255,.8);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-soft);
+    .modal.open{display:grid}
+    .dialog{
+      width:min(1060px, 100%);
+      max-height:94vh;
+      overflow:auto;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:24px;
+      box-shadow:0 30px 100px rgba(15,23,42,.22);
     }
-    .stat .n { font-size: 24px; font-weight: 900; letter-spacing: -0.04em; }
-    .stat .l { font-size: 13px; color: var(--muted); margin-top: 4px; }
+    .dialog.headless{max-width:720px}
+    .dialog-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      padding:16px 18px 0;
+    }
+    .dialog-head h3{
+      margin:0;
+      font-size:18px;
+      letter-spacing:-.02em;
+    }
+    .dialog-body{
+      padding:18px;
+    }
+    .note{
+      border:1px solid #e0e7ff;
+      background:#f8fafc;
+      color:#334155;
+      border-radius:16px;
+      padding:13px 14px;
+      line-height:1.55;
+      font-size:13px;
+    }
+    .formgrid{
+      display:grid;
+      grid-template-columns:repeat(12,1fr);
+      gap:12px;
+      margin-top:14px;
+    }
+    .span-12{grid-column:span 12}
+    .span-6{grid-column:span 6}
+    .span-4{grid-column:span 4}
+    .span-3{grid-column:span 3}
+    .field label{
+      display:block;
+      font-size:12px;
+      color:var(--muted);
+      margin:0 0 7px 2px;
+    }
+    .field input,.field select,.field textarea{
+      width:100%;
+      border:1px solid var(--line-2);
+      border-radius:12px;
+      background:#fff;
+      color:var(--text);
+      padding:12px 13px;
+      outline:none;
+      transition:.16s ease;
+    }
+    .field textarea{resize:vertical; min-height:44px}
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:#94a3b8;
+      box-shadow:0 0 0 4px rgba(17,24,39,.06);
+    }
+    .filebox{
+      border:1px dashed var(--line-2);
+      background:#fafafa;
+      border-radius:16px;
+      padding:14px;
+      color:var(--muted);
+      font-size:13px;
+    }
+    .thumbs{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:10px;
+    }
+    .thumbs img{
+      width:100%;
+      aspect-ratio:1/1;
+      object-fit:cover;
+      border-radius:14px;
+      border:1px solid var(--line);
+      cursor:pointer;
+    }
+    .detail{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:16px;
+    }
+    .detail-main{
+      border:1px solid var(--line);
+      border-radius:20px;
+      overflow:hidden;
+      background:#f8fafc;
+    }
+    .detail-main img{
+      width:100%;
+      display:block;
+      max-height:520px;
+      object-fit:cover;
+    }
+    .detail-side{
+      display:grid;
+      gap:12px;
+      align-content:start;
+    }
+    .box{
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:18px;
+      box-shadow:var(--shadow-soft);
+      padding:16px;
+    }
+    .box h3{
+      margin:0 0 8px;
+      font-size:15px;
+      letter-spacing:-.02em;
+    }
+    .box p{
+      margin:0;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.65;
+    }
+    .tiny{font-size:12px}
+    .muted{color:var(--muted)}
+    .footer{
+      margin:22px 0 6px;
+      color:var(--muted);
+      font-size:12px;
+      text-align:center;
+    }
+    .bottom-dock{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:40;
+      padding:12px 16px;
+      background:rgba(255,255,255,.92);
+      border-top:1px solid var(--line);
+      backdrop-filter: blur(12px);
+    }
+    .dock-inner{
+      max-width:var(--max);
+      margin:0 auto;
+    }
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:78px;
+      transform:translateX(-50%) translateY(16px);
+      opacity:0;
+      pointer-events:none;
+      z-index:200;
+      background:#111827;
+      color:#fff;
+      padding:11px 14px;
+      border-radius:999px;
+      box-shadow:var(--shadow);
+      transition:.2s ease;
+    }
+    .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+    .hidden{display:none !important;}
 
-    .toolbar {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: 1.3fr repeat(4, minmax(0, 1fr));
-      gap: 12px;
-      align-items: center;
+    @media (max-width: 1100px){
+      .card-inner,.detail{
+        grid-template-columns:1fr;
+      }
+      .cover{
+        border-right:0;
+        border-bottom:1px solid var(--line);
+      }
+      .thumbs{grid-template-columns:repeat(2,1fr)}
     }
-
-    .field,
-    .input {
-      width: 100%;
-      padding: 13px 14px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.88);
-      color: var(--text);
-      outline: none;
-      box-shadow: 0 1px 0 rgba(16,24,40,.02);
-      transition: border-color .15s ease, box-shadow .15s ease, transform .15s ease;
-    }
-    .field:focus,
-    .input:focus {
-      border-color: rgba(91,94,247,.55);
-      box-shadow: 0 0 0 4px rgba(91,94,247,.12);
-    }
-
-    .section {
-      margin-top: 18px;
-      display: flex;
-      gap: 10px;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .section h2 {
-      margin: 0;
-      font-size: 20px;
-      letter-spacing: -0.03em;
-    }
-    .section .meta {
-      color: var(--muted);
-      font-size: 13px;
-    }
-
-    .grid {
-      margin-top: 16px;
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
-    .card {
-      background: rgba(255,255,255,.90);
-      border: 1px solid rgba(16,24,40,.08);
-      border-radius: 24px;
-      overflow: hidden;
-      box-shadow: var(--shadow-soft);
-      display: flex;
-      flex-direction: column;
-      min-height: 100%;
-    }
-
-    .media {
-      position: relative;
-      aspect-ratio: 16 / 10;
-      background: linear-gradient(135deg, #e5e7eb, #f8fafc);
-      overflow: hidden;
-    }
-    .media img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform .25s ease;
-    }
-    .card:hover .media img { transform: scale(1.02); }
-
-    .badge-row {
-      position: absolute;
-      inset: 12px 12px auto 12px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      z-index: 2;
-    }
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 800;
-      backdrop-filter: blur(10px);
-      background: rgba(15,23,42,.66);
-      color: #fff;
-    }
-    .badge.soft { background: rgba(255,255,255,.80); color: var(--text); border: 1px solid rgba(16,24,40,.08); }
-    .badge.green { background: rgba(18,183,106,.92); }
-    .badge.blue { background: rgba(91,94,247,.92); }
-    .badge.orange { background: rgba(247,144,9,.92); }
-
-    .card-body {
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-      flex: 1;
-    }
-    .title-row {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 12px;
-    }
-    .title-block { min-width: 0; }
-    .car-title {
-      margin: 0;
-      font-size: 19px;
-      font-weight: 900;
-      letter-spacing: -0.03em;
-      line-height: 1.1;
-      word-break: break-word;
-    }
-    .car-sub {
-      margin-top: 5px;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.45;
-    }
-
-    .price {
-      font-size: 24px;
-      font-weight: 900;
-      letter-spacing: -0.04em;
-    }
-    .price small {
-      font-size: 13px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-
-    .details {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
-    .detail {
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(248,250,252,.92);
-      border: 1px solid rgba(16,24,40,.06);
-    }
-    .detail .k { color: var(--muted); font-size: 12px; margin-bottom: 3px; }
-    .detail .v { font-weight: 800; font-size: 14px; word-break: break-word; }
-
-    .desc {
-      color: #344054;
-      line-height: 1.55;
-      font-size: 14px;
-      background: rgba(255,255,255,.85);
-      border: 1px solid rgba(16,24,40,.06);
-      border-radius: 16px;
-      padding: 12px;
-      min-height: 62px;
-    }
-
-    .thumbs {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 2px;
-      scrollbar-width: thin;
-    }
-    .thumb {
-      width: 58px;
-      height: 58px;
-      border-radius: 14px;
-      object-fit: cover;
-      border: 1px solid rgba(16,24,40,.08);
-      cursor: pointer;
-      flex: 0 0 auto;
-      opacity: .88;
-      transition: .15s ease;
-      background: #f8fafc;
-    }
-    .thumb:hover, .thumb.active { opacity: 1; transform: translateY(-1px); box-shadow: 0 10px 20px rgba(16,24,40,.08); }
-
-    .actions {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: auto;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(16,24,40,.08);
-      background: rgba(255,255,255,.92);
-      color: var(--text);
-      font-weight: 800;
-      font-size: 13px;
-    }
-    .pill.primary { background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%); color: white; border-color: transparent; }
-    .pill.success { background: rgba(18,183,106,.10); color: #027a48; border-color: rgba(18,183,106,.18); }
-    .pill.soft { background: rgba(255,255,255,.80); }
-    .pill.danger { background: rgba(240,68,56,.10); color: #b42318; border-color: rgba(240,68,56,.18); }
-
-    .empty {
-      margin-top: 18px;
-      padding: 34px;
-      border-radius: 24px;
-      border: 1px dashed rgba(16,24,40,.16);
-      background: rgba(255,255,255,.72);
-      text-align: center;
-      color: var(--muted);
-      box-shadow: var(--shadow-soft);
-    }
-    .empty h3 { margin: 0 0 8px; color: var(--text); font-size: 20px; }
-
-    .floating {
-      position: fixed;
-      right: 18px;
-      bottom: 18px;
-      z-index: 35;
-      display: grid;
-      gap: 10px;
-    }
-
-    .fab {
-      width: 56px;
-      height: 56px;
-      border-radius: 18px;
-      border: 0;
-      display: grid;
-      place-items: center;
-      box-shadow: 0 16px 30px rgba(16,24,40,.18);
-      color: #fff;
-      font-size: 20px;
-      font-weight: 800;
-      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-    }
-
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(2,6,23,.58);
-      backdrop-filter: blur(10px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 18px;
-      z-index: 60;
-    }
-    .modal-backdrop.show { display: flex; }
-    .modal {
-      width: min(100%, 980px);
-      max-height: min(92vh, 980px);
-      overflow: auto;
-      background: rgba(255,255,255,.97);
-      border-radius: 28px;
-      box-shadow: 0 30px 100px rgba(0,0,0,.32);
-      border: 1px solid rgba(255,255,255,.30);
-    }
-    .modal.narrow { width: min(100%, 520px); }
-
-    .modal-head {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 18px 18px 0;
-    }
-    .modal-title { margin: 0; font-size: 22px; font-weight: 900; letter-spacing: -0.03em; }
-    .modal-sub { margin: 6px 0 0; color: var(--muted); }
-    .icon-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.9);
-      font-size: 18px;
-      display: grid;
-      place-items: center;
-    }
-
-    .modal-body { padding: 18px; }
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-    .form-grid .full { grid-column: 1 / -1; }
-
-    label {
-      display: block;
-      font-size: 12px;
-      font-weight: 800;
-      color: #344054;
-      margin: 0 0 6px;
-    }
-
-    .helper {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: 6px;
-      line-height: 1.45;
-    }
-
-    .tabs {
-      display: flex;
-      gap: 8px;
-      padding: 18px 18px 0;
-      flex-wrap: wrap;
-    }
-    .tab {
-      border: 1px solid var(--border);
-      background: rgba(255,255,255,.8);
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-weight: 800;
-      color: var(--muted);
-    }
-    .tab.active {
-      color: white;
-      background: linear-gradient(135deg, var(--brand) 0%, var(--brand-2) 100%);
-      border-color: transparent;
-    }
-
-    .profile-box {
-      padding: 16px;
-      border: 1px solid rgba(16,24,40,.08);
-      border-radius: 20px;
-      background: rgba(248,250,252,.9);
-      display: grid;
-      gap: 10px;
-    }
-    .profile-row { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-    .profile-row strong { font-size: 15px; }
-    .profile-row span { color: var(--muted); }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap: 16px;
-    }
-    .gallery-main {
-      background: #0f172a;
-      border-radius: 22px;
-      overflow: hidden;
-      aspect-ratio: 16 / 11;
-      display: grid;
-      place-items: center;
-      position: relative;
-    }
-    .gallery-main img { width: 100%; height: 100%; object-fit: cover; }
-    .gallery-side {
-      display: grid;
-      gap: 10px;
-      align-content: start;
-    }
-    .gallery-side .detail { background: rgba(255,255,255,.94); }
-
-    .notice {
-      padding: 12px 14px;
-      border-radius: 16px;
-      border: 1px solid rgba(91,94,247,.18);
-      background: rgba(91,94,247,.08);
-      color: #3730a3;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(255,255,255,.45);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin .8s linear infinite;
-      display: inline-block;
-    }
-
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    @media (max-width: 1080px) {
-      .hero-grid, .gallery, .grid { grid-template-columns: 1fr; }
-      .toolbar { grid-template-columns: 1fr 1fr; }
-    }
-    @media (max-width: 720px) {
-      .topbar-inner { align-items: start; flex-direction: column; }
-      .top-actions { width: 100%; justify-content: stretch; }
-      .top-actions .btn { flex: 1; }
-      .toolbar { grid-template-columns: 1fr; }
-      .stats { grid-template-columns: 1fr; }
-      .form-grid { grid-template-columns: 1fr; }
-      .details { grid-template-columns: 1fr; }
-      .shell { padding: 12px; }
-      .hero { padding: 18px; }
-      .modal-body { padding: 14px; }
-      .modal-head { padding: 14px 14px 0; }
-      .tabs { padding: 14px 14px 0; }
+    @media (max-width: 720px){
+      body{padding-bottom:96px}
+      .wrap{padding:12px}
+      .topbar{
+        padding:12px 14px;
+        top:8px;
+      }
+      .brand span{max-width:150px}
+      .content{padding:15px}
+      .title h2{font-size:22px}
+      .dialog-body{padding:14px}
+      .span-12,.span-6,.span-4,.span-3{grid-column:span 12}
+      .bottom-dock{padding:10px 12px}
+      .dock-inner{justify-content:center}
     }
   </style>
 </head>
 <body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <div class="brand-wrap">
-        <div class="brand-mark">A</div>
-        <div class="brand-text">
-          <div class="brand-title">automobilius.lt</div>
-          <div class="brand-sub">Premium automobilio skelbimų platforma</div>
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">A</div>
+        <div style="min-width:0">
+          <strong>automobilius.lt</strong>
+          <span>Pasiūlymų lenta perpardavėjams</span>
         </div>
       </div>
-
       <div class="top-actions">
-        <button class="btn btn-soft" id="btnFavorites">❤ Favoritai <span id="favCount">0</span></button>
-        <button class="btn btn-soft" id="btnAuth">Prisijungti</button>
-        <button class="btn btn-primary" id="btnCreate">+ Talpinti skelbimą</button>
+        <button class="btn primary" id="btnAdd">+ Talpinti pasiūlymą</button>
       </div>
-    </div>
-  </header>
+    </header>
 
-  <main class="shell">
-    <section class="hero">
-      <div class="hero-grid">
-        <div>
-          <h1>Automobilių skelbimai, kurie atrodo ir veikia kaip premium produktas.</h1>
-          <p>
-            Tvarkingas dizainas, greita paieška, filtrai, favoriting, nuotraukų peržiūra, redagavimas, trynimas ir
-            realaus laiko sąrašas iš Firestore.
-          </p>
-          <div class="hero-cta">
-            <button class="btn btn-primary" id="heroCreate">Talpinti dabar</button>
-            <button class="btn btn-soft" id="heroBrowse">Peržiūrėti skelbimus</button>
-          </div>
-        </div>
-        <div class="stats">
-          <div class="stat">
-            <div class="n" id="statPosts">0</div>
-            <div class="l">aktyvių skelbimų</div>
-          </div>
-          <div class="stat">
-            <div class="n" id="statFavs">0</div>
-            <div class="l">išsaugotų favorituose</div>
-          </div>
-          <div class="stat">
-            <div class="n" id="statUser">Guest</div>
-            <div class="l">prisijungęs vartotojas</div>
-          </div>
-        </div>
+    <main class="board">
+      <div id="posts" class="posts"></div>
+      <div id="empty" class="empty hidden">
+        <strong>Šiuo metu pasiūlymų nėra.</strong>
+        <div class="tiny" style="margin-top:6px;">Paspausk „Talpinti pasiūlymą“ ir įkelk pirmą auto.</div>
       </div>
-    </section>
+    </main>
 
-    <section class="toolbar" aria-label="Filtrai">
-      <input class="field" id="searchInput" placeholder="Ieškoti pagal markę, modelį, miestą, variklį ar defektus..." />
-      <select class="field" id="filterBrand"><option value="">Visos markės</option></select>
-      <select class="field" id="filterCity"><option value="">Visi miestai</option></select>
-      <select class="field" id="sortBy">
-        <option value="newest">Naujausi pirmi</option>
-        <option value="oldest">Seniausi pirmi</option>
-        <option value="priceAsc">Kaina: nuo mažiausios</option>
-        <option value="priceDesc">Kaina: nuo didžiausios</option>
-      </select>
-      <select class="field" id="filterType">
-        <option value="">Visi tipai</option>
-        <option value="Derinta">Derinta</option>
-        <option value="Nederinta">Nederinta</option>
-      </select>
-    </section>
-
-    <section class="section">
-      <div>
-        <h2>Skelbimai</h2>
-        <div class="meta" id="resultMeta">Kraunama...</div>
-      </div>
-      <div class="meta" id="connectionMeta">Prisijungimas prie Firestore...</div>
-    </section>
-
-    <section id="posts" class="grid"></section>
-    <section id="emptyState" class="empty" style="display:none;">
-      <h3>Kol kas nėra skelbimų pagal pasirinktus filtrus</h3>
-      <div>Pabandyk pakeisti paiešką arba įkelk pirmą skelbimą.</div>
-    </section>
-  </main>
-
-  <div class="floating">
-    <button class="fab" id="fabCreate" title="Talpinti skelbimą">+</button>
+    <div class="footer">automobilius.lt • paprasta ir aiški pasiūlymų lenta</div>
   </div>
 
-  <div class="modal-backdrop" id="authModal">
-    <div class="modal narrow">
-      <div class="modal-head">
-        <div>
-          <h3 class="modal-title">Prisijungimas</h3>
-          <p class="modal-sub">Prisijunk arba susikurk paskyrą. Adminas atpažįstamas automatiškai.</p>
-        </div>
-        <button class="icon-btn" data-close="authModal">×</button>
-      </div>
-      <div class="tabs">
-        <button class="tab active" id="tabLogin">Prisijungti</button>
-        <button class="tab" id="tabRegister">Registruotis</button>
-      </div>
-      <div class="modal-body">
-        <div id="loginPane">
-          <div class="form-grid">
-            <div class="full">
-              <label>Slapyvardis</label>
-              <input class="input" id="loginNick" placeholder="pvz. Mindaugas" />
-            </div>
-            <div class="full">
-              <label>Slaptažodis</label>
-              <input class="input" id="loginPass" type="password" placeholder="••••••••" />
-            </div>
-          </div>
-          <div class="hero-cta" style="margin-top:14px;">
-            <button class="btn btn-primary" id="doLogin">Prisijungti</button>
-            <button class="btn btn-soft" data-close="authModal">Uždaryti</button>
-          </div>
-        </div>
-
-        <div id="registerPane" style="display:none;">
-          <div class="form-grid">
-            <div class="full">
-              <label>Slapyvardis</label>
-              <input class="input" id="regNick" placeholder="pvz. Jonas" />
-            </div>
-            <div>
-              <label>Slaptažodis</label>
-              <input class="input" id="regPass" type="password" placeholder="••••••••" />
-            </div>
-            <div>
-              <label>Pakartoti slaptažodį</label>
-              <input class="input" id="regPass2" type="password" placeholder="••••••••" />
-            </div>
-          </div>
-          <div class="hero-cta" style="margin-top:14px;">
-            <button class="btn btn-primary" id="doRegister">Registruotis</button>
-            <button class="btn btn-soft" data-close="authModal">Uždaryti</button>
-          </div>
-        </div>
-      </div>
+  <div class="bottom-dock">
+    <div class="dock-inner">
+      <button class="btn" id="btnAdmin">Admin</button>
     </div>
   </div>
 
-  <div class="modal-backdrop" id="createModal">
-    <div class="modal">
-      <div class="modal-head">
-        <div>
-          <h3 class="modal-title">Naujas skelbimas</h3>
-          <p class="modal-sub">Aiškiai sutvarkyta forma, nuotraukos, ir visi svarbiausi automobilio duomenys.</p>
-        </div>
-        <button class="icon-btn" data-close="createModal">×</button>
+  <div class="modal" id="detailModal">
+    <div class="dialog">
+      <div class="dialog-head">
+        <h3 id="detailTitle">Pasiūlymas</h3>
+        <button class="btn" data-close="detailModal">Uždaryti</button>
       </div>
-      <div class="modal-body">
-        <div class="notice" style="margin-bottom:14px;">Nuotraukas galima įkelti iki 8 vnt. Jos bus automatiškai sumažintos, kad app veiktų greičiau.</div>
-        <div class="form-grid">
-          <div><label>Markė *</label><input class="input" id="brand" placeholder="Toyota"></div>
-          <div><label>Modelis *</label><input class="input" id="model" placeholder="RAV4"></div>
-          <div><label>Metai *</label><input class="input" id="year" inputmode="numeric" placeholder="2019"></div>
-          <div><label>Variklis *</label><input class="input" id="engine" placeholder="2.0 D-4D, 110 kW"></div>
-          <div><label>Kaina € *</label><input class="input" id="price" inputmode="numeric" placeholder="15900"></div>
-          <div><label>Derinimas</label>
-            <select class="input" id="negotiated">
+      <div class="dialog-body" id="detailBody"></div>
+    </div>
+  </div>
+
+  <div class="modal" id="formModal">
+    <div class="dialog">
+      <div class="dialog-head">
+        <h3 id="formTitle">Naujas pasiūlymas</h3>
+        <button class="btn" data-close="formModal">Uždaryti</button>
+      </div>
+      <div class="dialog-body">
+        <div class="note">Įkėlimui prisijungti nereikia.</div>
+
+        <div class="formgrid">
+          <div class="field span-4">
+            <label>Markė</label>
+            <input id="fBrand" placeholder="Toyota" />
+          </div>
+          <div class="field span-4">
+            <label>Modelis</label>
+            <input id="fModel" placeholder="Avensis" />
+          </div>
+          <div class="field span-4">
+            <label>Metai</label>
+            <input id="fYear" type="number" placeholder="2012" />
+          </div>
+
+          <div class="field span-4">
+            <label>Variklis</label>
+            <input id="fEngine" placeholder="2.0 dyzelis" />
+          </div>
+          <div class="field span-4">
+            <label>Defektai</label>
+            <input id="fDefects" placeholder="Bamperis, rūdys..." />
+          </div>
+          <div class="field span-4">
+            <label>Miestas</label>
+            <input id="fCity" placeholder="Vilnius" />
+          </div>
+
+          <div class="field span-3">
+            <label>Kaina €</label>
+            <input id="fPrice" type="number" placeholder="1700" />
+          </div>
+          <div class="field span-3">
+            <label>Interest €</label>
+            <input id="fInterest" type="number" placeholder="50" />
+          </div>
+          <div class="field span-3">
+            <label>Viber nr</label>
+            <input id="fPhone" placeholder="+3706..." />
+          </div>
+          <div class="field span-3">
+            <label>Derinta</label>
+            <select id="fNegotiated">
               <option value="Nederinta">Nederinta</option>
               <option value="Derinta">Derinta</option>
             </select>
           </div>
-          <div><label>Miestas *</label><input class="input" id="city" placeholder="Vilnius"></div>
-          <div><label>Susidomėjimas €</label><input class="input" id="interest" inputmode="numeric" placeholder="0"></div>
-          <div><label>Telefonas / Viber *</label><input class="input" id="phone" placeholder="+37060000000"></div>
-          <div><label>Nuotraukos</label><input class="input" id="photos" type="file" multiple accept="image/*"></div>
-          <div class="full"><label>Defektai *</label><textarea class="input" id="defects" rows="4" placeholder="Trumpai, aiškiai ir sąžiningai aprašyk defektus."></textarea></div>
-          <div class="full"><label>Papildomas aprašymas</label><textarea class="input" id="description" rows="4" placeholder="Papildoma informacija, komplektacija, istorija, privalumai."></textarea></div>
-        </div>
-        <div class="hero-cta" style="margin-top:14px;">
-          <button class="btn btn-primary" id="submitPost"><span id="submitLabel">Įkelti skelbimą</span></button>
-          <button class="btn btn-soft" data-close="createModal">Atšaukti</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="modal-backdrop" id="profileModal">
-    <div class="modal narrow">
-      <div class="modal-head">
-        <div>
-          <h3 class="modal-title">Paskyra</h3>
-          <p class="modal-sub">Greita informacija apie prisijungusią paskyrą.</p>
-        </div>
-        <button class="icon-btn" data-close="profileModal">×</button>
-      </div>
-      <div class="modal-body">
-        <div class="profile-box">
-          <div class="profile-row"><strong>Vartotojas</strong><span id="profileName">Guest</span></div>
-          <div class="profile-row"><strong>Statusas</strong><span id="profileRole">Svečias</span></div>
-          <div class="profile-row"><strong>Skelbimai</strong><span id="profilePosts">0</span></div>
-        </div>
-        <div class="hero-cta" style="margin-top:14px;">
-          <button class="btn btn-danger" id="logoutBtn">Atsijungti</button>
-          <button class="btn btn-soft" data-close="profileModal">Uždaryti</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal-backdrop" id="viewerModal">
-    <div class="modal">
-      <div class="modal-head">
-        <div>
-          <h3 class="modal-title" id="viewerTitle">Peržiūra</h3>
-          <p class="modal-sub" id="viewerSub">Skelbimo detalės</p>
-        </div>
-        <button class="icon-btn" data-close="viewerModal">×</button>
-      </div>
-      <div class="modal-body">
-        <div class="gallery">
-          <div>
-            <div class="gallery-main"><img id="viewerImage" alt="Automobilio nuotrauka"></div>
-            <div class="thumbs" id="viewerThumbs" style="margin-top:10px;"></div>
+          <div class="field span-12">
+            <label>Trumpas aprašymas</label>
+            <textarea id="fNotes" rows="3" placeholder="Papildoma informacija, būklė, pastabos..."></textarea>
           </div>
-          <div class="gallery-side">
-            <div class="detail"><div class="k">Kaina</div><div class="v" id="viewerPrice"></div></div>
-            <div class="detail"><div class="k">Metai</div><div class="v" id="viewerYear"></div></div>
-            <div class="detail"><div class="k">Variklis</div><div class="v" id="viewerEngine"></div></div>
-            <div class="detail"><div class="k">Miestas</div><div class="v" id="viewerCity"></div></div>
-            <div class="detail"><div class="k">Defektai</div><div class="v" id="viewerDefects"></div></div>
-            <div class="detail"><div class="k">Kontaktas</div><div class="v" id="viewerPhone"></div></div>
-            <div class="hero-cta">
-              <a class="btn btn-primary" id="viewerViber" href="#">Rašyti per Viber</a>
-              <button class="btn btn-soft" id="viewerFav">❤ Į favoritus</button>
+
+          <div class="span-12">
+            <div class="filebox">
+              <input id="fImages" type="file" accept="image/*" multiple />
+              <div class="tiny" style="margin-top:8px;">Iki 6 nuotraukų. Pirmoji taps viršeliu.</div>
             </div>
-            <div class="notice" id="viewerDesc"></div>
+          </div>
+
+          <div class="span-12" style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
+            <button class="btn" data-close="formModal">Atšaukti</button>
+            <button class="btn primary" id="savePost">Išsaugoti</button>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      onSnapshot,
-      query,
-      orderBy,
-      deleteDoc,
-      doc,
-      updateDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  <div class="modal" id="authModal">
+    <div class="dialog headless">
+      <div class="dialog-head">
+        <h3>Admin prisijungimas</h3>
+        <button class="btn" data-close="authModal">Uždaryti</button>
+      </div>
+      <div class="dialog-body">
+        <div class="note" style="margin-bottom:14px;">
+          Prisijunk su nick <b>admin</b> ir pass <b>admin123</b>. Po sėkmingo prisijungimo atsivers admin panelė.
+        </div>
+        <div class="formgrid" style="margin-top:0;">
+          <div class="field span-6">
+            <label>Nick</label>
+            <input id="loginNick" placeholder="admin" />
+          </div>
+          <div class="field span-6">
+            <label>Slaptažodis</label>
+            <input id="loginPass" type="password" placeholder="admin123" />
+          </div>
+          <div class="span-12" style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
+            <button class="btn" data-close="authModal">Atšaukti</button>
+            <button class="btn primary" id="doLogin">Prisijungti</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCYc3MMhNlr2nGGH-PdhrFYkhk3_Zn_2XU",
-      authDomain: "automobilius-e2770.firebaseapp.com",
-      projectId: "automobilius-e2770"
-    };
+  <div class="modal" id="adminModal">
+    <div class="dialog">
+      <div class="dialog-head">
+        <h3>Admin panelė</h3>
+        <button class="btn" data-close="adminModal">Uždaryti</button>
+      </div>
+      <div class="dialog-body">
+        <div class="note">
+          Čia gali redaguoti ir trinti visus pasiūlymus. Pasiūlytojo telefonas nerodomas sąrašuose ar kortelėse — matomas tik Viber mygtukas.
+        </div>
+        <div id="adminList" style="margin-top:14px; display:grid; gap:12px;"></div>
+      </div>
+    </div>
+  </div>
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  <div class="toast" id="toast">OK</div>
 
-    const $ = (id) => document.getElementById(id);
-    const postsEl = $("posts");
-    const emptyState = $("emptyState");
-    const resultMeta = $("resultMeta");
-    const connectionMeta = $("connectionMeta");
+  <script>
+    (() => {
+      const LS_POSTS = 'automobilius_posts_v4';
+      const LS_SESSION = 'automobilius_admin_session_v4';
 
-    const state = {
-      posts: [],
-      currentUser: null,
-      favorites: JSON.parse(localStorage.getItem("automobilius_favorites") || "[]"),
-      activeViewer: null,
-      editingId: null
-    };
+      const $ = (id) => document.getElementById(id);
 
-    function seedUsers() {
-      const users = JSON.parse(localStorage.getItem("users") || "{}");
-      if (!users.admin) {
-        users.admin = { pass: "admin123" };
+      const state = {
+        posts: [],
+        admin: false,
+        editId: null,
+        imageCache: []
+      };
+
+      function rid(){
+        return Math.random().toString(36).slice(2,10) + Date.now().toString(36);
       }
-      localStorage.setItem("users", JSON.stringify(users));
-    }
 
-    function getUsers() {
-      return JSON.parse(localStorage.getItem("users") || "{}");
-    }
+      function demoImage(seed){
+        const colors = [
+          ['111827','374151'],
+          ['334155','64748b'],
+          ['7c3aed','c084fc'],
+          ['0f766e','14b8a6']
+        ];
+        const c = colors[seed % colors.length];
+        const svg = `
+          <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
+            <defs>
+              <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#${c[0]}"/>
+                <stop offset="100%" stop-color="#${c[1]}"/>
+              </linearGradient>
+            </defs>
+            <rect width="1200" height="900" fill="url(#g)"/>
+            <circle cx="250" cy="190" r="300" fill="rgba(255,255,255,.08)"/>
+            <rect x="160" y="360" width="880" height="155" rx="78" fill="rgba(255,255,255,.18)"/>
+            <rect x="275" y="290" width="660" height="112" rx="52" fill="rgba(255,255,255,.22)"/>
+            <circle cx="330" cy="550" r="90" fill="rgba(0,0,0,.42)"/>
+            <circle cx="880" cy="550" r="90" fill="rgba(0,0,0,.42)"/>
+            <rect x="438" y="250" width="324" height="56" rx="24" fill="rgba(255,255,255,.20)"/>
+            <text x="70" y="720" font-family="Inter, Arial" font-size="56" font-weight="800" fill="rgba(255,255,255,.9)">automobilius.lt</text>
+          </svg>`;
+        return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
+      }
 
-    function saveUsers(u) {
-      localStorage.setItem("users", JSON.stringify(u));
-    }
+      const seed = [
+        {
+          id: rid(),
+          brand:'Nissan',
+          model:'Xtrail',
+          year:'2008',
+          engine:'2 dyzelis',
+          defects:'Rudys',
+          price:'1700',
+          negotiated:'Nederinta',
+          city:'Ukmerge',
+          interest:'30',
+          phone:'+37061234567',
+          notes:'Tvarkingas važiuojantis variantas.',
+          images:[demoImage(0)],
+          createdAt: Date.now() - 1000*60*60*4
+        },
+        {
+          id: rid(),
+          brand:'Bmw',
+          model:'X5',
+          year:'2008',
+          engine:'3 dyzelis',
+          defects:'Deze smugiuoja visa kita ok',
+          price:'5000',
+          negotiated:'Nederinta',
+          city:'Vilnius',
+          interest:'50',
+          phone:'+37069991111',
+          notes:'Geresnis kontaktas per Viber.',
+          images:[demoImage(1)],
+          createdAt: Date.now() - 1000*60*60*11
+        }
+      ];
 
-    function escapeHtml(str) {
-      return String(str ?? "")
-        .replaceAll("&", "&amp;")
-        .replaceAll("<", "&lt;")
-        .replaceAll(">", "&gt;")
-        .replaceAll('"', "&quot;")
-        .replaceAll("'", "&#39;");
-    }
+      function escapeHTML(str){
+        return String(str ?? '').replace(/[&<>"']/g, s => ({
+          '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
+        }[s]));
+      }
 
-    function normalize(v) {
-      return String(v ?? "").trim().toLowerCase();
-    }
+      function dateLabel(ts){
+        const d = new Date(ts);
+        const day = String(d.getDate()).padStart(2,'0');
+        const month = String(d.getMonth()+1).padStart(2,'0');
+        const year = d.getFullYear();
+        return `${day}.${month}.${year}`;
+      }
 
-    function formatPrice(value) {
-      const n = Number(String(value ?? "").replace(/[^\d.-]/g, ""));
-      if (Number.isFinite(n) && n > 0) return new Intl.NumberFormat("lt-LT").format(Math.round(n)) + " €";
-      return value ? `${value} €` : "—";
-    }
+      function timeLabel(ts){
+        const d = new Date(ts);
+        const hh = String(d.getHours()).padStart(2,'0');
+        const mm = String(d.getMinutes()).padStart(2,'0');
+        return `${hh}:${mm}`;
+      }
 
-    function formatDate(ts) {
-      if (!ts) return "—";
-      const d = typeof ts === "number" ? new Date(ts) : ts.toDate ? ts.toDate() : new Date(ts);
-      return new Intl.DateTimeFormat("lt-LT", { year: "numeric", month: "short", day: "2-digit" }).format(d);
-    }
+      function toast(msg){
+        const t = $('toast');
+        t.textContent = msg;
+        t.classList.add('show');
+        clearTimeout(window.__toastTimer);
+        window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+      }
 
-    function getCreatedAt(post) {
-      return post?.createdAt || post?.date || 0;
-    }
+      function openModal(id){ $(id).classList.add('open'); }
+      function closeModal(id){ $(id).classList.remove('open'); }
 
-    function isAdmin() {
-      return state.currentUser === "admin";
-    }
+      function loadPosts(){
+        try { return JSON.parse(localStorage.getItem(LS_POSTS) || '[]'); }
+        catch { return []; }
+      }
+      function savePosts(posts){ localStorage.setItem(LS_POSTS, JSON.stringify(posts)); }
 
-    function isOwner(post) {
-      return state.currentUser && post.user === state.currentUser;
-    }
+      function loadSession(){
+        try { return JSON.parse(localStorage.getItem(LS_SESSION) || 'null'); }
+        catch { return null; }
+      }
+      function saveSession(v){ localStorage.setItem(LS_SESSION, JSON.stringify(v)); }
 
-    function showModal(id) { $(id).classList.add("show"); }
-    function hideModal(id) { $(id).classList.remove("show"); }
+      function ensureSeed(){
+        if(!localStorage.getItem(LS_POSTS)) savePosts(seed);
+      }
 
-    function closeAllModals() {
-      ["authModal", "createModal", "profileModal", "viewerModal"].forEach(hideModal);
-    }
+      function validate(p){
+        if(!p.brand || !p.model || !p.year || !p.city || !p.price || !p.phone){
+          return 'Užpildyk markę, modelį, metus, miestą, kainą ir Viber nr.';
+        }
+        return '';
+      }
 
-    function updateHeader() {
-      $("statUser").textContent = state.currentUser || "Guest";
-      $("favCount").textContent = state.favorites.length;
-      $("statFavs").textContent = state.favorites.length;
-      $("profileName").textContent = state.currentUser || "Guest";
-      $("profileRole").textContent = isAdmin() ? "Administratorius" : state.currentUser ? "Prisijungęs vartotojas" : "Svečias";
-      $("profilePosts").textContent = state.posts.filter(p => p.user === state.currentUser).length;
-      $("btnAuth").textContent = state.currentUser ? "Paskyra" : "Prisijungti";
-      $("btnAuth").title = state.currentUser ? `Prisijungęs kaip ${state.currentUser}` : "Prisijungti";
-    }
-
-    function updateFiltersFromPosts() {
-      const brands = [...new Set(state.posts.map(p => (p.brand || "").trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, "lt"));
-      const cities = [...new Set(state.posts.map(p => (p.city || "").trim()).filter(Boolean))].sort((a, b) => a.localeCompare(b, "lt"));
-
-      const brandSel = $("filterBrand");
-      const citySel = $("filterCity");
-
-      const currentBrand = brandSel.value;
-      const currentCity = citySel.value;
-
-      brandSel.innerHTML = `<option value="">Visos markės</option>` + brands.map(b => `<option value="${escapeHtml(b)}">${escapeHtml(b)}</option>`).join("");
-      citySel.innerHTML = `<option value="">Visi miestai</option>` + cities.map(c => `<option value="${escapeHtml(c)}">${escapeHtml(c)}</option>`).join("");
-
-      brandSel.value = currentBrand;
-      citySel.value = currentCity;
-    }
-
-    function applyFilters() {
-      const search = normalize($("searchInput").value);
-      const brand = normalize($("filterBrand").value);
-      const city = normalize($("filterCity").value);
-      const sortBy = $("sortBy").value;
-      const type = $("filterType").value;
-
-      let filtered = [...state.posts];
-
-      if (search) {
-        filtered = filtered.filter(p => {
-          const hay = [p.brand, p.model, p.year, p.engine, p.defects, p.city, p.description, p.price, p.interest, p.user].map(normalize).join(" ");
-          return hay.includes(search);
+      function fileToDataURL(file){
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = e => resolve(e.target.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
         });
       }
-      if (brand) filtered = filtered.filter(p => normalize(p.brand) === brand);
-      if (city) filtered = filtered.filter(p => normalize(p.city) === city);
-      if (type) filtered = filtered.filter(p => p.negotiated === type);
 
-      filtered.sort((a, b) => {
-        const da = a.createdAt || 0;
-        const db = b.createdAt || 0;
-        const pa = Number(a.price) || 0;
-        const pb = Number(b.price) || 0;
-        switch (sortBy) {
-          case "oldest": return da - db;
-          case "priceAsc": return pa - pb;
-          case "priceDesc": return pb - pa;
-          default: return db - da;
-        }
-      });
+      function render(){
+        const posts = [...state.posts].sort((a,b) => b.createdAt - a.createdAt);
+        $('posts').innerHTML = posts.map(cardHTML).join('');
+        $('empty').classList.toggle('hidden', posts.length !== 0);
+        bindCards();
+      }
 
-      renderPosts(filtered);
-      resultMeta.textContent = `Rasta ${filtered.length} iš ${state.posts.length} skelbimų`;
-      emptyState.style.display = filtered.length ? "none" : "block";
-    }
-
-    function currentImageIndex(postId, img) {
-      const post = state.posts.find(p => p.id === postId);
-      if (!post || !post.images) return 0;
-      const idx = post.images.indexOf(img);
-      return idx >= 0 ? idx : 0;
-    }
-
-    function renderPosts(list) {
-      $("statPosts").textContent = state.posts.length;
-      postsEl.innerHTML = list.map(post => {
-        const images = Array.isArray(post.images) ? post.images : [];
-        const mainImg = images[0] || "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'><rect width='800' height='500' fill='#e5e7eb'/><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='28' font-family='Arial' fill='#667085'>Nėra nuotraukos</text></svg>`);
-        const fav = state.favorites.includes(post.id);
-        const canEdit = isAdmin() || isOwner(post);
-        const safeTitle = `${escapeHtml(post.brand || "")} ${escapeHtml(post.model || "")}`.trim();
-        const price = formatPrice(post.price);
+      function cardHTML(p){
+        const cover = (p.images && p.images[0]) ? p.images[0] : demoImage(3);
+        const negotiatedBadge = p.negotiated === 'Derinta'
+          ? `<span class="badge good">Derinta</span>`
+          : `<span class="badge warn">Nederinta</span>`;
 
         return `
-          <article class="card" data-id="${escapeHtml(post.id)}">
-            <div class="media">
-              <div class="badge-row">
-                <span class="badge blue">${escapeHtml(post.negotiated || "Nederinta")}</span>
-                <span class="badge soft">${escapeHtml(post.city || "—")}</span>
-                ${fav ? `<span class="badge green">❤ Favoritas</span>` : ``}
-              </div>
-              <img src="${escapeHtml(mainImg)}" alt="${safeTitle}">
-            </div>
-            <div class="card-body">
-              <div class="title-row">
-                <div class="title-block">
-                  <h3 class="car-title">${safeTitle || "Be pavadinimo"}</h3>
-                  <div class="car-sub">${escapeHtml(post.year || "—")} • ${escapeHtml(post.engine || "—")} • Įkelta ${escapeHtml(formatDate(getCreatedAt(post)))}</div>
+          <article class="card">
+            <div class="card-inner">
+              <div class="cover">
+                <div class="badges">
+                  ${negotiatedBadge}
+                  <span class="badge">${escapeHTML(p.city || '—')}</span>
                 </div>
-                <button class="pill soft" data-action="favorite" data-id="${escapeHtml(post.id)}">${fav ? "💜" : "🤍"}</button>
+                <img src="${escapeHTML(cover)}" alt="${escapeHTML(p.brand + ' ' + p.model)}" onerror="this.src='${demoImage(2)}'" />
               </div>
-
-              <div class="price">${escapeHtml(price)} <small>(${escapeHtml(post.negotiated || "Nederinta")})</small></div>
-
-              <div class="details">
-                <div class="detail"><div class="k">Defektai</div><div class="v">${escapeHtml(post.defects || "—")}</div></div>
-                <div class="detail"><div class="k">Susidomėjimas</div><div class="v">${escapeHtml((post.interest || "0") + " €")}</div></div>
-                <div class="detail"><div class="k">Kontaktas</div><div class="v">${escapeHtml(post.phone || "—")}</div></div>
-                <div class="detail"><div class="k">Vartotojas</div><div class="v">${escapeHtml(post.user || "guest")}</div></div>
-              </div>
-
-              <div class="desc">${escapeHtml(post.description || "Aprašymo nėra.")}</div>
-
-              ${images.length > 1 ? `
-                <div class="thumbs">
-                  ${images.map((img, idx) => `<img class="thumb ${idx === 0 ? 'active' : ''}" data-action="thumb" data-id="${escapeHtml(post.id)}" data-src="${escapeHtml(img)}" src="${escapeHtml(img)}" alt="thumb">`).join("")}
+              <div class="content">
+                <div class="postedline">Pasiūlymas: ${dateLabel(p.createdAt)} ${timeLabel(p.createdAt)}</div>
+                <div class="title">
+                  <h2>${escapeHTML(p.brand)} ${escapeHTML(p.model)}</h2>
+                  <div class="meta">
+                    <span class="pill">${escapeHTML(p.year || '—')}</span>
+                    <span class="pill">${escapeHTML(p.engine || '—')}</span>
+                    <span class="pill">${escapeHTML(p.city || '—')}</span>
+                  </div>
                 </div>
-              ` : ``}
 
-              <div class="actions">
-                <button class="pill primary" data-action="open" data-id="${escapeHtml(post.id)}">Peržiūrėti</button>
-                <a class="pill success" href="viber://chat?number=${encodeURIComponent(post.phone || "")}">Viber</a>
-                <a class="pill soft" href="tel:${encodeURIComponent(post.phone || "")}">Skambinti</a>
-                ${canEdit ? `<button class="pill danger" data-action="delete" data-id="${escapeHtml(post.id)}">Trinti</button>` : ``}
-                ${canEdit ? `<button class="pill soft" data-action="edit" data-id="${escapeHtml(post.id)}">Redaguoti</button>` : ``}
+                <div class="simpleinfo">
+                  <div class="row"><div class="k">Defektai</div><div class="v">${escapeHTML(p.defects || '—')}</div></div>
+                  <div class="row"><div class="k">Kaina</div><div class="v">${escapeHTML(p.price || '0')} € (${escapeHTML(p.negotiated || '—')})</div></div>
+                  <div class="row"><div class="k">Interest</div><div class="v">${escapeHTML(p.interest || '0')} €</div></div>
+                </div>
+
+                <div class="actions">
+                  <a class="btn primary" href="viber://chat?number=${encodeURIComponent(p.phone || '')}" target="_blank" rel="noopener">Rašyti per Viber</a>
+                </div>
               </div>
             </div>
           </article>
         `;
-      }).join("");
-    }
+      }
 
-    function syncFavoriteCount() {
-      localStorage.setItem("automobilius_favorites", JSON.stringify(state.favorites));
-      updateHeader();
-      applyFilters();
-    }
+      function bindCards(){
+        document.querySelectorAll('[data-open]').forEach(el => {
+          el.addEventListener('click', () => openDetail(el.dataset.open));
+        });
+      }
 
-    function toggleFavorite(id) {
-      const idx = state.favorites.indexOf(id);
-      if (idx >= 0) state.favorites.splice(idx, 1);
-      else state.favorites.unshift(id);
-      syncFavoriteCount();
-    }
+      function fillForm(p=null){
+        $('fBrand').value = p?.brand || '';
+        $('fModel').value = p?.model || '';
+        $('fYear').value = p?.year || '';
+        $('fEngine').value = p?.engine || '';
+        $('fDefects').value = p?.defects || '';
+        $('fCity').value = p?.city || '';
+        $('fPrice').value = p?.price || '';
+        $('fInterest').value = p?.interest || '';
+        $('fPhone').value = p?.phone || '';
+        $('fNegotiated').value = p?.negotiated || 'Nederinta';
+        $('fNotes').value = p?.notes || '';
+        $('fImages').value = '';
+        state.imageCache = p?.images ? [...p.images] : [];
+      }
 
-    function openViewer(post) {
-      state.activeViewer = post;
-      $("viewerTitle").textContent = `${post.brand || ""} ${post.model || ""}`.trim() || "Skelbimas";
-      $("viewerSub").textContent = `${post.user || "guest"} • ${post.city || "—"} • ${formatDate(getCreatedAt(post))}`;
-      $("viewerPrice").textContent = formatPrice(post.price);
-      $("viewerYear").textContent = post.year || "—";
-      $("viewerEngine").textContent = post.engine || "—";
-      $("viewerCity").textContent = post.city || "—";
-      $("viewerDefects").textContent = post.defects || "—";
-      $("viewerPhone").textContent = post.phone || "—";
-      $("viewerDesc").textContent = post.description || "Papildomo aprašymo nėra.";
-      $("viewerViber").href = `viber://chat?number=${encodeURIComponent(post.phone || "")}`;
-      $("viewerFav").textContent = state.favorites.includes(post.id) ? "💜 Pašalinti iš favoritu" : "❤ Į favoritus";
-
-      const images = Array.isArray(post.images) && post.images.length ? post.images : ["data:image/svg+xml;charset=UTF-8," + encodeURIComponent(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 800 500'><rect width='800' height='500' fill='#e5e7eb'/><text x='50%' y='50%' text-anchor='middle' dominant-baseline='middle' font-size='28' font-family='Arial' fill='#667085'>Nėra nuotraukos</text></svg>`)] ;
-      $("viewerImage").src = images[0];
-      $("viewerThumbs").innerHTML = images.map((src, i) => `<img class="thumb ${i===0?'active':''}" data-viewer-thumb="1" data-src="${escapeHtml(src)}" src="${escapeHtml(src)}" alt="thumb">`).join("");
-      showModal("viewerModal");
-    }
-
-    async function resizeImage(file, maxSize = 1280, quality = 0.84) {
-      return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const img = new Image();
-          img.onload = () => {
-            const canvas = document.createElement("canvas");
-            const ratio = Math.min(1, maxSize / Math.max(img.width, img.height));
-            canvas.width = Math.max(1, Math.round(img.width * ratio));
-            canvas.height = Math.max(1, Math.round(img.height * ratio));
-            const ctx = canvas.getContext("2d");
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-            resolve(canvas.toDataURL("image/jpeg", quality));
-          };
-          img.onerror = reject;
-          img.src = reader.result;
+      function collectForm(){
+        return {
+          brand: $('fBrand').value.trim(),
+          model: $('fModel').value.trim(),
+          year: $('fYear').value.trim(),
+          engine: $('fEngine').value.trim(),
+          defects: $('fDefects').value.trim(),
+          city: $('fCity').value.trim(),
+          price: $('fPrice').value.trim(),
+          interest: $('fInterest').value.trim(),
+          phone: $('fPhone').value.trim(),
+          negotiated: $('fNegotiated').value,
+          notes: $('fNotes').value.trim()
         };
-        reader.onerror = reject;
-        reader.readAsDataURL(file);
-      });
-    }
-
-    function resetCreateForm() {
-      ["brand","model","year","engine","price","city","interest","phone","defects","description"].forEach(id => $(id).value = "");
-      $("negotiated").value = "Nederinta";
-      $("photos").value = "";
-      state.editingId = null;
-      $("submitLabel").textContent = "Įkelti skelbimą";
-      $("modalTitleDummy");
-    }
-
-    async function submitListing() {
-      const required = ["brand","model","year","engine","price","city","phone","defects"];
-      const data = Object.fromEntries(required.concat(["negotiated","interest","description"]).map(id => [id, $(id).value.trim()]));
-      const files = [...($("photos").files || [])];
-
-      if (required.some(id => !$(id).value.trim())) {
-        alert("Užpildyk visus pažymėtus laukus.");
-        return;
-      }
-      if (files.length > 8) {
-        alert("Maksimaliai 8 nuotraukos.");
-        return;
-      }
-      if (!state.currentUser) {
-        alert("Pirmiausia prisijunk, kad galėtum talpinti skelbimus.");
-        showModal("authModal");
-        return;
       }
 
-      const btn = $("submitPost");
-      const oldText = btn.innerHTML;
-      btn.disabled = true;
-      btn.innerHTML = `<span class="spinner"></span> Įkeliama...`;
+      async function savePost(){
+        const payload = collectForm();
+        const err = validate(payload);
+        if(err){ toast(err); return; }
 
-      try {
-        const images = [];
-        for (const file of files) images.push(await resizeImage(file));
+        const files = Array.from($('fImages').files || []);
+        if(files.length > 6){ toast('Maksimaliai 6 nuotraukos'); return; }
 
-        const payload = {
-          brand: data.brand,
-          model: data.model,
-          year: data.year,
-          engine: data.engine,
-          price: data.price,
-          negotiated: data.negotiated || "Nederinta",
-          city: data.city,
-          interest: data.interest || "0",
-          phone: data.phone,
-          defects: data.defects,
-          description: data.description || "",
+        const extra = [];
+        for(const f of files) extra.push(await fileToDataURL(f));
+
+        let images = [...state.imageCache, ...extra].slice(0, 6);
+        if(!images.length) images = [demoImage(0)];
+
+        const post = {
+          ...payload,
+          id: state.editId || rid(),
           images,
-          user: state.currentUser,
-          updatedAt: Date.now(),
-          date: Date.now(),
-          createdAt: Date.now(),
-          createdAtServer: serverTimestamp()
+          createdAt: state.editId ? (state.posts.find(x => x.id === state.editId)?.createdAt || Date.now()) : Date.now(),
         };
 
-        if (state.editingId) {
-          await updateDoc(doc(db, "posts", state.editingId), payload);
-          alert("Skelbimas atnaujintas.");
+        if(state.editId){
+          state.posts = state.posts.map(x => x.id === state.editId ? {...x, ...post} : x);
+          toast('Pasiūlymas atnaujintas');
         } else {
-          await addDoc(collection(db, "posts"), payload);
-          alert("Skelbimas įkeltas.");
+          state.posts.unshift(post);
+          toast('Pasiūlymas įkeltas');
         }
-        hideModal("createModal");
-        resetCreateForm();
-      } catch (err) {
-        console.error(err);
-        alert("Nepavyko įkelti skelbimo. Patikrink Firebase taisykles ir internetą.");
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = oldText;
+
+        savePosts(state.posts);
+        state.editId = null;
+        closeModal('formModal');
+        $('formTitle').textContent = 'Naujas pasiūlymas';
+        fillForm();
+        render();
+        if(state.admin) renderAdminList();
       }
-    }
 
-    function editPost(id) {
-      const post = state.posts.find(p => p.id === id);
-      if (!post) return;
-      if (!(isAdmin() || isOwner(post))) return alert("Neturi teisių redaguoti šio skelbimo.");
+      function openDetail(id){
+        const p = state.posts.find(x => x.id === id);
+        if(!p) return;
 
-      state.editingId = id;
-      $("brand").value = post.brand || "";
-      $("model").value = post.model || "";
-      $("year").value = post.year || "";
-      $("engine").value = post.engine || "";
-      $("price").value = post.price || "";
-      $("negotiated").value = post.negotiated || "Nederinta";
-      $("city").value = post.city || "";
-      $("interest").value = post.interest || "";
-      $("phone").value = post.phone || "";
-      $("defects").value = post.defects || "";
-      $("description").value = post.description || "";
-      $("submitLabel").textContent = "Išsaugoti pakeitimus";
-      showModal("createModal");
-    }
+        $('detailTitle').textContent = `${p.brand} ${p.model}`;
+        const cover = (p.images && p.images[0]) ? p.images[0] : demoImage(0);
+        const thumbs = (p.images || []).map((src, idx) => `<img src="${escapeHTML(src)}" data-thumb="${idx}" alt="nuotrauka ${idx+1}">`).join('');
 
-    async function deletePost(id) {
-      const post = state.posts.find(p => p.id === id);
-      if (!post) return;
-      if (!(isAdmin() || isOwner(post))) return alert("Neturi teisių trinti šio skelbimo.");
-      if (!confirm(`Tikrai trinti skelbimą: ${post.brand || ""} ${post.model || ""}?`)) return;
-      await deleteDoc(doc(db, "posts", id));
-    }
+        $('detailBody').innerHTML = `
+          <div class="detail">
+            <div class="detail-main">
+              <img id="mainImg" src="${escapeHTML(cover)}" alt="${escapeHTML(p.brand + ' ' + p.model)}" />
+            </div>
+            <div class="detail-side">
+              <div class="box" style="margin:0;">
+                <h3>Informacija</h3>
+                <div class="simpleinfo" style="margin-top:12px;">
+                  <div class="row"><div class="k">Markė / modelis</div><div class="v">${escapeHTML(p.brand)} ${escapeHTML(p.model)}</div></div>
+                  <div class="row"><div class="k">Metai</div><div class="v">${escapeHTML(p.year)}</div></div>
+                  <div class="row"><div class="k">Variklis</div><div class="v">${escapeHTML(p.engine)}</div></div>
+                  <div class="row"><div class="k">Miestas</div><div class="v">${escapeHTML(p.city)}</div></div>
+                  <div class="row"><div class="k">Kaina</div><div class="v">${escapeHTML(p.price)} € (${escapeHTML(p.negotiated)})</div></div>
+                  <div class="row"><div class="k">Interest</div><div class="v">${escapeHTML(p.interest)} €</div></div>
+                  <div class="row"><div class="k">Pasiūlymas</div><div class="v">${dateLabel(p.createdAt)} ${timeLabel(p.createdAt)}</div></div>
+                  <div class="row"><div class="k">Defektai</div><div class="v">${escapeHTML(p.defects || '—')}</div></div>
+                  <div class="row"><div class="k">Aprašymas</div><div class="v">${escapeHTML(p.notes || '—')}</div></div>
+                </div>
 
-    function login() {
-      const nick = $("loginNick").value.trim();
-      const pass = $("loginPass").value;
-      const users = getUsers();
-      if (users[nick] && users[nick].pass === pass) {
-        state.currentUser = nick;
-        updateHeader();
-        hideModal("authModal");
-        alert(`Prisijungta kaip ${nick}`);
-      } else {
-        alert("Blogi prisijungimo duomenys.");
+                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
+                  <a class="btn primary" href="viber://chat?number=${encodeURIComponent(p.phone || '')}" target="_blank" rel="noopener">Rašyti per Viber</a>
+                </div>
+              </div>
+
+              <div class="box" style="margin:0;">
+                <h3>Nuotraukos</h3>
+                <div class="thumbs" style="margin-top:12px;">${thumbs || '<div class="tiny muted">Nuotraukų nėra.</div>'}</div>
+              </div>
+            </div>
+          </div>
+        `;
+
+        document.querySelectorAll('[data-thumb]').forEach((img, idx) => {
+          img.addEventListener('click', () => {
+            $('mainImg').src = p.images[idx];
+          });
+        });
+
+        openModal('detailModal');
       }
-    }
 
-    function register() {
-      const nick = $("regNick").value.trim();
-      const pass = $("regPass").value;
-      const pass2 = $("regPass2").value;
-      if (!nick || !pass) return alert("Užpildyk visus laukus.");
-      if (pass !== pass2) return alert("Slaptažodžiai nesutampa.");
-      if (nick.length < 3) return alert("Slapyvardis per trumpas.");
-      if (pass.length < 4) return alert("Slaptažodis per trumpas.");
-      const users = getUsers();
-      if (users[nick]) return alert("Toks vartotojas jau egzistuoja.");
-      users[nick] = { pass };
-      saveUsers(users);
-      alert("Paskyra sukurta. Dabar gali prisijungti.");
-      $("tabLogin").click();
-    }
-
-    function logout() {
-      state.currentUser = null;
-      updateHeader();
-      hideModal("profileModal");
-      alert("Atsijungta.");
-    }
-
-    // Events
-    seedUsers();
-    updateHeader();
-
-    $("btnAuth").addEventListener("click", () => {
-      if (state.currentUser) showModal("profileModal");
-      else showModal("authModal");
-    });
-    $("btnCreate").addEventListener("click", () => {
-      if (!state.currentUser) {
-        showModal("authModal");
-        return;
+      function loginAdmin(){
+        const nick = $('loginNick').value.trim();
+        const pass = $('loginPass').value;
+        if(nick === 'admin' && pass === 'admin123'){
+          state.admin = true;
+          saveSession(true);
+          closeModal('authModal');
+          renderAdminList();
+          openModal('adminModal');
+          toast('Admin prisijungimas sėkmingas');
+        } else {
+          toast('Blogi duomenys');
+        }
       }
-      resetCreateForm();
-      showModal("createModal");
-    });
-    $("heroCreate").addEventListener("click", () => $("btnCreate").click());
-    $("fabCreate").addEventListener("click", () => $("btnCreate").click());
-    $("heroBrowse").addEventListener("click", () => window.scrollTo({ top: $("posts").offsetTop - 90, behavior: "smooth" }));
-    $("btnFavorites").addEventListener("click", () => {
-      $("searchInput").value = "";
-      $("filterBrand").value = "";
-      $("filterCity").value = "";
-      $("filterType").value = "";
-      $("sortBy").value = "newest";
-      renderPosts(state.posts.filter(p => state.favorites.includes(p.id)));
-      resultMeta.textContent = `Favorituose ${state.favorites.length} skelbimų`;
-      emptyState.style.display = state.favorites.length ? "none" : "block";
-      window.scrollTo({ top: $("posts").offsetTop - 90, behavior: "smooth" });
-    });
 
-    $("tabLogin").addEventListener("click", () => {
-      $("tabLogin").classList.add("active");
-      $("tabRegister").classList.remove("active");
-      $("loginPane").style.display = "block";
-      $("registerPane").style.display = "none";
-    });
-    $("tabRegister").addEventListener("click", () => {
-      $("tabRegister").classList.add("active");
-      $("tabLogin").classList.remove("active");
-      $("loginPane").style.display = "none";
-      $("registerPane").style.display = "block";
-    });
+      function renderAdminList(){
+        const container = $('adminList');
+        const posts = [...state.posts].sort((a,b) => b.createdAt - a.createdAt);
 
-    $("doLogin").addEventListener("click", login);
-    $("doRegister").addEventListener("click", register);
-    $("logoutBtn").addEventListener("click", logout);
-    $("submitPost").addEventListener("click", submitListing);
-    $("viewerFav").addEventListener("click", () => {
-      if (!state.activeViewer) return;
-      toggleFavorite(state.activeViewer.id);
-      $("viewerFav").textContent = state.favorites.includes(state.activeViewer.id) ? "💜 Pašalinti iš favoritu" : "❤ Į favoritus";
-    });
+        container.innerHTML = posts.map(p => `
+          <div class="box">
+            <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;">
+              <div>
+                <h3 style="margin:0 0 6px;">${escapeHTML(p.brand)} ${escapeHTML(p.model)}</h3>
+                <div class="tiny muted">Pasiūlymas: ${dateLabel(p.createdAt)} ${timeLabel(p.createdAt)}</div>
+                <div class="tiny muted" style="margin-top:4px;">${escapeHTML(p.year || '')} | ${escapeHTML(p.engine || '')} | ${escapeHTML(p.city || '')}</div>
+              </div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <button class="btn" data-admin-edit="${p.id}">Redaguoti</button>
+                <button class="btn danger" data-admin-del="${p.id}">Trinti</button>
+              </div>
+            </div>
+            <div style="margin-top:10px;" class="tiny muted">${escapeHTML(p.defects || '')}</div>
+          </div>
+        `).join('');
 
-    ["searchInput", "filterBrand", "filterCity", "sortBy", "filterType"].forEach(id => $(id).addEventListener("input", applyFilters));
-    ["searchInput", "filterBrand", "filterCity", "sortBy", "filterType"].forEach(id => $(id).addEventListener("change", applyFilters));
+        container.querySelectorAll('[data-admin-edit]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const post = state.posts.find(x => x.id === btn.dataset.adminEdit);
+            if(!post) return;
+            state.editId = post.id;
+            $('formTitle').textContent = 'Redaguoti pasiūlymą';
+            fillForm(post);
+            closeModal('adminModal');
+            openModal('formModal');
+          });
+        });
 
-    document.addEventListener("click", (e) => {
-      const close = e.target.closest("[data-close]");
-      if (close) hideModal(close.getAttribute("data-close"));
-
-      const action = e.target.closest("[data-action]");
-      if (!action) return;
-      const id = action.getAttribute("data-id");
-      const type = action.getAttribute("data-action");
-      if (type === "favorite") toggleFavorite(id);
-      if (type === "open") openViewer(state.posts.find(p => p.id === id));
-      if (type === "edit") editPost(id);
-      if (type === "delete") deletePost(id);
-      if (type === "thumb") {
-        const card = e.target.closest("[data-id]");
-        if (!card) return;
-        const main = card.querySelector(".media img");
-        main.src = action.getAttribute("data-src");
+        container.querySelectorAll('[data-admin-del]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            if(!confirm('Trinti šį pasiūlymą?')) return;
+            state.posts = state.posts.filter(x => x.id !== btn.dataset.adminDel);
+            savePosts(state.posts);
+            render();
+            renderAdminList();
+            toast('Pasiūlymas ištrintas');
+          });
+        });
       }
-      if (e.target.matches("[data-viewer-thumb]")) {
-        $("viewerImage").src = e.target.getAttribute("data-src");
-        document.querySelectorAll("#viewerThumbs .thumb").forEach(t => t.classList.remove("active"));
-        e.target.classList.add("active");
+
+      function init(){
+        ensureSeed();
+        state.posts = loadPosts();
+        state.admin = !!loadSession();
+
+        bind();
+        render();
       }
-    });
 
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") closeAllModals();
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        $("searchInput").focus();
+      function bind(){
+        $('btnAdd').addEventListener('click', () => {
+          state.editId = null;
+          $('formTitle').textContent = 'Naujas pasiūlymas';
+          fillForm();
+          openModal('formModal');
+        });
+
+        $('btnAdmin').addEventListener('click', () => {
+          if(state.admin){
+            renderAdminList();
+            openModal('adminModal');
+          } else {
+            openModal('authModal');
+          }
+        });
+
+        $('doLogin').addEventListener('click', loginAdmin);
+        $('savePost').addEventListener('click', savePost);
+
+        $('fImages').addEventListener('change', async (e) => {
+          const files = Array.from(e.target.files || []);
+          state.imageCache = [];
+          for(const f of files){
+            state.imageCache.push(await fileToDataURL(f));
+          }
+          if(files.length) toast(`${files.length} foto paruošta`);
+        });
+
+        document.querySelectorAll('[data-close]').forEach(btn => {
+          btn.addEventListener('click', () => closeModal(btn.dataset.close));
+        });
+
+        ['detailModal','formModal','authModal','adminModal'].forEach(id => {
+          $(id).addEventListener('click', e => {
+            if(e.target.id === id) closeModal(id);
+          });
+        });
+
+        $('loginNick').addEventListener('keydown', e => { if(e.key === 'Enter') loginAdmin(); });
+        $('loginPass').addEventListener('keydown', e => { if(e.key === 'Enter') loginAdmin(); });
       }
-    });
 
-    connectionMeta.textContent = "Jungiamasi prie duomenų bazės...";
-    const q = query(collection(db, "posts"), orderBy("date", "desc"));
-    onSnapshot(q, (snap) => {
-      state.posts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-      updateFiltersFromPosts();
-      updateHeader();
-      applyFilters();
-      connectionMeta.textContent = `Prisijungta • ${state.posts.length} skelbimų`; 
-      if (!state.posts.length) resultMeta.textContent = "Kol kas skelbimų nėra";
-    }, (err) => {
-      console.error(err);
-      connectionMeta.textContent = "Klaida jungiantis prie Firestore";
-      resultMeta.textContent = "Nepavyko užkrauti skelbimų";
-    });
-
-    // expose for inline fallback if needed
-    window.__automobilius = { state };
+      init();
+    })();
   </script>
 </body>
 </html>
