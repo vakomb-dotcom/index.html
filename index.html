@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>automobilius.lt</title>
+
 <style>
 body { font-family: Arial; background:#f2f2f2; margin:0; }
 header { background:#111; color:#fff; padding:15px; text-align:center; font-size:22px;}
@@ -19,6 +20,7 @@ input, textarea, select { width:100%; padding:8px; margin:5px 0;}
 .thumb-container { display:flex; flex-wrap:wrap;}
 .date { font-size:12px; color:#666; margin-top:5px;}
 </style>
+
 </head>
 <body>
 
@@ -51,18 +53,28 @@ input, textarea, select { width:100%; padding:8px; margin:5px 0;}
 
 </div>
 
-<script>
+<script type="module">
 
-function toggleForm(){
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, onSnapshot, query, orderBy } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// 🔥 TAVO FIREBASE CONFIG
+const firebaseConfig = {
+  apiKey: "AIzaSyCYc3MMhNlr2nGGH-PdhrFYkhk3_Zn_2XU",
+  authDomain: "automobilius-e2770.firebaseapp.com",
+  projectId: "automobilius-e2770",
+  storageBucket: "automobilius-e2770.firebasestorage.app",
+  messagingSenderId: "930722948711",
+  appId: "1:930722948711:web:561612902455a29ccb96c2"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// UI
+window.toggleForm = function(){
     document.getElementById('formBox').classList.toggle('hidden');
-}
-
-function getPosts(){
-    return JSON.parse(localStorage.getItem('posts') || '[]');
-}
-
-function savePosts(posts){
-    localStorage.setItem('posts', JSON.stringify(posts));
 }
 
 function formatDate(ts){
@@ -70,8 +82,10 @@ function formatDate(ts){
     return d.toLocaleDateString() + " " + d.toLocaleTimeString();
 }
 
-function addPost(){
+// ADD POST
+window.addPost = async function(){
     let files = document.getElementById('photos').files;
+
     if(files.length > 5){
         alert("Max 5 nuotraukos");
         return;
@@ -94,6 +108,7 @@ function addPost(){
 
     if(files.length){
         let readers = [];
+
         for(let i=0;i<files.length;i++){
             readers.push(new Promise(resolve=>{
                 let r = new FileReader();
@@ -102,28 +117,23 @@ function addPost(){
             }));
         }
 
-        Promise.all(readers).then(imgs=>{
-            post.images = imgs;
-            saveAndRender(post);
-        });
-    } else {
-        saveAndRender(post);
+        post.images = await Promise.all(readers);
     }
-}
 
-function saveAndRender(post){
-    let posts = getPosts();
-    posts.unshift(post);
-    savePosts(posts);
-    renderPosts();
+    await addDoc(collection(db, "posts"), post);
+
     document.getElementById('formBox').classList.add('hidden');
 }
 
-function renderPosts(){
-    let posts = getPosts();
+// REAL-TIME POSTS
+const q = query(collection(db, "posts"), orderBy("date","desc"));
+
+onSnapshot(q, (snapshot)=>{
     let html = "";
 
-    posts.forEach((p, index) => {
+    snapshot.forEach((doc, index) => {
+        let p = doc.data();
+
         let mainImg = p.images && p.images.length ? `<img src="${p.images[0]}" class="main-img" id="main-${index}">` : "";
 
         let thumbs = "";
@@ -153,13 +163,12 @@ function renderPosts(){
     });
 
     document.getElementById('posts').innerHTML = html;
-}
+});
 
-function changeImg(index, src){
+// IMAGE SWITCH
+window.changeImg = function(index, src){
     document.getElementById('main-'+index).src = src;
 }
-
-renderPosts();
 
 </script>
 
