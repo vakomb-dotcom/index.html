@@ -3,362 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>10K MISIJA</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<title>automobilius.lt</title>
 <style>
-*{box-sizing:border-box;}
-
-body{
-margin:0;
-font-family:'Inter',sans-serif;
-background:linear-gradient(180deg,#dbeafe,#f8fafc);
-color:#0f172a;
-}
-
-.container{
-max-width:500px;
-margin:auto;
-padding:16px;
-}
-
-.topbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-margin-bottom:10px;
-}
-
-h1{
-font-size:26px;
-font-weight:800;
-color:#22c55e;
-}
-
-.menuBtn{
-width:44px;
-height:44px;
-border-radius:12px;
-background:#111;
-color:white;
-display:flex;
-align-items:center;
-justify-content:center;
-font-size:18px;
-cursor:pointer;
-}
-
-.menu{
-display:none;
-margin-top:10px;
-padding:16px;
-border-radius:18px;
-background:white;
-box-shadow:0 10px 30px rgba(0,0,0,0.1);
-}
-
-.sectionBtn{
-width:100%;
-text-align:left;
-padding:12px;
-border-radius:12px;
-background:#0f172a;
-color:white;
-margin-top:8px;
-cursor:pointer;
-}
-
-.section{
-display:none;
-margin-top:10px;
-}
-
-/* FIX TEXT */
-.task span{
-flex:1;
-white-space:normal;
-word-break:normal;
-overflow-wrap:break-word;
-}
-
-.xpBox{
-display:flex;
-justify-content:space-between;
-margin-top:10px;
-font-weight:700;
-background:#ecfeff;
-padding:10px;
-border-radius:12px;
-}
-
-.stat{display:flex;justify-content:space-between;margin-bottom:12px;}
-.card{background:white;padding:16px;border-radius:20px;margin-top:16px;box-shadow:0 8px 25px rgba(0,0,0,0.06);}
-.card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
-.toggleBtn{background:#0f172a;color:white;padding:6px 12px;border-radius:999px;font-size:12px;cursor:pointer;}
-input, textarea{width:100%;padding:14px;border-radius:14px;border:1px solid #e5e7eb;background:#f9fafb;margin-top:10px;font-size:14px;}
-.mainBtn{margin-top:12px;padding:14px;border:none;border-radius:14px;background:linear-gradient(90deg,#22c55e,#16a34a);color:white;font-weight:600;cursor:pointer;}
-.progress{height:10px;background:#e5e7eb;border-radius:20px;margin-top:12px;overflow:hidden;}
-.fill{height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);}
-.big{font-size:26px;font-weight:800;margin-top:10px;}
-.task{display:flex;justify-content:space-between;align-items:center;padding:12px;border-radius:12px;background:#f1f5f9;margin-top:8px;}
-.log{display:none;margin-top:12px;}
-.log-item{background:#0f172a;color:white;padding:10px;border-radius:10px;margin-bottom:8px;font-size:13px;}
-.reset{margin-top:20px;padding:14px;width:100%;border:none;border-radius:14px;background:#ef4444;color:white;font-weight:600;cursor:pointer;}
+body { font-family: Arial; background:#f2f2f2; margin:0; }
+header { background:#111; color:#fff; padding:15px; text-align:center; font-size:22px;}
+.container { max-width:900px; margin:20px auto; padding:10px;}
+button { padding:10px; background:black; color:white; border:none; cursor:pointer;}
+.card { background:#fff; padding:15px; border-radius:10px; margin-bottom:15px;}
+.post { background:#fff; padding:15px; border-radius:10px; margin-bottom:10px;}
+input, textarea, select { width:100%; padding:8px; margin:5px 0;}
+.viber { background:purple; color:white; padding:8px; display:inline-block; margin-top:10px;}
+.hidden { display:none; }
 </style>
 </head>
-
 <body>
+
+<header>automobilius.lt</header>
 
 <div class="container">
 
-<div class="topbar">
-<h1>🎯 10K MISIJA</h1>
-<div class="menuBtn" onclick="toggle('menu')">≡</div>
+<button onclick="toggleForm()">+ Talpinti pasiūlymą</button>
+
+<div id="formBox" class="card hidden">
+<h3>Naujas pasiūlymas</h3>
+<input id="brand" placeholder="Markė">
+<input id="model" placeholder="Modelis">
+<input id="year" placeholder="Metai">
+<input id="engine" placeholder="Variklis">
+<textarea id="defects" placeholder="Defektai"></textarea>
+<input id="price" placeholder="Kaina €">
+<select id="negotiated">
+<option value="Nederinta">Nederinta</option>
+<option value="Derinta">Derinta</option>
+</select>
+<input id="city" placeholder="Miestas">
+<input id="interest" placeholder="Interest €">
+<input id="phone" placeholder="Viber numeris">
+<input type="file" id="photo">
+<button onclick="addPost()">Įkelti</button>
 </div>
 
-<div class="xpBox">
-<div>⭐ XP: <span id="xpText">0</span></div>
-<div>🪙 Monetos: <span id="coinText">0</span></div>
-</div>
-
-<div id="menu" class="menu">
-
-<div class="stat">
-<span>Nupirkta: <b id="boughtText">0</b></span>
-<button onclick="bought++;save();render()">+</button>
-</div>
-
-<div class="stat">
-<span>Parduota: <b id="soldText">0</b></span>
-<button onclick="sold++;save();render()">+</button>
-</div>
-
-<canvas id="chart"></canvas>
-
-<button class="sectionBtn" onclick="toggle('dailySection')">🔥 Kasdienės XP užduotys</button>
-<div id="dailySection" class="section">
-<div class="task"><span>Ikelti skelbimą (+50xp)</span><button onclick="addXP(50,'Skelbimas')">✔</button></div>
-<div class="task"><span>Nupirkti auto (+100xp)</span><button onclick="addXP(100,'Pirkimas')">✔</button></div>
-<div class="task"><span>Parduoti auto (+120xp)</span><button onclick="addXP(120,'Pardavimas')">✔</button></div>
-<div class="task"><span>5 sutartys (+30xp)</span><button onclick="addXP(30,'Sutartys')">✔</button></div>
-<div class="task"><span>5 skambučiai (+50xp)</span><button onclick="addXP(50,'Skambučiai')">✔</button></div>
-<div class="task"><span>20min mokymosi (+50xp)</span><button onclick="addXP(50,'Mokymasis')">✔</button></div>
-</div>
-
-<button class="sectionBtn" onclick="toggle('shopSection')">🛒 Apdovanojimai</button>
-<div id="shopSection" class="section">
-<div class="task"><span>Pica - 70</span><button onclick="buy(70,'Pica')">Pirkti</button></div>
-<div class="task"><span>20€ sau - 100</span><button onclick="buy(100,'Pirkinys')">Pirkti</button></div>
-<div class="task"><span>Kinas - 130</span><button onclick="buy(130,'Kinas')">Pirkti</button></div>
-<div class="task"><span>Kartingai - 150</span><button onclick="buy(150,'Kartingai')">Pirkti</button></div>
-<div class="task"><span>Masažas - 200</span><button onclick="buy(200,'Masazas')">Pirkti</button></div>
-<div class="task"><span>Kelionė - 2000</span><button onclick="buy(2000,'Kelione')">Pirkti</button></div>
-</div>
-
-<button class="sectionBtn" onclick="toggle('statsSection')">📊 Statistika</button>
-<div id="statsSection" class="section"><div id="statsContent"></div></div>
-
-<button class="sectionBtn" onclick="toggle('globalLogSection')">📜 Visas log</button>
-<div id="globalLogSection" class="section"><div id="globalLog"></div></div>
-
-</div>
-
-<div class="card">
-<div class="card-header">
-<h3>💰 PELNAS</h3>
-<button class="toggleBtn" onclick="toggle('profitLog')">Log</button>
-</div>
-
-<input id="profitAmount" placeholder="Suma" type="number">
-<textarea id="profitDesc" placeholder="Pvz: Xtrail pardavimas"></textarea>
-
-<button class="mainBtn" onclick="addProfit()">Pridėti pelną</button>
-
-<div class="progress"><div id="profitBar" class="fill"></div></div>
-<p class="big" id="profitText"></p>
-
-<div id="profitLog" class="log"></div>
-</div>
-
-<div class="card">
-<div class="card-header">
-<h3>📌 UŽDUOTYS</h3>
-<button class="toggleBtn" onclick="toggle('taskLog')">Log</button>
-</div>
-
-<input id="taskInput" placeholder="Įrašyk užduotį...">
-<button class="mainBtn" onclick="addTask()">Pridėti</button>
-
-<div id="taskList"></div>
-<div id="taskLog" class="log"></div>
-</div>
-
-<button class="reset" onclick="resetAll()">RESET</button>
+<div id="posts"></div>
 
 </div>
 
 <script>
 
-let profit=0, profitLogs=[];
-let globalLogs=[];
-let lastDay = null;
-
-let bought=0, sold=0;
-let tasks=[], taskLogs=[];
-let chart;
-let xp=0, coins=0, stats={};
-
-function now(){return new Date().toLocaleString('lt-LT');}
-
-function toggle(id){
-let el=document.getElementById(id);
-if(!el) return;
-el.style.display = el.style.display==="block"?"none":"block";
+function toggleForm(){
+    document.getElementById('formBox').classList.toggle('hidden');
 }
 
-function addProfit(){
-let val=parseInt(profitAmount.value);
-if(!val) return;
-
-profit+=val;
-
-let log={time:now(),text:`+${val}€`,desc:profitDesc.value || "—"};
-
-profitLogs.unshift(log);
-globalLogs.unshift(log);
-
-profitAmount.value="";
-profitDesc.value="";
-
-save(); render(); updateChart();
+function getPosts(){
+    return JSON.parse(localStorage.getItem('posts') || '[]');
 }
 
-function addTask(){
-let t=taskInput.value.trim();
-if(!t) return;
-tasks.push({text:t,done:false});
-taskInput.value="";
-save(); renderTasks();
+function savePosts(posts){
+    localStorage.setItem('posts', JSON.stringify(posts));
 }
 
-function toggleTask(i){
-tasks[i].done=!tasks[i].done;
-if(tasks[i].done){
-let log={time:now(),text:"✅",desc:tasks[i].text};
-taskLogs.unshift(log);
-globalLogs.unshift(log);
-}
-save(); renderTasks();
-}
+function addPost(){
+    let post = {
+        brand: brand.value,
+        model: model.value,
+        year: year.value,
+        engine: engine.value,
+        defects: defects.value,
+        price: price.value,
+        negotiated: negotiated.value,
+        city: city.value,
+        interest: interest.value,
+        phone: phone.value,
+        date: new Date().getTime()
+    };
 
-function renderTasks(){
-taskList.innerHTML=tasks.map((t,i)=>`
-<div class="task">
-<span>${t.text}</span>
-<input type="checkbox" ${t.done?'checked':''} onclick="toggleTask(${i})">
-</div>`).join("");
+    let file = document.getElementById('photo').files[0];
 
-taskLog.innerHTML=taskLogs.map(l=>`
-<div class="log-item">${l.time}<br>✅ ${l.desc}</div>`).join("");
-}
-
-/* FIX */
-function addXP(v,n){
-xp+=v;
-coins+=Math.floor(v/2);
-stats[n]=(stats[n]||0)+1;
-globalLogs.unshift({time:now(),text:`⭐ +${v}xp`,desc:n});
-save(); render();
-}
-
-function buy(p,n){
-if(coins<p){alert("Nepakanka monetų");return;}
-coins-=p;
-globalLogs.unshift({time:now(),text:`🛒`,desc:n});
-save(); render();
+    if(file){
+        let reader = new FileReader();
+        reader.onload = function(e){
+            post.img = e.target.result;
+            saveAndRender(post);
+        }
+        reader.readAsDataURL(file);
+    } else {
+        saveAndRender(post);
+    }
 }
 
-function updateChart(){
-let map={};
-profitLogs.forEach(l=>{
-let d=l.time.split(" ")[0];
-let v=parseInt(l.text.replace("+",""));
-if(!isNaN(v)){map[d]=(map[d]||0)+v;}
-});
-if(chart) chart.destroy();
-chart=new Chart(document.getElementById("chart"),{
-type:'line',
-data:{labels:Object.keys(map),datasets:[{data:Object.values(map),borderColor:'#22c55e'}]}
-});
+function saveAndRender(post){
+    let posts = getPosts();
+    posts.unshift(post); // newest first
+    savePosts(posts);
+    renderPosts();
+    document.getElementById('formBox').classList.add('hidden');
 }
 
-function render(){
-profitBar.style.width=Math.min((profit/10000)*100,100)+"%";
-profitText.innerText=`${profit}€ / 10 000€`;
+function renderPosts(){
+    let posts = getPosts();
+    let html = "";
 
-profitLog.innerHTML=profitLogs.map(l=>`
-<div class="log-item">${l.time}<br>${l.text} (${l.desc})</div>`).join("");
+    posts.forEach(p => {
+        html += `
+        <div class="post">
+        <b>${p.brand} ${p.model}</b><br>
+        ${p.year} | ${p.engine} | ${p.city}<br><br>
+        Defektai: ${p.defects}<br><br>
+        Kaina: ${p.price}€ (${p.negotiated})<br>
+        Interest: ${p.interest}€<br>
+        <a class="viber" href="viber://chat?number=${p.phone}">Rašyti per Viber</a>
+        ${p.img ? `<img src="${p.img}" style="width:100%; margin-top:10px;">` : ""}
+        </div>
+        `;
+    });
 
-boughtText.innerText=bought;
-soldText.innerText=sold;
-
-xpText.innerText=xp;
-coinText.innerText=coins;
-
-globalLog.innerHTML=globalLogs.map(l=>`
-<div class="log-item">${l.time}<br>${l.text} (${l.desc})</div>`).join("");
-
-statsContent.innerHTML=Object.keys(stats).map(k=>`
-<div class="task"><span>${k}</span><b>${stats[k]}</b></div>`).join("");
-
-renderTasks();
+    document.getElementById('posts').innerHTML = html;
 }
 
-function save(){
-localStorage.setItem("profit",profit);
-localStorage.setItem("profitLogs",JSON.stringify(profitLogs));
-localStorage.setItem("globalLogs",JSON.stringify(globalLogs));
-localStorage.setItem("bought",bought);
-localStorage.setItem("sold",sold);
-localStorage.setItem("tasks",JSON.stringify(tasks));
-localStorage.setItem("taskLogs",JSON.stringify(taskLogs));
-localStorage.setItem("xp",xp);
-localStorage.setItem("coins",coins);
-localStorage.setItem("stats",JSON.stringify(stats));
-localStorage.setItem("lastDay", new Date().toDateString());
-}
-
-function load(){
-profit=parseInt(localStorage.getItem("profit"))||0;
-profitLogs=JSON.parse(localStorage.getItem("profitLogs"))||[];
-globalLogs=JSON.parse(localStorage.getItem("globalLogs"))||[];
-bought=parseInt(localStorage.getItem("bought"))||0;
-sold=parseInt(localStorage.getItem("sold"))||0;
-tasks=JSON.parse(localStorage.getItem("tasks"))||[];
-taskLogs=JSON.parse(localStorage.getItem("taskLogs"))||[];
-xp=parseInt(localStorage.getItem("xp"))||0;
-coins=parseInt(localStorage.getItem("coins"))||0;
-stats=JSON.parse(localStorage.getItem("stats"))||{};
-lastDay = localStorage.getItem("lastDay");
-let today = new Date().toDateString();
-
-if(lastDay !== today){
-  tasks = tasks.filter(t => !t.done);
-  localStorage.setItem("lastDay", today);
-}
-}
-
-function resetAll(){
-if(!confirm("Tikrai reset?")) return;
-localStorage.clear();
-location.reload();
-}
-
-load();
-render();
-updateChart();
+renderPosts();
 
 </script>
 
