@@ -1,1103 +1,313 @@
 <!DOCTYPE html>
 <html lang="lt">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>automobilius.lt</title>
-  <meta name="description" content="Paprasta, aiški pasiūlymų lenta perpardavėjams." />
-  <style>
-    :root{
-      --bg:#f3f4f6;
-      --surface:#ffffff;
-      --text:#111827;
-      --muted:#6b7280;
-      --line:#e5e7eb;
-      --line-2:#d1d5db;
-      --shadow: 0 18px 50px rgba(15,23,42,.08);
-      --shadow-soft: 0 8px 24px rgba(15,23,42,.05);
-      --max: 1220px;
-      --accent:#111827;
-      --good:#0f766e;
-      --warn:#b45309;
-      --danger:#b91c1c;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background:
-        radial-gradient(1000px 540px at 10% 0%, rgba(17,24,39,.05), transparent 55%),
-        radial-gradient(900px 520px at 90% 0%, rgba(124,58,237,.05), transparent 50%),
-        var(--bg);
-      color:var(--text);
-      padding-bottom:84px;
-    }
-    a{color:inherit}
-    button,input,select,textarea{font:inherit}
-    .wrap{
-      max-width:var(--max);
-      margin:0 auto;
-      padding:16px;
-    }
-    .topbar{
-      position:sticky;
-      top:12px;
-      z-index:30;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:14px;
-      padding:14px 16px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.9);
-      backdrop-filter: blur(12px);
-      border-radius:20px;
-      box-shadow:var(--shadow-soft);
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:0;
-    }
-    .logo{
-      width:42px;
-      height:42px;
-      border-radius:14px;
-      background:linear-gradient(135deg,#111827,#374151);
-      color:#fff;
-      display:grid;
-      place-items:center;
-      font-weight:800;
-      letter-spacing:-.04em;
-      flex:0 0 auto;
-    }
-    .brand strong{
-      display:block;
-      font-size:15px;
-      line-height:1.15;
-      letter-spacing:-.02em;
-    }
-    .brand span{
-      display:block;
-      margin-top:2px;
-      font-size:12px;
-      color:var(--muted);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .top-actions,.dock-inner{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-      align-items:center;
-    }
-    .btn{
-      appearance:none;
-      border:1px solid var(--line);
-      background:#fff;
-      color:var(--text);
-      padding:10px 14px;
-      border-radius:12px;
-      cursor:pointer;
-      transition:.16s ease;
-      box-shadow:0 1px 0 rgba(15,23,42,.02);
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-    }
-    .btn:hover{transform:translateY(-1px); border-color:#cbd5e1}
-    .btn.primary{
-      background:var(--accent);
-      color:#fff;
-      border-color:var(--accent);
-    }
-    .btn.primary:hover{background:#0b1220}
-    .btn.secondary{background:#fff}
-    .btn.danger{
-      background:#fff;
-      color:var(--danger);
-      border-color:#fecaca;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MOTYVACIJOS</title>
 
-    .board{
-      margin-top:18px;
-      display:grid;
-      gap:14px;
-    }
-    .posts{
-      display:grid;
-      gap:14px;
-    }
+<style>
+body {margin:0;background: linear-gradient(180deg,#0f172a,#111827,#020617);color:#e5e7eb;font-family: system-ui;}
+.container {max-width:500px;margin:auto;padding:20px;}
+h1 {text-align:center;color:#4ade80;font-weight:700;letter-spacing:1px;}
 
-    .card{
-      border:1px solid var(--line);
-      border-radius:20px;
-      background:rgba(255,255,255,.96);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .card-inner{
-      display:grid;
-      grid-template-columns: 250px 1fr;
-      min-height: 220px;
-    }
-    .cover{
-      position:relative;
-      border-right:1px solid var(--line);
-      background:#f8fafc;
-      overflow:hidden;
-      min-height: 220px;
-    }
-    .cover img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      cursor:pointer;
-    }
-    .gallery{
-      display:flex;
-      flex-direction:column;
-      height:100%;
-      min-height:220px;
-    }
-    .gallery-main{
-      width:100%;
-      flex:1;
-      min-height:170px;
-      object-fit:cover;
-      display:block;
-      background:#f8fafc;
-    }
-    .gallery-thumbs{
-      display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(56px,1fr));
-      gap:8px;
-      padding:10px;
-      background:#fff;
-      border-top:1px solid var(--line);
-    }
-    .gallery-thumbs img{
-      width:100%;
-      aspect-ratio:1/1;
-      object-fit:cover;
-      border-radius:10px;
-      border:1px solid var(--line);
-      cursor:pointer;
-      opacity:.78;
-      transition:.15s ease;
-    }
-    .gallery-thumbs img:hover{
-      opacity:1;
-      transform:translateY(-1px);
-    }
-    .badges{
-      position:absolute;
-      left:12px;
-      top:12px;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      z-index:2;
-    }
-    .badge{
-      padding:6px 10px;
-      border-radius:999px;
-      background:rgba(255,255,255,.94);
-      border:1px solid rgba(209,213,219,.75);
-      color:#111827;
-      font-size:12px;
-      backdrop-filter: blur(8px);
-    }
-    .badge.good{color:var(--good)}
-    .badge.warn{color:var(--warn)}
-    .content{
-      padding:18px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      min-width:0;
-    }
+.card {background:rgba(17,24,39,0.8);backdrop-filter: blur(12px);padding:18px;border-radius:20px;margin-top:15px;border:1px solid rgba(255,255,255,0.05);box-shadow:0 10px 30px rgba(0,0,0,0.5);}
 
-    .postedline{
-      color:var(--muted);
-      font-size:12px;
-      letter-spacing:.01em;
-    }
-    .title h2{
-      margin:0;
-      font-size:24px;
-      line-height:1.05;
-      letter-spacing:-.04em;
-    }
-    .meta{
-      margin-top:8px;
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    .pill{
-      padding:8px 10px;
-      border-radius:999px;
-      background:#f8fafc;
-      border:1px solid var(--line);
-      color:#334155;
-      font-size:12px;
-    }
+.progress {height:12px;background:#1f2937;border-radius:20px;overflow:hidden;margin-top:8px;}
+.fill {height:100%;background:linear-gradient(90deg,#22c55e,#4ade80);box-shadow:0 0 10px #22c55e;transition:0.4s;}
 
-    .simpleinfo{
-      display:grid;
-      gap:8px;
-      margin-top:2px;
-    }
-    .row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:flex-start;
-      line-height:1.5;
-      font-size:14px;
-      color:#111827;
-    }
-    .row .k{
-      min-width: 120px;
-      color:var(--muted);
-      font-weight:600;
-    }
-    .row .v{
-      flex:1;
-      min-width:0;
-      word-break:break-word;
-    }
+button {width:100%;padding:14px;margin-top:10px;border-radius:14px;border:none;font-size:15px;cursor:pointer;transition:0.2s;}
+button:hover {transform:translateY(-2px);}
+button:active {transform:scale(0.97);}
+button:disabled {opacity:0.5;cursor:not-allowed;}
 
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      margin-top:auto;
-    }
-    .actions .btn{padding:10px 12px}
-    .empty{
-      border:1px dashed #cbd5e1;
-      border-radius:20px;
-      background:rgba(255,255,255,.8);
-      padding:46px 20px;
-      text-align:center;
-      color:var(--muted);
-    }
+.toggle {background:#1f2937;color:#4ade80;font-weight:600;}
 
-    .modal{
-      position:fixed;
-      inset:0;
-      background:rgba(15,23,42,.55);
-      backdrop-filter: blur(8px);
-      display:none;
-      place-items:center;
-      z-index:100;
-      padding:16px;
-    }
-    .modal.open{display:grid}
-    .dialog{
-      width:min(1060px, 100%);
-      max-height:94vh;
-      overflow:auto;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:24px;
-      box-shadow:0 30px 100px rgba(15,23,42,.22);
-    }
-    .dialog.headless{max-width:720px}
-    .dialog-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      padding:16px 18px 0;
-    }
-    .dialog-head h3{
-      margin:0;
-      font-size:18px;
-      letter-spacing:-.02em;
-    }
-    .dialog-body{
-      padding:18px;
-    }
-    .note{
-      border:1px solid #e0e7ff;
-      background:#f8fafc;
-      color:#334155;
-      border-radius:16px;
-      padding:13px 14px;
-      line-height:1.55;
-      font-size:13px;
-    }
-    .formgrid{
-      display:grid;
-      grid-template-columns:repeat(12,1fr);
-      gap:12px;
-      margin-top:14px;
-    }
-    .span-12{grid-column:span 12}
-    .span-6{grid-column:span 6}
-    .span-4{grid-column:span 4}
-    .span-3{grid-column:span 3}
-    .field label{
-      display:block;
-      font-size:12px;
-      color:var(--muted);
-      margin:0 0 7px 2px;
-    }
-    .field input,.field select,.field textarea{
-      width:100%;
-      border:1px solid var(--line-2);
-      border-radius:12px;
-      background:#fff;
-      color:var(--text);
-      padding:12px 13px;
-      outline:none;
-      transition:.16s ease;
-    }
-    .field textarea{resize:vertical; min-height:44px}
-    .field input:focus,.field select:focus,.field textarea:focus{
-      border-color:#94a3b8;
-      box-shadow:0 0 0 4px rgba(17,24,39,.06);
-    }
-    .filebox{
-      border:1px dashed var(--line-2);
-      background:#fafafa;
-      border-radius:16px;
-      padding:14px;
-      color:var(--muted);
-      font-size:13px;
-    }
-    .thumbs{
-      display:grid;
-      grid-template-columns:repeat(4,1fr);
-      gap:10px;
-    }
-    .thumbs img{
-      width:100%;
-      aspect-ratio:1/1;
-      object-fit:cover;
-      border-radius:14px;
-      border:1px solid var(--line);
-      cursor:pointer;
-    }
-    .detail{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:16px;
-    }
-    .detail-main{
-      border:1px solid var(--line);
-      border-radius:20px;
-      overflow:hidden;
-      background:#f8fafc;
-    }
-    .detail-main img{
-      width:100%;
-      display:block;
-      max-height:520px;
-      object-fit:cover;
-    }
-    .detail-side{
-      display:grid;
-      gap:12px;
-      align-content:start;
-    }
-    .box{
-      border:1px solid var(--line);
-      background:#fff;
-      border-radius:18px;
-      box-shadow:var(--shadow-soft);
-      padding:16px;
-    }
-    .box h3{
-      margin:0 0 8px;
-      font-size:15px;
-      letter-spacing:-.02em;
-    }
-    .box p{
-      margin:0;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.65;
-    }
-    .tiny{font-size:12px}
-    .muted{color:var(--muted)}
-    .footer{
-      margin:22px 0 6px;
-      color:var(--muted);
-      font-size:12px;
-      text-align:center;
-    }
-    .bottom-dock{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      z-index:40;
-      padding:12px 16px;
-      background:rgba(255,255,255,.92);
-      border-top:1px solid var(--line);
-      backdrop-filter: blur(12px);
-    }
-    .dock-inner{
-      max-width:var(--max);
-      margin:0 auto;
-    }
-    .toast{
-      position:fixed;
-      left:50%;
-      bottom:78px;
-      transform:translateX(-50%) translateY(16px);
-      opacity:0;
-      pointer-events:none;
-      z-index:200;
-      background:#111827;
-      color:#fff;
-      padding:11px 14px;
-      border-radius:999px;
-      box-shadow:var(--shadow);
-      transition:.2s ease;
-    }
-    .toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
-    .hidden{display:none !important;}
+.task {background:#020617;border:1px solid #1f2937;text-align:left;}
+.task.done {background:#052e1b;color:#4ade80;}
 
-    @media (max-width: 1100px){
-      .card-inner,.detail{
-        grid-template-columns:1fr;
-      }
-      .cover{
-        border-right:0;
-        border-bottom:1px solid var(--line);
-      }
-      .thumbs{grid-template-columns:repeat(2,1fr)}
-    }
-    @media (max-width: 720px){
-      body{padding-bottom:96px}
-      .wrap{padding:12px}
-      .topbar{
-        padding:12px 14px;
-        top:8px;
-      }
-      .brand span{max-width:150px}
-      .content{padding:15px}
-      .title h2{font-size:22px}
-      .dialog-body{padding:14px}
-      .span-12,.span-6,.span-4,.span-3{grid-column:span 12}
-      .bottom-dock{padding:10px 12px}
-      .dock-inner{justify-content:center}
-    }
-  </style>
+.shop {background:#1f2937;border:1px solid #facc15;color:#facc15;}
+.hidden {display:none;}
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header class="topbar">
-      <div class="brand">
-        <div class="logo">A</div>
-        <div style="min-width:0">
-          <strong>Autmobilius.lt</strong>
-          <span>Lietuvos pirikupų lenta</span>
-        </div>
-      </div>
-      <div class="top-actions">
-        <button class="btn primary" id="btnAdd">+ Talpinti pasiūlymą</button>
-      </div>
-    </header>
-
-    <main class="board">
-      <div id="posts" class="posts"></div>
-      <div id="empty" class="empty hidden">
-        <strong>Šiuo metu pasiūlymų nėra.</strong>
-        <div class="tiny" style="margin-top:6px;">Paspausk „Talpinti pasiūlymą“ ir įkelk pirmą auto.</div>
-      </div>
-    </main>
-
-    <div class="footer">automobilius.lt • paprasta ir aiški pasiūlymų lenta</div>
-  </div>
-
-  <div class="bottom-dock">
-    <div class="dock-inner">
-      <button class="btn" id="btnAdmin">Admin</button>
-    </div>
-  </div>
-
-  <div class="modal" id="detailModal">
-    <div class="dialog">
-      <div class="dialog-head">
-        <h3 id="detailTitle">Pasiūlymas</h3>
-        <button class="btn" data-close="detailModal">Uždaryti</button>
-      </div>
-      <div class="dialog-body" id="detailBody"></div>
-    </div>
-  </div>
-
-  <div class="modal" id="formModal">
-    <div class="dialog">
-      <div class="dialog-head">
-        <h3 id="formTitle">Naujas pasiūlymas</h3>
-        <button class="btn" data-close="formModal">Uždaryti</button>
-      </div>
-      <div class="dialog-body">
-        <div class="note">Įkėlimui prisijungti nereikia.</div>
-
-        <div class="formgrid">
-          <div class="field span-4">
-            <label>Markė</label>
-            <input id="fBrand" placeholder="Toyota" />
-          </div>
-          <div class="field span-4">
-            <label>Modelis</label>
-            <input id="fModel" placeholder="Avensis" />
-          </div>
-          <div class="field span-4">
-            <label>Metai</label>
-            <input id="fYear" type="number" placeholder="2012" />
-          </div>
-
-          <div class="field span-4">
-            <label>Variklis</label>
-            <input id="fEngine" placeholder="2.0 dyzelis" />
-          </div>
-          <div class="field span-4">
-            <label>Defektai</label>
-            <input id="fDefects" placeholder="Bamperis, rūdys..." />
-          </div>
-          <div class="field span-4">
-            <label>Miestas</label>
-            <input id="fCity" placeholder="Vilnius" />
-          </div>
-
-          <div class="field span-3">
-            <label>Kaina €</label>
-            <input id="fPrice" type="number" placeholder="1700" />
-          </div>
-          <div class="field span-3">
-            <label>Interest €</label>
-            <input id="fInterest" type="number" placeholder="50" />
-          </div>
-          <div class="field span-3">
-            <label>Viber nr</label>
-            <input id="fPhone" placeholder="+3706..." />
-          </div>
-          <div class="field span-3">
-            <label>Derinta</label>
-            <select id="fNegotiated">
-              <option value="Nederinta">Nederinta</option>
-              <option value="Derinta">Derinta</option>
-            </select>
-          </div>
-
-          <div class="field span-12">
-            <label>Trumpas aprašymas</label>
-            <textarea id="fNotes" rows="3" placeholder="Papildoma informacija, būklė, pastabos..."></textarea>
-          </div>
-
-          <div class="span-12">
-            <div class="filebox">
-              <input id="fImages" type="file" accept="image/*" multiple />
-              <div class="tiny" style="margin-top:8px;">Iki 6 nuotraukų. Pirmoji taps viršeliu.</div>
-            </div>
-          </div>
-
-          <div class="span-12" style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
-            <button class="btn" data-close="formModal">Atšaukti</button>
-            <button class="btn primary" id="savePost">Išsaugoti</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="authModal">
-    <div class="dialog headless">
-      <div class="dialog-head">
-        <h3>Admin prisijungimas</h3>
-        <button class="btn" data-close="authModal">Uždaryti</button>
-      </div>
-      <div class="dialog-body">
-        <div class="note" style="margin-bottom:14px;">
-          Prisijunk su nick <b>admin</b> ir pass <b>admin123</b>. Po sėkmingo prisijungimo atsivers admin panelė.
-        </div>
-        <div class="formgrid" style="margin-top:0;">
-          <div class="field span-6">
-            <label>Nick</label>
-            <input id="loginNick" placeholder="admin" />
-          </div>
-          <div class="field span-6">
-            <label>Slaptažodis</label>
-            <input id="loginPass" type="password" placeholder="admin123" />
-          </div>
-          <div class="span-12" style="display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
-            <button class="btn" data-close="authModal">Atšaukti</button>
-            <button class="btn primary" id="doLogin">Prisijungti</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="modal" id="adminModal">
-    <div class="dialog">
-      <div class="dialog-head">
-        <h3>Admin panelė</h3>
-        <button class="btn" data-close="adminModal">Uždaryti</button>
-      </div>
-      <div class="dialog-body">
-        <div class="note">
-          Čia gali redaguoti ir trinti visus pasiūlymus. Pasiūlytojo telefonas nerodomas sąrašuose ar kortelėse — matomas tik Viber mygtukas.
-        </div>
-        <div id="adminList" style="margin-top:14px; display:grid; gap:12px;"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="toast" id="toast">OK</div>
-
-  <script>
-    (() => {
-      const LS_POSTS = 'automobilius_posts_v4';
-      const LS_SESSION = 'automobilius_admin_session_v4';
-
-      const $ = (id) => document.getElementById(id);
-
-      const state = {
-        posts: [],
-        admin: false,
-        editId: null,
-        imageCache: []
-      };
-
-      function rid(){
-        return Math.random().toString(36).slice(2,10) + Date.now().toString(36);
-      }
-
-      function demoImage(seed){
-        const colors = [
-          ['111827','374151'],
-          ['334155','64748b'],
-          ['7c3aed','c084fc'],
-          ['0f766e','14b8a6']
-        ];
-        const c = colors[seed % colors.length];
-        const svg = `
-          <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="900" viewBox="0 0 1200 900">
-            <defs>
-              <linearGradient id="g" x1="0" x2="1" y1="0" y2="1">
-                <stop offset="0%" stop-color="#${c[0]}"/>
-                <stop offset="100%" stop-color="#${c[1]}"/>
-              </linearGradient>
-            </defs>
-            <rect width="1200" height="900" fill="url(#g)"/>
-            <circle cx="250" cy="190" r="300" fill="rgba(255,255,255,.08)"/>
-            <rect x="160" y="360" width="880" height="155" rx="78" fill="rgba(255,255,255,.18)"/>
-            <rect x="275" y="290" width="660" height="112" rx="52" fill="rgba(255,255,255,.22)"/>
-            <circle cx="330" cy="550" r="90" fill="rgba(0,0,0,.42)"/>
-            <circle cx="880" cy="550" r="90" fill="rgba(0,0,0,.42)"/>
-            <rect x="438" y="250" width="324" height="56" rx="24" fill="rgba(255,255,255,.20)"/>
-            <text x="70" y="720" font-family="Inter, Arial" font-size="56" font-weight="800" fill="rgba(255,255,255,.9)">automobilius.lt</text>
-          </svg>`;
-        return 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg);
-      }
-
-      const seed = [
-        {
-          id: rid(),
-          brand:'Nissan',
-          model:'Xtrail',
-          year:'2008',
-          engine:'2 dyzelis',
-          defects:'Rudys',
-          price:'1700',
-          negotiated:'Nederinta',
-          city:'Ukmerge',
-          interest:'30',
-          phone:'+37061234567',
-          notes:'Tvarkingas važiuojantis variantas.',
-          images:[demoImage(0)],
-          createdAt: Date.now() - 1000*60*60*4
-        },
-        {
-          id: rid(),
-          brand:'Bmw',
-          model:'X5',
-          year:'2008',
-          engine:'3 dyzelis',
-          defects:'Deze smugiuoja visa kita ok',
-          price:'5000',
-          negotiated:'Nederinta',
-          city:'Vilnius',
-          interest:'50',
-          phone:'+37069991111',
-          notes:'Geresnis kontaktas per Viber.',
-          images:[demoImage(1)],
-          createdAt: Date.now() - 1000*60*60*11
-        }
-      ];
-
-      function escapeHTML(str){
-        return String(str ?? '').replace(/[&<>"']/g, s => ({
-          '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'
-        }[s]));
-      }
-
-      function dateLabel(ts){
-        const d = new Date(ts);
-        const day = String(d.getDate()).padStart(2,'0');
-        const month = String(d.getMonth()+1).padStart(2,'0');
-        const year = d.getFullYear();
-        return `${day}.${month}.${year}`;
-      }
-
-      function timeLabel(ts){
-        const d = new Date(ts);
-        const hh = String(d.getHours()).padStart(2,'0');
-        const mm = String(d.getMinutes()).padStart(2,'0');
-        return `${hh}:${mm}`;
-      }
-
-      function toast(msg){
-        const t = $('toast');
-        t.textContent = msg;
-        t.classList.add('show');
-        clearTimeout(window.__toastTimer);
-        window.__toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
-      }
-
-      function openModal(id){ $(id).classList.add('open'); }
-      function closeModal(id){ $(id).classList.remove('open'); }
-
-      function loadPosts(){
-        try { return JSON.parse(localStorage.getItem(LS_POSTS) || '[]'); }
-        catch { return []; }
-      }
-      function savePosts(posts){ localStorage.setItem(LS_POSTS, JSON.stringify(posts)); }
-
-      function loadSession(){
-        try { return JSON.parse(localStorage.getItem(LS_SESSION) || 'null'); }
-        catch { return null; }
-      }
-      function saveSession(v){ localStorage.setItem(LS_SESSION, JSON.stringify(v)); }
-
-      function ensureSeed(){
-        if(!localStorage.getItem(LS_POSTS)) savePosts(seed);
-      }
-
-      function validate(p){
-        if(!p.brand || !p.model || !p.year || !p.city || !p.price || !p.phone){
-          return 'Užpildyk markę, modelį, metus, miestą, kainą ir Viber nr.';
-        }
-        return '';
-      }
-
-      function fileToDataURL(file){
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.onload = e => resolve(e.target.result);
-          reader.onerror = reject;
-          reader.readAsDataURL(file);
-        });
-      }
-
-      function render(){
-        const posts = [...state.posts].sort((a,b) => b.createdAt - a.createdAt);
-        $('posts').innerHTML = posts.map(cardHTML).join('');
-        $('empty').classList.toggle('hidden', posts.length !== 0);
-        bindCards();
-      }
-
-      function cardHTML(p){
-        const cover = (p.images && p.images[0]) ? p.images[0] : demoImage(3);
-        const negotiatedBadge = p.negotiated === 'Derinta'
-          ? `<span class="badge good">Derinta</span>`
-          : `<span class="badge warn">Nederinta</span>`;
-        const thumbs = (p.images || []).map((src, idx) =>
-          `<img src="${escapeHTML(src)}" alt="foto ${idx+1}" onclick="swapImage('card','${p.id}',${idx})" />`
-        ).join('');
-
-        return `
-          <article class="card">
-            <div class="card-inner">
-              <div class="cover">
-                <div class="badges">
-                  ${negotiatedBadge}
-                  <span class="badge">${escapeHTML(p.city || '—')}</span>
-                </div>
-                <div class="gallery">
-                  <img id="cardMain-${p.id}" class="gallery-main" src="${escapeHTML(cover)}" alt="${escapeHTML(p.brand + ' ' + p.model)}" onerror="this.src='${demoImage(2)}'" />
-                  ${thumbs ? `<div class="gallery-thumbs">${thumbs}</div>` : ''}
-                </div>
-              </div>
-              <div class="content">
-                <div class="postedline">Pasiūlymas: ${dateLabel(p.createdAt)} ${timeLabel(p.createdAt)}</div>
-                <div class="title">
-                  <h2>${escapeHTML(p.brand)} ${escapeHTML(p.model)}</h2>
-                </div>
-
-                <div class="simpleinfo">
-                  <div class="row"><div class="k">Defektai</div><div class="v">${escapeHTML(p.defects || '—')}</div></div>
-                  <div class="row"><div class="k">Metai</div><div class="v">${escapeHTML(p.year || '—')}</div></div>
-                  <div class="row"><div class="k">Variklis</div><div class="v">${escapeHTML(p.engine || '—')}</div></div>
-                  <div class="row"><div class="k">Kaina</div><div class="v">${escapeHTML(p.price || '0')} €</div></div>
-                  <div class="row"><div class="k">Interest</div><div class="v">${escapeHTML(p.interest || '0')} €</div></div>
-                  <div class="row"><div class="k">Derinta</div><div class="v">${escapeHTML(p.negotiated || '—')}</div></div>
-                  <div class="row"><div class="k">Miestas</div><div class="v">${escapeHTML(p.city || '—')}</div></div>
-                </div>
-
-                <div class="actions">
-                  <a class="btn primary" href="viber://chat?number=${encodeURIComponent(p.phone || '')}" target="_blank" rel="noopener">Rašyti per Viber</a>
-                </div>
-              </div>
-            </div>
-          </article>
-        `;
-      }
-
-function swapImage(scope, postId, idx){
-        const post = state.posts.find(x => x.id === postId);
-        if(!post || !post.images || !post.images[idx]) return;
-        const target = document.getElementById(`${scope}Main-${postId}`);
-        if(target) target.src = post.images[idx];
-      }
-
-function bindCards(){
-        document.querySelectorAll('[data-open]').forEach(el => {
-          el.addEventListener('click', () => openDetail(el.dataset.open));
-        });
-      }
-
-      function fillForm(p=null){
-        $('fBrand').value = p?.brand || '';
-        $('fModel').value = p?.model || '';
-        $('fYear').value = p?.year || '';
-        $('fEngine').value = p?.engine || '';
-        $('fDefects').value = p?.defects || '';
-        $('fCity').value = p?.city || '';
-        $('fPrice').value = p?.price || '';
-        $('fInterest').value = p?.interest || '';
-        $('fPhone').value = p?.phone || '';
-        $('fNegotiated').value = p?.negotiated || 'Nederinta';
-        $('fNotes').value = p?.notes || '';
-        $('fImages').value = '';
-        state.imageCache = p?.images ? [...p.images] : [];
-      }
-
-      function collectForm(){
-        return {
-          brand: $('fBrand').value.trim(),
-          model: $('fModel').value.trim(),
-          year: $('fYear').value.trim(),
-          engine: $('fEngine').value.trim(),
-          defects: $('fDefects').value.trim(),
-          city: $('fCity').value.trim(),
-          price: $('fPrice').value.trim(),
-          interest: $('fInterest').value.trim(),
-          phone: $('fPhone').value.trim(),
-          negotiated: $('fNegotiated').value,
-          notes: $('fNotes').value.trim()
-        };
-      }
-
-      async function savePost(){
-        const payload = collectForm();
-        const err = validate(payload);
-        if(err){ toast(err); return; }
-
-        const files = Array.from($('fImages').files || []);
-        if(files.length > 6){ toast('Maksimaliai 6 nuotraukos'); return; }
-
-        const extra = [];
-        for(const f of files) extra.push(await fileToDataURL(f));
-
-        let images = [...state.imageCache, ...extra].slice(0, 6);
-        if(!images.length) images = [demoImage(0)];
-
-        const post = {
-          ...payload,
-          id: state.editId || rid(),
-          images,
-          createdAt: state.editId ? (state.posts.find(x => x.id === state.editId)?.createdAt || Date.now()) : Date.now(),
-        };
-
-        if(state.editId){
-          state.posts = state.posts.map(x => x.id === state.editId ? {...x, ...post} : x);
-          toast('Pasiūlymas atnaujintas');
-        } else {
-          state.posts.unshift(post);
-          toast('Pasiūlymas įkeltas');
-        }
-
-        savePosts(state.posts);
-        state.editId = null;
-        closeModal('formModal');
-        $('formTitle').textContent = 'Naujas pasiūlymas';
-        fillForm();
-        render();
-        if(state.admin) renderAdminList();
-      }
-
-      function openDetail(id){
-        const p = state.posts.find(x => x.id === id);
-        if(!p) return;
-
-        $('detailTitle').textContent = `${p.brand} ${p.model}`;
-        const cover = (p.images && p.images[0]) ? p.images[0] : demoImage(0);
-        const thumbs = (p.images || []).map((src, idx) =>
-          `<img src="${escapeHTML(src)}" alt="nuotrauka ${idx+1}" onclick="swapImage('detail','${p.id}',${idx})" />`
-        ).join('');
-
-        $('detailBody').innerHTML = `
-          <div class="detail">
-            <div class="detail-main">
-              <img id="detailMain-${p.id}" src="${escapeHTML(cover)}" alt="${escapeHTML(p.brand + ' ' + p.model)}" />
-              ${thumbs ? `<div class="gallery-thumbs">${thumbs}</div>` : ''}
-            </div>
-            <div class="detail-side">
-              <div class="box" style="margin:0;">
-                <h3>Informacija</h3>
-                <div class="simpleinfo" style="margin-top:12px;">
-                  <div class="row"><div class="k">Defektai</div><div class="v">${escapeHTML(p.defects || '—')}</div></div>
-                  <div class="row"><div class="k">Metai</div><div class="v">${escapeHTML(p.year || '—')}</div></div>
-                  <div class="row"><div class="k">Variklis</div><div class="v">${escapeHTML(p.engine || '—')}</div></div>
-                  <div class="row"><div class="k">Kaina</div><div class="v">${escapeHTML(p.price || '0')} €</div></div>
-                  <div class="row"><div class="k">Interest</div><div class="v">${escapeHTML(p.interest || '0')} €</div></div>
-                  <div class="row"><div class="k">Derinta</div><div class="v">${escapeHTML(p.negotiated || '—')}</div></div>
-                  <div class="row"><div class="k">Miestas</div><div class="v">${escapeHTML(p.city || '—')}</div></div>
-                  <div class="row"><div class="k">Pasiūlymas</div><div class="v">${dateLabel(p.createdAt)} ${timeLabel(p.createdAt)}</div></div>
-                  <div class="row"><div class="k">Aprašymas</div><div class="v">${escapeHTML(p.notes || '—')}</div></div>
-                </div>
-
-                <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;">
-                  <a class="btn primary" href="viber://chat?number=${encodeURIComponent(p.phone || '')}" target="_blank" rel="noopener">Rašyti per Viber</a>
-                </div>
-              </div>
-            </div>
-          </div>
-        `;
-        openModal('detailModal');
-      }
-
-function loginAdmin(){
-        const nick = $('loginNick').value.trim();
-        const pass = $('loginPass').value;
-        if(nick === 'admin' && pass === 'admin123'){
-          state.admin = true;
-          saveSession(true);
-          closeModal('authModal');
-          renderAdminList();
-          openModal('adminModal');
-          toast('Admin prisijungimas sėkmingas');
-        } else {
-          toast('Blogi duomenys');
-        }
-      }
-
-      function renderAdminList(){
-        const container = $('adminList');
-        const posts = [...state.posts].sort((a,b) => b.createdAt - a.createdAt);
-
-        container.innerHTML = posts.map(p => `
-          <div class="box">
-            <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;flex-wrap:wrap;">
-              <div>
-                <h3 style="margin:0 0 6px;">${escapeHTML(p.brand)} ${escapeHTML(p.model)}</h3>
-                <div class="tiny muted">Pasiūlymas: ${dateLabel(p.createdAt)} ${timeLabel(p.createdAt)}</div>
-                <div class="tiny muted" style="margin-top:4px;">${escapeHTML(p.year || '')} | ${escapeHTML(p.engine || '')} | ${escapeHTML(p.city || '')}</div>
-              </div>
-              <div style="display:flex;gap:8px;flex-wrap:wrap;">
-                <button class="btn" data-admin-edit="${p.id}">Redaguoti</button>
-                <button class="btn danger" data-admin-del="${p.id}">Trinti</button>
-              </div>
-            </div>
-            <div style="margin-top:10px;" class="tiny muted">${escapeHTML(p.defects || '')}</div>
-          </div>
-        `).join('');
-
-        container.querySelectorAll('[data-admin-edit]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const post = state.posts.find(x => x.id === btn.dataset.adminEdit);
-            if(!post) return;
-            state.editId = post.id;
-            $('formTitle').textContent = 'Redaguoti pasiūlymą';
-            fillForm(post);
-            closeModal('adminModal');
-            openModal('formModal');
-          });
-        });
-
-        container.querySelectorAll('[data-admin-del]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            if(!confirm('Trinti šį pasiūlymą?')) return;
-            state.posts = state.posts.filter(x => x.id !== btn.dataset.adminDel);
-            savePosts(state.posts);
-            render();
-            renderAdminList();
-            toast('Pasiūlymas ištrintas');
-          });
-        });
-      }
-
-      function init(){
-        ensureSeed();
-        state.posts = loadPosts();
-        state.admin = !!loadSession();
-
-        bind();
-        render();
-      }
-
-      function bind(){
-        $('btnAdd').addEventListener('click', () => {
-          state.editId = null;
-          $('formTitle').textContent = 'Naujas pasiūlymas';
-          fillForm();
-          openModal('formModal');
-        });
-
-        $('btnAdmin').addEventListener('click', () => {
-          if(state.admin){
-            renderAdminList();
-            openModal('adminModal');
-          } else {
-            openModal('authModal');
-          }
-        });
-
-        $('doLogin').addEventListener('click', loginAdmin);
-        $('savePost').addEventListener('click', savePost);
-
-        $('fImages').addEventListener('change', async (e) => {
-          const files = Array.from(e.target.files || []);
-          state.imageCache = [];
-          for(const f of files){
-            state.imageCache.push(await fileToDataURL(f));
-          }
-          if(files.length) toast(`${files.length} foto paruošta`);
-        });
-
-        document.querySelectorAll('[data-close]').forEach(btn => {
-          btn.addEventListener('click', () => closeModal(btn.dataset.close));
-        });
-
-        ['detailModal','formModal','authModal','adminModal'].forEach(id => {
-          $(id).addEventListener('click', e => {
-            if(e.target.id === id) closeModal(id);
-          });
-        });
-
-        $('loginNick').addEventListener('keydown', e => { if(e.key === 'Enter') loginAdmin(); });
-        $('loginPass').addEventListener('keydown', e => { if(e.key === 'Enter') loginAdmin(); });
-      }
-
-      init();
-    })();
-  </script>
+
+<div class="container">
+
+<h1>MOTYVACIJOS</h1>
+
+<div class="card">
+<h2 id="level"></h2>
+<p id="xp"></p>
+<div class="progress"><div id="bar" class="fill"></div></div>
+<p style="margin-top:10px;">💰 Monetos: <span id="coins"></span></p>
+</div>
+
+<div class="card">
+<button class="toggle" onclick="toggle('sveik')">💪 Sveikata</button>
+<div id="sveik" class="hidden"></div>
+
+<button class="toggle" onclick="toggle('prod')">📋 Produktyvumas</button>
+<div id="prod" class="hidden"></div>
+
+<button class="toggle" onclick="toggle('tobul')">🧠 Tobulėjimas</button>
+<div id="tobul" class="hidden"></div>
+</div>
+
+<div class="card">
+<button class="toggle" onclick="toggle('shopWrap')">🎁 Apdovanojimai</button>
+<div id="shopWrap" class="hidden">
+
+<button class="shop" onclick="buy(0)">🛍️ Premium pirkinys (50)</button>
+<button class="shop" onclick="buy(1)">🍕 Picos vakaras (70)</button>
+<button class="shop" onclick="buy(2)">👕 Vinted drabužis iki 17€ (80)</button>
+<button class="shop" onclick="buy(3)">💸 Išlaidos iki 25€ (100)</button>
+<button class="shop" onclick="buy(4)">🎬 Kino vakaras (200)</button>
+<button class="shop" onclick="buy(5)">💆‍♂️ Masažas (300)</button>
+<button class="shop" onclick="buy(6)">🛒 Pirkinys iki 80€ (500)</button>
+<button class="shop" onclick="buy(7)">✈️ 3 dienų kelionė (1000)</button>
+
+</div>
+</div>
+
+<div class="card">
+<button class="toggle" onclick="toggle('menuWrap')">☰ MENIU</button>
+<div id="menuWrap" class="hidden">
+
+<button onclick="showStats()">📊 Statistika</button>
+<button onclick="showLevels()">🏆 Lygiai</button>
+<button onclick="showHistory()">📜 Istorija</button>
+
+<button onclick="toggle('weekWrap')">📅 Savaitės tikslai</button>
+
+<div id="weekWrap" class="hidden">
+<button onclick="weekReward(50,20,10)">✔️ 10 → +50XP +20 monetų</button>
+<button onclick="weekReward(120,50,25)">✔️ 25 → +120XP +50 monetų</button>
+<button onclick="weekReward(250,120,50)">✔️ 50 → +250XP +120 monetų</button>
+</div>
+
+<button onclick="resetGame()">❌ Atstatyti žaidimą</button>
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+let xp=0, level=1, coins=0;
+let totalTasks=0, totalXP=0;
+let weeklyTasks=0;
+let historyLog=[];
+
+let stats = {
+walk:0, water:0, pushups:0, pullups:0,
+contracts:0, ads:0, bought:0, sold:0, delayed:0,
+learning:0, ce:0, books:0, notv:0
+};
+
+const rewards = [
+{price:50,text:"premium pirkinį"},
+{price:70,text:"picos vakarą"},
+{price:80,text:"drabužį iš Vinted (iki 17€)"},
+{price:100,text:"išlaidas iki 25€"},
+{price:200,text:"kino vakarą"},
+{price:300,text:"masažą"},
+{price:500,text:"pirkinį iki 80€"},
+{price:1000,text:"3 dienų kelionę"}
+];
+
+function log(txt){
+historyLog.push(new Date().toLocaleTimeString()+" - "+txt);
+}
+
+function buy(i){
+let r = rewards[i];
+if(coins < r.price){alert("❌ Neužtenka monetų");return;}
+coins -= r.price;
+log("Nupirkta: "+r.text);
+alert("🎁 Gavai: "+r.text);
+save(); render();
+}
+
+function toggle(id){document.getElementById(id).classList.toggle("hidden");}
+
+function resetGame(){
+if(confirm("Ištrinti progresą?")){
+localStorage.clear(); location.reload();
+}
+}
+
+function addXP(val){
+xp+=val;
+totalXP+=val;
+coins+=Math.floor(val/2);
+while(xp>=100){xp-=100;level++;}
+}
+
+function track(t){
+if(t.text==="30min pasivaikščiojimas") stats.walk+=30;
+if(t.text==="2L vandens") stats.water+=2;
+if(t.text==="50 atsispaudimų") stats.pushups+=50;
+if(t.text==="20 prisitraukimų") stats.pullups+=20;
+
+if(t.text==="5 pardavimo sutartys") stats.contracts+=5;
+if(t.text==="1 į skelbimus automobilis") stats.ads+=1;
+if(t.text==="1 nupirktas automobilis") stats.bought+=1;
+if(t.text==="1 parduotas automobilis") stats.sold+=1;
+if(t.text==="Atidėliotas dalykas (1)") stats.delayed+=1;
+if(t.text==="Atidėliotas dalykas (2)") stats.delayed+=2;
+
+if(t.text==="60min mokymasis") stats.learning+=60;
+if(t.text==="60min CE teorija") stats.ce+=60;
+if(t.text==="20 puslapių skaitymas") stats.books+=1;
+if(t.text==="Diena be TV") stats.notv+=1;
+}
+
+function completeTask(id){
+let t=tasks.find(x=>x.id===id);
+if(!t||t.done)return;
+
+t.done=true;
+addXP(t.xp);
+track(t);
+
+totalTasks++; weeklyTasks++;
+
+log("Atlikta: "+t.text);
+
+save(); render();
+}
+
+/* 🔥 FIX: savaitės tikslai */
+function weekReward(x,c,need){
+if(weeklyTasks<need){
+alert(`Reikia dar ${need-weeklyTasks} užduočių`);
+return;
+}
+
+addXP(x);      // FIX: dabar level veikia
+coins+=c;
+weeklyTasks-=need;  // FIX: nuresetina tik dalį
+
+log(`Savaitės reward (${need})`);
+
+alert("🎯 Reward paimtas!");
+save(); render();
+}
+
+/* 🔥 FIX: istorija */
+function showHistory(){
+if(!historyLog.length){
+alert("Dar nėra veiksmų");
+return;
+}
+alert(historyLog.slice(-20).join("\n"));
+}
+
+function showStats(){
+alert(`📊 PRO STATISTIKA
+
+💪 SVEIKATA
+👣 ${stats.walk} min
+💧 ${stats.water} L
+💪 ${stats.pushups}
+🧗 ${stats.pullups}
+
+📋 PRODUKTYVUMAS
+📄 ${stats.contracts}
+🚗 ${stats.ads}
+💰 ${stats.bought}
+🏁 ${stats.sold}
+⏳ ${stats.delayed}
+
+🧠 TOBULĖJIMAS
+📚 ${stats.learning} min
+🚛 ${stats.ce} min
+📖 ${stats.books*20} psl
+📺 ${stats.notv}
+
+✔️ ${totalTasks} užduočių
+⭐ ${totalXP} XP
+`);
+}
+
+function showLevels(){alert("Lygiai: 5 / 10 / 20");}
+
+let tasks=[ /* NEPAKEISTA */ 
+{id:1,cat:"sveik",text:"2L vandens",xp:10,done:false},
+{id:2,cat:"sveik",text:"60min be soc tinklų ir darbo",xp:10,done:false},
+{id:3,cat:"sveik",text:"30min pasivaikščiojimas",xp:12,done:false},
+{id:4,cat:"sveik",text:"50 atsispaudimų",xp:15,done:false},
+{id:5,cat:"sveik",text:"20 prisitraukimų",xp:15,done:false},
+{id:6,cat:"sveik",text:"3 kartai valgymas",xp:10,done:false},
+{id:7,cat:"sveik",text:"24h be priklausomybių",xp:25,done:false},
+
+{id:8,cat:"prod",text:"30min pas mamą",xp:20,done:false},
+{id:9,cat:"prod",text:"Sutvarkyti namus",xp:25,done:false},
+{id:10,cat:"prod",text:"5 pardavimo sutartys",xp:20,done:false},
+{id:11,cat:"prod",text:"2h darbas garaže",xp:25,done:false},
+{id:12,cat:"prod",text:"1 į skelbimus automobilis",xp:35,done:false},
+{id:13,cat:"prod",text:"1 nupirktas automobilis",xp:35,done:false},
+{id:14,cat:"prod",text:"1 parduotas automobilis",xp:35,done:false},
+{id:15,cat:"prod",text:"Atidėliotas dalykas (1)",xp:20,done:false},
+{id:16,cat:"prod",text:"Atidėliotas dalykas (2)",xp:30,done:false},
+
+{id:17,cat:"tobul",text:"60min mokymasis",xp:15,done:false},
+{id:18,cat:"tobul",text:"20 puslapių skaitymas",xp:15,done:false},
+{id:19,cat:"tobul",text:"60min CE teorija",xp:20,done:false},
+{id:20,cat:"tobul",text:"Dantys ryte",xp:10,done:false},
+{id:21,cat:"tobul",text:"Dantys vakare",xp:15,done:false},
+{id:22,cat:"tobul",text:"Prausimasis ryte",xp:15,done:false},
+{id:23,cat:"tobul",text:"Prausimasis vakare",xp:15,done:false},
+{id:24,cat:"tobul",text:"Diena be TV",xp:20,done:false}
+];
+
+function render(){
+document.getElementById("level").innerText="Lygis: "+level;
+document.getElementById("xp").innerText="XP: "+xp+"/100";
+document.getElementById("coins").innerText=coins;
+document.getElementById("bar").style.width=xp+"%";
+renderCategory("sveik");
+renderCategory("prod");
+renderCategory("tobul");
+}
+
+function renderCategory(cat){
+let div=document.getElementById(cat);
+div.innerHTML="";
+tasks.filter(t=>t.cat===cat).forEach(t=>{
+let b=document.createElement("button");
+b.className="task"+(t.done?" done":"");
+b.textContent=(t.done?"✅ ":"⬜ ")+t.text+" (+"+t.xp+")";
+if(!t.done) b.onclick=()=>completeTask(t.id);
+else b.disabled=true;
+div.appendChild(b);
+});
+}
+
+function save(){
+localStorage.setItem("klik_ultra", JSON.stringify({
+xp,level,coins,tasks,totalTasks,totalXP,weeklyTasks,stats,historyLog
+}));
+}
+
+function load(){
+let d=JSON.parse(localStorage.getItem("klik_ultra"));
+if(d){
+xp=d.xp||0; level=d.level||1; coins=d.coins||0;
+tasks=d.tasks||tasks;
+totalTasks=d.totalTasks||0;
+totalXP=d.totalXP||0;
+weeklyTasks=d.weeklyTasks||0;
+stats=d.stats||stats;
+historyLog=d.historyLog||[];
+}
+}
+
+load(); render();
+
+</script>
+
 </body>
 </html>
