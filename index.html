@@ -52,6 +52,7 @@ button {
   padding:16px;
   border-radius:12px;
   margin-bottom:12px;
+  line-height:1.4;
 }
 
 input, select {
@@ -108,6 +109,14 @@ input, select {
   border-radius:6px;
   cursor:pointer;
 }
+
+/* STAT */
+.stat {
+  background:#fff;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:10px;
+}
 </style>
 
 </head>
@@ -121,7 +130,6 @@ input, select {
 </div>
 </header>
 
-<!-- LOGIN -->
 <div id="authBox" class="auth-box">
 
 <div id="loginBox">
@@ -143,12 +151,13 @@ input, select {
 
 <div class="container">
 
+<div id="stats" class="stat hidden"></div>
+
 <div id="userMenu" class="menu hidden">
 <button onclick="toggleForm()">Talpinti</button>
 <button onclick="logout()">Logout</button>
 </div>
 
-<!-- FORM -->
 <div id="formBox" class="card hidden">
 
 <h3>Naujas pasiūlymas</h3>
@@ -167,7 +176,7 @@ input, select {
 
 <input id="city" placeholder="Miestas">
 <input id="interest" placeholder="Interest €">
-<input id="phone" placeholder="Viber numeris (+370...)">
+<input id="phone" placeholder="Viber numeris">
 
 <input type="file" id="photos" multiple>
 
@@ -185,13 +194,12 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import { getFirestore, collection, addDoc, onSnapshot, query, orderBy, deleteDoc, doc, updateDoc } 
 from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-const firebaseConfig = {
-  apiKey: "AIzaSyCYc3MMhNlr2nGGH-PdhrFYkhk3_Zn_2XU",
+const app = initializeApp({
+  apiKey: "AIzaSy...",
   authDomain: "automobilius-e2770.firebaseapp.com",
   projectId: "automobilius-e2770"
-};
+});
 
-const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 let currentUser = null;
@@ -215,164 +223,174 @@ if(!users['admin']){
 window.toggleAuth = () =>
  authBox.style.display = authBox.style.display==="block"?"none":"block";
 
-window.showRegister = () => {
+window.showRegister = ()=>{
  loginBox.classList.add("hidden");
  registerBox.classList.remove("hidden");
 }
 
-window.showLogin = () => {
+window.showLogin = ()=>{
  registerBox.classList.add("hidden");
  loginBox.classList.remove("hidden");
 }
 
 /* LOGIN */
-window.login = () => {
- let u = getUsers();
- if(u[nick.value] && u[nick.value].pass === pass.value){
-   currentUser = nick.value;
-   userMenu.classList.remove("hidden");
-   authBox.style.display="none";
+window.login = ()=>{
+ let u=getUsers();
+ if(u[nick.value] && u[nick.value].pass===pass.value){
+  currentUser=nick.value;
+  userMenu.classList.remove("hidden");
+
+  if(currentUser==="admin") stats.classList.remove("hidden");
+
+  authBox.style.display="none";
  } else alert("Blogi duomenys");
 }
 
 /* REGISTER */
-window.register = () => {
-
- if(reg_pass.value !== reg_pass2.value){
-   alert("Slaptažodžiai nesutampa");
-   return;
+window.register = ()=>{
+ if(reg_pass.value!==reg_pass2.value){
+  alert("Slaptažodžiai nesutampa"); return;
  }
 
- let u = getUsers();
+ let u=getUsers();
+ if(u[reg_nick.value]) return alert("Yra");
 
- if(u[reg_nick.value]){
-   alert("Vartotojas jau yra");
-   return;
- }
-
- u[reg_nick.value] = {pass:reg_pass.value};
+ u[reg_nick.value]={pass:reg_pass.value};
  saveUsers(u);
 
- alert("Sėkmingai prisiregistravote, dabar galite prisijungti");
+ alert("Sėkmingai prisiregistravote");
  showLogin();
 }
 
 /* LOGOUT */
-window.logout = () => {
- currentUser = null;
+window.logout=()=>{
+ currentUser=null;
  userMenu.classList.add("hidden");
+ stats.classList.add("hidden");
 }
 
 /* FORM */
-window.toggleForm = () => formBox.classList.toggle("hidden");
+window.toggleForm=()=>formBox.classList.toggle("hidden");
 
 /* ADD POST */
-window.addPost = async () => {
+window.addPost = async ()=>{
+ try{
 
- let files = photos.files;
-
- if(files.length > 10){
-   alert("Max 10 nuotraukų");
+ if(!brand.value || !price.value){
+   alert("Užpildyk bent markę ir kainą");
    return;
  }
 
- let imgs = [];
+ let files = photos.files;
+ let imgs=[];
+
+ if(files.length>10){
+  alert("Max 10 foto"); return;
+ }
 
  if(files.length){
-   let readers = [];
-
-   for(let i=0;i<files.length;i++){
-     readers.push(new Promise(res=>{
-       let r = new FileReader();
-       r.onload = e => res(e.target.result);
-       r.readAsDataURL(files[i]);
-     }));
-   }
-
-   imgs = await Promise.all(readers);
+  let readers=[];
+  for(let i=0;i<files.length;i++){
+   readers.push(new Promise(res=>{
+    let r=new FileReader();
+    r.onload=e=>res(e.target.result);
+    r.readAsDataURL(files[i]);
+   }));
+  }
+  imgs=await Promise.all(readers);
  }
 
  await addDoc(collection(db,"posts"),{
-   brand:brand.value,
-   model:model.value,
-   year:year.value,
-   engine:engine.value,
-   defects:defects.value,
-   price:price.value,
-   negotiated:negotiated.value,
-   city:city.value,
-   interest:interest.value,
-   phone:phone.value,
-   images:imgs,
-   user:currentUser || "guest",
-   date:new Date().getTime()
+  brand:brand.value,
+  model:model.value,
+  year:year.value,
+  engine:engine.value,
+  defects:defects.value,
+  price:price.value,
+  negotiated:negotiated.value,
+  city:city.value,
+  interest:interest.value,
+  phone:phone.value,
+  images:imgs,
+  user:currentUser||"guest",
+  date:Date.now()
  });
 
+ formBox.reset?.(); // FIX
+ alert("Įkelta!");
+
+ }catch(e){
+  alert("Klaida");
+  console.log(e);
+ }
 }
 
 /* RENDER */
-const q = query(collection(db,"posts"), orderBy("date","desc"));
+const q=query(collection(db,"posts"),orderBy("date","desc"));
 
 onSnapshot(q,(snap)=>{
  let html="";
+ let count=0;
 
  snap.forEach(d=>{
-  let p = d.data();
+  count++;
 
-  let main = p.images?.length
+  let p=d.data();
+
+  let main=p.images?.[0]
    ? `<img src="${p.images[0]}" class="main-img" id="main-${d.id}">`
-   : "";
+   :"";
 
-  let thumbs = "";
-
-  if(p.images?.length > 1){
-   thumbs += `<div class="thumb-container">`;
-
+  let thumbs="";
+  if(p.images?.length>1){
+   thumbs='<div class="thumb-container">';
    p.images.forEach(img=>{
-     thumbs += `<img src="${img}" class="thumb" onclick="changeImg('${d.id}','${img}')">`;
+    thumbs+=`<img src="${img}" class="thumb" onclick="changeImg('${d.id}','${img}')">`;
    });
-
-   thumbs += `</div>`;
+   thumbs+='</div>';
   }
 
   html+=`
   <div class="post">
   <b>${p.brand} ${p.model}</b><br>
-  ${p.year} | ${p.engine} | ${p.city}<br>
-  <small>${p.defects}</small><br><br>
+  ${p.year||""} | ${p.engine||""} | ${p.city||""}<br>
+  <small>${p.defects||""}</small><br><br>
 
-  <b>${p.price}€ (${p.negotiated})</b><br>
-  Interest: ${p.interest}€<br>
+  <b>${p.price}€ (${p.negotiated||""})</b><br>
+  Interest: ${p.interest||""}€<br>
 
-  <a class="viber" href="viber://chat?number=${p.phone}">Rašyti per Viber</a><br>
+  <a class="viber" href="viber://chat?number=${p.phone}">Viber</a>
 
   ${main}
   ${thumbs}
 
-  <br>
-
   ${currentUser==="admin" ? `
-    <button onclick="del('${d.id}')">Delete</button>
-    <button onclick="edit('${d.id}','${p.price}')">Edit</button>
-  ` : ""}
+   <br><button onclick="del('${d.id}')">Delete</button>
+   <button onclick="edit('${d.id}','${p.price}')">Edit</button>
+  `:""}
 
   </div>`;
  });
 
- posts.innerHTML = html;
+ posts.innerHTML=html;
+
+ if(currentUser==="admin"){
+  stats.innerHTML=`📊 Skelbimų: ${count}`;
+ }
+
 });
 
-/* CHANGE IMG */
-window.changeImg = (id,src)=>{
- document.getElementById("main-"+id).src = src;
+/* IMG SWITCH */
+window.changeImg=(id,src)=>{
+ document.getElementById("main-"+id).src=src;
 }
 
 /* DELETE */
-window.del = async id => await deleteDoc(doc(db,"posts",id));
+window.del=async id=>await deleteDoc(doc(db,"posts",id));
 
 /* EDIT */
-window.edit = async (id, old)=>{
- let p = prompt("Nauja kaina:", old);
+window.edit=async(id,old)=>{
+ let p=prompt("Kaina:",old);
  if(p) await updateDoc(doc(db,"posts",id),{price:p});
 }
 
