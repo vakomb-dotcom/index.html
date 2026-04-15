@@ -12,8 +12,12 @@ button { padding:10px; background:black; color:white; border:none; cursor:pointe
 .card { background:#fff; padding:15px; border-radius:10px; margin-bottom:15px;}
 .post { background:#fff; padding:15px; border-radius:10px; margin-bottom:10px;}
 input, textarea, select { width:100%; padding:8px; margin:5px 0;}
-.viber { background:purple; color:white; padding:8px; display:inline-block; margin-top:10px;}
+.viber { background:purple; color:white; padding:8px; display:inline-block; margin-top:10px; cursor:pointer;}
 .hidden { display:none; }
+.main-img { width:100%; margin-top:10px; border-radius:8px; }
+.thumb { width:60px; height:60px; object-fit:cover; margin:5px; cursor:pointer; border-radius:5px;}
+.thumb-container { display:flex; flex-wrap:wrap;}
+.date { font-size:12px; color:#666; margin-top:5px;}
 </style>
 </head>
 <body>
@@ -39,7 +43,7 @@ input, textarea, select { width:100%; padding:8px; margin:5px 0;}
 <input id="city" placeholder="Miestas">
 <input id="interest" placeholder="Interest €">
 <input id="phone" placeholder="Viber numeris">
-<input type="file" id="photo">
+<input type="file" id="photos" multiple>
 <button onclick="addPost()">Įkelti</button>
 </div>
 
@@ -61,7 +65,18 @@ function savePosts(posts){
     localStorage.setItem('posts', JSON.stringify(posts));
 }
 
+function formatDate(ts){
+    let d = new Date(ts);
+    return d.toLocaleDateString() + " " + d.toLocaleTimeString();
+}
+
 function addPost(){
+    let files = document.getElementById('photos').files;
+    if(files.length > 5){
+        alert("Max 5 nuotraukos");
+        return;
+    }
+
     let post = {
         brand: brand.value,
         model: model.value,
@@ -73,18 +88,24 @@ function addPost(){
         city: city.value,
         interest: interest.value,
         phone: phone.value,
-        date: new Date().getTime()
+        date: new Date().getTime(),
+        images: []
     };
 
-    let file = document.getElementById('photo').files[0];
-
-    if(file){
-        let reader = new FileReader();
-        reader.onload = function(e){
-            post.img = e.target.result;
-            saveAndRender(post);
+    if(files.length){
+        let readers = [];
+        for(let i=0;i<files.length;i++){
+            readers.push(new Promise(resolve=>{
+                let r = new FileReader();
+                r.onload = e => resolve(e.target.result);
+                r.readAsDataURL(files[i]);
+            }));
         }
-        reader.readAsDataURL(file);
+
+        Promise.all(readers).then(imgs=>{
+            post.images = imgs;
+            saveAndRender(post);
+        });
     } else {
         saveAndRender(post);
     }
@@ -92,7 +113,7 @@ function addPost(){
 
 function saveAndRender(post){
     let posts = getPosts();
-    posts.unshift(post); // newest first
+    posts.unshift(post);
     savePosts(posts);
     renderPosts();
     document.getElementById('formBox').classList.add('hidden');
@@ -102,21 +123,38 @@ function renderPosts(){
     let posts = getPosts();
     let html = "";
 
-    posts.forEach(p => {
+    posts.forEach((p, index) => {
+        let mainImg = p.images && p.images.length ? `<img src="${p.images[0]}" class="main-img" id="main-${index}">` : "";
+
+        let thumbs = "";
+        if(p.images && p.images.length > 1){
+            thumbs = '<div class="thumb-container">';
+            p.images.forEach((img, i)=>{
+                thumbs += `<img src="${img}" class="thumb" onclick="changeImg(${index}, '${img}')">`;
+            });
+            thumbs += '</div>';
+        }
+
         html += `
         <div class="post">
         <b>${p.brand} ${p.model}</b><br>
-        ${p.year} | ${p.engine} | ${p.city}<br><br>
+        ${p.year} | ${p.engine} | ${p.city}<br>
+        <div class="date">${formatDate(p.date)}</div><br>
         Defektai: ${p.defects}<br><br>
         Kaina: ${p.price}€ (${p.negotiated})<br>
         Interest: ${p.interest}€<br>
-        <a class="viber" href="viber://chat?number=${p.phone}">Rašyti per Viber</a>
-        ${p.img ? `<img src="${p.img}" style="width:100%; margin-top:10px;">` : ""}
+        <div class="viber" onclick="alert('Norint susisiekti – 10€')">Rašyti per Viber</div>
+        ${mainImg}
+        ${thumbs}
         </div>
         `;
     });
 
     document.getElementById('posts').innerHTML = html;
+}
+
+function changeImg(index, src){
+    document.getElementById('main-'+index).src = src;
 }
 
 renderPosts();
