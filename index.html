@@ -12,7 +12,7 @@ button { padding:10px; background:black; color:white; border:none; cursor:pointe
 .card { background:#fff; padding:15px; border-radius:10px; margin-bottom:15px;}
 .post { background:#fff; padding:15px; border-radius:10px; margin-bottom:10px;}
 input, textarea, select { width:100%; padding:8px; margin:5px 0;}
-.viber { background:purple; color:white; padding:8px; display:inline-block; margin-top:10px; cursor:pointer;}
+.viber { background:purple; color:white; padding:8px; display:inline-block; margin-top:10px; text-decoration:none;}
 .hidden { display:none; }
 .main-img { width:100%; margin-top:10px; border-radius:8px; }
 .thumb { width:60px; height:60px; object-fit:cover; margin:5px; cursor:pointer; border-radius:5px;}
@@ -42,7 +42,7 @@ input, textarea, select { width:100%; padding:8px; margin:5px 0;}
 </select>
 <input id="city" placeholder="Miestas">
 <input id="interest" placeholder="Interest €">
-<input id="phone" placeholder="Viber numeris">
+<input id="phone" placeholder="Viber numeris (pvz +370...)">
 <input type="file" id="photos" multiple>
 <button onclick="addPost()">Įkelti</button>
 </div>
@@ -129,11 +129,13 @@ function renderPosts(){
         let thumbs = "";
         if(p.images && p.images.length > 1){
             thumbs = '<div class="thumb-container">';
-            p.images.forEach((img, i)=>{
+            p.images.forEach((img)=>{
                 thumbs += `<img src="${img}" class="thumb" onclick="changeImg(${index}, '${img}')">`;
             });
             thumbs += '</div>';
         }
+
+        let viberLink = p.phone ? `viber://chat?number=${p.phone}` : "#";
 
         html += `
         <div class="post">
@@ -143,7 +145,7 @@ function renderPosts(){
         Defektai: ${p.defects}<br><br>
         Kaina: ${p.price}€ (${p.negotiated})<br>
         Interest: ${p.interest}€<br>
-        <div class="viber" onclick="alert('Norint susisiekti – 10€')">Rašyti per Viber</div>
+        <a class="viber" href="${viberLink}">Rašyti per Viber</a>
         ${mainImg}
         ${thumbs}
         </div>
