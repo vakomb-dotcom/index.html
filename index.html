@@ -6,16 +6,13 @@
 <title>automobilius.lt</title>
 
 <style>
-
-/* ===== GLOBAL ===== */
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   margin:0;
   background:#f5f6f8;
-  color:#111;
 }
 
-/* ===== HEADER ===== */
+/* HEADER */
 header {
   background:#0f0f10;
   color:#fff;
@@ -23,140 +20,108 @@ header {
   display:flex;
   justify-content:space-between;
   align-items:center;
-  box-shadow:0 2px 10px rgba(0,0,0,0.2);
 }
 
-.logo {
-  font-weight:600;
-  font-size:20px;
-  letter-spacing:0.5px;
-}
+.logo { font-size:20px; font-weight:600; }
 
-.header-actions button {
-  background:#1f1f22;
-  border-radius:8px;
-  padding:8px 14px;
-  font-size:14px;
-}
-
-.header-actions button:hover {
-  background:#2c2c30;
-}
-
-/* ===== CONTAINER ===== */
-.container {
-  max-width:900px;
-  margin:25px auto;
-  padding:0 12px;
-}
-
-/* ===== BUTTON ===== */
 button {
-  border:none;
-  color:white;
   background:#111;
-  padding:10px 14px;
+  color:#fff;
+  border:none;
+  padding:8px 12px;
   border-radius:8px;
   cursor:pointer;
-  transition:0.2s;
 }
 
-button:hover {
-  transform:translateY(-1px);
-  opacity:0.9;
+/* LAYOUT */
+.container {
+  max-width:900px;
+  margin:20px auto;
+  padding:10px;
 }
 
-/* ===== MENU ===== */
-.menu {
-  display:flex;
-  gap:10px;
-  margin-bottom:15px;
-  flex-wrap:wrap;
-}
-
-.menu button {
-  background:#fff;
-  color:#111;
-  border:1px solid #ddd;
-}
-
-.menu button:hover {
-  background:#f0f0f0;
-}
-
-/* ===== CARD ===== */
 .card {
   background:#fff;
   padding:16px;
   border-radius:12px;
   margin-bottom:15px;
-  box-shadow:0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* ===== POSTS ===== */
 .post {
   background:#fff;
   padding:16px;
   border-radius:12px;
   margin-bottom:12px;
-  box-shadow:0 3px 10px rgba(0,0,0,0.04);
-  transition:0.2s;
 }
 
-.post:hover {
-  transform:translateY(-2px);
-}
-
-/* ===== INPUT ===== */
-input {
+input, select {
   width:100%;
   padding:10px;
+  margin:5px 0;
   border-radius:8px;
   border:1px solid #ddd;
-  margin:6px 0;
 }
 
-/* ===== VIBER ===== */
+.menu { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+
 .viber {
-  display:inline-block;
-  margin-top:10px;
   background:#7360f2;
-  padding:8px 12px;
-  border-radius:8px;
+  padding:8px 10px;
   color:#fff;
+  border-radius:6px;
+  display:inline-block;
+  margin-top:8px;
   text-decoration:none;
-  font-size:14px;
 }
 
-/* ===== AUTH BOX ===== */
 .auth-box {
   position:absolute;
   right:20px;
   top:60px;
   background:#fff;
-  border-radius:12px;
   padding:15px;
-  width:260px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+  border-radius:10px;
+  width:250px;
   display:none;
 }
 
-/* ===== HIDDEN ===== */
 .hidden { display:none; }
 
+/* IMAGE */
+.main-img {
+  width:100%;
+  margin-top:10px;
+  border-radius:10px;
+}
+
+.thumb-container {
+  display:flex;
+  gap:6px;
+  margin-top:6px;
+  flex-wrap:wrap;
+}
+
+.thumb {
+  width:60px;
+  height:60px;
+  object-fit:cover;
+  border-radius:6px;
+  cursor:pointer;
+}
 </style>
+
 </head>
 <body>
 
 <header>
 <div class="logo">automobilius.lt</div>
-
-<div class="header-actions">
+<div>
 <button onclick="toggleForm()">+ Talpinti</button>
 <button onclick="toggleAuth()">Prisijungti</button>
 </div>
 </header>
 
+<!-- LOGIN -->
 <div id="authBox" class="auth-box">
 
 <div id="loginBox">
@@ -168,8 +133,8 @@ input {
 
 <div id="registerBox" class="hidden">
 <input id="reg_nick" placeholder="Slapyvardis">
-<input id="reg_pass" type="password" placeholder="Slaptažodis">
-<input id="reg_pass2" type="password" placeholder="Pakartoti slaptažodį">
+<input id="reg_pass" type="password">
+<input id="reg_pass2" type="password">
 <button onclick="register()">Registruotis</button>
 <button onclick="showLogin()">Grįžti</button>
 </div>
@@ -180,17 +145,34 @@ input {
 
 <div id="userMenu" class="menu hidden">
 <button onclick="toggleForm()">Talpinti</button>
-<button onclick="myPosts()">Mano</button>
-<button onclick="savedPosts()">Išsaugoti</button>
 <button onclick="logout()">Logout</button>
 </div>
 
+<!-- FORM -->
 <div id="formBox" class="card hidden">
+
+<h3>Naujas pasiūlymas</h3>
+
 <input id="brand" placeholder="Markė">
 <input id="model" placeholder="Modelis">
+<input id="year" placeholder="Metai">
+<input id="engine" placeholder="Variklis">
+<input id="defects" placeholder="Defektai">
 <input id="price" placeholder="Kaina €">
-<input id="phone" placeholder="Viber nr">
+
+<select id="negotiated">
+<option value="Nederinta">Nederinta</option>
+<option value="Derinta">Derinta</option>
+</select>
+
+<input id="city" placeholder="Miestas">
+<input id="interest" placeholder="Interest €">
+<input id="phone" placeholder="Viber numeris (+370...)">
+
+<input type="file" id="photos" multiple>
+
 <button onclick="addPost()">Įkelti</button>
+
 </div>
 
 <div id="posts"></div>
@@ -214,7 +196,7 @@ const db = getFirestore(app);
 
 let currentUser = null;
 
-/* ===== USERS ===== */
+/* USERS */
 function getUsers(){
  return JSON.parse(localStorage.getItem('users')||'{}');
 }
@@ -230,8 +212,8 @@ if(!users['admin']){
 }
 
 /* UI */
-window.toggleAuth = () => authBox.style.display =
- authBox.style.display==="block"?"none":"block";
+window.toggleAuth = () =>
+ authBox.style.display = authBox.style.display==="block"?"none":"block";
 
 window.showRegister = () => {
  loginBox.classList.add("hidden");
@@ -248,25 +230,29 @@ window.login = () => {
  let u = getUsers();
  if(u[nick.value] && u[nick.value].pass === pass.value){
    currentUser = nick.value;
-   authBox.style.display="none";
    userMenu.classList.remove("hidden");
-   alert("Prisijungta kaip " + currentUser);
+   authBox.style.display="none";
  } else alert("Blogi duomenys");
 }
 
 /* REGISTER */
 window.register = () => {
+
  if(reg_pass.value !== reg_pass2.value){
    alert("Slaptažodžiai nesutampa");
    return;
  }
+
  let u = getUsers();
+
  if(u[reg_nick.value]){
-   alert("Toks vartotojas jau yra");
+   alert("Vartotojas jau yra");
    return;
  }
+
  u[reg_nick.value] = {pass:reg_pass.value};
  saveUsers(u);
+
  alert("Sėkmingai prisiregistravote, dabar galite prisijungti");
  showLogin();
 }
@@ -278,34 +264,92 @@ window.logout = () => {
 }
 
 /* FORM */
-window.toggleForm = () => formBox.classList.toggle('hidden');
+window.toggleForm = () => formBox.classList.toggle("hidden");
 
-/* ADD */
+/* ADD POST */
 window.addPost = async () => {
+
+ let files = photos.files;
+
+ if(files.length > 10){
+   alert("Max 10 nuotraukų");
+   return;
+ }
+
+ let imgs = [];
+
+ if(files.length){
+   let readers = [];
+
+   for(let i=0;i<files.length;i++){
+     readers.push(new Promise(res=>{
+       let r = new FileReader();
+       r.onload = e => res(e.target.result);
+       r.readAsDataURL(files[i]);
+     }));
+   }
+
+   imgs = await Promise.all(readers);
+ }
+
  await addDoc(collection(db,"posts"),{
    brand:brand.value,
    model:model.value,
+   year:year.value,
+   engine:engine.value,
+   defects:defects.value,
    price:price.value,
+   negotiated:negotiated.value,
+   city:city.value,
+   interest:interest.value,
    phone:phone.value,
+   images:imgs,
    user:currentUser || "guest",
    date:new Date().getTime()
  });
+
 }
 
-/* REALTIME */
+/* RENDER */
 const q = query(collection(db,"posts"), orderBy("date","desc"));
 
 onSnapshot(q,(snap)=>{
  let html="";
+
  snap.forEach(d=>{
   let p = d.data();
+
+  let main = p.images?.length
+   ? `<img src="${p.images[0]}" class="main-img" id="main-${d.id}">`
+   : "";
+
+  let thumbs = "";
+
+  if(p.images?.length > 1){
+   thumbs += `<div class="thumb-container">`;
+
+   p.images.forEach(img=>{
+     thumbs += `<img src="${img}" class="thumb" onclick="changeImg('${d.id}','${img}')">`;
+   });
+
+   thumbs += `</div>`;
+  }
 
   html+=`
   <div class="post">
   <b>${p.brand} ${p.model}</b><br>
-  <div style="margin:6px 0;font-weight:600">${p.price}€</div>
+  ${p.year} | ${p.engine} | ${p.city}<br>
+  <small>${p.defects}</small><br><br>
+
+  <b>${p.price}€ (${p.negotiated})</b><br>
+  Interest: ${p.interest}€<br>
+
   <a class="viber" href="viber://chat?number=${p.phone}">Rašyti per Viber</a><br>
-  <small>${p.user}</small><br>
+
+  ${main}
+  ${thumbs}
+
+  <br>
 
   ${currentUser==="admin" ? `
     <button onclick="del('${d.id}')">Delete</button>
@@ -318,12 +362,17 @@ onSnapshot(q,(snap)=>{
  posts.innerHTML = html;
 });
 
+/* CHANGE IMG */
+window.changeImg = (id,src)=>{
+ document.getElementById("main-"+id).src = src;
+}
+
 /* DELETE */
 window.del = async id => await deleteDoc(doc(db,"posts",id));
 
 /* EDIT */
-window.edit = async (id, oldPrice)=>{
- let p = prompt("Nauja kaina:", oldPrice);
+window.edit = async (id, old)=>{
+ let p = prompt("Nauja kaina:", old);
  if(p) await updateDoc(doc(db,"posts",id),{price:p});
 }
 
