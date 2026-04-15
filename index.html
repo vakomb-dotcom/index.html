@@ -9,99 +9,25 @@
 body {margin:0;font-family:Arial;background:#f2f2f2;}
 header {background:#111;color:#fff;padding:15px;text-align:center;font-size:22px;position:relative;}
 .auth-btn {position:absolute;right:15px;top:12px;background:#333;}
-
 .container {max-width:700px;margin:15px auto;padding:10px;}
+button {background:#111;color:#fff;border:none;padding:10px;cursor:pointer;margin:2px;}
+.card {background:#fff;padding:15px;border-radius:12px;margin-bottom:15px;}
+.post {background:#fff;padding:15px;border-radius:12px;margin-bottom:12px;}
+input, select {width:100%;padding:10px;margin:5px 0;}
 
-button {
-  background:#111;
-  color:#fff;
-  border:none;
-  padding:10px;
-  cursor:pointer;
-  margin:2px;
-}
-
-.card {
-  background:#fff;
-  padding:15px;
-  border-radius:12px;
-  margin-bottom:15px;
-}
-
-.post {
-  background:#fff;
-  padding:15px;
-  border-radius:12px;
-  margin-bottom:12px;
-}
-
-input, select {
-  width:100%;
-  padding:10px;
-  margin:5px 0;
-}
-
-.viber {
-  background:purple;
-  color:white;
-  padding:8px;
-  display:inline-block;
-  margin-top:10px;
-  text-decoration:none;
-}
-
-/* IMAGE */
 .main-img {width:100%;margin-top:10px;border-radius:10px;}
+.thumb-container {display:flex;gap:6px;margin-top:6px;flex-wrap:wrap;}
+.thumb {width:65px;height:65px;object-fit:cover;border-radius:6px;cursor:pointer;}
 
-.thumb-container {
-  display:flex;
-  gap:6px;
-  margin-top:6px;
-  flex-wrap:wrap;
-}
+.preview img {width:70px;height:70px;margin:5px;border-radius:6px;}
+.preview div {display:inline-block;position:relative;}
+.preview button {position:absolute;top:0;right:0;background:red;color:#fff;}
 
-.thumb {
-  width:65px;
-  height:65px;
-  object-fit:cover;
-  border-radius:6px;
-  cursor:pointer;
-}
-
-/* PREVIEW */
-.preview img {
-  width:70px;
-  height:70px;
-  object-fit:cover;
-  margin:5px;
-  border-radius:6px;
-}
-
-.preview div {
-  position:relative;
-  display:inline-block;
-}
-
-.preview button {
-  position:absolute;
-  top:0;
-  right:0;
-  background:red;
-  padding:2px 5px;
-}
-
+.admin {background:#111;color:#fff;padding:10px;border-radius:10px;margin-bottom:10px;}
 .hidden {display:none;}
-
-.admin {
-  background:#111;
-  color:#fff;
-  padding:10px;
-  border-radius:10px;
-  margin-bottom:10px;
-}
 </style>
-
 </head>
+
 <body>
 
 <header>
@@ -140,7 +66,6 @@ automobilius.lt
 <input id="phone" placeholder="Viber nr">
 
 <input type="file" id="photos" multiple>
-
 <div id="preview" class="preview"></div>
 
 <button onclick="addPost()">Įkelti</button>
@@ -169,14 +94,15 @@ const db = getFirestore(app);
 let currentUser = null;
 let selectedFiles = [];
 
-/* LOGIN FIX */
+/* 🔐 LOGIN FIX */
 window.login = ()=>{
-  if(nick.value==="admin" && pass.value==="admin123"){
-    currentUser="admin";
-    adminPanel.classList.remove("hidden");
-  } else {
-    alert("Blogi duomenys");
-  }
+ if(nick.value === "admin" && pass.value === "admin123"){
+   currentUser = "admin";
+   adminPanel.classList.remove("hidden");
+   authBox.classList.add("hidden");
+ } else {
+   alert("Blogi duomenys");
+ }
 }
 
 /* UI */
@@ -185,77 +111,88 @@ window.toggleForm = ()=> formBox.classList.toggle("hidden");
 
 /* PREVIEW */
 photos.onchange = ()=>{
-  selectedFiles = Array.from(photos.files);
-  renderPreview();
+ selectedFiles = Array.from(photos.files);
+ renderPreview();
 }
 
 function renderPreview(){
-  preview.innerHTML="";
-  selectedFiles.forEach((file, i)=>{
-    let url = URL.createObjectURL(file);
-
-    preview.innerHTML += `
-    <div>
-      <img src="${url}">
-      <button onclick="removePhoto(${i})">x</button>
-    </div>`;
-  });
+ preview.innerHTML="";
+ selectedFiles.forEach((file,i)=>{
+   let url = URL.createObjectURL(file);
+   preview.innerHTML += `
+   <div>
+     <img src="${url}">
+     <button onclick="removePhoto(${i})">x</button>
+   </div>`;
+ });
 }
 
 window.removePhoto = (i)=>{
-  selectedFiles.splice(i,1);
-  renderPreview();
+ selectedFiles.splice(i,1);
+ renderPreview();
 }
 
 /* COMPRESS */
 function compress(file){
  return new Promise(res=>{
-  let r=new FileReader();
-  r.onload=e=>{
-    let img=new Image();
-    img.onload=()=>{
-      let c=document.createElement("canvas");
-      let ctx=c.getContext("2d");
-      let scale=800/img.width;
-      c.width=800;
-      c.height=img.height*scale;
-      ctx.drawImage(img,0,0,c.width,c.height);
-      res(c.toDataURL("image/jpeg",0.7));
-    }
-    img.src=e.target.result;
-  }
-  r.readAsDataURL(file);
+   let r=new FileReader();
+   r.onload=e=>{
+     let img=new Image();
+     img.onload=()=>{
+       let c=document.createElement("canvas");
+       let ctx=c.getContext("2d");
+
+       let scale = 800 / img.width;
+       c.width = 800;
+       c.height = img.height * scale;
+
+       ctx.drawImage(img,0,0,c.width,c.height);
+       res(c.toDataURL("image/jpeg",0.6));
+     };
+     img.src=e.target.result;
+   };
+   r.readAsDataURL(file);
  });
 }
 
-/* ADD */
+/* ADD POST FIX */
 window.addPost = async ()=>{
 
- if(selectedFiles.length > 10){
-   alert("Max 10 foto");
-   return;
+ try {
+
+   if(selectedFiles.length > 5){
+     alert("Max 5 foto (saugumo limitas)");
+     return;
+   }
+
+   let imgs = await Promise.all(selectedFiles.map(f=>compress(f)));
+
+   await addDoc(collection(db,"posts"),{
+     brand:brand.value,
+     model:model.value,
+     year:year.value,
+     engine:engine.value,
+     defects:defects.value,
+     price:price.value,
+     negotiated:negotiated.value,
+     city:city.value,
+     interest:interest.value,
+     phone:phone.value,
+     images:imgs,
+     date:Date.now()
+   });
+
+   alert("Įkelta!");
+
+   formBox.reset();
+   selectedFiles = [];
+   preview.innerHTML = "";
+
+ } catch(e){
+   console.error(e);
+   alert("Klaida įkeliant (per didelės foto)");
  }
 
- let imgs = await Promise.all(selectedFiles.map(f=>compress(f)));
-
- await addDoc(collection(db,"posts"),{
-  brand:brand.value,
-  model:model.value,
-  year:year.value,
-  engine:engine.value,
-  defects:defects.value,
-  price:price.value,
-  negotiated:negotiated.value,
-  city:city.value,
-  interest:interest.value,
-  phone:phone.value,
-  images:imgs,
-  date:Date.now()
- });
-
- alert("OK");
- formBox.reset();
- preview.innerHTML="";
 }
 
 /* RENDER */
@@ -284,9 +221,7 @@ onSnapshot(q,(snap)=>{
   <div class="post">
   <b>${p.brand} ${p.model}</b><br>
   ${p.year} | ${p.engine} | ${p.city}<br><br>
-  Defektai: ${p.defects}<br><br>
   Kaina: ${p.price}€<br>
-
   ${main}${thumbs}
 
   ${currentUser==="admin" ? `
@@ -297,7 +232,7 @@ onSnapshot(q,(snap)=>{
   </div>`;
  });
 
- posts.innerHTML=html;
+ posts.innerHTML = html;
 
  if(currentUser==="admin"){
    adminPanel.innerHTML="📊 Skelbimų: "+count;
@@ -305,18 +240,15 @@ onSnapshot(q,(snap)=>{
 });
 
 /* IMG */
-window.changeImg=(id,src)=>{
- document.getElementById("img-"+id).src=src;
+window.changeImg = (id,src)=>{
+ document.getElementById("img-"+id).src = src;
 }
 
-/* DELETE */
-window.del=async(id)=>{
- await deleteDoc(doc(db,"posts",id));
-}
+/* ADMIN */
+window.del = async(id)=> await deleteDoc(doc(db,"posts",id));
 
-/* EDIT */
-window.edit=async(id,old)=>{
- let p=prompt("Nauja kaina:",old);
+window.edit = async(id,old)=>{
+ let p = prompt("Nauja kaina:",old);
  if(p) await updateDoc(doc(db,"posts",id),{price:p});
 }
 
