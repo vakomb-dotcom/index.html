@@ -14,11 +14,45 @@ button {background:#111;color:#fff;border:none;padding:10px;cursor:pointer;margi
 .card {background:#fff;padding:15px;border-radius:12px;margin-bottom:15px;}
 .post {background:#fff;padding:15px;border-radius:12px;margin-bottom:12px;}
 input, select {width:100%;padding:10px;margin:5px 0;}
-.viber {background:purple;color:white;padding:8px;display:inline-block;margin-top:10px;text-decoration:none;}
-.main-img {width:100%;margin-top:10px;}
-.thumb-container {display:flex;gap:5px;margin-top:5px;}
-.thumb {width:60px;height:60px;object-fit:cover;cursor:pointer;}
+
+.viber {
+  background:purple;
+  color:white;
+  padding:8px;
+  display:inline-block;
+  margin-top:10px;
+  text-decoration:none;
+}
+
+/* IMAGE */
+.main-img {
+  width:100%;
+  border-radius:10px;
+  margin-top:10px;
+}
+
+.thumb-container {
+  display:flex;
+  gap:6px;
+  margin-top:6px;
+  flex-wrap:wrap;
+}
+
+.thumb {
+  width:65px;
+  height:65px;
+  object-fit:cover;
+  border-radius:6px;
+  cursor:pointer;
+  border:2px solid transparent;
+}
+
+.thumb:hover {
+  border:2px solid #111;
+}
+
 .hidden {display:none;}
+.stat {background:#fff;padding:10px;border-radius:10px;margin-bottom:10px;}
 </style>
 
 </head>
@@ -30,14 +64,27 @@ automobilius.lt
 </header>
 
 <div id="authBox" class="card hidden">
+
+<div id="loginBox">
 <input id="nick" placeholder="Slapyvardis">
 <input id="pass" type="password" placeholder="Slaptažodis">
-<input id="pass2" type="password" placeholder="Pakartoti (registracijai)">
 <button onclick="login()">Prisijungti</button>
+<button onclick="showRegister()">Registruotis</button>
+</div>
+
+<div id="registerBox" class="hidden">
+<input id="reg_nick" placeholder="Slapyvardis">
+<input id="reg_pass" type="password" placeholder="Slaptažodis">
+<input id="reg_pass2" type="password" placeholder="Pakartoti slaptažodį">
 <button onclick="register()">Registruotis</button>
+<button onclick="showLogin()">Grįžti</button>
+</div>
+
 </div>
 
 <div class="container">
+
+<div id="stats" class="stat hidden"></div>
 
 <div id="userMenu" class="hidden">
 <button onclick="toggleForm()">+ Talpinti</button>
@@ -102,9 +149,20 @@ if(!users['admin']){
  saveUsers(users);
 }
 
-/* AUTH */
+/* UI */
 window.toggleAuth = ()=> authBox.classList.toggle("hidden");
 
+window.showRegister = ()=>{
+ loginBox.classList.add("hidden");
+ registerBox.classList.remove("hidden");
+}
+
+window.showLogin = ()=>{
+ registerBox.classList.add("hidden");
+ loginBox.classList.remove("hidden");
+}
+
+/* LOGIN */
 window.login = ()=>{
  let u = getUsers();
  if(u[nick.value] && u[nick.value].pass===pass.value){
@@ -112,16 +170,32 @@ window.login = ()=>{
    userMenu.classList.remove("hidden");
    guestBtn.style.display="none";
    authBox.classList.add("hidden");
+
+   if(currentUser==="admin"){
+     stats.classList.remove("hidden");
+   }
+
  } else alert("Blogi duomenys");
 }
 
+/* REGISTER */
 window.register = ()=>{
- if(pass.value !== pass2.value) return alert("Slaptažodžiai nesutampa");
+ if(reg_pass.value !== reg_pass2.value){
+   alert("Slaptažodžiai nesutampa");
+   return;
+ }
+
  let u = getUsers();
- if(u[nick.value]) return alert("Yra toks vartotojas");
- u[nick.value] = {pass:pass.value};
+ if(u[reg_nick.value]){
+   alert("Vartotojas jau yra");
+   return;
+ }
+
+ u[reg_nick.value] = {pass:reg_pass.value};
  saveUsers(u);
+
  alert("Sėkmingai prisiregistravote, dabar galite prisijungti");
+ showLogin();
 }
 
 /* LOGOUT */
@@ -133,17 +207,12 @@ window.toggleForm = ()=> formBox.classList.toggle("hidden");
 /* ADD POST */
 window.addPost = async ()=>{
 
- if(!brand.value || !price.value){
-   alert("Įvesk markę ir kainą");
-   return;
- }
-
  let files = photos.files;
  let imgs=[];
 
  if(files.length > 10){
-  alert("Max 10 foto");
-  return;
+   alert("Max 10 nuotraukų");
+   return;
  }
 
  if(files.length){
@@ -183,8 +252,10 @@ const q = query(collection(db,"posts"), orderBy("date","desc"));
 
 onSnapshot(q,(snap)=>{
  let html="";
+ let count=0;
 
  snap.forEach(d=>{
+  count++;
   let p = d.data();
 
   let main = p.images?.length
@@ -202,34 +273,31 @@ onSnapshot(q,(snap)=>{
 
   html+=`
   <div class="post">
-
   <b>${p.brand} ${p.model}</b><br>
   ${p.year} | ${p.engine} | ${p.city}<br><br>
-
   Defektai: ${p.defects}<br><br>
-
   Kaina: ${p.price}€ (${p.negotiated})<br>
   Interest: ${p.interest}€<br>
-
-  <a class="viber" href="viber://chat?number=${p.phone}">
-  Rašyti per Viber
-  </a>
-
-  ${main}
-  ${thumbs}
+  <a class="viber" href="viber://chat?number=${p.phone}">Viber</a>
+  ${main}${thumbs}
 
   ${currentUser==="admin" ? `
     <br><button onclick="del('${d.id}')">Delete</button>
-    <button onclick="edit('${d.id}','${p.price}')">Edit kaina</button>
+    <button onclick="edit('${d.id}','${p.price}')">Edit</button>
   ` : ""}
 
   </div>`;
  });
 
  posts.innerHTML = html;
+
+ if(currentUser==="admin"){
+   stats.innerHTML = "📊 Skelbimų: " + count;
+ }
+
 });
 
-/* IMG */
+/* CHANGE IMG */
 window.changeImg = (id,src)=>{
  document.getElementById("img-"+id).src = src;
 }
@@ -241,10 +309,8 @@ window.del = async(id)=>{
 
 /* EDIT */
 window.edit = async(id, old)=>{
- let newPrice = prompt("Nauja kaina:", old);
- if(newPrice){
-   await updateDoc(doc(db,"posts",id),{price:newPrice});
- }
+ let p = prompt("Nauja kaina:", old);
+ if(p) await updateDoc(doc(db,"posts",id),{price:p});
 }
 
 </script>
