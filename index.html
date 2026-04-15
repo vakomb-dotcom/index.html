@@ -160,6 +160,42 @@
       display:block;
       cursor:pointer;
     }
+    .gallery{
+      display:flex;
+      flex-direction:column;
+      height:100%;
+      min-height:220px;
+    }
+    .gallery-main{
+      width:100%;
+      flex:1;
+      min-height:170px;
+      object-fit:cover;
+      display:block;
+      background:#f8fafc;
+    }
+    .gallery-thumbs{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(56px,1fr));
+      gap:8px;
+      padding:10px;
+      background:#fff;
+      border-top:1px solid var(--line);
+    }
+    .gallery-thumbs img{
+      width:100%;
+      aspect-ratio:1/1;
+      object-fit:cover;
+      border-radius:10px;
+      border:1px solid var(--line);
+      cursor:pointer;
+      opacity:.78;
+      transition:.15s ease;
+    }
+    .gallery-thumbs img:hover{
+      opacity:1;
+      transform:translateY(-1px);
+    }
     .badges{
       position:absolute;
       left:12px;
@@ -467,8 +503,8 @@
       <div class="brand">
         <div class="logo">A</div>
         <div style="min-width:0">
-          <strong>automobilius.lt</strong>
-          <span>Pasiūlymų lenta perpardavėjams</span>
+          <strong>Autmobilius.lt</strong>
+          <span>Lietuvos pirikupų lenta</span>
         </div>
       </div>
       <div class="top-actions">
@@ -782,6 +818,9 @@
         const negotiatedBadge = p.negotiated === 'Derinta'
           ? `<span class="badge good">Derinta</span>`
           : `<span class="badge warn">Nederinta</span>`;
+        const thumbs = (p.images || []).map((src, idx) =>
+          `<img src="${escapeHTML(src)}" alt="foto ${idx+1}" onclick="swapImage('card','${p.id}',${idx})" />`
+        ).join('');
 
         return `
           <article class="card">
@@ -791,23 +830,25 @@
                   ${negotiatedBadge}
                   <span class="badge">${escapeHTML(p.city || '—')}</span>
                 </div>
-                <img src="${escapeHTML(cover)}" alt="${escapeHTML(p.brand + ' ' + p.model)}" onerror="this.src='${demoImage(2)}'" />
+                <div class="gallery">
+                  <img id="cardMain-${p.id}" class="gallery-main" src="${escapeHTML(cover)}" alt="${escapeHTML(p.brand + ' ' + p.model)}" onerror="this.src='${demoImage(2)}'" />
+                  ${thumbs ? `<div class="gallery-thumbs">${thumbs}</div>` : ''}
+                </div>
               </div>
               <div class="content">
                 <div class="postedline">Pasiūlymas: ${dateLabel(p.createdAt)} ${timeLabel(p.createdAt)}</div>
                 <div class="title">
                   <h2>${escapeHTML(p.brand)} ${escapeHTML(p.model)}</h2>
-                  <div class="meta">
-                    <span class="pill">${escapeHTML(p.year || '—')}</span>
-                    <span class="pill">${escapeHTML(p.engine || '—')}</span>
-                    <span class="pill">${escapeHTML(p.city || '—')}</span>
-                  </div>
                 </div>
 
                 <div class="simpleinfo">
                   <div class="row"><div class="k">Defektai</div><div class="v">${escapeHTML(p.defects || '—')}</div></div>
-                  <div class="row"><div class="k">Kaina</div><div class="v">${escapeHTML(p.price || '0')} € (${escapeHTML(p.negotiated || '—')})</div></div>
+                  <div class="row"><div class="k">Metai</div><div class="v">${escapeHTML(p.year || '—')}</div></div>
+                  <div class="row"><div class="k">Variklis</div><div class="v">${escapeHTML(p.engine || '—')}</div></div>
+                  <div class="row"><div class="k">Kaina</div><div class="v">${escapeHTML(p.price || '0')} €</div></div>
                   <div class="row"><div class="k">Interest</div><div class="v">${escapeHTML(p.interest || '0')} €</div></div>
+                  <div class="row"><div class="k">Derinta</div><div class="v">${escapeHTML(p.negotiated || '—')}</div></div>
+                  <div class="row"><div class="k">Miestas</div><div class="v">${escapeHTML(p.city || '—')}</div></div>
                 </div>
 
                 <div class="actions">
@@ -819,7 +860,14 @@
         `;
       }
 
-      function bindCards(){
+function swapImage(scope, postId, idx){
+        const post = state.posts.find(x => x.id === postId);
+        if(!post || !post.images || !post.images[idx]) return;
+        const target = document.getElementById(`${scope}Main-${postId}`);
+        if(target) target.src = post.images[idx];
+      }
+
+function bindCards(){
         document.querySelectorAll('[data-open]').forEach(el => {
           el.addEventListener('click', () => openDetail(el.dataset.open));
         });
@@ -901,25 +949,28 @@
 
         $('detailTitle').textContent = `${p.brand} ${p.model}`;
         const cover = (p.images && p.images[0]) ? p.images[0] : demoImage(0);
-        const thumbs = (p.images || []).map((src, idx) => `<img src="${escapeHTML(src)}" data-thumb="${idx}" alt="nuotrauka ${idx+1}">`).join('');
+        const thumbs = (p.images || []).map((src, idx) =>
+          `<img src="${escapeHTML(src)}" alt="nuotrauka ${idx+1}" onclick="swapImage('detail','${p.id}',${idx})" />`
+        ).join('');
 
         $('detailBody').innerHTML = `
           <div class="detail">
             <div class="detail-main">
-              <img id="mainImg" src="${escapeHTML(cover)}" alt="${escapeHTML(p.brand + ' ' + p.model)}" />
+              <img id="detailMain-${p.id}" src="${escapeHTML(cover)}" alt="${escapeHTML(p.brand + ' ' + p.model)}" />
+              ${thumbs ? `<div class="gallery-thumbs">${thumbs}</div>` : ''}
             </div>
             <div class="detail-side">
               <div class="box" style="margin:0;">
                 <h3>Informacija</h3>
                 <div class="simpleinfo" style="margin-top:12px;">
-                  <div class="row"><div class="k">Markė / modelis</div><div class="v">${escapeHTML(p.brand)} ${escapeHTML(p.model)}</div></div>
-                  <div class="row"><div class="k">Metai</div><div class="v">${escapeHTML(p.year)}</div></div>
-                  <div class="row"><div class="k">Variklis</div><div class="v">${escapeHTML(p.engine)}</div></div>
-                  <div class="row"><div class="k">Miestas</div><div class="v">${escapeHTML(p.city)}</div></div>
-                  <div class="row"><div class="k">Kaina</div><div class="v">${escapeHTML(p.price)} € (${escapeHTML(p.negotiated)})</div></div>
-                  <div class="row"><div class="k">Interest</div><div class="v">${escapeHTML(p.interest)} €</div></div>
-                  <div class="row"><div class="k">Pasiūlymas</div><div class="v">${dateLabel(p.createdAt)} ${timeLabel(p.createdAt)}</div></div>
                   <div class="row"><div class="k">Defektai</div><div class="v">${escapeHTML(p.defects || '—')}</div></div>
+                  <div class="row"><div class="k">Metai</div><div class="v">${escapeHTML(p.year || '—')}</div></div>
+                  <div class="row"><div class="k">Variklis</div><div class="v">${escapeHTML(p.engine || '—')}</div></div>
+                  <div class="row"><div class="k">Kaina</div><div class="v">${escapeHTML(p.price || '0')} €</div></div>
+                  <div class="row"><div class="k">Interest</div><div class="v">${escapeHTML(p.interest || '0')} €</div></div>
+                  <div class="row"><div class="k">Derinta</div><div class="v">${escapeHTML(p.negotiated || '—')}</div></div>
+                  <div class="row"><div class="k">Miestas</div><div class="v">${escapeHTML(p.city || '—')}</div></div>
+                  <div class="row"><div class="k">Pasiūlymas</div><div class="v">${dateLabel(p.createdAt)} ${timeLabel(p.createdAt)}</div></div>
                   <div class="row"><div class="k">Aprašymas</div><div class="v">${escapeHTML(p.notes || '—')}</div></div>
                 </div>
 
@@ -927,25 +978,13 @@
                   <a class="btn primary" href="viber://chat?number=${encodeURIComponent(p.phone || '')}" target="_blank" rel="noopener">Rašyti per Viber</a>
                 </div>
               </div>
-
-              <div class="box" style="margin:0;">
-                <h3>Nuotraukos</h3>
-                <div class="thumbs" style="margin-top:12px;">${thumbs || '<div class="tiny muted">Nuotraukų nėra.</div>'}</div>
-              </div>
             </div>
           </div>
         `;
-
-        document.querySelectorAll('[data-thumb]').forEach((img, idx) => {
-          img.addEventListener('click', () => {
-            $('mainImg').src = p.images[idx];
-          });
-        });
-
         openModal('detailModal');
       }
 
-      function loginAdmin(){
+function loginAdmin(){
         const nick = $('loginNick').value.trim();
         const pass = $('loginPass').value;
         if(nick === 'admin' && pass === 'admin123'){
