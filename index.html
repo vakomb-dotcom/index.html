@@ -1836,25 +1836,15 @@
       toast('Įkelk automobilio nuotrauką', '🖼️');
       return;
     }
+    const reader = new FileReader();
     reader.onload = () => {
-  const img = new Image();
-  img.onload = () => {
-    const canvas = document.createElement('canvas');
-    const maxWidth = 800;
-
-    const scale = maxWidth / img.width;
-    canvas.width = maxWidth;
-    canvas.height = img.height * scale;
-
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-
-    const compressed = canvas.toDataURL('image/jpeg', 0.7); // 👈 kokybė 70%
-
-    addCar(name, compressed);
+      addCar(name, reader.result, buyPrice);
+      document.getElementById('carName').value = '';
+      document.getElementById('carBuyPrice').value = '';
+      document.getElementById('carPhoto').value = '';
+    };
+    reader.readAsDataURL(file);
   };
-  img.src = reader.result;
-};
 
   document.getElementById('themeToggle').onclick = () => {
     state.theme = state.theme === 'light' ? 'dark' : 'light';
