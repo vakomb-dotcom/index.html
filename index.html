@@ -1,3 +1,6 @@
+Tegul siunta email!!! Tik kad nenukelia klientu i ju pusapi!
+Ir padaryk kad gautoj formoj emaile gauciau norimu paslaugu sarasa klientu ir ju registracijos forma
+
 <!DOCTYPE html>
 <html lang="lt">
 <head>
@@ -7,31 +10,44 @@
 
 <style>
 body {
-    font-family: -apple-system, Arial;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
     margin: 0;
-    background: #f5f7fb;
+    background: #f2f2f7;
     color: #111;
 }
+
 .header {
-    height: 200px;
-    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+    height: 220px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:center;
+    padding-bottom:20px;
+    color:white;
+    font-weight:600;
+    font-size:18px;
+    background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)),
     url('https://dealerinspire-image-library-prod.s3.us-east-1.amazonaws.com/images/HuEh1RqD45cPDAWUGk5UdAY2tDpQal8Zdy7zYm1A.jpg') center/cover;
 }
+
 .container {
     max-width: 480px;
-    margin: -70px auto 20px;
+    margin: -60px auto 20px;
     background: white;
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    padding: 22px;
+    border-radius: 24px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
 }
-h1 { text-align:center; }
+
+h1 {
+    text-align:center;
+    margin-bottom:15px;
+}
 
 .card {
-    background: #f1f5f9;
-    padding: 14px;
-    border-radius: 12px;
-    margin: 8px 0;
+    background: #f2f2f7;
+    padding: 16px;
+    border-radius: 16px;
+    margin: 10px 0;
     display:flex;
     justify-content:space-between;
     align-items:center;
@@ -39,81 +55,84 @@ h1 { text-align:center; }
 }
 
 input[type="checkbox"] {
-    width:20px;
-    height:20px;
+    width:22px;
+    height:22px;
 }
 
 .total {
     text-align:center;
     font-size:24px;
-    font-weight:bold;
+    font-weight:600;
     margin-top:15px;
 }
 
 button {
     width:100%;
-    padding:14px;
-    margin-top:15px;
+    padding:16px;
+    margin-top:18px;
     border:none;
-    border-radius:12px;
+    border-radius:16px;
     background:#22c55e;
     color:white;
-    font-size:16px;
+    font-size:17px;
+    font-weight:600;
 }
 
 .hidden { display:none; }
 
-.form {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
 .form input, .form select {
     width:100%;
-    max-width:100%;
-    padding:12px;
-    margin-top:10px;
-    border-radius:10px;
-    border:1px solid #ddd;
-    box-sizing:border-box;
+    padding:16px;
+    margin-top:12px;
+    border-radius:14px;
+    border:1px solid #e5e5ea;
+    background:#f9f9fb;
+    font-size:16px;
+}
+
+label {
+    margin-top:15px;
+    display:block;
+    font-weight:500;
+    text-align:center;
 }
 
 h3 {
-    margin-top: 20px;
-    margin-bottom: 5px;
-    color: #555;
+    margin-top:20px;
+    color:#666;
 }
 </style>
 </head>
 <body>
 
-<div class="header"></div>
+<div class="header">
+Ukmergės automobilių švara
+</div>
 
 <div class="container" id="servicesPage">
 <h1>Pasirink paslaugas</h1>
 
 <h3>Vidus</h3>
 <div class="card"><span>Siurbimas (15€)</span><input type="checkbox" value="15"></div>
-<div class="card"><span>Panelės ir plastmasių valymas (10€)</span><input type="checkbox" value="10"></div>
+<div class="card"><span>Panelės valymas (10€)</span><input type="checkbox" value="10"></div>
 <div class="card"><span>Stiklų valymas (10€)</span><input type="checkbox" value="10"></div>
 <div class="card"><span>Cheminis valymas (120€)</span><input type="checkbox" value="120"></div>
 
 <h3>Išorė</h3>
 <div class="card"><span>Padangų juodinimas (5€)</span><input type="checkbox" value="5"></div>
-<div class="card"><span>Ratlankių cheminis valymas (20€)</span><input type="checkbox" value="20"></div>
-<div class="card"><span>Smulkių defektų maskavimas (30€)</span><input type="checkbox" value="30"></div>
-<div class="card"><span>1 žingsnio poliravimas (150€)</span><input type="checkbox" value="150"></div>
+<div class="card"><span>Ratlankių valymas (20€)</span><input type="checkbox" value="20"></div>
+<div class="card"><span>Defektų maskavimas (30€)</span><input type="checkbox" value="30"></div>
+<div class="card"><span>Poliravimas (150€)</span><input type="checkbox" value="150"></div>
 
 <div class="total">Bendra: <span id="total">0</span> €</div>
 
-<button onclick="goToForm()">Užsakyti paslaugas</button>
+<button onclick="goToForm()">Užsakyti valymą</button>
 </div>
 
 <div class="container hidden" id="formPage">
 <h1>Registracija</h1>
 
-<form action="https://formspree.io/f/xpqkqbbw" method="POST">
+<form id="bookingForm">
 
 <div class="form">
 <input name="Marke" id="marke" placeholder="Markė">
@@ -123,17 +142,9 @@ h3 {
 
 <label>Data</label>
 <input name="Data" id="data" type="date">
-
-<label>Laikas</label>
-<select name="Laikas" id="laikas">
-<option>09:00</option>
-<option>12:00</option>
-<option>15:00</option>
-<option>18:00</option>
-</select>
 </div>
 
-<input type="hidden" name="Suma" id="hiddenTotal">
+<input type="hidden" id="hiddenTotal">
 
 <div class="total">Suma: <span id="finalTotal">0</span> €</div>
 
@@ -151,14 +162,13 @@ function calculateTotal(){
     checkboxes.forEach(c=>{
         if(c.checked) total += Number(c.value);
     });
+
     document.getElementById('total').innerText = total;
     const f = document.getElementById('finalTotal');
     if(f) f.innerText = total;
-
-    document.getElementById('hiddenTotal').value = total + "€";
 }
 
-// CLICK ant visos kortelės
+// CLICK ant kortelės
 cards.forEach((card, index)=>{
     card.addEventListener('click', (e)=>{
         if(e.target.tagName !== 'INPUT'){
@@ -169,7 +179,6 @@ cards.forEach((card, index)=>{
     });
 });
 
-// checkbox fallback
 checkboxes.forEach(cb=>{
     cb.addEventListener('change', calculateTotal);
 });
@@ -179,6 +188,47 @@ function goToForm(){
     document.getElementById('servicesPage').classList.add('hidden');
     document.getElementById('formPage').classList.remove('hidden');
 }
+
+// 🚀 SUBMIT (be redirect + su email)
+document.getElementById("bookingForm").addEventListener("submit", async function(e){
+    e.preventDefault();
+
+    const selectedServices = [];
+    checkboxes.forEach(c=>{
+        if(c.checked){
+            selectedServices.push(c.parentElement.innerText);
+        }
+    });
+
+    const data = {
+        Marke: marke.value,
+        Modelis: modelis.value,
+        Miestas: miestas.value,
+        Telefonas: tel.value,
+        Data: dataInput.value,
+        Paslaugos: selectedServices.join(", "),
+        Suma: document.getElementById("finalTotal").innerText + "€"
+    };
+
+    try {
+        await fetch("https://formspree.io/f/xpqkqbbw", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+
+        alert("Jūsų registracija priimta. Susisieksime per 30 min.");
+        
+        document.getElementById("bookingForm").reset();
+    } catch (error) {
+        alert("Klaida siunčiant. Bandykite dar kartą.");
+    }
+});
+
+// fix id
+const dataInput = document.getElementById("data");
 </script>
 
 </body>
