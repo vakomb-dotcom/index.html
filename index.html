@@ -7,66 +7,74 @@
 
 <style>
 body {
-    font-family: Arial, sans-serif;
+    font-family: -apple-system, Arial;
     margin: 0;
     background: #f5f7fb;
     color: #111;
 }
 .header {
-    height: 180px;
-    background: url('https://images.unsplash.com/photo-1581578731548-c64695cc6952') center/cover;
+    height: 200px;
+    background: url('https://images.unsplash.com/photo-1607863680198-23d4b2565df0') center/cover;
 }
 .container {
-    max-width: 520px;
-    margin: -60px auto 20px;
+    max-width: 480px;
+    margin: -70px auto 20px;
     background: white;
     padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
-}
+h1 { text-align:center; }
+
 .card {
     background: #f1f5f9;
-    padding: 16px;
-    border-radius: 14px;
-    margin: 10px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.card span {
-    font-size: 16px;
-}
-input[type="checkbox"] {
-    width: 22px;
-    height: 22px;
-}
-.total {
-    text-align: center;
-    font-size: 22px;
-    margin-top: 15px;
-}
-button {
-    width: 100%;
     padding: 14px;
-    margin-top: 15px;
-    border: none;
     border-radius: 12px;
-    background: #22c55e;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
+    margin: 8px 0;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
 }
+
+input[type="checkbox"] {
+    width:20px;
+    height:20px;
+}
+
+.total {
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+button {
+    width:100%;
+    padding:14px;
+    margin-top:15px;
+    border:none;
+    border-radius:12px;
+    background:#22c55e;
+    color:white;
+    font-size:16px;
+}
+
 .hidden { display:none; }
-input, select {
-    width: 100%;
-    padding: 12px;
-    margin-top: 10px;
-    border-radius: 10px;
-    border: 1px solid #ddd;
+
+.form {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.form input, .form select {
+    width:100%;
+    max-width:100%;
+    padding:12px;
+    margin-top:10px;
+    border-radius:10px;
+    border:1px solid #ddd;
+    box-sizing:border-box;
 }
 </style>
 </head>
@@ -91,21 +99,23 @@ input, select {
 <div class="container hidden" id="formPage">
 <h1>Registracija</h1>
 
-<input placeholder="Markė">
-<input placeholder="Modelis">
-<input placeholder="Miestas">
-<input placeholder="Telefono numeris">
+<div class="form">
+<input id="marke" placeholder="Markė">
+<input id="modelis" placeholder="Modelis">
+<input id="miestas" placeholder="Miestas">
+<input id="tel" placeholder="Telefonas">
 
 <label>Data</label>
-<input type="date">
+<input id="data" type="date">
 
 <label>Laikas</label>
-<select>
+<select id="laikas">
 <option>09:00</option>
 <option>12:00</option>
 <option>15:00</option>
 <option>18:00</option>
 </select>
+</div>
 
 <div class="total">Suma: <span id="finalTotal">0</span> €</div>
 
@@ -113,35 +123,39 @@ input, select {
 </div>
 
 <script>
-// FIX: saugiai skaičiuoja kainą ir netikrina neegzistuojančio elemento
 const checkboxes = document.querySelectorAll('#servicesPage input[type="checkbox"]');
 
-function calculateTotal() {
+function calculateTotal(){
     let total = 0;
-    checkboxes.forEach(c => {
-        if (c.checked) total += parseInt(c.value);
+    checkboxes.forEach(c=>{
+        if(c.checked) total += Number(c.value);
     });
-
     document.getElementById('total').innerText = total;
-
-    const finalEl = document.getElementById('finalTotal');
-    if (finalEl) {
-        finalEl.innerText = total;
-    }
+    const f = document.getElementById('finalTotal');
+    if(f) f.innerText = total;
 }
 
-checkboxes.forEach(cb => {
+checkboxes.forEach(cb=>{
     cb.addEventListener('change', calculateTotal);
+    cb.addEventListener('click', calculateTotal);
 });
 
-function goToForm() {
-    calculateTotal(); // kad persiduotų suma
+function goToForm(){
+    calculateTotal();
     document.getElementById('servicesPage').classList.add('hidden');
     document.getElementById('formPage').classList.remove('hidden');
 }
 
-function submitForm() {
-    alert("Užklausa gauta!");
+function submitForm(){
+    const body = `Marke: ${marke.value}
+Modelis: ${modelis.value}
+Miestas: ${miestas.value}
+Tel: ${tel.value}
+Data: ${data.value}
+Laikas: ${laikas.value}
+Suma: ${finalTotal.innerText}€`;
+
+    window.location.href = "mailto:vakomb@gmail.com?subject=Auto svaros uzklausa&body=" + encodeURIComponent(body);
 }
 </script>
 
