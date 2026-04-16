@@ -461,6 +461,74 @@
       padding:16px;border-radius:18px;background:var(--card);border:1px dashed var(--line);color:var(--muted);font-size:13px;line-height:1.5
     }
     .footerSpace{height:10px}
+
+    .menuIntro{
+      padding:16px;border-radius:24px;
+      background:
+        radial-gradient(circle at 15% 18%, rgba(124,92,255,.16), transparent 30%),
+        radial-gradient(circle at 90% 18%, rgba(40,167,255,.14), transparent 24%),
+        linear-gradient(135deg, rgba(255,255,255,.9), rgba(255,255,255,.68));
+      border:1px solid var(--line);box-shadow:var(--shadow);
+    }
+    .menuLinks{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:12px}
+    .menuLink{
+      padding:14px;border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-soft);
+      display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;cursor:pointer;
+      border:none;font:inherit;appearance:none
+    }
+    .menuLink strong{font-size:14px}
+    .menuLink span{font-size:12px;color:var(--muted);line-height:1.35}
+    .menuLink .ico{font-size:22px}
+    .taskGroup{
+      padding:0;overflow:hidden;
+      margin-bottom:10px;
+      border-radius:22px;
+    }
+    .taskGroupHead{
+      width:100%;
+      border:none;
+      background:transparent;
+      margin:0;
+      padding:16px 16px 14px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      cursor:pointer;
+      text-align:left;
+      color:var(--text);
+      font:inherit;
+      appearance:none;
+    }
+    .taskGroupHead h3{margin:0;font-size:14px;letter-spacing:.3px;text-transform:uppercase;color:var(--muted)}
+    .taskGroupHead .sub{display:block;font-size:12px;color:var(--muted2);margin-top:4px}
+    .taskGroupBody{display:none;padding:0 16px 16px}
+    .taskGroupBody.open{display:block}
+    .chev{
+      width:32px;height:32px;border-radius:12px;display:grid;place-items:center;
+      background:rgba(127,146,180,.12);border:1px solid var(--line);color:var(--muted);flex:0 0 auto;
+      font-size:18px
+    }
+    .historyToggle{
+      width:100%;
+      border:none;
+      background:transparent;
+      text-align:left;
+      color:var(--text);
+      cursor:pointer;
+      padding:0;
+      font:inherit;
+      appearance:none;
+    }
+    .historyBody{display:none;padding-top:12px}
+    .historyBody.open{display:block}
+    .historyHeadLine{
+      display:flex;justify-content:space-between;align-items:center;gap:10px;
+      padding:14px 16px;border-radius:18px;background:var(--card);border:1px solid var(--line);box-shadow:var(--shadow-soft)
+    }
+    .historyHeadLine strong{font-size:15px}
+    .historyHeadLine span{font-size:12px;color:var(--muted)}
+
     @media (max-width: 430px){
       .hero{grid-template-columns:1fr}
       .grid2,.achGrid,.shopGrid,.mapGrid{grid-template-columns:1fr 1fr}
@@ -537,7 +605,7 @@
             </svg>
             <div class="center">
               <strong id="worldPercent">0%</strong>
-              <span id="worldLabel">Start Zone</span>
+              <span id="worldLabel">Pradžios zona</span>
             </div>
           </div>
           <div style="text-align:center;margin-top:10px">
@@ -545,15 +613,15 @@
             <div class="subtle">Atsirakina pagal lygį</div>
           </div>
         </div>
-        <div class="badge info" id="dailyState">Dienos užduotis paruošta</div>
+        <div class="badge info" id="dailyState">Dienos misija paruošta</div>
       </div>
     </div>
 
     <div class="section">
       <div class="panel dailyCard">
-        <div class="tag epic" id="dailyRarity">EPIC QUEST</div>
+        <div class="tag epic" id="dailyRarity">EPINĖ MISIJA</div>
         <h3 id="dailyTitle">Atlik 60 min mokymosi</h3>
-        <p id="dailyDesc">Šiandienos quest duoda papildomą XP ir monetų bonusą.</p>
+        <p id="dailyDesc">Šiandienos misija duoda papildomą XP ir monetų bonusą.</p>
         <div class="btnRow">
           <button class="btn" id="claimDailyBtn">Įvykdyti dienos užduotį</button>
           <button class="btn secondary" id="rerollDailyBtn">Perridenti</button>
@@ -567,49 +635,106 @@
     </div>
 
     <div class="section">
-      <div class="sectionHead"><h2>Kaupiasi statistika</h2><span>Ne nulinėja, o auga</span></div>
-      <div class="grid2" id="statsGrid"></div>
-    </div>
-
-    <div class="section">
-      <div class="sectionHead"><h2>Pasaulių žemėlapis</h2><span>Unlock pagal levelį</span></div>
-      <div class="mapGrid" id="worldGrid"></div>
-    </div>
-
-    <div class="section">
-      <div class="sectionHead"><h2>Reward Shop</h2><span>Coinų atlygiams</span></div>
-      <div class="shopGrid" id="shopGrid"></div>
-    </div>
-
-    <div class="section">
-      <div class="sectionHead"><h2>Paskutiniai veiksmai</h2><span>Istorija</span></div>
-      <div class="historyList" id="historyRoot"></div>
+      <button class="historyToggle" id="historyToggleBtn" type="button">
+        <div class="historyHeadLine">
+          <div>
+            <strong>Paskutiniai veiksmai</strong>
+            <span id="historyHint">Paspausk, kad pamatytum istoriją</span>
+          </div>
+          <div class="chev" id="historyChev">▸</div>
+        </div>
+      </button>
+      <div class="historyBody" id="historyBody">
+        <div class="historyList" id="historyRoot"></div>
+      </div>
     </div>
   </div>
 
+
   <div class="view" id="view-garage">
-    <div class="sectionHead"><h2>Garage</h2><span>Unikalus feature</span></div>
+    <div class="sectionHead"><h2>Garažas</h2><span>Automobiliai ir jų finansai</span></div>
     <div class="panel pad">
       <div class="subtle">Pridėti automobilį</div>
       <div class="field"><label>Pavadinimas</label><input class="input" id="carName" placeholder="Nissan X-Trail" /></div>
-      <div class="field"><label>Nuotrauka</label><input class="input" id="carPhoto" type="file" accept="image/*" /></div>
+      <div class="grid2">
+        <div class="field"><label>Pirkimo kaina</label><input class="input" id="carBuyPrice" type="number" min="0" step="1" placeholder="4500" /></div>
+        <div class="field"><label>Nuotrauka</label><input class="input" id="carPhoto" type="file" accept="image/*" /></div>
+      </div>
       <button class="btn" id="addCarBtn" style="width:100%">Pridėti automobilį</button>
     </div>
+
     <div class="section">
-      <div class="sectionHead"><h2>Tavo automobiliai</h2><span id="carCount">0 auto</span></div>
-      <div class="carGrid" id="carGrid"></div>
+      <div class="panel pad">
+        <div class="subtle">Mėnesio grynasis pelnas</div>
+        <div class="xpLine" style="margin-top:0">
+          <div>
+            <span>Dabartinis rezultatas</span>
+            <strong id="monthlyProfitValue">0 €</strong>
+          </div>
+          <div style="text-align:right">
+            <span>Tikslas</span>
+            <strong>10 000 €</strong>
+          </div>
+        </div>
+        <div class="bar"><div class="fill" id="monthlyProfitFill"></div></div>
+        <div class="subtle" style="margin-top:8px">Kaupiamas per mėnesį grynasis pelnas. Pasiekus 10 000 € atsidaro pasiekimas.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="sectionHead"><h2>Aktyvūs automobiliai</h2><span id="activeCarCount">0 auto</span></div>
+      <div class="carGrid" id="activeCarGrid"></div>
+    </div>
+
+    <div class="section">
+      <div class="sectionHead"><h2>Parduoti automobiliai</h2><span id="soldCarCount">0 auto</span></div>
+      <div class="carGrid" id="soldCarGrid"></div>
     </div>
   </div>
 
-  <div class="view" id="view-skills">
-    <div class="sectionHead"><h2>Įgūdžiai</h2><span>Progressive buffs</span></div>
-    <div class="skillGrid" id="skillsRoot"></div>
+
+  <div class="view" id="view-menu">
+    <div class="sectionHead"><h2>Meniu</h2><span>Pagrindiniai pasauliai ir sistemos</span></div>
+
+    <div class="panel pad menuIntro">
+      <div class="subtle">Greitas naršymas</div>
+      <h3 style="margin:8px 0 6px;font-size:20px">Pasirink, kur keliausi toliau</h3>
+      <p style="margin:0;color:var(--muted);font-size:13px;line-height:1.5">Čia sudėti pasaulių žemėlapis, atlygių parduotuvė, statistika ir įgūdžiai — kad viskas būtų vienoje premium vietoje.</p>
+      <div class="menuLinks">
+        <button class="menuLink" data-jump="menu-world"><div class="ico">🗺️</div><strong>Pasaulių žemėlapis</strong><span>Kelionė per Pradžios zoną, Disciplinos miestą ir kitus pasaulius</span></button>
+        <button class="menuLink" data-jump="menu-shop"><div class="ico">🛍️</div><strong>Atlygių parduotuvė</strong><span>Išleisk monetas atlygams ir mažoms pergalėms</span></button>
+        <button class="menuLink" data-jump="menu-stats"><div class="ico">📊</div><strong>Statistika</strong><span>Kaupiami tavo realūs rezultatai</span></button>
+        <button class="menuLink" data-jump="menu-skills"><div class="ico">🧠</div><strong>Įgūdžiai</strong><span>Jėga, susikaupimas, verslas ir disciplina</span></button>
+      </div>
+    </div>
+
+    <div class="section" id="menu-world">
+      <div class="sectionHead"><h2>Pasaulių žemėlapis</h2><span>Atrakina lygis</span></div>
+      <div class="mapGrid" id="worldGrid"></div>
+    </div>
+
+    <div class="section" id="menu-shop">
+      <div class="sectionHead"><h2>Atlygių parduotuvė</h2><span>Monetų atlygiams</span></div>
+      <div class="shopGrid" id="shopGrid"></div>
+    </div>
+
+    <div class="section" id="menu-stats">
+      <div class="sectionHead"><h2>Statistika</h2><span>Kaupiama ir auga</span></div>
+      <div class="grid2" id="statsGrid"></div>
+    </div>
+
+    <div class="section" id="menu-skills">
+      <div class="sectionHead"><h2>Įgūdžiai</h2><span>Įgūdžių stiprinimai</span></div>
+      <div class="skillGrid" id="skillsRoot"></div>
+    </div>
   </div>
 
   <div class="view" id="view-achievements">
-    <div class="sectionHead"><h2>Pasiekimai</h2><span>Unlock / badge / reward</span></div>
+
+    <div class="sectionHead"><h2>Pasiekimai</h2><span>Atrakinti / ženklelis / atlygis</span></div>
     <div class="achGrid" id="achievementsRoot"></div>
   </div>
+
 
   <div class="view" id="view-settings">
     <div class="sectionHead"><h2>Nustatymai</h2><span>Premium valdymas</span></div>
@@ -619,32 +744,23 @@
         <div class="toggle on" id="themeToggle"></div>
       </div>
       <div class="switch">
-        <div><strong>Garsas</strong><div class="sub">Užduotims, lygiui, unlockams</div></div>
+        <div><strong>Garsas</strong><div class="sub">Užduotims, lygiui ir atrakinimams</div></div>
         <div class="toggle on" id="soundToggle"></div>
       </div>
       <div class="switch">
-        <div><strong>Vibracija</strong><div class="sub">Haptic feedback</div></div>
+        <div><strong>Vibracija</strong><div class="sub">Haptinis grįžtamasis ryšys</div></div>
         <div class="toggle on" id="vibrateToggle"></div>
       </div>
       <div class="switch">
-        <div><strong>Išvalyti vietinį progresą</strong><div class="sub">Tik naršyklės atmintis</div></div>
-        <button class="btn ghost" id="resetBtn">Reset</button>
+        <div><strong>Visiškai nuresetinti žaidimą</strong><div class="sub">Ištrina visą lokalų progresą ir pradeda iš naujo</div></div>
+        <button class="btn ghost" id="resetBtn">Pilnas reset</button>
       </div>
     </div>
-    <div class="section">
-      <div class="panel pad">
-        <div class="subtle">Parduotuvės pavyzdžiai</div>
-        <div style="display:grid;gap:10px;margin-top:10px">
-          <div class="cardNotice">🍕 Picos vakaras — 70 🪙</div>
-          <div class="cardNotice">🎬 Kinas — 150 🪙</div>
-          <div class="cardNotice">💆 Masažas — 200 🪙</div>
-          <div class="cardNotice">🎁 15€ random pirkinys — 110 🪙</div>
-        </div>
-      </div>
-    </div>
+
   </div>
 
-  <div class="footerSpace"></div>
+  <div class="footerSpace">
+</div>
 </div>
 
 <div class="toastWrap" id="toastWrap"></div>
@@ -656,8 +772,8 @@
 <div class="navWrap">
   <div class="nav">
     <button class="navBtn active" data-view="home"><div class="ico">🏠</div><div>Pagrindinis</div></button>
-    <button class="navBtn" data-view="garage"><div class="ico">🚗</div><div>Garage</div></button>
-    <button class="navBtn" data-view="skills"><div class="ico">🧠</div><div>Įgūdžiai</div></button>
+    <button class="navBtn" data-view="garage"><div class="ico">🚗</div><div>Garažas</div></button>
+    <button class="navBtn" data-view="menu"><div class="ico">☰</div><div>Meniu</div></button>
     <button class="navBtn" data-view="achievements"><div class="ico">🏆</div><div>Pasiekimai</div></button>
     <button class="navBtn" data-view="settings"><div class="ico">⚙️</div><div>Nustatymai</div></button>
   </div>
@@ -667,19 +783,22 @@
 (() => {
   const STORAGE_KEY = 'zaisk_gyvenimas_premium_lt_v2';
   const todayISO = () => new Date().toISOString().slice(0,10);
-  const nowLabel = () => new Date().toLocaleString('lt-LT', {day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit'});
+  const currentMonthKey = () => new Date().toISOString().slice(0,7);
+  const nowLabel = () => new Date().toLocaleString('lt-LT', {year:'numeric', month:'2-digit', day:'2-digit', hour:'2-digit', minute:'2-digit', second:'2-digit'});
   const escapeHTML = (str='') => String(str).replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[s]));
   const rand = (arr) => arr[Math.floor(Math.random() * arr.length)];
   const clamp = (n,min,max) => Math.max(min, Math.min(max, n));
   const uid = () => (crypto.randomUUID ? crypto.randomUUID() : 'id_' + Date.now() + '_' + Math.random().toString(16).slice(2));
+  const moneyFmt = (n) => `${new Intl.NumberFormat('lt-LT').format(Math.round(Number(n) || 0))} €`;
+
 
   const taskTemplates = [
     {id:'water', cat:'Sveikata', icon:'💧', title:'2L vandens', xp:18, coins:8, difficulty:'Vidutinė', statKey:'waterLiters', statValue:2, skill:'Discipline'},
-    {id:'social', cat:'Sveikata', icon:'📵', title:'60 min be soc. tinklų', xp:16, coins:7, difficulty:'Vidutinė', statKey:'socialMinutes', statValue:60, skill:'Discipline'},
+    {id:'social', cat:'Sveikata', icon:'📵', title:'60 min be socialinių tinklų', xp:16, coins:7, difficulty:'Vidutinė', statKey:'socialMinutes', statValue:60, skill:'Discipline'},
     {id:'walk', cat:'Sveikata', icon:'🚶', title:'30 min pasivaikščiojimas', xp:15, coins:6, difficulty:'Lengva', statKey:'walkMinutes', statValue:30, skill:'Strength'},
     {id:'push', cat:'Sveikata', icon:'💪', title:'50 atsispaudimų', xp:24, coins:10, difficulty:'Sunkesnė', statKey:'pushups', statValue:50, skill:'Strength'},
     {id:'pull', cat:'Sveikata', icon:'🏋️', title:'20 prisitraukimų', xp:30, coins:14, difficulty:'Sunkesnė', statKey:'pullups', statValue:20, skill:'Strength'},
-    {id:'meal', cat:'Sveikata', icon:'🍽️', title:'3 kartai valgymas', xp:12, coins:5, difficulty:'Lengva', statKey:'meals', statValue:3, skill:'Discipline'},
+    {id:'meal', cat:'Sveikata', icon:'🍽️', title:'3 kartai valgymo', xp:12, coins:5, difficulty:'Lengva', statKey:'meals', statValue:3, skill:'Discipline'},
     {id:'addiction', cat:'Sveikata', icon:'🛡️', title:'24h be priklausomybių', xp:35, coins:18, difficulty:'Epik', statKey:'cleanDays', statValue:1, skill:'Discipline'},
 
     {id:'mom', cat:'Produktyvumas', icon:'👪', title:'30 min pas mamą', xp:10, coins:5, difficulty:'Lengva', statKey:'momVisits', statValue:30, skill:'Discipline'},
@@ -699,37 +818,43 @@
     {id:'tv', cat:'Tobulėjimas', icon:'📺', title:'Diena be TV', xp:16, coins:6, difficulty:'Vidutinė', statKey:'tvFreeDays', statValue:1, skill:'Focus'}
   ];
 
+
   const worldDefs = [
-    {name:'Start Zone', emoji:'🌱', req:1, desc:'Pirmas žingsnis', reward:{xp:25, coins:20}},
-    {name:'Discipline City', emoji:'🛡️', req:4, desc:'Įpročiai ir ritmas', reward:{xp:40, coins:35}},
-    {name:'Money District', emoji:'💼', req:8, desc:'Pinigų judėjimas', reward:{xp:60, coins:50}},
-    {name:'Elite Zone', emoji:'👑', req:15, desc:'Aukštas lygis', reward:{xp:90, coins:80}},
-    {name:'Freedom World', emoji:'🕊️', req:25, desc:'Laisvė ir kontrolė', reward:{xp:140, coins:120}}
+    {name:'Pradžios zona', emoji:'🌱', req:1, desc:'Pirmas žingsnis', reward:{xp:25, coins:20}},
+    {name:'Disciplinos miestas', emoji:'🛡️', req:4, desc:'Įpročiai ir ritmas', reward:{xp:40, coins:35}},
+    {name:'Pinigų rajonas', emoji:'💼', req:8, desc:'Pinigų judėjimas', reward:{xp:60, coins:50}},
+    {name:'Elito zona', emoji:'👑', req:15, desc:'Aukštas lygis', reward:{xp:90, coins:80}},
+    {name:'Laisvės pasaulis', emoji:'🕊️', req:25, desc:'Laisvė ir kontrolė', reward:{xp:140, coins:120}}
   ];
 
+
   const rewardsShop = [
-    {id:'pizza', name:'Picos vakaras', icon:'🍕', cost:70, desc:'Smagus vakaro reward po geros dienos.'},
-    {id:'random15', name:'15€ random pirkinys', icon:'🎁', cost:110, desc:'Mažas atpildas už stiprų progresą.'},
-    {id:'cinema', name:'Kinas', icon:'🎬', cost:150, desc:'Atsipalaidavimas su premium feel.'},
+    {id:'pizza', name:'Picos vakaras', icon:'🍕', cost:70, desc:'Smagus vakaro atlygis po geros dienos.'},
+    {id:'random15', name:'15€ atsitiktinis pirkinys', icon:'🎁', cost:110, desc:'Mažas atpildas už stiprų progresą.'},
+    {id:'cinema', name:'Kinas', icon:'🎬', cost:150, desc:'Atsipalaidavimas su premium jausmu.'},
     {id:'massage', name:'Masažas', icon:'💆', cost:200, desc:'Atsistatymas kūnui ir protui.'},
-    {id:'shopping80', name:'80€ pirkinys', icon:'🛍️', cost:260, desc:'Didelis reward už didelį progresą.'},
+    {id:'shopping80', name:'80€ pirkinys', icon:'🛍️', cost:260, desc:'Didelis atlygis už didelį progresą.'},
     {id:'trip3', name:'3 dienų kelionė', icon:'✈️', cost:420, desc:'Didžiausias savaitgalio prizas.'}
   ];
 
+
   const achievementDefs = [
     {id:'tasks10', icon:'🥉', title:'10 atliktų užduočių', desc:'Atlik 10 užduočių', need:s => s.stats.tasksCompleted >= 10, reward:{xp:50, coins:30}},
-    {id:'xp1000', icon:'✨', title:'1000 XP', desc:'Surink 1000 lifetinio XP', need:s => s.stats.lifetimeXp >= 1000, reward:{xp:80, coins:40}},
-    {id:'streak7', icon:'🔥', title:'7 dienų streak', desc:'Išlaikyk 7 dienas iš eilės', need:s => s.streak >= 7, reward:{xp:70, coins:50}},
+    {id:'xp1000', icon:'✨', title:'1000 XP', desc:'Surink 1000 viso XP', need:s => s.stats.lifetimeXp >= 1000, reward:{xp:80, coins:40}},
+    {id:'streak7', icon:'🔥', title:'7 dienų serija', desc:'Išlaikyk 7 dienas iš eilės', need:s => s.streak >= 7, reward:{xp:70, coins:50}},
     {id:'cars10', icon:'🚗', title:'10 parduotų automobilių', desc:'Parduok 10 automobilių', need:s => s.stats.carsSold >= 10, reward:{xp:130, coins:90}},
-    {id:'push100', icon:'💪', title:'100 atsispaudimų', desc:'Kaupk atsispaudimus', need:s => s.stats.pushups >= 100, reward:{xp:60, coins:35}}
+    {id:'push100', icon:'💪', title:'100 atsispaudimų', desc:'Kaupk atsispaudimus', need:s => s.stats.pushups >= 100, reward:{xp:60, coins:35}},
+    {id:'profit10k', icon:'💎', title:'10 000 € grynojo pelno per mėnesį', desc:'Per mėnesį pasiek 10 000 € grynojo pelno', need:s => (s.finances?.monthlyNetProfit || 0) >= 10000, reward:{xp:180, coins:150}}
   ];
+
 
   const defaultSkills = [
     {key:'Strength', icon:'💪', desc:'Sportas, kūnas ir energija', xp:0, level:1, boost:1.12},
     {key:'Focus', icon:'🧠', desc:'Mokymasis, koncentracija ir gylis', xp:0, level:1, boost:1.10},
-    {key:'Business', icon:'💰', desc:'Auto pardavimai ir pinigų judėjimas', xp:0, level:1, boost:1.10},
+    {key:'Business', icon:'💰', desc:'Automobilių pardavimai ir pinigų judėjimas', xp:0, level:1, boost:1.10},
     {key:'Discipline', icon:'🧘', desc:'Įpročiai, ritmas ir stabilumas', xp:0, level:1, boost:1.14}
   ];
+
 
   const defaultStats = () => ({
     tasksCompleted:0,
@@ -761,6 +886,7 @@
     worldUnlocks:0
   });
 
+
   const defaultState = () => ({
     theme:'light',
     sound:true,
@@ -777,16 +903,28 @@
     dailyQuest:null,
     dailyQuestDate:'',
     dailyQuestClaimed:false,
+    finances:{
+      monthKey: currentMonthKey(),
+      monthlyNetProfit:0,
+      monthlyRevenue:0,
+      monthlyExpenses:0,
+      lifetimeNetProfit:0
+    },
     stats: defaultStats(),
     skills: JSON.parse(JSON.stringify(defaultSkills)),
     unlockedAchievements:{},
     worldsUnlocked:[],
     shopPurchases:[],
     cars:[],
-    history:[]
+    history:[],
+    ui:{
+      taskGroups:{Sveikata:false, Produktyvumas:false, Tobulėjimas:false},
+      historyOpen:false
+    }
   });
 
   let state = loadState();
+
 
   function loadState(){
     try{
@@ -797,6 +935,7 @@
       return {
         ...base,
         ...parsed,
+        finances: {...base.finances, ...(parsed.finances||{})},
         stats: {...base.stats, ...(parsed.stats||{})},
         skills: Array.isArray(parsed.skills) && parsed.skills.length ? parsed.skills : JSON.parse(JSON.stringify(defaultSkills)),
         unlockedAchievements: {...(parsed.unlockedAchievements||{})},
@@ -804,7 +943,11 @@
         shopPurchases: Array.isArray(parsed.shopPurchases) ? parsed.shopPurchases : [],
         cars: Array.isArray(parsed.cars) ? parsed.cars : [],
         history: Array.isArray(parsed.history) ? parsed.history : [],
-        completedToday: parsed.completedToday || {}
+        completedToday: parsed.completedToday || {},
+        ui: {
+          taskGroups: {Sveikata:false, Produktyvumas:false, Tobulėjimas:false, ...(parsed.ui?.taskGroups||{})},
+          historyOpen: !!parsed.ui?.historyOpen
+        }
       };
     }catch(e){
       console.warn('State load failed', e);
@@ -813,12 +956,55 @@
   }
 
   function saveState(){
+
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   }
 
   function addHistory(title, desc, icon='⚡'){
     state.history.unshift({title, desc, icon, time: nowLabel()});
     state.history = state.history.slice(0, 12);
+  }
+
+  function ensureMonthlyCycle(){
+    const mk = currentMonthKey();
+    if(!state.finances) state.finances = defaultState().finances;
+    if(state.finances.monthKey !== mk){
+      state.finances.monthKey = mk;
+      state.finances.monthlyNetProfit = 0;
+      state.finances.monthlyRevenue = 0;
+      state.finances.monthlyExpenses = 0;
+    }
+  }
+
+  function carChecklistExpenses(car){
+    return (car?.checklist || []).reduce((sum, item) => sum + (Number(item.expense) || 0), 0);
+  }
+
+  function carTotalCost(car){
+    return Number(car?.buyPrice || 0) + carChecklistExpenses(car);
+  }
+
+  function carNetProfit(car){
+    if(!car || car.status !== 'parduotas') return 0;
+    return Number(car.soldPrice || 0) - carTotalCost(car);
+  }
+
+  function carDoneCount(car){
+    return (car?.checklist || []).filter(i => i.done).length;
+  }
+
+  function carProgress(car){
+    const total = (car?.checklist || []).length || 1;
+    return Math.round((carDoneCount(car) / total) * 100);
+  }
+
+  function skillLabel(key){
+    return ({
+      Strength:'Jėga',
+      Focus:'Susikaupimas',
+      Business:'Verslas',
+      Discipline:'Disciplina'
+    }[key] || key);
   }
 
   function toast(msg, icon='•'){
@@ -998,9 +1184,9 @@
     state.stats.tasksCompleted += 1;
     markStreakOnFirstCompletion();
     const q = state.dailyQuest;
-    const reward = generateQuestReward(q);
+    const atlygis = generateQuestReward(q);
     state.stats[q.statKey] += q.statValue;
-    addXpAndCoins(reward.xp, reward.coins, 'Dienos questas', q.skill, '✨');
+    addXpAndCoins(atlygis.xp, atlygis.coins, 'Dienos questas', q.skill, '✨');
     addHistory('Dienos questas', `Įvykdyta: ${q.title}`, '🏅');
     if(state.streak >= 7){
       state.coins += 20;
@@ -1024,7 +1210,7 @@
     state.dailyQuest = next;
     state.dailyQuestDate = todayISO();
     state.dailyQuestClaimed = false;
-    addHistory('Quest perridenimas', 'Sugeneruota nauja dienos užduotis', '🎲');
+    addHistory('Misijos perridenimas', 'Sugeneruota nauja dienos užduotis', '🎲');
     saveState();
     render();
     toast('Naujas dienos questas', '🎲');
@@ -1033,7 +1219,7 @@
   function checkWorldUnlocks(){
     const newlyUnlocked = [];
     worldDefs.forEach(w => {
-      if(w.name === 'Start Zone'){
+      if(w.name === 'Pradžios zona'){
         if(!state.worldsUnlocked.includes(w.name)) state.worldsUnlocked.push(w.name);
         return;
       }
@@ -1041,10 +1227,10 @@
         state.worldsUnlocked.push(w.name);
         newlyUnlocked.push(w);
         state.stats.worldUnlocks += 1;
-        state.coins += w.reward.coins;
-        state.xp += w.reward.xp;
-        addHistory('Pasaulis atrakintas', `${w.name} atrakintas: +${w.reward.xp} XP +${w.reward.coins} 🪙`, w.emoji);
-        toast(`${w.name} atrakintas! +${w.reward.xp} XP +${w.reward.coins} 🪙`, w.emoji);
+        state.coins += w.atlygis.coins;
+        state.xp += w.atlygis.xp;
+        addHistory('Pasaulis atrakintas', `${w.name} atrakintas: +${w.atlygis.xp} XP +${w.atlygis.coins} 🪙`, w.emoji);
+        toast(`${w.name} atrakintas! +${w.atlygis.xp} XP +${w.atlygis.coins} 🪙`, w.emoji);
         spark(w.emoji);
         playTone(880, 0.1);
         vibrate([20,30,20]);
@@ -1060,10 +1246,10 @@
       if(!state.unlockedAchievements[a.id] && a.need(state)){
         state.unlockedAchievements[a.id] = true;
         state.stats.badgesEarned += 1;
-        state.xp += a.reward.xp;
-        state.stats.lifetimeXp += a.reward.xp;
-        state.coins += a.reward.coins;
-        addHistory('Pasiekimas atrakintas', `${a.title} +${a.reward.xp} XP +${a.reward.coins} 🪙`, a.icon);
+        state.xp += a.atlygis.xp;
+        state.stats.lifetimeXp += a.atlygis.xp;
+        state.coins += a.atlygis.coins;
+        addHistory('Pasiekimas atrakintas', `${a.title} +${a.atlygis.xp} XP +${a.atlygis.coins} 🪙`, a.icon);
         toast(`Pasiekimas: ${a.title}`, a.icon);
         spark(a.icon);
         playTone(760, 0.12);
@@ -1085,7 +1271,7 @@
     state.stats.shopPurchases += 1;
     state.shopPurchases.unshift({name:item.name, cost:item.cost, time: nowLabel()});
     state.shopPurchases = state.shopPurchases.slice(0, 10);
-    addHistory('Shop purchase', `${item.name} nupirkta už ${item.cost} 🪙`, item.icon);
+    addHistory('Pirkimas parduotuvėje', `${item.name} nupirkta už ${item.cost} 🪙`, item.icon);
     toast(`Nupirkta: ${item.name}`, item.icon);
     spark(item.icon);
     playTone(600, 0.08);
@@ -1093,27 +1279,33 @@
     render();
   }
 
-  function addCar(name, imageSrc){
+
+  function addCar(name, imageSrc, buyPrice){
     const car = {
       id: uid(),
       name,
       imageSrc,
-      status:'Ruošiamas',
+      buyPrice: Number(buyPrice) || 0,
+      soldPrice: null,
+      netProfit: 0,
+      soldAt: null,
+      status:'aktyvus',
       checklist:[
-        {id:'wash', name:'Nuplauti', xp:10, coins:4, done:false},
-        {id:'photo', name:'Nufotografuoti', xp:12, coins:5, done:false},
-        {id:'ads', name:'Įdėti į skelbimus', xp:16, coins:8, done:false},
-        {id:'fix', name:'Sutvarkyti defektus', xp:20, coins:10, done:false}
+        {id:'wash', name:'Nuplauti', xp:10, coins:4, done:false, expense:0},
+        {id:'photo', name:'Nufotografuoti', xp:12, coins:5, done:false, expense:0},
+        {id:'ads', name:'Įdėti į skelbimus', xp:16, coins:8, done:false, expense:0},
+        {id:'fix', name:'Sutvarkyti defektus', xp:20, coins:10, done:false, expense:0}
       ]
     };
     state.cars.unshift(car);
-    addHistory('Garažas', `${name} pridėtas į Garažas`, '🚗');
+    addHistory('Garažas', `${name} pridėtas į garažą`, '🚗');
     toast('Automobilis pridėtas', '🚗');
     saveState();
     render();
   }
 
   function openCar(carId){
+
     const car = state.cars.find(c => c.id === carId);
     if(!car) return;
     renderCarSheet(car);
@@ -1122,9 +1314,14 @@
     backdrop.onclick = (e) => { if(e.target === backdrop) closeSheet(); };
   }
 
+
   function renderCarSheet(car){
-    const doneCount = car.checklist.filter(i => i.done).length;
-    const pct = Math.round((doneCount / car.checklist.length) * 100);
+    const doneCount = carDoneCount(car);
+    const pct = carProgress(car);
+    const currentCost = carTotalCost(car);
+    const isSold = car.status === 'parduotas';
+    const soldPrice = Number(car.soldPrice || 0);
+    const netProfit = isSold ? carNetProfit(car) : 0;
     const html = `
       <div class="sheetHead">
         <h3>${escapeHTML(car.name)}</h3>
@@ -1132,21 +1329,55 @@
       </div>
       <div class="carCard">
         <div class="carHero" style="background-image:url('${car.imageSrc || ''}')">
-          <div class="pill">${pct === 100 ? 'Paruoštas pardavimui' : pct >= 50 ? 'Beveik paruoštas' : 'Ruošiamas'}</div>
+          <div class="pill">${isSold ? 'Parduotas' : pct === 100 ? 'Paruoštas pardavimui' : pct >= 50 ? 'Beveik paruoštas' : 'Ruošiamas'}</div>
           <div class="pill">${pct}%</div>
         </div>
         <div class="carBody">
+          <div class="grid2" style="margin-bottom:10px">
+            <div class="smallStatBox">
+              <div class="label">Pirkimo kaina</div>
+              <div class="value">${moneyFmt(car.buyPrice)}</div>
+              <div class="hint">Pradinė investicija</div>
+            </div>
+            <div class="smallStatBox">
+              <div class="label">Šiuo metu stovi</div>
+              <div class="value">${moneyFmt(currentCost)}</div>
+              <div class="hint">Pirkimas + išlaidos</div>
+            </div>
+          </div>
           <div class="carLine"><span>Progresas</span><span>${doneCount}/${car.checklist.length} punktų</span></div>
           <div class="miniBar"><div class="fill" style="width:${pct}%"></div></div>
-          <div class="sectionHead" style="margin:14px 0 8px"><h2>Checklist</h2><span>XP + monetos</span></div>
+          <div class="sectionHead" style="margin:14px 0 8px"><h2>Užduočių sąrašas</h2><span>XP + monetos + išlaidos</span></div>
           <div class="list" id="carChecklist"></div>
-          <div class="btnRow" style="margin-top:14px">
-            <button class="btn secondary" id="addChecklistBtn">+ Pridėti punktą</button>
-            <button class="btn" id="sellCarBtn" ${pct===100 ? '' : 'disabled'} style="opacity:${pct===100 ? 1 : .45};cursor:${pct===100 ? 'pointer' : 'not-allowed'}">Parduoti automobilį</button>
+          <div class="grid2" style="margin-top:12px">
+            <div class="smallStatBox">
+              <div class="label">Grynas pelnas</div>
+              <div class="value">${isSold ? (netProfit >= 0 ? '+' : '') + moneyFmt(netProfit) : moneyFmt(0)}</div>
+              <div class="hint">${isSold ? 'Galutinis rezultatas' : 'Atsiras pardavus'}</div>
+            </div>
+            <div class="smallStatBox">
+              <div class="label">Pardavimo kaina</div>
+              <div class="value">${isSold ? moneyFmt(soldPrice) : '—'}</div>
+              <div class="hint">${isSold ? 'Jau parduota' : 'Įrašyk prieš parduodant'}</div>
+            </div>
           </div>
-          <div class="cardNotice" style="margin-top:12px">
-            Kai visi punktai atlikti, gauni didelį bonus XP ir monetų reward.
-          </div>
+          ${isSold ? `
+            <div class="cardNotice" style="margin-top:12px">
+              Automobilis parduotas ${escapeHTML(car.soldAt || '')}. Grynasis pelnas: <strong>${(netProfit >= 0 ? '+' : '') + moneyFmt(netProfit)}</strong>.
+            </div>
+          ` : `
+            <div class="field" style="margin-top:12px">
+              <label>Pardavimo kaina</label>
+              <input class="input" id="sellPriceInput" type="number" min="0" step="1" placeholder="Įrašyk pardavimo kainą" value="${car.soldPrice || ''}" />
+            </div>
+            <div class="btnRow">
+              <button class="btn secondary" id="addChecklistBtn">+ Pridėti punktą</button>
+              <button class="btn" id="sellCarBtn" ${pct===100 ? '' : 'disabled'} style="opacity:${pct===100 ? 1 : .45};cursor:${pct===100 ? 'pointer' : 'not-allowed'}">Parduoti automobilį</button>
+            </div>
+            <div class="cardNotice" style="margin-top:12px">
+              Kai visi punktai atlikti ir įrašysi pardavimo kainą, sistema automatiškai paskaičiuos grynąjį pelną.
+            </div>
+          `}
         </div>
       </div>
     `;
@@ -1161,6 +1392,7 @@
   }
 
   function openAddChecklistForm(carId){
+
     const car = state.cars.find(c => c.id === carId);
     if(!car) return;
     const current = document.getElementById('sheet').innerHTML;
@@ -1190,12 +1422,13 @@
         return;
       }
       car.checklist.push({id:'custom_' + Date.now(), name, xp, coins, done:false});
-      addHistory('Checklist punktas', `Pridėtas: ${name}`, '➕');
+      addHistory('Garažo punktas', `Pridėtas: ${name}`, '➕');
       saveState();
       renderCarSheet(car);
       toast('Punktas pridėtas', '➕');
     };
   }
+
 
   function renderCarChecklist(carId){
     const car = state.cars.find(c => c.id === carId);
@@ -1210,7 +1443,10 @@
             <div class="small">+${item.xp} XP • +${item.coins} 🪙</div>
           </div>
         </label>
-        <span class="badge ${item.done ? 'good' : 'info'}">${item.done ? 'Atlikta' : 'Laukiama'}</span>
+        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+          <input class="input" style="width:110px;padding:9px 10px;border-radius:12px;font-size:12px" type="number" min="0" step="1" ${item.done ? 'disabled' : ''} value="${Number(item.expense || 0) || ''}" data-expense-for="${item.id}" placeholder="Išlaidos €" />
+          <span class="badge ${item.done ? 'good' : 'info'}">${item.done ? 'Atlikta' : 'Laukiama'}</span>
+        </div>
       </div>
     `).join('');
     root.querySelectorAll('input[type="checkbox"]').forEach(cb => {
@@ -1218,13 +1454,16 @@
         const car = state.cars.find(c => c.id === cb.dataset.car);
         const item = car?.checklist.find(i => i.id === cb.dataset.item);
         if(!car || !item || item.done) return;
+        const expenseInput = root.querySelector(`[data-expense-for="${item.id}"]`);
+        const expense = Number(expenseInput?.value || 0);
         item.done = true;
-        addXpAndCoins(item.xp, item.coins, 'Garažas checklist', 'Business', '🚗');
+        item.expense = expense;
+        addXpAndCoins(item.xp, item.coins, 'Garažo užduotis', 'Business', '🚗');
         if(car.checklist.every(i => i.done)){
-          car.status = 'Paruoštas';
+          car.status = 'paruoštas';
           toast('Auto paruoštas pardavimui!', '🏁');
         }else if(car.checklist.filter(i => i.done).length >= Math.ceil(car.checklist.length / 2)){
-          car.status = 'Beveik paruoštas';
+          car.status = 'beveik paruoštas';
         }
         saveState();
         render();
@@ -1233,34 +1472,49 @@
     });
   }
 
+
   function sellCar(carId){
     const car = state.cars.find(c => c.id === carId);
     if(!car) return;
     if(!car.checklist.every(i => i.done)){
-      toast('Visi punktai turi būti DONE', '⚠️');
+      toast('Visos užduotys turi būti atliktos', '⚠️');
       return;
     }
+    const sellPriceInput = document.getElementById('sellPriceInput');
+    const sellPrice = Number(sellPriceInput?.value || car.soldPrice || 0);
+    if(!sellPrice || sellPrice <= 0){
+      toast('Įrašyk pardavimo kainą', '💰');
+      return;
+    }
+    car.soldPrice = sellPrice;
+    car.soldAt = nowLabel();
+    car.status = 'parduotas';
+    car.netProfit = sellPrice - carTotalCost(car);
     state.stats.carsSold += 1;
     state.stats.tasksCompleted += 1;
     state.coins += 90;
     state.xp += 120;
     state.stats.lifetimeXp += 120;
     updateSkills('Business', 120);
-    addHistory('Car sold', `${car.name} parduotas — +120 XP +90 🪙`, '💸');
-    toast('Car sold! +120 XP +90 🪙', '💸');
+    state.finances.monthlyRevenue += sellPrice;
+    state.finances.monthlyExpenses += carTotalCost(car);
+    state.finances.monthlyNetProfit += car.netProfit;
+    state.finances.lifetimeNetProfit += car.netProfit;
+    addHistory('Automobilis parduotas', `${car.name} parduotas už ${moneyFmt(sellPrice)}. Grynasis pelnas: ${(car.netProfit >= 0 ? '+' : '') + moneyFmt(car.netProfit)}`, '💸');
+    toast(`Parduota! +${moneyFmt(car.netProfit)}`, '💸');
     spark('🏁');
     playTone(920, 0.12);
     vibrate([25,35,25]);
     levelUpCheck();
     checkWorldUnlocks();
     checkAchievements();
-    car.status = 'Parduotas';
     saveState();
     render();
     closeSheet();
   }
 
   function openSheet(html){
+
     document.getElementById('sheet').innerHTML = html;
     document.getElementById('modalBackdrop').classList.add('show');
   }
@@ -1275,15 +1529,16 @@
   }
 
   function zoneForLevel(level){
-    if(level < 4) return {name:'Start Zone', idx:0, hint:'Pirmas startas'};
-    if(level < 8) return {name:'Discipline City', idx:1, hint:'Įpročių miestas'};
-    if(level < 15) return {name:'Money District', idx:2, hint:'Pinigų rajonas'};
-    if(level < 25) return {name:'Elite Zone', idx:3, hint:'Aukštas brandos lygis'};
-    return {name:'Freedom World', idx:4, hint:'Laisvės pasaulis'};
+    if(level < 4) return {name:'Pradžios zona', idx:0, hint:'Pirmas startas'};
+    if(level < 8) return {name:'Disciplinos miestas', idx:1, hint:'Įpročių miestas'};
+    if(level < 15) return {name:'Pinigų rajonas', idx:2, hint:'Pinigų rajonas'};
+    if(level < 25) return {name:'Elito zona', idx:3, hint:'Aukštas brandos lygis'};
+    return {name:'Laisvės pasaulis', idx:4, hint:'Laisvės pasaulis'};
   }
 
   function render(){
     checkDateReset();
+    ensureMonthlyCycle();
     if(!state.dailyQuest) state.dailyQuest = rand(taskTemplates);
     if(!state.history.length) addHistory('Sveiki atvykę', 'Žaidimas paruoštas startui', '🎮');
 
@@ -1319,16 +1574,16 @@
     document.getElementById('worldRing').style.strokeDashoffset = String(circ - circ * (worldPct / 100));
 
     document.getElementById('dailyState').className = `badge ${state.dailyQuestClaimed ? 'good' : 'info'}`;
-    document.getElementById('dailyState').textContent = state.dailyQuestClaimed ? 'Dienos užduotis įvykdyta' : 'Dienos užduotis paruošta';
+    document.getElementById('dailyState').textContent = state.dailyQuestClaimed ? 'Dienos misija įvykdyta' : 'Dienos misija paruošta';
 
     document.getElementById('taskProgressLabel').textContent = `${completedCount}/${allCount} atlikta`;
 
     // daily quest
     const q = state.dailyQuest;
-    document.getElementById('dailyRarity').textContent = `${(q.rarity || (q.xp >= 30 ? 'legendary' : q.xp >= 20 ? 'epic' : 'rare')).toUpperCase()} QUEST`;
+    document.getElementById('dailyRarity').textContent = `${(q.rarity || (q.xp >= 30 ? 'legendinė' : q.xp >= 20 ? 'epinė' : 'reta')).toUpperCase()} MISIJA`;
     document.getElementById('dailyRarity').className = `tag ${(q.xp >= 30 ? 'legendary' : q.xp >= 20 ? 'epic' : 'rare')}`;
     document.getElementById('dailyTitle').textContent = q.title;
-    document.getElementById('dailyDesc').textContent = `Questas iš ${q.cat} kategorijos. Duoda bonus XP ir coins.`;
+    document.getElementById('dailyDesc').textContent = `Ši misija iš ${q.cat} kategorijos. Duoda bonus XP ir monetų.`;
     document.getElementById('claimDailyBtn').textContent = state.dailyQuestClaimed ? 'Jau įvykdyta' : 'Įvykdyti dienos užduotį';
     document.getElementById('claimDailyBtn').disabled = state.dailyQuestClaimed;
     document.getElementById('claimDailyBtn').style.opacity = state.dailyQuestClaimed ? .55 : 1;
@@ -1337,33 +1592,52 @@
     const categories = ['Sveikata','Produktyvumas','Tobulėjimas'];
     const tasksHtml = categories.map(cat => {
       const tasks = taskTemplates.filter(t => t.cat === cat);
+      const open = !!(state.ui?.taskGroups?.[cat]);
       return `
-        <div class="taskGroupHead"><h3>${cat}</h3><span>${tasks.length} užduočių</span></div>
-        <div class="taskList">
-          ${tasks.map(t => {
-            const done = !!state.completedToday[t.id];
-            return `
-              <div class="taskCard ${done ? 'done' : ''}" data-task="${t.id}">
-                <div class="check">${done ? '✓' : ''}</div>
-                <div class="taskMain">
-                  <strong>${t.icon} ${escapeHTML(t.title)}</strong>
-                  <div class="taskMeta">
-                    <span>${t.difficulty}</span>
-                    <span>${done ? 'Atlikta šiandien' : 'Paspausk ir gauk reward'}</span>
+        <div class="panel taskGroup">
+          <button class="taskGroupHead" type="button" data-toggle-cat="${cat}">
+            <div>
+              <h3>${cat}</h3>
+              <span class="sub">${tasks.length} užduočių • ${open ? 'Paliesk, kad suskleistum' : 'Paliesk, kad išskleistum'}</span>
+            </div>
+            <div class="chev">${open ? '▾' : '▸'}</div>
+          </button>
+          <div class="taskGroupBody ${open ? 'open' : ''}">
+            <div class="taskList">
+              ${tasks.map(t => {
+                const done = !!state.completedToday[t.id];
+                return `
+                  <div class="taskCard ${done ? 'done' : ''}" data-task="${t.id}">
+                    <div class="check">${done ? '✓' : ''}</div>
+                    <div class="taskMain">
+                      <strong>${t.icon} ${escapeHTML(t.title)}</strong>
+                      <div class="taskMeta">
+                        <span>${t.difficulty}</span>
+                        <span>${done ? 'Atlikta šiandien' : 'Paspausk ir gauk atlygį'}</span>
+                      </div>
+                    </div>
+                    <div class="rewardPills">
+                      <div class="xp">+${t.xp} XP</div>
+                      <div class="coins">+${t.coins} 🪙</div>
+                    </div>
                   </div>
-                </div>
-                <div class="rewardPills">
-                  <div class="xp">+${t.xp} XP</div>
-                  <div class="coins">+${t.coins} 🪙</div>
-                </div>
-              </div>
-            `;
-          }).join('')}
+                `;
+              }).join('')}
+            </div>
+          </div>
         </div>
       `;
     }).join('');
     document.getElementById('tasksRoot').innerHTML = tasksHtml;
     document.querySelectorAll('[data-task]').forEach(el => el.addEventListener('click', () => completeTask(el.dataset.task)));
+    document.querySelectorAll('[data-toggle-cat]').forEach(btn => btn.addEventListener('click', () => {
+      const cat = btn.dataset.toggleCat;
+      state.ui = state.ui || {taskGroups:{Sveikata:false, Produktyvumas:false, Tobulėjimas:false}, historyOpen:false};
+      state.ui.taskGroups = state.ui.taskGroups || {Sveikata:false, Produktyvumas:false, Tobulėjimas:false};
+      state.ui.taskGroups[cat] = !state.ui.taskGroups[cat];
+      saveState();
+      render();
+    }));
 
     // stats grid
     const statCards = [
@@ -1415,7 +1689,12 @@
     document.querySelectorAll('[data-buy]').forEach(btn => btn.onclick = () => buyReward(btn.dataset.buy));
 
     // history
-    document.getElementById('historyRoot').innerHTML = (state.history.length ? state.history : [{title:'Pradėk žaidimą', desc:'Atlik pirmą užduotį', icon:'🎮', time:nowLabel()}]).map(item => `
+    const historyOpen = !!(state.ui?.historyOpen);
+    const historyRoot = document.getElementById('historyRoot');
+    document.getElementById('historyBody').classList.toggle('open', historyOpen);
+    document.getElementById('historyChev').textContent = historyOpen ? '▾' : '▸';
+    document.getElementById('historyHint').textContent = historyOpen ? 'Paspausk, kad paslėptum istoriją' : 'Paspausk, kad pamatytum istoriją';
+    historyRoot.innerHTML = historyOpen ? (state.history.length ? state.history : [{title:'Pradėk žaidimą', desc:'Atlik pirmą užduotį', icon:'🎮', time:nowLabel()}]).map(item => `
       <div class="historyItem">
         <div class="histIcon">${item.icon}</div>
         <div>
@@ -1424,38 +1703,68 @@
           <span style="font-size:11px;opacity:.78">${escapeHTML(item.time)}</span>
         </div>
       </div>
-    `).join('');
+    `).join('') : '';
 
-    // garage
-    document.getElementById('carCount').textContent = `${state.cars.length} auto`;
-    document.getElementById('carGrid').innerHTML = state.cars.length ? state.cars.map(car => {
-      const done = car.checklist.filter(i => i.done).length;
-      const pct = Math.round((done / car.checklist.length) * 100);
+
+    // garažas
+    ensureMonthlyCycle();
+    const activeCars = state.cars.filter(car => car.status !== 'parduotas');
+    const soldCars = state.cars.filter(car => car.status === 'parduotas');
+    document.getElementById('carCount').textContent = `${activeCars.length} aktyvūs / ${soldCars.length} parduoti`;
+    document.getElementById('activeCarCount').textContent = `${activeCars.length} auto`;
+    document.getElementById('soldCarCount').textContent = `${soldCars.length} auto`;
+    document.getElementById('monthlyProfitValue').textContent = moneyFmt(state.finances.monthlyNetProfit);
+    document.getElementById('monthlyProfitFill').style.width = `${clamp((state.finances.monthlyNetProfit / 10000) * 100, 0, 100)}%`;
+
+    document.getElementById('activeCarGrid').innerHTML = activeCars.length ? activeCars.map(car => {
+      const done = carDoneCount(car);
+      const pct = carProgress(car);
+      const totalCost = carTotalCost(car);
       return `
         <div class="carCard" data-open-car="${car.id}">
           <div class="carHero" style="background-image:url('${car.imageSrc || ''}')">
-            <div class="pill">${car.status || (pct===100 ? 'Paruoštas pardavimui' : pct>=50 ? 'Beveik paruoštas' : 'Ruošiamas')}</div>
+            <div class="pill">Aktyvus</div>
             <div class="pill">${pct}%</div>
           </div>
           <div class="carBody">
             <h4>${escapeHTML(car.name)}</h4>
-            <div class="carLine"><span>${done}/${car.checklist.length} punktų</span><span>${pct===100 ? '🏁 Ready' : '🚘 Garage'}</span></div>
+            <div class="carLine"><span>${done}/${car.checklist.length} punktų</span><span>Stovi: ${moneyFmt(totalCost)}</span></div>
             <div class="miniBar"><div class="fill" style="width:${pct}%"></div></div>
+            <div class="carLine"><span>Pirkta už ${moneyFmt(car.buyPrice)}</span><span>Išlaidos: ${moneyFmt(carChecklistExpenses(car))}</span></div>
           </div>
         </div>
       `;
-    }).join('') : `<div class="emptyState">Kol kas nėra automobilių. Pridėk pirmą auto ir pradėk Garage misiją.</div>`;
-    document.getElementById('carGrid').querySelectorAll('[data-open-car]').forEach(el => el.onclick = () => openCar(el.dataset.openCar));
+    }).join('') : `<div class="emptyState">Kol kas nėra aktyvių automobilių. Pridėk pirmą auto ir pradėk Garažo misiją.</div>`;
+    document.getElementById('soldCarGrid').innerHTML = soldCars.length ? soldCars.map(car => {
+      const pct = carProgress(car);
+      return `
+        <div class="carCard" data-open-car="${car.id}">
+          <div class="carHero" style="background-image:url('${car.imageSrc || ''}')">
+            <div class="pill">Parduotas</div>
+            <div class="pill">${pct}%</div>
+          </div>
+          <div class="carBody">
+            <h4>${escapeHTML(car.name)}</h4>
+            <div class="carLine"><span>Pardavimo kaina: ${moneyFmt(car.soldPrice)}</span><span>Grynasis pelnas: ${(car.netProfit >= 0 ? '+' : '') + moneyFmt(car.netProfit)}</span></div>
+            <div class="miniBar"><div class="fill" style="width:100%"></div></div>
+            <div class="carLine"><span>Stovėjo: ${moneyFmt(carTotalCost(car))}</span><span>${escapeHTML(car.soldAt || '')}</span></div>
+          </div>
+        </div>
+      `;
+    }).join('') : `<div class="emptyState">Dar nėra parduotų automobilių. Kai parduosi pirmą, jis čia atsiras atskirai.</div>`;
+    document.getElementById('activeCarGrid').querySelectorAll('[data-open-car]').forEach(el => el.onclick = () => openCar(el.dataset.openCar));
+    document.getElementById('soldCarGrid').querySelectorAll('[data-open-car]').forEach(el => el.onclick = () => openCar(el.dataset.openCar));
 
-    // skills
+    // įgūdžiai
+
     document.getElementById('skillsRoot').innerHTML = state.skills.map(s => `
       <div class="skillCard">
         <div class="skillTop">
           <div>
-            <strong>${s.icon} ${escapeHTML(s.key)}</strong>
-            <span>Level ${s.level}</span>
+            <strong>${s.icon} ${escapeHTML(skillLabel(s.key))}</strong>
+            <span>Lygis ${s.level}</span>
           </div>
-          <span class="badge info">Boost x${s.boost.toFixed(2)}</span>
+          <span class="badge info">Stiprinimas x${s.boost.toFixed(2)}</span>
         </div>
         <div class="miniBar"><div class="fill" style="width:${s.xp % 100}%"></div></div>
         <div class="skillDesc">${escapeHTML(s.desc)}</div>
@@ -1470,14 +1779,17 @@
           <div class="ico">${a.icon}</div>
           <strong>${escapeHTML(a.title)}</strong>
           <span>${escapeHTML(a.desc)}</span>
-          <div style="margin-top:12px"><span class="badge ${ok ? 'good' : 'warn'}">${ok ? `+${a.reward.coins} 🪙` : 'Užrakinta'}</span></div>
+          <div style="margin-top:12px"><span class="badge ${ok ? 'good' : 'warn'}">${ok ? `+${a.atlygis.coins} 🪙` : 'Užrakinta'}</span></div>
         </div>
       `;
     }).join('');
 
+    const allowedViews = new Set(['home','garage','menu','achievements','settings']);
+    if(!allowedViews.has(state.selectedView)) state.selectedView = 'home';
     document.querySelectorAll('.navBtn').forEach(btn => btn.classList.toggle('active', btn.dataset.view === state.selectedView));
     document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-    document.getElementById(`view-${state.selectedView}`).classList.add('active');
+    const activeView = document.getElementById(`view-${state.selectedView}`) || document.getElementById('view-home');
+    activeView.classList.add('active');
 
     saveState();
   }
@@ -1489,14 +1801,35 @@
     render();
   }));
 
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-jump]');
+    if(!btn) return;
+    const target = document.getElementById(btn.dataset.jump);
+    if(target){
+      target.scrollIntoView({behavior:'smooth', block:'start'});
+      toast('Atidaryta iš meniu', '↘️');
+    }
+  });
+
   document.getElementById('claimDailyBtn').onclick = claimDailyQuest;
   document.getElementById('rerollDailyBtn').onclick = rerollDailyQuest;
+  document.getElementById('historyToggleBtn').onclick = () => {
+    state.ui = state.ui || {taskGroups:{Sveikata:false, Produktyvumas:false, Tobulėjimas:false}, historyOpen:false};
+    state.ui.historyOpen = !state.ui.historyOpen;
+    saveState();
+    render();
+  };
 
   document.getElementById('addCarBtn').onclick = async () => {
     const name = document.getElementById('carName').value.trim();
+    const buyPrice = Number(document.getElementById('carBuyPrice').value || 0);
     const file = document.getElementById('carPhoto').files[0];
     if(!name){
       toast('Įvesk automobilio pavadinimą', '✍️');
+      return;
+    }
+    if(!buyPrice || buyPrice <= 0){
+      toast('Įvesk pirkimo kainą', '💰');
       return;
     }
     if(!file){
@@ -1505,8 +1838,9 @@
     }
     const reader = new FileReader();
     reader.onload = () => {
-      addCar(name, reader.result);
+      addCar(name, reader.result, buyPrice);
       document.getElementById('carName').value = '';
+      document.getElementById('carBuyPrice').value = '';
       document.getElementById('carPhoto').value = '';
     };
     reader.readAsDataURL(file);
@@ -1528,7 +1862,7 @@
     saveState(); render();
   };
   document.getElementById('resetBtn').onclick = () => {
-    const ok = window.confirm('Ar tikrai ištrinti visą vietinį progresą?');
+    const ok = window.confirm('Ar tikrai visiškai ištrinti žaidimą ir pradėti iš naujo?');
     if(!ok) return;
     localStorage.removeItem(STORAGE_KEY);
     state = defaultState();
@@ -1538,7 +1872,7 @@
     state.history = [{title:'Sveiki atvykę', desc:'Žaidimas paruoštas startui', icon:'🎮', time: nowLabel()}];
     saveState();
     render();
-    toast('Progresas ištrintas', '🧹');
+    toast('Žaidimas visiškai nuresetintas', '🧹');
   };
 
   document.getElementById('modalBackdrop').addEventListener('click', (e) => {
@@ -1549,8 +1883,10 @@
   // init
   if(!state.dailyQuest) state.dailyQuest = rand(taskTemplates);
   if(!state.dailyQuestDate) state.dailyQuestDate = todayISO();
+  if(state.selectedView === 'skills') state.selectedView = 'menu';
   if(!state.history.length) state.history.push({title:'Sveiki atvykę', desc:'Žaidimas paruoštas startui', icon:'🎮', time: nowLabel()});
   checkDateReset();
+  ensureMonthlyCycle();
   checkWorldUnlocks();
   checkAchievements();
   saveState();
