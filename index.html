@@ -40,13 +40,25 @@ h1 {
     margin-bottom:15px;
 }
 
-/* 🔥 naujas aprašymo stilius */
-.intro {
-    text-align:center;
-    font-size:15px;
-    color:#6b7280;
-    line-height:1.6;
+/* 🔥 NAUJAS PREMIUM BLOKAS */
+.intro-box {
+    background:#f2f2f7;
+    border-radius:16px;
+    padding:14px;
     margin-bottom:18px;
+}
+
+.intro-item {
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-size:14px;
+    color:#555;
+    margin:6px 0;
+}
+
+.icon {
+    font-size:16px;
 }
 
 .card {
@@ -131,13 +143,12 @@ Ukmergės automobilių švara
 
 <div class="container" id="servicesPage">
 
-<!-- 🔥 APRAŠYMAS -->
-<p class="intro">
-Teikiame profesionalias automobilių švaros paslaugas Ukmergėje. 
-Kruopščiai pasirūpinsime Jūsų automobilio vidumi ir išore – 
-nuo kasdienio valymo iki pilno atnaujinimo. 
-Dirbame atsakingai, naudojame kokybiškas priemones ir siekiame nepriekaištingo rezultato.
-</p>
+<!-- 🔥 NAUJAS APRAŠYMAS -->
+<div class="intro-box">
+    <div class="intro-item"><span class="icon">✨</span> Profesionalus auto valymas Ukmergėje</div>
+    <div class="intro-item"><span class="icon">🧼</span> Vidus + išorė – nuo paprasto iki pilno valymo</div>
+    <div class="intro-item"><span class="icon">⚡</span> Greitas aptarnavimas ir kokybiškos priemonės</div>
+</div>
 
 <h1>Pasirink paslaugas</h1>
 
@@ -158,6 +169,7 @@ Dirbame atsakingai, naudojame kokybiškas priemones ir siekiame nepriekaištingo
 <button onclick="goToForm()">Užsakyti valymą</button>
 </div>
 
+<!-- likusi tavo dalis NEKEISTA -->
 <div class="container hidden" id="formPage">
 <h1>Registracija</h1>
 
@@ -183,6 +195,7 @@ Dirbame atsakingai, naudojame kokybiškas priemones ir siekiame nepriekaištingo
 </div>
 
 <script>
+// tavo JS paliktas tas pats
 const checkboxes = document.querySelectorAll('#servicesPage input[type="checkbox"]');
 const cards = document.querySelectorAll('.card');
 
