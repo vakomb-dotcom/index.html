@@ -77,14 +77,30 @@ button {
 
 .hidden { display:none; }
 
-.form input, .form select {
+/* 🔥 FIX čia */
+.form {
     width:100%;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
+.form input {
+    width:100%;
+    max-width:420px;
     padding:16px;
     margin-top:12px;
     border-radius:14px;
     border:1px solid #e5e5ea;
     background:#f9f9fb;
     font-size:16px;
+    box-sizing:border-box;
+}
+
+/* DATA laukui atskirai */
+#data {
+    width:100%;
+    max-width:420px;
 }
 
 label {
@@ -123,7 +139,7 @@ Ukmergės automobilių švara
 
 <div class="total">Bendra: <span id="total">0</span> €</div>
 
-<button onclick="goToForm()">Užsakyti valymą</button>
+<button onclick="goToForm()">Užsakyti paslaugas</button>
 </div>
 
 <div class="container hidden" id="formPage">
@@ -165,7 +181,6 @@ function calculateTotal(){
     if(f) f.innerText = total;
 }
 
-// CLICK ant kortelės
 cards.forEach((card, index)=>{
     card.addEventListener('click', (e)=>{
         if(e.target.tagName !== 'INPUT'){
@@ -186,7 +201,6 @@ function goToForm(){
     document.getElementById('formPage').classList.remove('hidden');
 }
 
-// 🚀 SUBMIT (be redirect + su email)
 document.getElementById("bookingForm").addEventListener("submit", async function(e){
     e.preventDefault();
 
@@ -224,7 +238,6 @@ document.getElementById("bookingForm").addEventListener("submit", async function
     }
 });
 
-// fix id
 const dataInput = document.getElementById("data");
 </script>
 
