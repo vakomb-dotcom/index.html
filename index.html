@@ -14,7 +14,8 @@ body {
 }
 .header {
     height: 200px;
-    background: url('https://dealerinspire-image-library-prod.s3.us-east-1.amazonaws.com/images/HuEh1RqD45cPDAWUGk5UdAY2tDpQal8Zdy7zYm1A.jpg') center/cover;
+    background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)),
+    url('https://dealerinspire-image-library-prod.s3.us-east-1.amazonaws.com/images/HuEh1RqD45cPDAWUGk5UdAY2tDpQal8Zdy7zYm1A.jpg') center/cover;
 }
 .container {
     max-width: 480px;
@@ -34,6 +35,7 @@ h1 { text-align:center; }
     display:flex;
     justify-content:space-between;
     align-items:center;
+    cursor:pointer;
 }
 
 input[type="checkbox"] {
@@ -93,7 +95,7 @@ button {
 
 <div class="total">Bendra: <span id="total">0</span> €</div>
 
-<button onclick="goToForm()">Registruotis</button>
+<button onclick="goToForm()">Užsakyti valymą</button>
 </div>
 
 <div class="container hidden" id="formPage">
@@ -130,6 +132,7 @@ button {
 
 <script>
 const checkboxes = document.querySelectorAll('#servicesPage input[type="checkbox"]');
+const cards = document.querySelectorAll('.card');
 
 function calculateTotal(){
     let total = 0;
@@ -143,9 +146,20 @@ function calculateTotal(){
     document.getElementById('hiddenTotal').value = total + "€";
 }
 
+// CLICK ant visos kortelės
+cards.forEach((card, index)=>{
+    card.addEventListener('click', (e)=>{
+        if(e.target.tagName !== 'INPUT'){
+            const checkbox = checkboxes[index];
+            checkbox.checked = !checkbox.checked;
+        }
+        calculateTotal();
+    });
+});
+
+// checkbox fallback
 checkboxes.forEach(cb=>{
     cb.addEventListener('change', calculateTotal);
-    cb.addEventListener('click', calculateTotal);
 });
 
 function goToForm(){
