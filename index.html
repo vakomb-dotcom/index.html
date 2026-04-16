@@ -12,10 +12,12 @@ body {
     background: #f5f7fb;
     color: #111;
 }
+
 .header {
     height: 200px;
-    background: url('https://images.unsplash.com/photo-1607863680198-23d4b2565df0') center/cover;
+    background: url('https://images.unsplash.com/photo-1619642751034-765dfdf7c58e?q=80&w=1200') center/cover;
 }
+
 .container {
     max-width: 480px;
     margin: -70px auto 20px;
@@ -24,6 +26,7 @@ body {
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
+
 h1 { text-align:center; }
 
 .card {
@@ -61,15 +64,8 @@ button {
 
 .hidden { display:none; }
 
-.form {
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
 .form input, .form select {
     width:100%;
-    max-width:100%;
     padding:12px;
     margin-top:10px;
     border-radius:10px;
@@ -99,27 +95,31 @@ button {
 <div class="container hidden" id="formPage">
 <h1>Registracija</h1>
 
-<div class="form">
-<input id="marke" placeholder="Markė">
-<input id="modelis" placeholder="Modelis">
-<input id="miestas" placeholder="Miestas">
-<input id="tel" placeholder="Telefonas">
+<form action="https://formspree.io/f/YOUR_ID" method="POST">
+
+<input name="Marke" placeholder="Markė" required>
+<input name="Modelis" placeholder="Modelis" required>
+<input name="Miestas" placeholder="Miestas" required>
+<input name="Telefonas" placeholder="Telefonas" required>
 
 <label>Data</label>
-<input id="data" type="date">
+<input name="Data" type="date" required>
 
 <label>Laikas</label>
-<select id="laikas">
+<select name="Laikas">
 <option>09:00</option>
 <option>12:00</option>
 <option>15:00</option>
 <option>18:00</option>
 </select>
-</div>
+
+<input type="hidden" name="Suma" id="hiddenTotal">
 
 <div class="total">Suma: <span id="finalTotal">0</span> €</div>
 
-<button onclick="submitForm()">Registruotis</button>
+<button type="submit">Registruotis</button>
+
+</form>
 </div>
 
 <script>
@@ -130,32 +130,23 @@ function calculateTotal(){
     checkboxes.forEach(c=>{
         if(c.checked) total += Number(c.value);
     });
+
     document.getElementById('total').innerText = total;
+
     const f = document.getElementById('finalTotal');
     if(f) f.innerText = total;
+
+    document.getElementById('hiddenTotal').value = total + "€";
 }
 
 checkboxes.forEach(cb=>{
     cb.addEventListener('change', calculateTotal);
-    cb.addEventListener('click', calculateTotal);
 });
 
 function goToForm(){
     calculateTotal();
     document.getElementById('servicesPage').classList.add('hidden');
     document.getElementById('formPage').classList.remove('hidden');
-}
-
-function submitForm(){
-    const body = `Marke: ${marke.value}
-Modelis: ${modelis.value}
-Miestas: ${miestas.value}
-Tel: ${tel.value}
-Data: ${data.value}
-Laikas: ${laikas.value}
-Suma: ${finalTotal.innerText}€`;
-
-    window.location.href = "mailto:vakomb@gmail.com?subject=Auto svaros uzklausa&body=" + encodeURIComponent(body);
 }
 </script>
 
