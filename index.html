@@ -12,12 +12,10 @@ body {
     background: #f5f7fb;
     color: #111;
 }
-
 .header {
     height: 200px;
     background: url('https://dealerinspire-image-library-prod.s3.us-east-1.amazonaws.com/images/HuEh1RqD45cPDAWUGk5UdAY2tDpQal8Zdy7zYm1A.jpg') center/cover;
 }
-
 .container {
     max-width: 480px;
     margin: -70px auto 20px;
@@ -26,7 +24,6 @@ body {
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
 }
-
 h1 { text-align:center; }
 
 .card {
@@ -64,8 +61,15 @@ button {
 
 .hidden { display:none; }
 
+.form {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+
 .form input, .form select {
     width:100%;
+    max-width:100%;
     padding:12px;
     margin-top:10px;
     border-radius:10px;
@@ -95,23 +99,25 @@ button {
 <div class="container hidden" id="formPage">
 <h1>Registracija</h1>
 
-<form action="https://formspree.io/f/YOUR_ID" method="POST">
+<form action="https://formspree.io/f/xpqkqbbw" method="POST">
 
-<input name="Marke" placeholder="Markė" required>
-<input name="Modelis" placeholder="Modelis" required>
-<input name="Miestas" placeholder="Miestas" required>
-<input name="Telefonas" placeholder="Telefonas" required>
+<div class="form">
+<input name="Marke" id="marke" placeholder="Markė">
+<input name="Modelis" id="modelis" placeholder="Modelis">
+<input name="Miestas" id="miestas" placeholder="Miestas">
+<input name="Telefonas" id="tel" placeholder="Telefonas">
 
 <label>Data</label>
-<input name="Data" type="date" required>
+<input name="Data" id="data" type="date">
 
 <label>Laikas</label>
-<select name="Laikas">
+<select name="Laikas" id="laikas">
 <option>09:00</option>
 <option>12:00</option>
 <option>15:00</option>
 <option>18:00</option>
 </select>
+</div>
 
 <input type="hidden" name="Suma" id="hiddenTotal">
 
@@ -130,9 +136,7 @@ function calculateTotal(){
     checkboxes.forEach(c=>{
         if(c.checked) total += Number(c.value);
     });
-
     document.getElementById('total').innerText = total;
-
     const f = document.getElementById('finalTotal');
     if(f) f.innerText = total;
 
@@ -141,6 +145,7 @@ function calculateTotal(){
 
 checkboxes.forEach(cb=>{
     cb.addEventListener('change', calculateTotal);
+    cb.addEventListener('click', calculateTotal);
 });
 
 function goToForm(){
