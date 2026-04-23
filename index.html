@@ -1002,13 +1002,138 @@
       <div class="hero-shell">
         <div class="hero-overlay"></div>
         <div class="hero-grid">
-          <div class="hero-copy fade-in">
-            <div class="hero-kicker">Automobilio paruošimas pardavimui · Ukmergė</div>
-            <h1 class="headline">Automobilių paruošimas pardavimui Ukmergėje</h1>
-            <p class="subheadline">Paruošiame jūsų automobilį taip, kad jis atrodytų brangesnis ir patrauklesnis pirkėjams. Dažniausiai tai leidžia pakelti kainą 10–20% ir sulaukti iki 70% daugiau susidomėjimo.</p>
-            <div class="cta-row">
-              <a class="btn btn-primary pulse" href="#paslaugos">Paslaugų pasirinkimas</a>
-            </div>
+          <div class="hero-copy fade-in" style="
+  position:relative;
+  overflow:hidden;
+  border-radius:36px;
+  padding:42px 26px;
+  text-align:center;
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(20px);
+">
+
+  <!-- IMAGE BG -->
+  <div style="
+    position:absolute;
+    inset:0;
+    z-index:-2;
+    background:url('https://dealerinspire-image-library-prod.s3.us-east-1.amazonaws.com/images/HuEh1RqD45cPDAWUGk5UdAY2tDpQal8Zdy7zYm1A.jpg') center/cover no-repeat;
+    opacity:.25;
+  "></div>
+
+  <!-- overlay -->
+  <div style="
+    position:absolute;
+    inset:0;
+    z-index:-1;
+    background:linear-gradient(180deg, rgba(255,255,255,.6), rgba(255,255,255,.9));
+  "></div>
+
+  <!-- HEADLINE -->
+  <h1 style="
+    font-size:clamp(2.6rem,5vw,4.8rem);
+    line-height:1.05;
+    letter-spacing:-0.04em;
+    margin:0;
+    font-weight:900;
+  ">
+    Parduok automobilį<br>
+    <span style="
+      background:linear-gradient(135deg,#2563eb,#1d4ed8);
+      -webkit-background-clip:text;
+      color:transparent;
+    ">
+      greičiau ir brangiau
+    </span>
+  </h1>
+
+  <!-- SUB -->
+  <p style="
+    margin-top:18px;
+    color:#64748b;
+    font-size:1.05rem;
+    line-height:1.6;
+    max-width:520px;
+    margin-left:auto;
+    margin-right:auto;
+  ">
+    Paruošiame automobilį taip, kad jis iškart atrodytų patrauklesnis  
+    ir vertas didesnės kainos skelbimuose.
+  </p>
+
+  <!-- STATS -->
+  <div style="
+    display:flex;
+    justify-content:center;
+    gap:28px;
+    margin-top:26px;
+    flex-wrap:wrap;
+  ">
+    <div>
+      <div style="font-size:24px;font-weight:900;">+20%</div>
+      <div style="font-size:12px;color:#64748b;">kainos padidėjimas</div>
+    </div>
+    <div>
+      <div style="font-size:24px;font-weight:900;">2x</div>
+      <div style="font-size:12px;color:#64748b;">daugiau dėmesio</div>
+    </div>
+    <div>
+      <div style="font-size:24px;font-weight:900;">1 diena</div>
+      <div style="font-size:12px;color:#64748b;">paruošimas</div>
+    </div>
+  </div>
+
+  <!-- BUTTONS -->
+  <div style="
+    display:flex;
+    justify-content:center;
+    gap:14px;
+    margin-top:34px;
+    flex-wrap:wrap;
+  ">
+    <a href="#paslaugos" style="
+      padding:16px 28px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#2563eb,#1d4ed8);
+      color:#fff;
+      font-weight:800;
+      box-shadow:0 18px 38px rgba(37,99,235,.35);
+    ">
+      Pasirinkti paslaugas →
+    </a>
+
+    <a href="#kontaktai" style="
+      padding:16px 24px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(0,0,0,.08);
+      font-weight:700;
+      color:#111827;
+    ">
+      Konsultacija
+    </a>
+  </div>
+
+  <!-- TRUST (GRAŽESNIS) -->
+  <div style="
+    margin-top:26px;
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    flex-wrap:wrap;
+    font-size:13px;
+    color:#64748b;
+  ">
+    <div style="display:flex;align-items:center;gap:6px;">
+      ⭐ <strong style="color:#111;">4.9</strong>
+    </div>
+    <div>•</div>
+    <div>100+ klientų</div>
+    <div>•</div>
+    <div>Ukmergė</div>
+  </div>
+
+</div>
           </div>
         </div>
       </div>
