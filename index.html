@@ -83,10 +83,11 @@
       margin: 14px 0 14px;
     }
     .subheadline {
-      font-size: clamp(1.02rem, 2vw, 1.2rem);
-      line-height: 1.65;
+      font-size: clamp(.94rem, 1.45vw, 1.08rem);
+      line-height: 1.58;
       color: var(--muted);
       max-width: 62ch;
+      font-weight: 500;
     }
     .topbar {
       position: sticky;
@@ -648,7 +649,7 @@
       bottom: 16px;
       z-index: 1200;
       gap: 10px;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 1fr;
     }
     .floating-mobile-cta .btn {
       width: 100%;
@@ -992,12 +993,11 @@
         <div class="hero-overlay"></div>
         <div class="hero-grid">
           <div class="hero-copy fade-in">
-            <div class="hero-kicker">Auto paruošimas pardavimui · Ukmergė</div>
-            <h1 class="headline">Automobilį paruošiame taip, kad jis atrodytų stipriau ir nuotraukose, ir gyvai.</h1>
-            <p class="subheadline">Nuo salono sauso valymo ir cheminio valymo iki poliravimo, foto paruošimo ir skelbimų įkėlimo. Kiekviena paslauga sukurta tam, kad pardavimas vyktų greičiau, tvarkingiau ir patraukliau.</p>
+            <div class="hero-kicker">Automobilio paruošimas pardavimui · Ukmergė</div>
+            <h1 class="headline">Automobilių paruošimas pardavimui Ukmergėje</h1>
+            <p class="subheadline">Paruošiame jūsų automobilį taip, kad jis atrodytų brangesnis ir patrauklesnis pirkėjams. Dažniausiai tai leidžia pakelti kainą 10–20% ir sulaukti iki 70% daugiau susidomėjimo.</p>
             <div class="cta-row">
-              <a class="btn btn-primary pulse" href="#paslaugos" data-service-filter="selling">Salono sausas valymas</a>
-              <a class="btn btn-ghost" href="#paslaugos" data-service-filter="selling">Paruošimas pardavimui</a>
+              <a class="btn btn-primary pulse" href="#paslaugos">Paslaugų pasirinkimas</a>
             </div>
           </div>
         </div>
@@ -1007,14 +1007,12 @@
       <div class="container">
         <div class="fade-in">
           <div class="section-title">Auto paruošimo pardavimui paslaugos</div>
-          <p class="section-lead">Visos paslaugos orientuotos į automobilių paruošimą pardavimui: nuo salono ir kėbulo iki nuotraukų bei skelbimų įkėlimo.</p>
+          <p class="section-lead">Visos paslaugos skirtos tam, kad automobilis būtų pateiktas geriau, greičiau ir patraukliau pirkėjui.</p>
         </div>
         <div class="services-layout">
           <div>
             <div class="service-controls fade-in">
-              <div class="service-filter" role="tablist" aria-label="Paslaugų filtrai">
-                <button class="chip is-active" type="button" data-filter="selling">Visos paslaugos</button>
-              </div>
+              <div style="font-weight:800;color:#334155;">Paslaugų pasirinkimas</div>
             </div>
             <div class="services-grid" id="servicesGrid"></div>
           </div>
@@ -1186,8 +1184,7 @@
     </section>
   </main>
   <div class="floating-mobile-cta" aria-label="Greiti veiksmai mobile įrenginiuose">
-    <a class="btn btn-ghost" href="#paslaugos" data-service-filter="selling">Salono sausas valymas</a>
-    <a class="btn btn-primary" href="#paslaugos" data-service-filter="selling">Paruošimas pardavimui</a>
+    <a class="btn btn-primary" href="#paslaugos">Paslaugų pasirinkimas</a>
   </div>
   <div class="modal" id="successModal" aria-hidden="true">
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
@@ -1329,8 +1326,6 @@ const services = [
         nextMonth: document.getElementById('nextMonth'),
         dateField: document.getElementById('data'),
         dateHint: document.getElementById('dateHint'),
-        chips: Array.from(document.querySelectorAll('.chip')),
-        filterButtons: Array.from(document.querySelectorAll('[data-service-filter]')),
         fadeIns: Array.from(document.querySelectorAll('.fade-in'))
       };
 
@@ -1399,11 +1394,9 @@ const services = [
         return card;
       }
 
-      function renderServices(filter = 'all') {
+      function renderServices() {
         els.servicesGrid.innerHTML = '';
-        services
-          .filter((service) => filter === 'all' || service.category === filter)
-          .forEach((service) => els.servicesGrid.appendChild(buildServiceCard(service)));
+        services.forEach((service) => els.servicesGrid.appendChild(buildServiceCard(service)));
         observeFadeIns();
       }
 
@@ -1512,37 +1505,6 @@ const services = [
         els.successModal.setAttribute('aria-hidden', 'true');
       }
 
-      function scrollToTarget(selector) {
-        const target = document.querySelector(selector);
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-
-      function activateFilter(filter) {
-        const chip = els.chips.find((btn) => btn.dataset.filter === filter);
-        if (chip) {
-          els.chips.forEach((btn) => btn.classList.remove('is-active'));
-          chip.classList.add('is-active');
-        }
-        renderServices(filter);
-      }
-
-      els.chips.forEach((chip) => {
-        chip.addEventListener('click', () => {
-          activateFilter(chip.dataset.filter);
-        });
-      });
-
-      els.filterButtons.forEach((btn) => {
-        btn.addEventListener('click', (event) => {
-          event.preventDefault();
-          const filter = btn.dataset.serviceFilter;
-          if (filter) {
-            activateFilter(filter);
-          }
-          scrollToTarget('#paslaugos');
-        });
-      });
-
       els.prevMonth.addEventListener('click', () => {
         state.currentMonth.setMonth(state.currentMonth.getMonth() - 1);
         const minMonth = new Date(todayStart().getFullYear(), todayStart().getMonth(), 1);
@@ -1634,7 +1596,7 @@ const services = [
         });
       }
 
-      renderServices('all');
+      renderServices();
       updateSummary();
       initDateDefaults();
       initHeroReveal();
