@@ -2631,6 +2631,603 @@
       .reviews-grid{grid-template-columns:1fr !important;}
     }
 
+  
+    /* Ultra-final luxury spacing and smoothness polish */
+    :root{
+      --max:1200px;
+      --bg:#f5f7fc;
+      --shadow:0 20px 55px rgba(15,23,42,.08);
+      --shadow-soft:0 12px 34px rgba(15,23,42,.05);
+      --shadow-card:0 18px 46px rgba(15,23,42,.07);
+    }
+
+    html{
+      scroll-behavior:smooth;
+      scroll-padding-top:110px;
+    }
+
+    body{
+      background:
+        radial-gradient(circle at top, rgba(37,99,235,.04), transparent 22%),
+        linear-gradient(180deg, #f8fbff 0%, #f4f7fb 100%);
+    }
+
+    .topbar{
+      background:rgba(248,251,255,.88);
+      backdrop-filter:saturate(180%) blur(20px);
+      border-bottom:1px solid rgba(15,23,42,.05);
+      box-shadow:0 10px 26px rgba(15,23,42,.04);
+    }
+
+    .header-inner{
+      gap:12px;
+      padding:18px 18px 14px;
+    }
+
+    .brand-logo{
+      width:min(62%,520px);
+      max-width:62%;
+      padding-bottom:16px;
+    }
+
+    .nav{
+      width:min(100%,720px);
+    }
+
+    .nav-row{
+      gap:12px;
+    }
+
+    .nav-item{
+      padding:13px 20px;
+      font-size:1rem;
+      letter-spacing:-.01em;
+      box-shadow:0 10px 22px rgba(37,99,235,.15);
+    }
+
+    .hero,
+    .section{
+      padding:34px 0;
+    }
+
+    .hero{
+      padding-top:22px;
+    }
+
+    .hero-grid{
+      gap:18px;
+    }
+
+    .hero-copy,
+    .service-intro-shell,
+    .about-vip,
+    .about-shell,
+    .summary-panel,
+    .booking-panel,
+    .contact-panel,
+    .review-card,
+    .faq-card,
+    .group-card,
+    .package-card{
+      border-radius:30px;
+    }
+
+    .hero-copy{
+      padding:42px 30px 34px;
+      box-shadow:var(--shadow-card);
+    }
+
+    .hero-title{
+      line-height:1.02;
+      letter-spacing:-.055em;
+    }
+
+    .hero-text{
+      max-width:64ch;
+      line-height:1.78;
+      font-size:1.05rem;
+    }
+
+    .cta-row{
+      margin-top:22px;
+      gap:14px;
+    }
+
+    .btn{
+      min-height:54px;
+      padding:0 24px;
+    }
+
+    .hero-image{
+      border-radius:30px;
+      box-shadow:0 16px 42px rgba(15,23,42,.07);
+    }
+
+    .hero-image img{
+      height:290px;
+    }
+
+    .section-glass{
+      padding:26px 26px 22px;
+      border-radius:32px;
+      box-shadow:var(--shadow-card);
+    }
+
+    .service-intro-shell{
+      padding:36px 28px 30px;
+      box-shadow:var(--shadow-card);
+    }
+
+    .service-intro-lead{
+      max-width:74ch;
+      line-height:1.82;
+      margin-top:16px;
+    }
+
+    .services-layout{
+      gap:22px;
+      margin-top:14px;
+    }
+
+    .summary-panel{
+      padding:24px;
+      top:18px;
+    }
+
+    .summary-panel ul,
+    .selected-list{
+      gap:12px;
+    }
+
+    .summary-panel li,
+    .selected-list li{
+      padding:12px 0;
+    }
+
+    .total-box,
+    .booking-total{
+      padding:20px;
+      border-radius:24px;
+      margin-top:20px;
+    }
+
+    .total-amount{
+      letter-spacing:-.06em;
+    }
+
+    .group-head{
+      padding:20px 22px;
+    }
+
+    .group-content{
+      padding:0 22px 22px;
+    }
+
+    .cards-grid{
+      gap:14px;
+    }
+
+    .service-card{
+      padding:18px;
+      border-radius:22px;
+      box-shadow:0 14px 30px rgba(15,23,42,.05);
+    }
+
+    .service-card.selected{
+      box-shadow:0 18px 34px rgba(37,99,235,.10);
+    }
+
+    .service-top{
+      gap:12px;
+    }
+
+    .service-title{
+      line-height:1.22;
+      letter-spacing:-.025em;
+    }
+
+    .service-summary,
+    .service-details{
+      line-height:1.68;
+      font-size:.95rem;
+    }
+
+    .service-toggle{
+      padding:11px 16px;
+    }
+
+    .booking-panel{
+      padding:24px;
+      margin-top:20px;
+    }
+
+    .form-grid{
+      gap:16px;
+    }
+
+    .field input,
+    .field select,
+    .field textarea{
+      padding:16px 18px;
+      border-radius:18px;
+    }
+
+    .date-picker{
+      padding:18px;
+      border-radius:30px;
+    }
+
+    .calendar-head{
+      padding:12px 14px;
+      border-radius:18px;
+    }
+
+    .calendar-grid{
+      gap:10px;
+      min-width:440px;
+    }
+
+    .weekday,
+    .day{
+      min-height:52px;
+      border-radius:16px;
+    }
+
+    .about-shell{
+      gap:20px;
+      padding:28px;
+      border-radius:34px;
+    }
+
+    .about-hero{
+      padding-right:8px;
+    }
+
+    .about-pill-row{
+      gap:12px;
+      margin-top:20px;
+    }
+
+    .about-pill{
+      padding:11px 15px;
+    }
+
+    .about-feature-panel{
+      padding:24px;
+      border-radius:30px;
+    }
+
+    .about-feature-card{
+      padding:17px;
+      border-radius:22px;
+    }
+
+    .about-visual-grid{
+      margin-top:24px;
+      gap:20px;
+    }
+
+    .about-visual-card{
+      border-radius:30px;
+    }
+
+    .about-visual-card-single{
+      border-radius:30px;
+      box-shadow:0 20px 44px rgba(15,23,42,.10);
+    }
+
+    .about-visual-copy{
+      padding:18px 20px 20px;
+    }
+
+    .about-result-box{
+      margin-top:16px;
+      padding:20px 20px 18px;
+      border-radius:24px;
+    }
+
+    .reviews-grid,
+    .contact-grid,
+    .why-grid{
+      gap:16px;
+    }
+
+    .review-card,
+    .contact-panel,
+    .faq-card{
+      padding:22px;
+      border-radius:24px;
+    }
+
+    .faq-list{
+      gap:16px;
+    }
+
+    .footer{
+      padding:32px 0 54px;
+      margin-top:24px;
+    }
+
+    .floating-mobile-cta .btn{
+      min-height:56px;
+      border-radius:16px;
+    }
+
+    @media (max-width:860px){
+      .container{
+        width:100%;
+        padding-inline:12px;
+      }
+
+      .header-inner{
+        padding:14px 12px 12px;
+        gap:10px;
+      }
+
+      .brand-logo{
+        width:min(76%,430px);
+        max-width:76%;
+        padding-bottom:12px;
+      }
+
+      .nav{
+        width:100%;
+      }
+
+      .nav-row{
+        gap:8px;
+      }
+
+      .nav-item{
+        padding:11px 15px;
+        font-size:.92rem;
+      }
+
+      .hero,
+      .section{
+        padding:18px 0;
+      }
+
+      .hero{
+        padding-top:12px;
+      }
+
+      .hero-grid{
+        gap:12px;
+      }
+
+      .hero-copy{
+        padding:22px 14px 18px;
+        border-radius:24px;
+      }
+
+      .hero-title{
+        font-size:clamp(1.9rem,7.4vw,2.7rem);
+      }
+
+      .hero-text{
+        font-size:1rem;
+        line-height:1.72;
+        max-width:none;
+      }
+
+      .cta-row{
+        margin-top:18px;
+        gap:10px;
+      }
+
+      .btn{
+        min-height:52px;
+        padding:0 18px;
+      }
+
+      .hero-image{
+        border-radius:22px;
+      }
+
+      .hero-image img{
+        height:210px;
+      }
+
+      .section-glass,
+      .service-intro-shell,
+      .summary-panel,
+      .booking-panel,
+      .about-shell,
+      .contact-panel,
+      .review-card,
+      .faq-card,
+      .group-card,
+      .package-card{
+        border-radius:22px;
+      }
+
+      .section-glass,
+      .service-intro-shell,
+      .summary-panel,
+      .booking-panel{
+        padding:16px 14px;
+      }
+
+      .service-intro-title{
+        font-size:clamp(1.9rem,8vw,2.8rem);
+        line-height:1.02;
+      }
+
+      .service-intro-lead{
+        font-size:1rem;
+        line-height:1.7;
+        margin-top:14px;
+      }
+
+      .services-layout,
+      .about-grid,
+      .reviews-grid,
+      .contact-grid,
+      .form-grid,
+      .why-grid{
+        gap:12px;
+      }
+
+      .group-head{
+        padding:14px 12px;
+        gap:10px;
+      }
+
+      .group-title{
+        font-size:1rem;
+      }
+
+      .group-pill{
+        padding:8px 10px;
+        font-size:.8rem;
+      }
+
+      .group-content{
+        padding:0 12px 12px;
+      }
+
+      .cards-grid,
+      .package-grid{
+        gap:10px;
+      }
+
+      .service-card{
+        padding:12px;
+        border-radius:18px;
+        box-shadow:0 10px 20px rgba(15,23,42,.04);
+      }
+
+      .service-top{
+        gap:8px;
+      }
+
+      .service-title{
+        font-size:.98rem;
+        line-height:1.18;
+      }
+
+      .service-summary{
+        font-size:.9rem;
+        line-height:1.6;
+      }
+
+      .service-actions{
+        margin-top:10px;
+      }
+
+      .package-card{
+        padding:14px;
+      }
+
+      .package-top{
+        gap:10px;
+      }
+
+      .package-title{
+        margin-top:10px;
+      }
+
+      .package-features{
+        margin-top:14px;
+      }
+
+      .booking-panel{
+        margin-top:14px;
+      }
+
+      .field input,
+      .field select,
+      .field textarea{
+        padding:14px 14px;
+        border-radius:16px;
+      }
+
+      .date-picker{
+        padding:12px;
+        border-radius:22px;
+      }
+
+      .calendar-head{
+        padding:10px 12px;
+        border-radius:16px;
+      }
+
+      .calendar-grid{
+        min-width:380px;
+        gap:6px;
+      }
+
+      .weekday,
+      .day{
+        min-height:44px;
+        border-radius:14px;
+      }
+
+      .about-shell{
+        padding:16px;
+        gap:14px;
+      }
+
+      .about-pill-row{
+        gap:8px;
+        margin-top:14px;
+      }
+
+      .about-pill{
+        padding:9px 12px;
+        font-size:.86rem;
+      }
+
+      .about-feature-panel{
+        padding:16px;
+        border-radius:22px;
+      }
+
+      .about-feature-grid{
+        gap:10px;
+      }
+
+      .about-feature-card{
+        padding:14px;
+        border-radius:18px;
+      }
+
+      .about-visual-grid{
+        margin-top:18px;
+        gap:10px;
+      }
+
+      .about-visual-card,
+      .about-visual-card-single{
+        border-radius:20px;
+      }
+
+      .about-visual-copy{
+        padding:14px 14px 16px;
+      }
+
+      .about-result-box{
+        padding:16px 14px;
+        border-radius:18px;
+      }
+
+      .review-card,
+      .contact-panel,
+      .faq-card{
+        padding:16px;
+      }
+
+      .faq-list{
+        gap:12px;
+      }
+
+      .footer{
+        padding:24px 0 92px;
+        margin-top:18px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -2661,8 +3258,7 @@
               <span>Ukmergėje</span>
             </h1>
             <p class="hero-text">
-             Profesionaliai pasirūpiname jūsų automobilio švara nuo salono iki kėbulo.
-Patogi sistema leidžia greitai pasirinkti paslaugas ir užsiregistruoti be jokio vargo.
+              Kruopšti salono, kėbulo ir paruošimo pardavimui priežiūra vienoje vietoje. Aiškios kainos, patogus laiko pasirinkimas ir premium registracija be chaoso.
             </p>
             <div class="cta-row">
               <a class="btn btn-primary" href="#paslaugos">Peržiūrėti paslaugas</a>
@@ -2788,7 +3384,7 @@ Patogi sistema leidžia greitai pasirinkti paslaugas ir užsiregistruoti be joki
       <div class="container">
         <div class="about-vip fade-in">
           <div class="eyebrow about-eyebrow-boost">Apie mus</div>
-          <div class="section-title about-center-title about-title-blue">Švara,  kurią jauti iš karto</div>
+          <div class="section-title about-center-title about-title-blue">Švara, kurią jauti iš karto</div>
           <p class="section-lead about-center-lead about-lead-boost">
             Mes rūpinamės, kad automobilis atrodytų nepriekaištingai – tiek kasdieniam naudojimui, tiek prieš pardavimą. Kiekvienas darbas atliekamas kruopščiai, su dėmesiu detalėms ir aiškiu tikslu – pasiekti rezultatą, kuris matomas iš karto.
           </p>
