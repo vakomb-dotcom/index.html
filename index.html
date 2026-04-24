@@ -7,17 +7,20 @@
   <meta name="theme-color" content="#f7f8fc" />
   <title>automobilius.lt – Auto valymas ir paruošimas pardavimui</title>
   <style>
+
     :root{
-      --bg:#f6f8fc;
+      --bg:#f4f7fb;
+      --surface:#ffffff;
+      --surface-soft:#f8fbff;
+      --surface-strong:#eef4ff;
       --text:#0f172a;
       --muted:#64748b;
       --line:rgba(15,23,42,.08);
       --primary:#2563eb;
       --primary-2:#1d4ed8;
       --primary-soft:rgba(37,99,235,.10);
-      --surface:rgba(255,255,255,.86);
-      --surface-strong:#fff;
-      --shadow:0 24px 80px rgba(15,23,42,.10);
+      --success:#16a34a;
+      --shadow:0 24px 70px rgba(15,23,42,.10);
       --shadow-soft:0 10px 30px rgba(15,23,42,.06);
       --shadow-card:0 16px 42px rgba(15,23,42,.08);
       --radius-xl:34px;
@@ -34,10 +37,7 @@
       width:100%;
       overflow-x:hidden;
       font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(37,99,235,.09), transparent 34%),
-        radial-gradient(circle at top right, rgba(29,78,216,.08), transparent 28%),
-        linear-gradient(180deg, #fbfcff 0%, var(--bg) 42%, #f3f6fb 100%);
+      background:var(--bg);
       color:var(--text);
       -webkit-font-smoothing:antialiased;
       text-rendering:optimizeLegibility;
@@ -51,36 +51,28 @@
 
     .topbar{
       position:sticky; top:0; z-index:1000;
-      backdrop-filter: blur(22px);
-      background: rgba(247,248,252,.78);
+      backdrop-filter: blur(18px);
+      background:#f8fbff;
       border-bottom:1px solid rgba(15,23,42,.06);
-      box-shadow:0 14px 32px rgba(15,23,42,.04);
+      box-shadow:0 12px 30px rgba(15,23,42,.04);
     }
     .header-inner{
-      display:grid; gap:14px;
+      display:grid; gap:12px;
       justify-items:center;
       padding:16px 18px 14px;
     }
     .brand{
-      display:inline-flex; align-items:center; justify-content:center; gap:12px;
-      font-weight:900; letter-spacing:-.06em; text-align:center;
-      min-height:52px;
+      display:block;
+      width:100%;
+      text-align:center;
+      font-weight:950;
+      letter-spacing:-.06em;
+      min-height:42px;
     }
-    .logo-mark{
-      width:52px;height:52px;border-radius:18px;
-      background:
-        radial-gradient(circle at 32% 30%, rgba(255,255,255,.95), transparent 26%),
-        linear-gradient(135deg, rgba(37,99,235,.18), rgba(255,255,255,.96));
-      border:1px solid rgba(37,99,235,.15);
-      box-shadow:0 14px 30px rgba(37,99,235,.12);
-      display:grid;place-items:center;flex:0 0 auto;
-    }
-    .logo-mark svg{width:28px;height:28px;fill:var(--primary-2)}
     .brand-name{
-      font-size:clamp(1.18rem,4vw,1.92rem);
+      font-size:clamp(1.2rem,4vw,2rem);
       line-height:1;
-      background:linear-gradient(135deg,#0f172a 0%,#2563eb 44%,#1d4ed8 100%);
-      -webkit-background-clip:text;background-clip:text;color:transparent;
+      color:var(--text);
       white-space:nowrap;
     }
 
@@ -89,36 +81,32 @@
       overflow-x:auto;
       -webkit-overflow-scrolling:touch;
       scrollbar-width:none;
-      padding:8px;
-      border-radius:999px;
-      background:
-        linear-gradient(135deg, rgba(15,23,42,.96), rgba(37,99,235,.88) 52%, rgba(29,78,216,.92));
-      border:1px solid rgba(255,255,255,.14);
-      box-shadow:
-        0 18px 34px rgba(15,23,42,.10),
-        inset 0 1px 0 rgba(255,255,255,.12);
+      padding:0;
+      border-radius:0;
+      background:transparent;
+      border:0;
+      box-shadow:none;
     }
     .nav::-webkit-scrollbar{display:none}
     .nav-row{
-      display:flex;justify-content:center;gap:10px;min-width:max-content;
+      display:flex;justify-content:center;gap:10px;min-width:max-content;flex-wrap:wrap;
     }
     .nav-item{
       flex:0 0 auto;
       white-space:nowrap;
       padding:12px 18px;
       border-radius:999px;
-      background:rgba(255,255,255,.10);
-      border:1px solid rgba(255,255,255,.10);
-      backdrop-filter: blur(10px);
-      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+      background:var(--primary);
+      border:1px solid var(--primary-2);
+      box-shadow:0 10px 20px rgba(37,99,235,.16);
       font-weight:800;font-size:.96rem;
       color:#fff;
-      transition: transform var(--transition), background var(--transition), box-shadow var(--transition), border-color var(--transition), opacity var(--transition);
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition);
     }
     .nav-item:hover,.nav-item.active{
-      background:rgba(255,255,255,.18);
-      border-color:rgba(255,255,255,.22);
-      box-shadow:0 12px 22px rgba(15,23,42,.12);
+      background:var(--primary-2);
+      border-color:var(--primary-2);
+      box-shadow:0 14px 24px rgba(37,99,235,.18);
       transform:translateY(-1px);
     }
 
@@ -129,19 +117,12 @@
       padding:34px 22px 28px;
       border-radius:32px;
       text-align:center;
-      background:
-        radial-gradient(circle at top, rgba(37,99,235,.10), transparent 48%),
-        radial-gradient(circle at 30% 0%, rgba(96,165,250,.16), transparent 32%),
-        linear-gradient(180deg,#f8fbff 0%,#eef3fb 100%);
-      border:1px solid rgba(15,23,42,.05);
+      background:#f8fbff;
+      border:1px solid rgba(15,23,42,.06);
       box-shadow:var(--shadow-card);
       position:relative;overflow:hidden;
     }
-    .hero-copy::before{
-      content:"";position:absolute;inset:0;
-      background:linear-gradient(180deg, rgba(255,255,255,.30), transparent 42%, rgba(255,255,255,.16));
-      pointer-events:none;
-    }
+    .hero-copy::before{content:"";position:absolute;inset:0;pointer-events:none}
     .hero-badge{
       position:relative;display:inline-flex;align-items:center;gap:8px;
       padding:10px 14px;border-radius:999px;
@@ -158,8 +139,7 @@
     }
     .hero-title span{
       display:block;
-      background:linear-gradient(135deg,#2563eb 0%,#1d4ed8 100%);
-      -webkit-background-clip:text;background-clip:text;color:transparent;
+      color:var(--primary-2);
     }
     .hero-text{
       position:relative;margin:16px auto 0;
@@ -179,12 +159,12 @@
     }
     .btn:hover{transform:translateY(-2px)}
     .btn-primary{
-      background:linear-gradient(135deg,var(--primary) 0%,var(--primary-2) 100%);
-      color:#fff;box-shadow:0 18px 36px rgba(37,99,235,.24);
+      background:var(--primary);
+      color:#fff;box-shadow:0 18px 36px rgba(37,99,235,.20);
     }
-    .btn-primary:hover{box-shadow:0 24px 44px rgba(37,99,235,.28)}
+    .btn-primary:hover{box-shadow:0 22px 40px rgba(37,99,235,.22)}
     .btn-ghost{
-      background:rgba(255,255,255,.95);
+      background:#fff;
       color:#0f172a;border-color:rgba(15,23,42,.08);
       box-shadow:0 14px 28px rgba(15,23,42,.05);
     }
@@ -210,28 +190,67 @@
       line-height:1.05;letter-spacing:-.05em;
       font-weight:950;color:#0f172a;
     }
-    .section-title.gradient{
-      background:linear-gradient(135deg,#0f172a 0%,#1d4ed8 42%,#2563eb 100%);
-      -webkit-background-clip:text;background-clip:text;color:transparent;
-    }
     .section-lead{
       margin:0 0 18px;color:var(--muted);line-height:1.68;max-width:68ch;
     }
     .section-lead.center{margin-left:auto;margin-right:auto;text-align:center}
+    .service-intro-shell{
+      padding:30px 24px 26px;
+      border-radius:34px;
+      background:#ffffff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:var(--shadow-card);
+      position:relative;
+      overflow:hidden;
+    }
+    .service-intro-shell::before{
+      content:"";
+      position:absolute;
+      inset:0 auto 0 0;
+      width:6px;
+      background:var(--primary);
+    }
+    .service-intro-shell::after{
+      content:"";
+      position:absolute;
+      inset:auto 20px 20px auto;
+      width:150px;
+      height:150px;
+      border-radius:999px;
+      background:rgba(37,99,235,.06);
+      pointer-events:none;
+    }
+    .service-intro-card{
+      position:relative;
+      z-index:1;
+      max-width:920px;
+      margin:0 auto;
+      text-align:center;
+    }
+    .service-intro-title{
+      margin:0;
+      font-size:clamp(2.25rem,5.8vw,3.55rem);
+      line-height:.94;
+      letter-spacing:-.07em;
+      font-weight:950;
+    }
+    .service-intro-line{display:block}
+    .service-intro-line-dark{color:#0f172a}
+    .service-intro-line-blue{color:var(--primary-2)}
+    .service-intro-lead{
+      font-size:1.06rem;
+      color:#475569;
+      max-width:86ch;
+      margin:18px auto 0;
+      line-height:1.78;
+    }
     .section-glass{
       padding:22px 22px 18px;border-radius:30px;
-      background:
-        radial-gradient(circle at top left, rgba(37,99,235,.12), transparent 38%),
-        radial-gradient(circle at top right, rgba(29,78,216,.12), transparent 36%),
-        linear-gradient(180deg, rgba(248,251,255,.98), rgba(238,243,251,.96));
+      background:#ffffff;
       border:1px solid rgba(15,23,42,.06);
       box-shadow:var(--shadow-card);position:relative;overflow:hidden;
     }
-    .section-glass::after{
-      content:"";position:absolute;inset:0;
-      background:linear-gradient(180deg, rgba(255,255,255,.28), transparent 40%, rgba(255,255,255,.08));
-      pointer-events:none;
-    }
+    .section-glass::after{content:"";position:absolute;inset:0;pointer-events:none}
     .section-glass-inner{position:relative;z-index:1}
 
     .services-layout{
@@ -246,17 +265,13 @@
       box-shadow:var(--shadow-soft);
     }
     .summary-panel{padding:22px;position:sticky;top:16px}
-    .summary-panel ul{
-      margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px;
-    }
-    .summary-panel li{
-      display:flex;justify-content:space-between;gap:14px;
-      padding:10px 0;border-bottom:1px solid rgba(15,23,42,.06);color:#334155;
-    }
-    .total-box{
+    .summary-panel ul{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+    .summary-panel li{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(15,23,42,.06);color:#334155}
+    .summary-panel li span{overflow-wrap:anywhere}
+    .total-box,.booking-total{
       display:grid;gap:8px;padding:18px;margin-top:18px;
       border-radius:22px;
-      background:linear-gradient(180deg, rgba(37,99,235,.06), rgba(37,99,235,.02));
+      background:var(--surface-soft);
       border:1px solid rgba(37,99,235,.10);
     }
     .total-amount{
@@ -264,42 +279,19 @@
       font-weight:950;letter-spacing:-.05em;line-height:1;
     }
     .price-note{color:var(--muted);font-size:.90rem}
-    .booking-total{
-      display:grid;gap:8px;padding:18px;margin-top:18px;
-      border-radius:22px;
-      background:linear-gradient(180deg, rgba(37,99,235,.06), rgba(37,99,235,.02));
-      border:1px solid rgba(37,99,235,.10);
-    }
-    .selected-list{
-      margin:14px 0 0;
-      padding:0;
-      list-style:none;
-      display:grid;
-      gap:10px;
-    }
-    .selected-list li{
-      display:flex;
-      justify-content:space-between;
-      gap:14px;
-      padding:10px 0;
-      border-bottom:1px solid rgba(15,23,42,.06);
-      color:#334155;
-    }
-    .selected-empty{
-      color:var(--muted);
-      padding:8px 0 0;
-    }
+    .selected-list{margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px}
+    .selected-list li{display:flex;justify-content:space-between;gap:14px;padding:10px 0;border-bottom:1px solid rgba(15,23,42,.06);color:#334155}
+    .selected-list li span{overflow-wrap:anywhere}
+    .selected-empty{color:var(--muted);padding:8px 0 0}
 
     .services-stack{display:grid;gap:16px}
     .group-card{overflow:hidden}
     .group-head{
       width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
       padding:20px;border:0;cursor:pointer;text-align:left;
-      background:
-        radial-gradient(circle at top left, rgba(37,99,235,.10), transparent 28%),
-        linear-gradient(180deg, rgba(248,250,252,.98), rgba(239,243,251,.96));
+      background:#f8fbff;
     }
-    .group-head-left{display:grid;gap:5px}
+    .group-head-left{display:grid;gap:5px;min-width:0}
     .group-title{
       font-size:1.08rem;font-weight:950;letter-spacing:-.03em;color:#0f172a;
     }
@@ -311,7 +303,7 @@
     }
     .chev{
       width:38px;height:38px;border-radius:13px;display:grid;place-items:center;
-      border:1px solid rgba(15,23,42,.08);background:rgba(255,255,255,.88);color:#334155;
+      border:1px solid rgba(15,23,42,.08);background:#fff;color:#334155;
       flex:0 0 auto;transition:transform var(--transition);
     }
     .group-card.is-open .chev{transform:rotate(180deg)}
@@ -322,46 +314,21 @@
 
     .service-card{
       position:relative;overflow:hidden;padding:18px;border-radius:22px;
-      background:rgba(255,255,255,.95);
+      background:#ffffff;
       border:1px solid rgba(15,23,42,.06);
       box-shadow:0 12px 24px rgba(15,23,42,.04);
       transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
     }
-    .service-card:hover{
-      transform:translateY(-2px);
-      box-shadow:0 18px 34px rgba(15,23,42,.08);
-      border-color:rgba(37,99,235,.12);
-    }
-    .service-card.selected{
-      border-color:rgba(37,99,235,.26);
-      box-shadow:0 18px 34px rgba(37,99,235,.10);
-      background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(239,246,255,.95));
-    }
-    .service-top{
-      display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;
-    }
-    .check{
-      width:22px;height:22px;accent-color:var(--primary);margin-top:2px;
-      cursor:pointer;
-    }
-    .service-title{
-      margin:0;font-size:1.02rem;line-height:1.22;letter-spacing:-.02em;font-weight:850;color:#0f172a;
-    }
-    .service-price{
-      font-weight:950;font-size:1.06rem;color:var(--primary-2);white-space:nowrap;
-    }
-    .service-summary{
-      margin:8px 0 0;color:var(--muted);line-height:1.55;font-size:.95rem;
-    }
-    .service-details{
-      margin-top:12px;border-top:1px solid rgba(15,23,42,.06);padding-top:12px;
-      color:#334155;line-height:1.65;display:none;font-size:.96rem;
-    }
+    .service-card:hover{transform:translateY(-2px);box-shadow:0 18px 34px rgba(15,23,42,.08);border-color:rgba(37,99,235,.12)}
+    .service-card.selected{border-color:rgba(37,99,235,.26);box-shadow:0 18px 34px rgba(37,99,235,.10);background:#f6f9ff}
+    .service-top{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:start}
+    .check{width:22px;height:22px;accent-color:var(--primary);margin-top:2px;cursor:pointer}
+    .service-title{margin:0;font-size:1.02rem;line-height:1.22;letter-spacing:-.02em;font-weight:850;color:#0f172a;overflow-wrap:anywhere}
+    .service-price{font-weight:950;font-size:1.06rem;color:var(--primary-2);white-space:nowrap}
+    .service-summary{margin:8px 0 0;color:var(--muted);line-height:1.55;font-size:.95rem;overflow-wrap:anywhere}
+    .service-details{margin-top:12px;border-top:1px solid rgba(15,23,42,.06);padding-top:12px;color:#334155;line-height:1.65;display:none;font-size:.96rem}
     .service-card.is-open .service-details{display:block;animation:fadeUp .28s ease both}
-    .service-toggle{
-      margin-top:10px;width:100%;text-align:left;border:0;background:transparent;
-      color:var(--primary-2);font-weight:850;cursor:pointer;padding:4px 0 0;
-    }
+    .service-toggle{margin-top:10px;width:100%;text-align:left;border:0;background:transparent;color:var(--primary-2);font-weight:850;cursor:pointer;padding:4px 0 0}
 
     .booking-panel{padding:22px;margin-top:18px}
     .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
@@ -373,49 +340,34 @@
       border-radius:18px;padding:15px 16px;outline:none;
       transition:border-color var(--transition), box-shadow var(--transition), transform var(--transition);
     }
-    .field input:focus,.field select:focus,.field textarea:focus{
-      border-color:rgba(37,99,235,.35);box-shadow:0 0 0 5px rgba(37,99,235,.10);
-    }
+    .field input:focus,.field select:focus,.field textarea:focus{border-color:rgba(37,99,235,.35);box-shadow:0 0 0 5px rgba(37,99,235,.10)}
     .field textarea{min-height:120px;resize:vertical}
     .input-wide{grid-column:1/-1}
-    .date-picker{margin-top:10px;display:grid;gap:12px}
+    .date-picker{margin-top:10px;display:grid;gap:12px;padding:16px;border-radius:28px;background:#f8fbff;border:1px solid rgba(15,23,42,.06);box-shadow:0 18px 40px rgba(15,23,42,.06)}
     .calendar-head{
       display:flex;align-items:center;justify-content:space-between;gap:10px;
       padding:10px 12px;border-radius:20px;
-      background:linear-gradient(135deg, rgba(37,99,235,.08), rgba(255,255,255,.85));
-      border:1px solid rgba(37,99,235,.10);
+      background:#ffffff;
+      border:1px solid rgba(15,23,42,.08);
     }
     .calendar-month{font-weight:950;letter-spacing:-.02em;color:#0f172a}
     .calendar-nav{display:flex;gap:8px}
     .icon-btn{
       width:44px;height:44px;border-radius:14px;border:1px solid rgba(15,23,42,.08);
-      background:rgba(255,255,255,.94);cursor:pointer;display:grid;place-items:center;
-      transition:transform var(--transition), box-shadow var(--transition), background var(--transition);
+      background:#fff;cursor:pointer;display:grid;place-items:center;
+      transition:transform var(--transition), box-shadow var(--transition), background var(--transition)
     }
     .icon-btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(15,23,42,.08)}
-    .calendar-grid{
-      display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;
-    }
-    .weekday,.day{
-      text-align:center;border-radius:16px;min-height:48px;display:grid;place-items:center;font-weight:800;
-    }
+    .calendar-wrap{overflow:auto;-webkit-overflow-scrolling:touch;padding-bottom:2px}
+    .calendar-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;min-width:420px;padding-top:2px}
+    .weekday,.day{text-align:center;border-radius:16px;min-height:50px;display:grid;place-items:center;font-weight:800}
     .weekday{color:#64748b;font-size:.82rem;min-height:28px}
-    .day{
-      border:1px solid rgba(15,23,42,.06);
-      background:rgba(255,255,255,.92);
-      cursor:pointer;
-      transition:transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
-    }
+    .day{border:1px solid rgba(15,23,42,.06);background:#fff;cursor:pointer;transition:transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition), border-color var(--transition)}
     .day:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(15,23,42,.08)}
     .day.is-empty{background:transparent;border-color:transparent;cursor:default}
     .day.is-past,.day.is-disabled{opacity:.38;cursor:not-allowed;text-decoration:line-through}
-    .day.is-selected{
-      background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-      color:#fff;border-color:transparent;box-shadow:0 14px 28px rgba(37,99,235,.22)
-    }
-    .day.is-booked{
-      background:rgba(239,68,68,.08);color:#b91c1c;border-color:rgba(239,68,68,.18)
-    }
+    .day.is-selected{background:var(--primary);color:#fff;border-color:transparent;box-shadow:0 14px 28px rgba(37,99,235,.22)}
+    .day.is-booked{background:rgba(239,68,68,.08);color:#b91c1c;border-color:rgba(239,68,68,.18)}
     .selected-date-chip{
       display:inline-flex;align-items:center;gap:8px;
       padding:10px 14px;border-radius:999px;
@@ -425,49 +377,59 @@
       width:fit-content;
     }
     .microcopy{margin-top:8px;font-size:.88rem;color:#64748b}
-    .section-split{
-      margin-top:18px;height:1px;background:linear-gradient(90deg, transparent, rgba(15,23,42,.10), transparent)
-    }
+    .section-split{margin-top:18px;height:1px;background:rgba(15,23,42,.10)}
 
-    .about-grid{
-      display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch;margin-top:6px;
-    }
+    .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch;margin-top:6px}
     .about-panel,.contact-panel,.faq-card{padding:24px}
-    .reviews-grid{
-      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;
-    }
+    .reviews-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
     .review-card{padding:20px}
     .review-card p{color:#334155;line-height:1.7}
-    .review-meta{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px
-    }
+    .review-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
     .stars{letter-spacing:2px;color:#f59e0b;font-size:1rem}
 
-    .contact-grid{
-      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;
-    }
+    .contact-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
     .contact-item{
-      padding:18px;border-radius:20px;background:rgba(255,255,255,.76);
+      padding:18px;border-radius:20px;background:rgba(255,255,255,.92);
       border:1px solid rgba(15,23,42,.06);display:grid;gap:6px;
     }
     .contact-item span{color:var(--muted);font-size:.9rem}
+    .why-grid{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:12px;
+      margin-top:12px;
+    }
+    .why-item{
+      padding:18px 18px 17px;
+      border-radius:20px;
+      background:#f8fbff;
+      border:1px solid rgba(37,99,235,.08);
+      box-shadow:0 10px 24px rgba(15,23,42,.04);
+    }
+    .why-item strong{
+      display:block;
+      margin-bottom:6px;
+      color:var(--primary-2);
+      font-size:.98rem;
+      letter-spacing:-.02em;
+    }
+    .why-item p{
+      margin:0;
+      color:#475569;
+      line-height:1.68;
+      font-size:.94rem;
+    }
 
     .faq-list{display:grid;gap:14px;margin-top:18px}
-    .faq-card summary{
-      cursor:pointer;font-weight:850;display:flex;align-items:center;justify-content:space-between;gap:14px
-    }
+    .faq-card summary{cursor:pointer;font-weight:850;display:flex;align-items:center;justify-content:space-between;gap:14px}
     .faq-card p{color:#334155;line-height:1.7;margin-bottom:0;padding-top:12px}
 
-    .footer{
-      padding:24px 0 40px;color:#64748b;border-top:1px solid rgba(15,23,42,.06);margin-top:18px;
-    }
+    .footer{padding:24px 0 40px;color:#64748b;border-top:1px solid rgba(15,23,42,.06);margin-top:18px}
 
     .floating-mobile-cta{
       display:none;position:fixed;left:16px;right:16px;bottom:16px;z-index:1200;gap:10px;grid-template-columns:1fr;
     }
-    .floating-mobile-cta .btn{
-      width:100%;min-height:54px;border-radius:16px
-    }
+    .floating-mobile-cta .btn{width:100%;min-height:54px;border-radius:16px}
 
     .modal{
       position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;
@@ -482,7 +444,7 @@
     .modal-card p{color:var(--muted);line-height:1.6}
     .modal-icon{
       width:70px;height:70px;border-radius:22px;margin:0 auto;
-      background:linear-gradient(135deg, rgba(22,163,74,.15), rgba(16,185,129,.10));
+      background:rgba(22,163,74,.12);
       display:grid;place-items:center;color:var(--success);font-size:2rem;font-weight:900;
     }
 
@@ -499,19 +461,15 @@
     }
     @media (max-width:860px){
       .header-inner{gap:10px;padding:14px 14px 12px}
-      .brand{gap:10px}
       .brand-name{font-size:clamp(1.08rem,6vw,1.58rem)}
-      .nav{
-        width:100%;
-        padding:8px;
-        border-radius:22px;
-      }
+      .nav{width:100%}
+      .nav-row{gap:8px}
       .nav-item{padding:10px 13px;font-size:.92rem}
       .hero{padding:10px 0 14px}
       .hero-copy{padding:24px 18px 20px;border-radius:24px}
       .hero-image img{height:212px}
       .section{padding:24px 0}
-      .cards-grid,.reviews-grid,.contact-grid,.form-grid{grid-template-columns:1fr}
+      .cards-grid,.reviews-grid,.contact-grid,.form-grid,.why-grid{grid-template-columns:1fr}
       .service-card{padding:16px}
       .floating-mobile-cta{display:grid}
       .footer{padding-bottom:96px}
@@ -519,318 +477,281 @@
 
     /* Premium overrides for packages */
     .group-card[data-group-type="packages"] .group-head {
-      background:
-        radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 24%),
-        linear-gradient(135deg, rgba(15,23,42,.98), rgba(37,99,235,.92) 54%, rgba(29,78,216,.96));
-      color: #fff;
+      background:#f8fafc;
+      color:#0f172a;
     }
     .group-card[data-group-type="packages"] .group-title,
     .group-card[data-group-type="packages"] .group-subtitle,
     .group-card[data-group-type="packages"] .chev {
-      color: #fff;
+      color:#0f172a;
     }
     .group-card[data-group-type="packages"] .group-subtitle {
-      opacity: .84;
+      opacity:.84;
     }
     .group-card[data-group-type="packages"] .group-pill {
-      background: rgba(255,255,255,.14);
-      border-color: rgba(255,255,255,.16);
-      color: #fff;
+      background:rgba(37,99,235,.10);
+      border-color:rgba(37,99,235,.14);
+      color:var(--primary-2);
     }
     .group-card[data-group-type="packages"] .chev {
-      background: rgba(255,255,255,.12);
-      border-color: rgba(255,255,255,.16);
+      background:#fff;
+      border-color:rgba(15,23,42,.08);
     }
 
     .package-grid {
-      display: grid;
-      gap: 16px;
+      display:grid;
+      gap:16px;
     }
     .package-card {
-      position: relative;
-      overflow: hidden;
-      padding: 22px;
-      border-radius: 28px;
-      border: 1px solid rgba(37,99,235,.12);
-      background:
-        radial-gradient(circle at top left, rgba(37,99,235,.12), transparent 34%),
-        linear-gradient(180deg, rgba(255,255,255,.99), rgba(239,246,255,.95));
-      box-shadow: 0 18px 40px rgba(15,23,42,.08);
+      position:relative;
+      overflow:hidden;
+      padding:22px;
+      border-radius:28px;
+      border:1px solid rgba(37,99,235,.12);
+      background:#ffffff;
+      box-shadow:0 18px 40px rgba(15,23,42,.08);
     }
-    .package-card::after {
-      content: "";
-      position: absolute;
-      inset: auto -20% -35% auto;
-      width: 240px;
-      height: 240px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(37,99,235,.12), transparent 62%);
-      pointer-events: none;
-    }
+    .package-card::after{display:none}
     .package-card.is-featured {
-      border-color: rgba(37,99,235,.22);
-      box-shadow: 0 24px 50px rgba(37,99,235,.12);
+      border-color:rgba(37,99,235,.22);
+      box-shadow:0 24px 50px rgba(37,99,235,.12);
+      background:#f7faff;
     }
     .package-card.is-premium {
-      border-color: rgba(250,204,21,.28);
-      background:
-        radial-gradient(circle at top left, rgba(250,204,21,.16), transparent 28%),
-        linear-gradient(180deg, rgba(255,255,255,.99), rgba(239,246,255,.96));
-      box-shadow: 0 26px 56px rgba(37,99,235,.14);
-    }
-    .package-ribbon {
-      position: absolute;
-      top: 18px;
-      right: 18px;
-      z-index: 1;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.86);
-      border: 1px solid rgba(15,23,42,.08);
-      color: #0f172a;
-      font-size: .82rem;
-      font-weight: 900;
-      box-shadow: 0 10px 22px rgba(15,23,42,.08);
+      border-color:rgba(37,99,235,.22);
+      background:#f4f9ff;
+      box-shadow:0 26px 56px rgba(37,99,235,.12);
     }
     .package-top {
-      display: flex;
-      justify-content: space-between;
-      gap: 16px;
-      align-items: flex-start;
-      position: relative;
-      z-index: 1;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto;
+      gap:16px;
+      align-items:start;
+      position:relative;
+      z-index:1;
     }
+    .package-copy{min-width:0}
     .package-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: rgba(37,99,235,.10);
-      border: 1px solid rgba(37,99,235,.14);
-      color: var(--primary-2);
-      font-size: .84rem;
-      font-weight: 900;
-      width: fit-content;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      background:rgba(37,99,235,.10);
+      border:1px solid rgba(37,99,235,.14);
+      color:var(--primary-2);
+      font-size:.84rem;
+      font-weight:900;
+      width:fit-content;
     }
     .package-title {
-      margin: 12px 0 10px;
-      font-size: clamp(1.18rem, 2.2vw, 1.52rem);
-      line-height: 1.15;
-      letter-spacing: -.04em;
-      font-weight: 950;
-      color: #0f172a;
+      margin:12px 0 10px;
+      font-size:clamp(1.18rem, 2.2vw, 1.52rem);
+      line-height:1.15;
+      letter-spacing:-.04em;
+      font-weight:950;
+      color:#0f172a;
+      overflow-wrap:anywhere;
     }
     .package-summary {
-      margin: 0;
-      color: #475569;
-      line-height: 1.65;
-      max-width: 66ch;
+      margin:0;
+      color:#475569;
+      line-height:1.65;
+      max-width:66ch;
+      overflow-wrap:anywhere;
     }
     .package-price-wrap {
-      flex: 0 0 auto;
-      display: grid;
-      justify-items: end;
-      gap: 6px;
+      flex:0 0 auto;
+      display:grid;
+      justify-items:end;
+      gap:6px;
+      padding-left:8px;
     }
     .package-price-label {
-      font-size: .82rem;
-      color: var(--muted);
-      font-weight: 850;
+      font-size:.82rem;
+      color:var(--muted);
+      font-weight:850;
     }
     .package-price {
-      font-size: clamp(1.8rem, 4vw, 2.8rem);
-      font-weight: 950;
-      letter-spacing: -.06em;
-      line-height: 1;
-      color: var(--primary-2);
+      font-size:clamp(1.8rem, 4vw, 2.8rem);
+      font-weight:950;
+      letter-spacing:-.06em;
+      line-height:1;
+      color:var(--primary-2);
+      white-space:nowrap;
     }
     .package-features {
-      margin: 18px 0 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-      position: relative;
-      z-index: 1;
+      position:relative;
+      z-index:1;
+      margin:18px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
     }
     .package-features li {
-      display: flex;
-      gap: 10px;
-      align-items: flex-start;
-      color: #334155;
-      line-height: 1.5;
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      padding:12px 14px;
+      border-radius:16px;
+      background:#f8fbff;
+      border:1px solid rgba(15,23,42,.06);
+      color:#0f172a;
+      line-height:1.45;
+      font-size:.93rem;
+      overflow-wrap:anywhere;
     }
     .package-features li::before {
-      content: "✓";
-      flex: 0 0 auto;
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      background: rgba(37,99,235,.10);
-      color: var(--primary-2);
-      font-weight: 900;
-      font-size: .8rem;
-      margin-top: 1px;
+      content:"✓";
+      flex:0 0 auto;
+      width:22px;
+      height:22px;
+      border-radius:999px;
+      display:grid;
+      place-items:center;
+      background:rgba(37,99,235,.10);
+      color:var(--primary-2);
+      font-weight:900;
+      font-size:.8rem;
+      margin-top:1px;
+    }
+
+    .package-card .service-details {
+      margin-top:16px;
+      padding:16px;
+      border-top:1px solid rgba(37,99,235,.10);
+      background:#f8fbff;
+      border-radius:18px;
+      color:#334155;
+      line-height:1.75;
+    }
+    .package-detail-title{
+      margin:0 0 8px;
+      color:#0f172a;
+      font-size:1rem;
+      font-weight:900;
+      letter-spacing:-.02em;
+    }
+    .package-detail-copy{
+      margin:0 0 12px;
+      color:#475569;
+      line-height:1.72;
+      font-size:.96rem;
+    }
+    .package-detail-list{
+      margin:0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:8px;
+    }
+    .package-detail-list li{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding:11px 12px;
+      border-radius:14px;
+      background:#ffffff;
+      border:1px solid rgba(15,23,42,.06);
+      color:#0f172a;
+      line-height:1.5;
+      font-size:.92rem;
+      overflow-wrap:anywhere;
+    }
+    .package-detail-list li::before{
+      content:"•";
+      color:var(--primary-2);
+      font-weight:900;
+      line-height:1;
+      margin-top:1px;
     }
     .package-actions {
-      margin-top: 18px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      position: relative;
-      z-index: 1;
+      margin-top:18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      position:relative;
+      z-index:1;
     }
     .package-select {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 900;
-      color: #0f172a;
-      cursor: pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+      color:#0f172a;
+      cursor:pointer;
     }
     .package-select .check {
-      margin-top: 0;
+      margin-top:0;
     }
 
     .package-card .service-toggle {
-      padding: 10px 14px;
-      border-radius: 999px;
-      background: rgba(37,99,235,.08);
-      border: 1px solid rgba(37,99,235,.12);
-      box-shadow: 0 10px 20px rgba(15,23,42,.05);
-      width: auto;
-      margin-top: 0;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(37,99,235,.08);
+      border:1px solid rgba(37,99,235,.12);
+      box-shadow:0 10px 20px rgba(15,23,42,.05);
+      width:auto;
+      margin-top:0;
     }
     .package-card .service-toggle:hover {
-      background: rgba(37,99,235,.12);
-    }
-    .package-features {
-      position: relative;
-      z-index: 1;
-      margin: 18px 0 0;
-      padding: 0;
-      list-style: none;
-      display: grid;
-      gap: 10px;
-    }
-    .package-features li {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 12px 14px;
-      border-radius: 16px;
-      background: rgba(255,255,255,.88);
-      border: 1px solid rgba(15,23,42,.06);
-      color: #0f172a;
-      line-height: 1.45;
-      font-size: .93rem;
-    }
-    .package-features li::before {
-      content: "✓";
-      flex: 0 0 auto;
-      width: 22px;
-      height: 22px;
-      border-radius: 999px;
-      display: grid;
-      place-items: center;
-      background: rgba(37,99,235,.10);
-      color: var(--primary-2);
-      font-weight: 900;
-      font-size: .8rem;
-      margin-top: 1px;
+      background:rgba(37,99,235,.12);
     }
 
-    /* More comfortable calendar */
-    .date-picker {
-      padding: 16px;
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at top left, rgba(37,99,235,.08), transparent 36%),
-        linear-gradient(180deg, rgba(255,255,255,.94), rgba(245,248,253,.98));
-      border: 1px solid rgba(15,23,42,.06);
-      box-shadow: 0 18px 40px rgba(15,23,42,.06);
-    }
     .quick-date-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
     }
     .quick-date-chip {
-      display: grid;
-      gap: 2px;
-      text-align: left;
-      padding: 12px 14px;
-      min-width: 142px;
-      border-radius: 18px;
-      border: 1px solid rgba(15,23,42,.08);
-      background: rgba(255,255,255,.95);
-      box-shadow: 0 10px 22px rgba(15,23,42,.05);
-      cursor: pointer;
-      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+      display:grid;
+      gap:2px;
+      text-align:left;
+      padding:12px 14px;
+      min-width:142px;
+      border-radius:18px;
+      border:1px solid rgba(15,23,42,.08);
+      background:#fff;
+      box-shadow:0 10px 22px rgba(15,23,42,.05);
+      cursor:pointer;
+      transition:transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
     }
     .quick-date-chip strong {
-      font-size: .92rem;
-      line-height: 1.2;
-      color: #0f172a;
+      font-size:.92rem;
+      line-height:1.2;
+      color:#0f172a;
     }
     .quick-date-chip span {
-      font-size: .78rem;
-      color: var(--muted);
-      font-weight: 800;
+      font-size:.78rem;
+      color:var(--muted);
+      font-weight:800;
     }
     .quick-date-chip:hover,
     .quick-date-chip.is-active {
-      transform: translateY(-1px);
-      border-color: rgba(37,99,235,.22);
-      background: linear-gradient(135deg, rgba(37,99,235,.10), rgba(255,255,255,.98));
-      box-shadow: 0 14px 26px rgba(37,99,235,.10);
+      transform:translateY(-1px);
+      border-color:rgba(37,99,235,.22);
+      background:#f6f9ff;
+      box-shadow:0 14px 26px rgba(37,99,235,.10);
     }
     .quick-date-chip:disabled {
-      opacity: .45;
-      cursor: not-allowed;
-      box-shadow: none;
-    }
-    .calendar-wrap {
-      overflow: auto;
-      -webkit-overflow-scrolling: touch;
-      padding-bottom: 2px;
-    }
-    .calendar-grid {
-      min-width: 420px;
-      padding-top: 2px;
-    }
-    .weekday, .day {
-      min-height: 50px;
-      border-radius: 16px;
-    }
-    .day {
-      font-size: .96rem;
-      font-weight: 850;
-    }
-    .selected-date-chip {
-      margin-top: 4px;
+      opacity:.45;
+      cursor:not-allowed;
+      box-shadow:none;
     }
 
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
     }
+
   </style>
 </head>
 <body>
   <header class="topbar">
     <div class="header-inner container">
       <a class="brand" href="#pagrindinis" aria-label="Automobilius.lt pradžia">
-        <span class="logo-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" role="img" focusable="false">
-            <path d="M5.5 14.5h13l1.1-3.1c.3-.8-.2-1.7-1-1.9l-2.4-.6-1.9-2.9c-.3-.5-.8-.8-1.4-.8H9.2c-.6 0-1.1.3-1.4.8L5.9 8.9l-2.4.6c-.8.2-1.3 1.1-1 1.9l1 3.1Zm2.2 2.2a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Zm9.2 0a1.6 1.6 0 1 0 0 3.2 1.6 1.6 0 0 0 0-3.2Z"/>
-            <path d="M7.3 9.2l1.1-1.8h7.2l1.2 1.8H7.3Z" opacity=".55"/>
-          </svg>
-        </span>
         <span class="brand-name">Automobilius.lt</span>
       </a>
 
@@ -874,12 +795,15 @@
 
     <section id="paslaugos" class="section">
       <div class="container">
-        <div class="section-glass fade-in" style="margin-bottom:18px;">
-          <div class="section-glass-inner" style="text-align:center;">
-            <h3 class="section-title gradient">Teikiamos švaros<br>paslaugos</h3>
-            <p class="section-lead center" style="max-width:74ch;">
-              Pasirinkite pavienes paslaugas arba vieną iš paruošimo paketų.
-              Kaina suskaičiuojama automatiškai, o apačioje matysite visas pasirinktas paslaugas.
+        <div class="section-glass service-intro-shell fade-in" style="margin-bottom:18px;">
+          <div class="section-glass-inner service-intro-card">
+            <h2 class="service-intro-title">
+              <span class="service-intro-line service-intro-line-dark">Mūsų teikiamos</span>
+              <span class="service-intro-line service-intro-line-blue">švaros paslaugos</span>
+            </h2>
+            <p class="service-intro-lead">
+              Nuo greito salono atgaivinimo iki kruopštaus kėbulo paruošimo – viską sudėliojome taip, kad automobilis atrodytų tvarkingai, gaiviai ir įsimintinai jau iš pirmo žvilgsnio.
+              Pasirinkite pavienes paslaugas arba paruoštus paketus, o bendra kaina suskaičiuosis automatiškai.
             </p>
           </div>
         </div>
@@ -974,24 +898,36 @@
           <div class="about-panel fade-in">
             <div class="section-title">Apie mus</div>
             <p class="section-lead">
-              Mūsų tikslas – paruošti automobilį pardavimui taip, kad jis atrodytų tvarkingas, prižiūrėtas ir stiprus jau pirmame įspūdyje.
+              Mes kuriame ne tik švarią, bet ir geriau parduodamą automobilio išvaizdą. Kiekviena procedūra parenkama taip, kad salonas atrodytų gaivesnis, kėbulas – tvarkingesnis, o bendras įspūdis – solidesnis tiek gyvai, tiek nuotraukose.
             </p>
             <p class="section-lead" style="margin-bottom:0;">
-              Kiekvienas žingsnis suplanuotas praktiškai: nuo salono valymo iki skelbimo įkėlimo į pagrindines platformas.
+              Dirbame aiškiai ir patogiai: matote paslaugas, pasirenkate norimus darbus, iš karto žinote kainą ir užsakymą pateikiate be papildomų žingsnių.
             </p>
           </div>
 
           <div class="about-panel fade-in">
             <div class="section-title">Kodėl rinktis mus</div>
-            <div class="faq-list">
-              <details class="faq-card">
-                <summary>Ar galima užsakyti kelias paslaugas kartu?<span>+</span></summary>
-                <p>Taip. Sistema automatiškai suskaičiuoja bendrą sumą ir leidžia pasirinkti kelias paslaugas vienu metu.</p>
-              </details>
-              <details class="faq-card">
-                <summary>Ar data tikrai gali būti tik vienam klientui?<span>+</span></summary>
-                <p>Taip. Pasirinkta diena po sėkmingos registracijos pažymima kaip užimta localStorage aplinkoje.</p>
-              </details>
+            <div class="why-grid">
+              <div class="why-item">
+                <strong>Aiškios paslaugos</strong>
+                <p>Kiekviena paslauga pateikta suprantamai, kad iš karto matytumėte, kas atliekama ir kokią vertę gaunate.</p>
+              </div>
+              <div class="why-item">
+                <strong>Tvarkingas rezultatas</strong>
+                <p>Mūsų tikslas – ne tik išvalyti, bet ir sukurti vizualiai švaresnį, gaivesnį ir labiau prižiūrėtą automobilio įspūdį.</p>
+              </div>
+              <div class="why-item">
+                <strong>Patogi registracija</strong>
+                <p>Paslaugas pasirenkate vienoje vietoje, datą pažymite kalendoriuje ir užklausą pateikiate vos per kelias minutes.</p>
+              </div>
+              <div class="why-item">
+                <strong>Paketai pagal poreikį</strong>
+                <p>Nuo greito atnaujinimo iki pilnesnio paruošimo prieš pardavimą, kad galėtumėte pasirinkti tai, kas tikrai reikalinga.</p>
+              </div>
+              <div class="why-item">
+                <strong>Premium pateikimas</strong>
+                <p>Visa aplinka sukurta švariai, moderniai ir vientisai, kad jaustųsi aukštesnės klasės paslaugos įspūdis.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -1031,11 +967,11 @@
           <div class="contact-panel fade-in">
             <div class="section-title">Kontaktai</div>
             <p class="section-lead">
-              Greitam susisiekimui palikome paprastą, aiškų kontaktų bloką. Tinka tiek skambučiui, tiek žinutei iš skelbimo.
+              Susisiekite patogiai telefonu arba atvykite į Ukmergę. Atsakome aiškiai ir greitai, kad registracija nekeltų jokių papildomų klausimų.
             </p>
             <div class="contact-item">
               <span>Telefonas</span>
-              <strong>+370 600 00000</strong>
+              <strong>+370 660 66096</strong>
             </div>
             <div style="height:14px;"></div>
             <div class="contact-item">
@@ -1045,18 +981,38 @@
           </div>
 
           <div class="contact-panel fade-in">
-            <div class="section-title">Kaip veikia registracija</div>
+            <div class="section-title">DUK</div>
             <p class="section-lead">
-              Pasirenkate paslaugas, matote bendrą kainą, pasirenkate laisvą dieną ir pateikiate formą.
+              Greiti atsakymai į dažniausius klausimus apie paslaugas, paketus ir registraciją.
             </p>
             <div class="faq-list">
               <details class="faq-card">
-                <summary>Ar veikia be backend?<span>+</span></summary>
-                <p>Taip. Forma siunčiama tiesiai į Formspree, o visos kitos funkcijos veikia viename HTML faile.</p>
+                <summary>Ar galiu pasirinkti kelias paslaugas vienu metu?<span>+</span></summary>
+                <p>Taip. Galite pažymėti tiek pavienių paslaugų, kiek reikia, o sistema automatiškai suskaičiuos bendrą kainą.</p>
               </details>
               <details class="faq-card">
-                <summary>Ar bus rodomas patvirtinimas?<span>+</span></summary>
-                <p>Taip. Po pateikimo rodoma sėkmės modalaus lango žinutė, o data pažymima kaip užimta.</p>
+                <summary>Ar paketai gali būti derinami su pavienėmis paslaugomis?<span>+</span></summary>
+                <p>Taip. Galite rinktis tik paketą arba derinti paketą su papildomomis paslaugomis, jei norite dar geresnio rezultato.</p>
+              </details>
+              <details class="faq-card">
+                <summary>Kaip veikia datos rezervacija?<span>+</span></summary>
+                <p>Pasirinkta diena pažymima kaip užimta šiame puslapyje, todėl ta pati data nebesiūloma kitiems klientams.</p>
+              </details>
+              <details class="faq-card">
+                <summary>Kiek laiko užtrunka paslaugos?<span>+</span></summary>
+                <p>Trukmė priklauso nuo pasirinktos paslaugos. Paprastesni darbai užtrunka trumpiau, o paketai ir gilesnis valymas — ilgiau.</p>
+              </details>
+              <details class="faq-card">
+                <summary>Ar reikia automobilį atvežti švarų?<span>+</span></summary>
+                <p>Ne. Automobilį galite atvežti įprastos būklės — mes parenkame tinkamiausią valymo eigą pagal situaciją.</p>
+              </details>
+              <details class="faq-card">
+                <summary>Ar galima keisti rezervacijos datą?<span>+</span></summary>
+                <p>Taip. Tiesiog susisiekite telefonu, ir galėsime suderinti kitą laisvą dieną pagal užimtumą.</p>
+              </details>
+              <details class="faq-card">
+                <summary>Ar forma veikia telefone?<span>+</span></summary>
+                <p>Taip. Visa registracija pritaikyta telefonui, todėl paslaugas, datą ir užklausą galima pateikti iš karto iš mobiliojo įrenginio.</p>
               </details>
             </div>
           </div>
@@ -1096,29 +1052,29 @@
           id: 'salonas',
           title: 'Salonas',
           subtitle: 'Tvarka, gaiva ir švara salone.',
-          pill: '4 paslaugos',
+          pill: '10 paslaugų',
           note: 'Šios paslaugos skirtos salono atnaujinimui prieš pardavimą, fotosesiją ar kasdienį naudojimą.',
           services: [
             {
+              id: 18,
+              title: 'Stiklų valymas salone',
+              price: 15,
+              summary: 'Vidaus stiklų ir veidrodėlių valymas iki skaidraus rezultato.',
+              detail: 'Išvalomi priekinis ir galiniai stiklai, vidiniai veidrodėliai ir matomiausi kraštai, kad salono vaizdas būtų švaresnis, šviesesnis ir tvarkingesnis.'
+            },
+            {
               id: 1,
               title: 'Salono sausas valymas',
-              price: 30,
+              price: 25,
               summary: 'Greitas ir kruopštus salono atnaujinimas be perteklinės drėgmės.',
               detail: 'Pirmiausia kruopščiai išsiurbiamos sėdynės, kilimai, grindys ir visi tarpai. Tada sausu mikropluoštu nuvalomos dulkės, trupiniai ir lengvi nešvarumai, kad salonas iš karto atrodytų tvarkingesnis ir tinkamas fotosesijai.'
             },
             {
-              id: 2,
-              title: 'Cheminis salono valymas',
-              price: 110,
-              summary: 'Gilesnis salono atnaujinimas su dėmių ir kvapų mažinimu.',
-              detail: 'Naudojamos aktyvios priemonės pagal medžiagą: tekstilei, odai ar plastikui. Pirmiausia apdorojamos dėmės, po to paviršiai išvalomi ir ištraukiami nešvarumai, kad salonas taptų švaresnis ir gaivesnis.'
-            },
-            {
-              id: 3,
-              title: 'Plastikų atnaujinimas',
-              price: 25,
-              summary: 'Panelės, durų ir salono plastikų vizualinis atgaivinimas.',
-              detail: 'Paviršiai pirmiausia nuriebalinami, tada nuvalomi ir atnaujinami specialiomis priemonėmis, kurios sugrąžina vientisą, tvarkingą išvaizdą be riebaus blizgesio.'
+              id: 19,
+              title: 'Panelės ir durelių valymas',
+              price: 30,
+              summary: 'Pagrindinių salono paviršių švarai ir vientisam įvaizdžiui.',
+              detail: 'Nuvaloma prietaisų panelė, durelių rankenos, porankiai ir kiti dažnai liečiami paviršiai, kad salonas atrodytų tvarkingas ir prižiūrėtas.'
             },
             {
               id: 4,
@@ -1126,6 +1082,48 @@
               price: 35,
               summary: 'Kilimėlių gilesnis išvalymas ir gaivesnis vaizdas.',
               detail: 'Kilimėliai išimami, išpurškiami aktyvia priemone, išvalomi nuo įsisenėjusių nešvarumų ir išdžiovinami, kad interjeras atrodytų švarus ir prižiūrėtas.'
+            },
+            {
+              id: 20,
+              title: 'Plastiko detalių atnaujinimas',
+              price: 40,
+              summary: 'Matinių plastikų gaivinimas be riebaus blizgesio.',
+              detail: 'Vidaus plastikai nuriebalinami, švelniai nuvalomi ir padengiami atnaujinančia priemone, kuri išlaiko natūralią, švarią išvaizdą.'
+            },
+            {
+              id: 21,
+              title: 'Kvapų neutralizavimas',
+              price: 45,
+              summary: 'Nemalonių kvapų mažinimas ir gaivesnė salono aplinka.',
+              detail: 'Salono oras ir paviršiai apdorojami kvapus mažinančiomis priemonėmis, kad automobilis būtų malonesnis tiek pardavimui, tiek kasdieniam naudojimui.'
+            },
+            {
+              id: 22,
+              title: 'Sėdynių tarpų giluminis išsiurbimas',
+              price: 55,
+              summary: 'Tikslinis valymas ten, kur dažniausiai kaupiasi trupiniai.',
+              detail: 'Specialiais antgaliais pasiekiami tarpai tarp sėdynių, bėgeliai ir sunkiau prieinamos vietos, iš kurių pašalinamos dulkės, smulkūs trupiniai ir šiukšlės.'
+            },
+            {
+              id: 3,
+              title: 'Plastikų atnaujinimas',
+              price: 60,
+              summary: 'Panelės, durų ir salono plastikų vizualinis atgaivinimas.',
+              detail: 'Paviršiai pirmiausia nuriebalinami, tada nuvalomi ir atnaujinami specialiomis priemonėmis, kurios sugrąžina vientisą, tvarkingą išvaizdą be riebaus blizgesio.'
+            },
+            {
+              id: 23,
+              title: 'Sėdynių dėmių lokalus valymas',
+              price: 75,
+              summary: 'Tikslinis dėmių mažinimas ant tekstilės ar odos.',
+              detail: 'Įsisenėjusios dėmės apdorojamos pagal paviršiaus tipą, kad sėdynės atrodytų švaresnės, lygesnės ir vizualiai patrauklesnės.'
+            },
+            {
+              id: 2,
+              title: 'Cheminis salono valymas',
+              price: 110,
+              summary: 'Gilesnis salono atnaujinimas su dėmių ir kvapų mažinimu.',
+              detail: 'Naudojamos aktyvios priemonės pagal medžiagą: tekstilei, odai ar plastikui. Pirmiausia apdorojamos dėmės, po to paviršiai išvalomi ir ištraukiami nešvarumai, kad salonas taptų švaresnis ir gaivesnis.'
             }
           ]
         },
@@ -1133,9 +1131,16 @@
           id: 'kebulas',
           title: 'Kėbulas',
           subtitle: 'Išorės blizgesys, apsauga ir vizualinis efektas.',
-          pill: '7 paslaugos',
+          pill: '10 paslaugų',
           note: 'Kėbulo grupė apima tiek vizualinį atnaujinimą, tiek pasiruošimą gražesniam pardavimo įvaizdžiui.',
           services: [
+            {
+              id: 10,
+              title: 'Padangų juodinimas',
+              price: 8,
+              summary: 'Padangoms suteikiama sodresnė ir švaresnė išvaizda.',
+              detail: 'Padangos nuvalomos nuo dulkių ir senų priemonių likučių, tuomet padengiamos juodinimo priemone, kuri vizualiai suvienodina spalvą ir paryškina automobilio stovą.'
+            },
             {
               id: 5,
               title: 'Plovimas',
@@ -1144,18 +1149,25 @@
               detail: 'Kėbulas plaunamas etapais: pašalinami purvai, dulkės, druskos ir kelio nuosėdos. Ypatingas dėmesys skiriamas vietoms aplink ratų arkas, slenksčius ir sunkiau pasiekiamus kampus.'
             },
             {
+              id: 11,
+              title: 'Vaško padengimas (antras etapas)',
+              price: 25,
+              summary: 'Papildomas apsauginis sluoksnis ir sodresnis blizgesys.',
+              detail: 'Antras sluoksnis naudojamas tuomet, kai norisi dar sodresnio blizgesio ir papildomo paviršiaus užbaigimo prieš automobilio pardavimą.'
+            },
+            {
+              id: 24,
+              title: 'Ratlankių valymas',
+              price: 30,
+              summary: 'Ratlankių paviršiaus ir tarpo atnaujinimas.',
+              detail: 'Ratlankiai išvalomi nuo dulkių, stabdžių apnašų ir kelių nešvarumų, kad automobilio išorė atrodytų kur kas tvarkingiau.'
+            },
+            {
               id: 6,
               title: 'Vaško padengimas',
               price: 35,
               summary: 'Didesnis blizgesys ir apsauginis sluoksnis kėbului.',
               detail: 'Po švaraus plovimo ant kėbulo padengiamas vaško sluoksnis, kuris sustiprina blizgesį, padeda vandeniui nubėgti nuo paviršiaus ir suteikia vizualiai sodresnį efektą.'
-            },
-            {
-              id: 7,
-              title: 'Kėbulo poliravimas',
-              price: 160,
-              summary: 'Lako paviršiaus atgaivinimas ir vizualiai geresnis blizgesys.',
-              detail: 'Atliekamas pagal lako būklę parinktas poliravimo procesas, kuris padeda sumažinti smulkius paviršinius defektus, sustiprinti blizgesį ir padaryti automobilį patrauklesnį nuotraukose.'
             },
             {
               id: 8,
@@ -1172,18 +1184,25 @@
               detail: 'Maži defektai įvertinami, lokalizuojami ir koreguojami markeriu arba dažais pagal spalvą taip, kad jie mažiau matytųsi gyvai bei nuotraukose.'
             },
             {
-              id: 10,
-              title: 'Padangų juodinimas',
-              price: 8,
-              summary: 'Padangoms suteikiama sodresnė ir švaresnė išvaizda.',
-              detail: 'Padangos nuvalomos nuo dulkių ir senų priemonių likučių, tuomet padengiamos juodinimo priemone, kuri vizualiai suvienodina spalvą ir paryškina automobilio stovą.'
+              id: 25,
+              title: 'Apsauginio sealanto padengimas',
+              price: 65,
+              summary: 'Ilgiau išliekantis paviršiaus gaivumo efektas.',
+              detail: 'Ant švaraus kėbulo padengiamas apsauginis sluoksnis, padedantis ilgiau išlaikyti švaresnę išvaizdą ir geresnį blizgesį.'
             },
             {
-              id: 11,
-              title: 'Vaško padengimas (antras etapas)',
-              price: 25,
-              summary: 'Papildomas apsauginis sluoksnis ilgesniam efektui.',
-              detail: 'Antras sluoksnis naudojamas tuomet, kai norisi dar sodresnio blizgesio ir papildomo paviršiaus užbaigimo prieš automobilio pardavimą.'
+              id: 26,
+              title: 'Mikroįbrėžimų korekcija',
+              price: 95,
+              summary: 'Paviršinių defektų mažinimas ir vientisesnis vaizdas.',
+              detail: 'Smulkūs lako defektai koreguojami taip, kad automobilio kėbulas vizualiai atrodytų lygesnis ir tvarkingesnis.'
+            },
+            {
+              id: 7,
+              title: 'Kėbulo poliravimas',
+              price: 160,
+              summary: 'Lako paviršiaus atgaivinimas ir vizualiai geresnis blizgesys.',
+              detail: 'Atliekamas pagal lako būklę parinktas poliravimo procesas, kuris padeda sumažinti smulkius paviršinius defektus, sustiprinti blizgesį ir padaryti automobilį patrauklesnį nuotraukose.'
             }
           ]
         },
@@ -1203,7 +1222,9 @@
               ribbon: 'Greitas startas',
               summary: 'Siurbimas, stiklų valymas, panelės ir kitų plastikų valymas.',
               features: ['Siurbimas', 'Stiklų valymas', 'Panelės valymas', 'Plastikų valymas'],
-              detail: 'Šis paketas tinka, kai reikia greitai ir tvarkingai atnaujinti automobilio vidų be papildomų gilesnių procedūrų.'
+              detail: 'Atliekamas bazinis, bet tvarkingas salono atnaujinimas: išsiurbiamos pagrindinės zonos, nuvalomi stiklai, panelė ir plastikai, kad automobilio vidus iškart atrodytų švaresnis ir gaivesnis. Tai geras pasirinkimas, kai reikia greito rezultato prieš kasdienį naudojimą ar trumpą pardavimo paruošimą.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: ["Salonas kruopščiai išsiurbiamas ir paruošiamas vizualiai švaresniam vaizdui.", "Nuvalomi stiklai, panelė ir pagrindiniai plastikai.", "Atliekamas greitas, bet tvarkingas atgaivinimas prieš kasdienį naudojimą.", "Tinka, kai reikia gaivaus rezultato be ilgos procedūros."]
             },
             {
               id: 16,
@@ -1213,7 +1234,9 @@
               ribbon: 'Geriausias balansas',
               summary: 'Standartinis paketas ir papildomai cheminis salono valymas, kilimėlių cheminis valymas, žibintų poliravimas.',
               features: ['Viskas iš standartinio', 'Salono cheminis valymas', 'Kilimėlių cheminis valymas', 'Žibintų poliravimas'],
-              detail: 'Tai variantas, kai norisi aiškiai stipresnio rezultato ir geresnio automobilio įvaizdžio prieš pardavimą.'
+              detail: 'Šis variantas sujungia bazinę švarą su gilesniu atnaujinimu: papildomai atliekamas cheminis salono valymas, tvarkomi kilimėliai, atgaivinami žibintai ir išvalomi dažniausiai matomi paviršiai. Rezultatas — gaivesnis, tvarkingesnis ir labiau pardavimui paruoštas automobilis.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: ["Atliekamas viso bazinio paketo darbų komplektas.", "Papildomai naudojamas cheminis salono valymas ir kilimėlių atnaujinimas.", "Žibintai poliruojami, kad automobilio priekis atrodytų skaidresnis ir tvarkingesnis.", "Rezultatas labiau orientuotas į pardavimo įspūdį ir bendrą gaivą."]
             },
             {
               id: 17,
@@ -1223,7 +1246,9 @@
               ribbon: 'Premium rezultatas',
               summary: 'Standartinis ir vidutinis paketai + kėbulo 1 step poliravimas, padangų juodinimas, vidaus plastikų atnaujinimas.',
               features: ['Viskas iš ankstesnių paketų', 'Kėbulo 1 step poliravimas', 'Padangų juodinimas', 'Vidaus plastikų atnaujinimas'],
-              detail: 'Pilnesnis paruošimas, kai norisi maksimaliai stipraus vizualinio efekto ir tvarkingo bendro automobilio pateikimo.'
+              detail: 'Pilnas paruošimas skirtas stipriausiam vizualiniam efektui: be standartinių ir vidutinių veiksmų atliekamas 1 step kėbulo poliravimas, juodinamos padangos, atnaujinami vidiniai plastikų paviršiai ir paruošiamas itin tvarkingas bendras pateikimas. Šis paketas sukurtas tada, kai norisi, kad automobilis atrodytų maksimaliai tvarkingas ir įsimintinas.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: ["Atliekami visi baziniai ir vidutinio paketo darbai.", "Kėbulas papildomai poliruojamas 1 step principu.", "Padangos juodinamos, o vidaus plastikai atnaujinami.", "Tai pilnesnis vizualinis paruošimas stipresniam įspūdžiui."]
             }
           ]
         },
@@ -1248,7 +1273,9 @@
                 'Nuotraukų paruošimas',
                 'Skelbimo įdėjimas į Autoplius'
               ],
-              detail: 'Šis variantas tinka, kai norisi greitai ir tvarkingai paruošti automobilį pardavimui už aiškią kainą. Į paketą įeina pagrindinis išorės ir salono sutvarkymas bei skelbimo paruošimas.'
+              detail: 'Šis paketas apima pagrindinį paruošimą pardavimui: automobilis nuplaunamas, nuvalomi langai, išsiurbiamas salonas, sutvarkomi pagrindiniai paviršiai ir uždedamas vaško sluoksnis. Papildomai paruošiamos pardavimui tinkamos nuotraukos bei skelbimo bazinis turinys, kad automobilio pateikimas būtų tvarkingas ir aiškus.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: ["Automobilis nuplaunamas ir padengiamas vaško sluoksniu.", "Pilnai išsiurbiamas sausas salonas, nuvalomi pagrindiniai paviršiai.", "Padaromos pardavimui tinkamos nuotraukos ir paruošiamas skelbimas.", "Šis paketas skirtas greitam, tvarkingam startui prieš pardavimą."]
             },
             {
               id: 13,
@@ -1263,7 +1290,9 @@
                 'Padangų juodinimas',
                 'Žibintų poliravimas'
               ],
-              detail: 'Tai stipresnis variantas, kai norisi ne tik švaros, bet ir vizualiai geresnio automobilio pateikimo. Puikus balansas tarp kainos ir įspūdžio.'
+              detail: 'Į šį paketą įeina visi baziniai darbai, papildomai atliekamas cheminis salono valymas, giliau sutvarkomi kilimėliai, atnaujinami žibintai ir suvienodinami matomiausi salono paviršiai. Rezultatas — švaresnis, gaivesnis ir vizualiai solidesnis automobilis, kuris pardavimui atrodo žymiai stipriau.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: ["Atliekami visi standartinio paketo darbai.", "Pridedamas cheminis salono valymas ir padangų juodinimas.", "Žibintai poliruojami, kad automobilis vizualiai atrodytų naujesnis.", "Tai geras balansas tarp kainos, švaros ir pardavimo efekto."]
             },
             {
               id: 14,
@@ -1278,7 +1307,9 @@
                 'Skelbimai į 3 portalus',
                 'Iškėlimai ir maksimalus matomumas'
               ],
-              detail: 'Tobulas sprendimas, kai tikslas yra maksimaliai padidinti automobilio pateikimo kokybę ir pardavimo šansą. Šis paketas sukurtas geriausiam rezultatui.'
+              detail: 'Tai pilniausias variantas: atliekami baziniai ir vidutiniai darbai, papildomas 1 step poliravimas, sustiprinamas kėbulo blizgesys ir pasirūpinama platesniu skelbimų matomumu. Šis paketas skirtas maksimaliai stipriam įspūdžiui, kai svarbu ir automobilio išvaizda, ir jo pateikimo kokybė.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: ["Atliekami baziniai ir vidutiniai darbai, kad automobilis būtų paruoštas kompleksiškai.", "Papildomai atliekamas 1 step poliravimas, kad kėbulas atrodytų blizgesnis.", "Skelbimai keliami į 3 populiariausius portalus su iškėlimais.", "Skirtas maksimaliam matomumui ir stipriausiam bendram pateikimui."]
             }
           ]
         }
@@ -1323,7 +1354,7 @@
             if (state.selected.has(service.id)) all.push(service);
           });
         });
-        return all;
+        return all.sort((a, b) => a.price - b.price || a.title.localeCompare(b.title, 'lt'));
       }
 
       function updateSummary() {
@@ -1381,8 +1412,8 @@
         const card = document.createElement('article');
         card.className = `package-card fade-in ${service.price >= 279 ? 'is-premium' : service.price >= 149 ? 'is-featured' : ''}`;
         card.dataset.serviceId = service.id;
+        const detailPoints = Array.isArray(service.detailPoints) ? service.detailPoints : [];
         card.innerHTML = `
-          <div class="package-ribbon">${service.ribbon || ''}</div>
           <div class="package-top">
             <div class="package-copy">
               <div class="package-badge">${service.badge || 'Paketas'}</div>
@@ -1407,7 +1438,11 @@
             <button class="service-toggle" type="button" aria-expanded="false">Plačiau</button>
           </div>
 
-          <div class="service-details">${service.detail}</div>
+          <div class="service-details">
+            <div class="package-detail-title">${service.detailTitle || 'Kas atliekama šiame pakete'}</div>
+            <p class="package-detail-copy">${service.detail}</p>
+            ${detailPoints.length ? `<ul class="package-detail-list">${detailPoints.map((item) => `<li>${item}</li>`).join('')}</ul>` : ''}
+          </div>
         `;
 
         const checkbox = card.querySelector('input[type="checkbox"]');
@@ -1487,6 +1522,7 @@
         card.dataset.groupType = group.type || 'services';
 
         const isPackageGroup = group.type === 'packages';
+        const sortedServices = [...group.services].sort((a, b) => a.price - b.price || a.title.localeCompare(b.title, 'lt'));
         card.innerHTML = `
           <button class="group-head" type="button" aria-expanded="false">
             <div class="group-head-left">
@@ -1506,9 +1542,9 @@
         const cardsGrid = card.querySelector('.group-content .package-grid, .group-content .cards-grid');
 
         if (isPackageGroup) {
-          group.services.forEach((service) => cardsGrid.appendChild(buildPackageCard(service)));
+          sortedServices.forEach((service) => cardsGrid.appendChild(buildPackageCard(service)));
         } else {
-          group.services.forEach((service) => cardsGrid.appendChild(buildServiceCard(service)));
+          sortedServices.forEach((service) => cardsGrid.appendChild(buildServiceCard(service)));
         }
 
         head.addEventListener('click', () => {
