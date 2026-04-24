@@ -310,6 +310,9 @@
       font-size:1.08rem;font-weight:950;letter-spacing:-.03em;color:#0f172a;
     }
     .group-subtitle{color:var(--muted);font-size:.93rem;line-height:1.4}
+
+    .group-subtitle,
+    .group-note{display:none !important;}
     .group-pill{
       flex:0 0 auto;padding:9px 12px;border-radius:999px;
       background:rgba(37,99,235,.10);color:var(--primary-2);
@@ -1881,6 +1884,307 @@
     }
 
 
+  
+
+    /* Premium polish overrides */
+    .topbar{
+      background:rgba(244,247,251,.88);
+      border-bottom:1px solid rgba(15,23,42,.05);
+      box-shadow:0 10px 30px rgba(15,23,42,.03);
+    }
+    .header-inner{
+      padding:18px 18px 18px;
+    }
+    .brand-logo{
+      padding-bottom:18px;
+    }
+    .hero{
+      padding:24px 0 26px;
+    }
+    .hero-grid{
+      gap:22px;
+    }
+    .hero-copy{
+      padding:42px 30px 34px;
+      border-radius:36px;
+      background:linear-gradient(180deg, #f8fbff, #f3f7fb);
+    }
+    .hero-text{
+      max-width:64ch;
+      line-height:1.72;
+      margin-top:18px;
+    }
+    .hero-image{
+      width:min(100%,1000px);
+      border-radius:32px;
+    }
+    .hero-image img{
+      height:375px;
+    }
+    .section{
+      padding:34px 0;
+    }
+    .service-intro-shell{
+      padding:34px 28px 30px;
+    }
+    .service-intro-lead{
+      line-height:1.82;
+    }
+    .services-layout{
+      gap:22px;
+      margin-top:14px;
+    }
+    .summary-panel{
+      padding:24px;
+      border-radius:30px;
+      background:linear-gradient(180deg, #ffffff, #f7faff);
+    }
+    .summary-panel h3{
+      letter-spacing:-.03em;
+    }
+    .total-box,.booking-total{
+      position:relative;
+      overflow:hidden;
+      background:linear-gradient(180deg, #f8fbff, #eef4ff);
+      border:1px solid rgba(37,99,235,.16);
+      box-shadow:0 18px 34px rgba(37,99,235,.08);
+    }
+    .total-box::after,.booking-total::after{
+      content:"";
+      position:absolute;
+      inset:auto -20px -30px auto;
+      width:160px;
+      height:160px;
+      border-radius:999px;
+      background:rgba(37,99,235,.08);
+      pointer-events:none;
+    }
+    .total-amount{
+      color:var(--primary-2);
+      text-shadow:0 1px 0 rgba(255,255,255,.55);
+    }
+    .price-note{
+      font-weight:700;
+    }
+    .service-price{
+      background:linear-gradient(180deg, rgba(37,99,235,.14), rgba(37,99,235,.10));
+      border:1px solid rgba(37,99,235,.16);
+      box-shadow:0 10px 18px rgba(37,99,235,.08);
+    }
+    .group-head{
+      padding:23px 24px;
+      background:linear-gradient(180deg, #fbfcff, #f2f6ff);
+    }
+    .group-title{
+      font-size:1.24rem;
+      line-height:1.12;
+    }
+    .group-pill{
+      padding:10px 14px;
+      font-size:.95rem;
+    }
+    .chev{
+      width:44px;
+      height:44px;
+      border-radius:15px;
+    }
+    .group-subtitle,
+    .group-note{
+      display:none !important;
+    }
+    .group-content{
+      padding:0 24px 24px;
+    }
+    .cards-grid,
+    .package-grid{
+      gap:14px;
+    }
+    .service-card{
+      padding:18px 18px 16px;
+      border-radius:24px;
+    }
+    .service-title{
+      font-size:1.08rem;
+    }
+    .service-summary{
+      font-size:.96rem;
+      line-height:1.7;
+    }
+    .review-card,
+    .contact-panel,
+    .about-shell,
+    .faq-card{
+      background:linear-gradient(180deg, #ffffff, #f8fbff);
+    }
+    .about-shell{
+      padding:28px;
+    }
+    .about-hero .section-title{
+      max-width:12ch;
+    }
+    .about-feature-panel{
+      background:linear-gradient(180deg, rgba(15,23,42,.98), rgba(37,99,235,.96));
+    }
+    .review-card p{
+      line-height:1.75;
+    }
+    .booking-panel{
+      margin-top:22px;
+    }
+    .date-picker{
+      padding:18px;
+      border-radius:30px;
+      background:linear-gradient(180deg, #f8fbff, #f4f8ff);
+    }
+    .calendar-head{
+      padding:12px 14px;
+    }
+    .calendar-subtitle{
+      margin-top:6px;
+      font-size:.92rem;
+    }
+    .calendar-grid{
+      gap:10px;
+    }
+    .weekday,.day{
+      min-height:54px;
+      border-radius:18px;
+    }
+    .time-picker{
+      display:grid;
+      gap:12px;
+      padding:16px;
+      border-radius:24px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 14px 28px rgba(15,23,42,.05);
+    }
+    .time-picker-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .time-picker-title{
+      font-weight:900;
+      letter-spacing:-.02em;
+      color:#0f172a;
+    }
+    .time-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(110px, 1fr));
+      gap:10px;
+    }
+    .time-chip{
+      padding:12px 14px;
+      border-radius:18px;
+      border:1px solid rgba(15,23,42,.08);
+      background:#fff;
+      cursor:pointer;
+      font-weight:850;
+      color:#0f172a;
+      box-shadow:0 10px 20px rgba(15,23,42,.04);
+      transition:transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition), color var(--transition);
+    }
+    .time-chip:hover,
+    .time-chip.is-active{
+      transform:translateY(-1px);
+      border-color:rgba(37,99,235,.22);
+      background:#f6f9ff;
+      box-shadow:0 14px 26px rgba(37,99,235,.10);
+      color:var(--primary-2);
+    }
+    .time-chip:disabled{
+      opacity:.42;
+      cursor:not-allowed;
+      box-shadow:none;
+      text-decoration:line-through;
+    }
+    .selected-date-chip{
+      background:rgba(37,99,235,.12);
+      border-color:rgba(37,99,235,.18);
+      color:var(--primary-2);
+    }
+    .selected-time-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.08);
+      color:#0f172a;
+      font-weight:850;
+      font-size:.92rem;
+      width:fit-content;
+      box-shadow:0 10px 22px rgba(15,23,42,.05);
+    }
+    .field.input-wide .microcopy{
+      margin-top:10px;
+    }
+    .hero-shell{
+      padding-top:4px;
+    }
+    .about-pill{
+      background:#f8fbff;
+    }
+    .review-meta strong,
+    .contact-item strong{
+      letter-spacing:-.02em;
+    }
+    .summary-panel li,
+    .selected-list li{
+      font-size:.98rem;
+    }
+    .modal-card{
+      border:1px solid rgba(37,99,235,.10);
+    }
+    @media (max-width:860px){
+      .hero{
+        padding:18px 0 20px;
+      }
+      .hero-copy{
+        padding:24px 16px 18px;
+      }
+      .hero-image img{
+        height:260px;
+      }
+      .section{
+        padding:20px 0;
+      }
+      .service-intro-shell{
+        padding:18px 16px;
+      }
+      .summary-panel{
+        padding:16px;
+      }
+      .group-head{
+        padding:18px 16px;
+      }
+      .group-title{
+        font-size:1.08rem;
+      }
+      .group-pill{
+        font-size:.86rem;
+      }
+      .group-content{
+        padding:0 16px 16px;
+      }
+      .service-card{
+        padding:14px;
+      }
+      .time-grid{
+        grid-template-columns:repeat(2, minmax(0, 1fr));
+      }
+      .time-chip{
+        padding:11px 12px;
+      }
+      .weekday,.day{
+        min-height:46px;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1907,11 +2211,11 @@
         <div class="hero-grid">
           <div class="hero-copy fade-in">
             <h1 class="hero-title">
-              Automobilių švaros
-              <span> paslaugos Ukmergėje</span>
+              Automobilių švara
+              <span>Ukmergėje</span>
             </h1>
             <p class="hero-text">
-              Kruopšti salono ir kėbulo priežiūra vienoje vietoje. Aiškios kainos ir patogi tuo pačiu greita registracija.
+              Kruopšti salono, kėbulo ir paruošimo pardavimui priežiūra vienoje vietoje. Aiškios kainos, patogus laiko pasirinkimas ir premium registracija be chaoso.
             </p>
             <div class="cta-row">
               <a class="btn btn-primary" href="#paslaugos">Peržiūrėti paslaugas</a>
@@ -1986,12 +2290,12 @@
               </div>
 
               <div class="field input-wide">
-                <label>Data</label>
+                <label>Data ir laikas</label>
                 <div class="date-picker">
                   <div class="calendar-head">
                     <div>
                       <div class="calendar-month" id="calendarMonth">2026 m.</div>
-                      <div class="calendar-subtitle">Pasirinkite vieną datą tiesiai kalendoriuje apačioje.</div>
+                      <div class="calendar-subtitle">Pasirinkite datą kalendoriuje, o tuomet patogų laiką žemiau.</div>
                     </div>
                     <div class="calendar-nav">
                       <button class="icon-btn" type="button" id="prevMonth" aria-label="Ankstesnis mėnuo">‹</button>
@@ -2001,8 +2305,17 @@
                   <div class="calendar-wrap">
                     <div class="calendar-grid" id="calendarGrid"></div>
                   </div>
+                  <div class="time-picker" id="timePicker">
+                    <div class="time-picker-head">
+                      <div class="time-picker-title">Pasirinkite laiką</div>
+                      <div class="microcopy" style="margin:0;">Darbo valandų langai matomi tik pasirinktai dienai</div>
+                    </div>
+                    <div class="time-grid" id="timeGrid"></div>
+                  </div>
                   <div class="selected-date-chip" id="selectedDateChip" style="display:none;"></div>
+                  <div class="selected-time-chip" id="selectedTimeChip" style="display:none;"></div>
                   <input id="data" name="Data" type="hidden" required />
+                  <input id="laikas" name="Laikas" type="hidden" required />
                   <div class="microcopy" id="dateHint">Pasirinkite datą kalendoriuje.</div>
                 </div>
               </div>
@@ -2024,68 +2337,59 @@
         </div>
       </div>
     </section>
-
-    
     <section id="apie" class="section">
       <div class="container">
         <div class="about-shell fade-in">
           <div class="about-hero">
             <div class="eyebrow">Apie mus</div>
-            <div class="section-title">Švarus automobilio vaizdas, aiškus procesas ir premium pojūtis telefone</div>
+            <div class="section-title">Automobilis, kuris atrodo prižiūrėtas, gaivus ir vertas daugiau</div>
             <p class="section-lead">
-              Dirbame taip, kad viskas būtų paprasta: pasirinkite paslaugą, matykite kainą, pažymėkite datą ir registruokitės be papildomo vargo.
+              Dirbu taip, kad automobilis būtų tvarkingas iš vidaus ir iš išorės: nuo greito gaivinimo iki gilesnio paruošimo pardavimui. Viskas aišku, paprasta ir pritaikyta klientui, kuris nori kokybės be bereikalingo vargo.
             </p>
 
             <div class="about-pill-row" aria-label="Pagrindiniai privalumai">
-              <span class="about-pill">Mėlyna, juoda, balta</span>
-              <span class="about-pill">Patogu telefone</span>
-              <span class="about-pill">Greita registracija</span>
+              <span class="about-pill">Salonas iki smulkmenų</span>
+              <span class="about-pill">Švarus įvaizdis pardavimui</span>
+              <span class="about-pill">Aiškūs laikai ir kainos</span>
             </div>
           </div>
 
           <div class="about-feature-panel">
-            <div class="about-feature-head">Kodėl ši sistema atrodo kokybiškai</div>
+            <div class="about-feature-head">Kodėl ši vieta atrodo premium</div>
             <div class="about-feature-grid">
               <div class="about-feature-card">
-                <strong>Aiškiai ir greitai</strong>
-                <span>Paslaugos, kainos ir data pateikti taip, kad nereikėtų ieškoti po kelis ekranus.</span>
-              </div>
-              <div class="about-feature-card">
-                <strong>Švarus vizualas</strong>
-                <span>Daug oro, minkšti šešėliai ir tvarkinga hierarchija sukuria aukštesnės klasės įspūdį.</span>
+                <strong>Kruopštus rezultatas</strong>
+                <span>Akcentas dedamas į švarų salono vaizdą, tvarkingas detales ir bendrą automobilio įspūdį, kad jis atrodytų prižiūrėtas iš pirmo žvilgsnio.</span>
               </div>
               <div class="about-feature-card about-feature-card-accent">
-                <strong>Premium akcentai</strong>
-                <span>Subtilūs mėlyni akcentai ir kontrastingas tekstas sustiprina modernų, solidų vaizdą.</span>
+                <strong>Tvarkingas procesas</strong>
+                <span>Paslaugas, kainą, datą ir laiką matai vienoje vietoje, todėl registracija vyksta greitai ir be papildomo derinimo žinučių.</span>
+              </div>
+              <div class="about-feature-card">
+                <strong>Vertė pardavimui</strong>
+                <span>Švarus automobilis palieka stipresnį įspūdį tiek kasdien, tiek ruošiant transporto priemonę pardavimui ar atnaujinimui.</span>
               </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-
     <section class="section">
       <div class="container">
-        <div class="fade-in" style="margin-bottom:14px;">
-          <div class="section-title">Atsiliepimai</div>
-          <p class="section-lead" style="margin-bottom:0;">
-            Trumpi, aiškūs ir patikimi komentarai, kurie sustiprina pasitikėjimą prieš registraciją ir pardavimo paruošimą.
-          </p>
-        </div>
         <div class="reviews-grid">
           <article class="review-card fade-in">
             <div class="review-meta">
-              <strong>Mantas, Ukmergė</strong>
+              <strong>Dainius, Ukmergė</strong>
               <span class="stars">⭐⭐⭐⭐⭐</span>
             </div>
-            <p>Automobilis po valymo atrodė kaip iš salono. Registracija paprasta, aptarnavimas greitas.</p>
+            <p>Po salono valymo automobilis atrodė daug tvarkingesnis, o kvapas salone tapo tikrai gaivesnis. Matėsi, kad darbas padarytas kruopščiai.</p>
           </article>
           <article class="review-card fade-in">
             <div class="review-meta">
-              <strong>Aistė, Širvintos</strong>
+              <strong>Laura, Širvintos</strong>
               <span class="stars">⭐⭐⭐⭐⭐</span>
             </div>
-            <p>Labai patiko, kad iškart matosi paslaugos ir kainos. Užsirašiau per telefoną per 2 minutes.</p>
+            <p>Patiko, kad viskas aišku iš karto: paslaugos, kaina ir registracijos laikas. Užsakymas labai paprastas, o rezultatas viršijo lūkesčius.</p>
           </article>
         </div>
       </div>
@@ -2097,7 +2401,7 @@
           <div class="contact-panel fade-in">
             <div class="section-title">Kontaktai</div>
             <p class="section-lead">
-              Susisiekite patogiai telefonu arba atvykite į Ukmergę. Atsakome aiškiai ir greitai, kad registracija nekeltų jokių papildomų klausimų.
+              Susisiekite patogiai telefonu arba atvykite į Ukmergę. Atsakome aiškiai ir greitai, kad pasiruošimas, laikas ir paslaugos būtų suderinti be papildomo vargo.
             </p>
             <div class="contact-item">
               <span>Telefonas</span>
@@ -2159,7 +2463,7 @@
     <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
       <div class="modal-icon">✓</div>
       <h3 id="modalTitle">Registracija priimta</h3>
-      <p>Jūsų registracija priimta. Susisieksime per 30 min.</p>
+      <p>Jūsų registracija priimta. Susisieksime artimiausiu metu ir patvirtinsime laiką.</p>
       <button class="btn btn-primary" type="button" id="closeModal" style="margin-top:12px;">Gerai</button>
     </div>
   </div>
@@ -2422,7 +2726,7 @@ const groups = [
       const state = {
         selected: new Set(),
         currentMonth: new Date(),
-        bookedDates: new Set(JSON.parse(localStorage.getItem('automobiliusBookedDates') || '[]'))
+        bookedSlots: new Set(JSON.parse(localStorage.getItem('automobiliusBookedSlots') || '[]'))
       };
 
       const els = {
@@ -2442,13 +2746,16 @@ const groups = [
         dateField: document.getElementById('data'),
         dateHint: document.getElementById('dateHint'),
         selectedDateChip: document.getElementById('selectedDateChip'),
+        selectedTimeChip: document.getElementById('selectedTimeChip'),
+        timeGrid: document.getElementById('timeGrid'),
+        timeField: document.getElementById('laikas'),
         quickDateRow: document.getElementById('quickDateRow')
       };
 
       const money = (amount) => `${amount} €`;
 
       function saveBookedDates() {
-        localStorage.setItem('automobiliusBookedDates', JSON.stringify(Array.from(state.bookedDates)));
+        localStorage.setItem('automobiliusBookedSlots', JSON.stringify(Array.from(state.bookedSlots)));
       }
 
       function getSelectedServices() {
@@ -2464,6 +2771,8 @@ const groups = [
       function updateSummary() {
         const selected = getSelectedServices();
         const total = selected.reduce((sum, service) => sum + service.price, 0);
+        const dateValue = els.dateField.value ? formatSelectedDate(els.dateField.value) : null;
+        const timeValue = els.timeField?.value || '';
 
         els.totalAmount.textContent = money(total);
         els.selectedCount.textContent = `Pasirinkta: ${selected.length} paslaug${selected.length === 1 ? 'a' : 'ų'}`;
@@ -2472,9 +2781,24 @@ const groups = [
           ? selected.map((s) => `<li><span>${s.title}</span><strong>${money(s.price)}</strong></li>`).join('')
           : '<li class="selected-empty">Kol kas nieko nepasirinkta.</li>';
 
+        const dateLine = dateValue ? `Data: ${dateValue}` : 'Data: nepasirinkta';
+        const timeLine = timeValue ? `Laikas: ${timeValue}` : 'Laikas: nepasirinktas';
+
         els.summaryBox.value = selected.length
-          ? `Pasirinkti darbai:\n${selected.map((s) => `• ${s.title} — ${money(s.price)}`).join('\n')}\n\nSuma: ${money(total)}`
-          : `Pasirinkti darbai:\nNėra pasirinktų paslaugų.\n\nSuma: ${money(total)}`;
+          ? `Pasirinkti darbai:
+${selected.map((s) => `• ${s.title} — ${money(s.price)}`).join('\n')}
+
+${dateLine}
+${timeLine}
+
+Suma: ${money(total)}`
+          : `Pasirinkti darbai:
+Nėra pasirinktų paslaugų.
+
+${dateLine}
+${timeLine}
+
+Suma: ${money(total)}`;
       }
 
       function buildServiceCard(service) {
@@ -2584,7 +2908,7 @@ const groups = [
           const d = new Date(today);
           d.setDate(d.getDate() + preset.offset);
           const key = dateKey(d);
-          const booked = state.bookedDates.has(key);
+          const booked = state.bookedSlots.has(key);
           const selected = els.dateField.value === key;
           return `
             <button class="quick-date-chip ${selected ? 'is-active' : ''}" type="button" data-quick-date="${key}" ${booked ? 'disabled' : ''}>
@@ -2597,9 +2921,10 @@ const groups = [
         els.quickDateRow.querySelectorAll('[data-quick-date]').forEach((btn) => {
           btn.addEventListener('click', () => {
             const key = btn.dataset.quickDate;
-            if (!key || state.bookedDates.has(key)) return;
+            if (!key || state.bookedSlots.has(key)) return;
             setSelectedDate(key);
             renderCalendar();
+      renderTimeSlots();
             document.getElementById('registracija')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
           });
         });
@@ -2617,14 +2942,12 @@ const groups = [
           <button class="group-head" type="button" aria-expanded="false">
             <div class="group-head-left">
               <div class="group-title">${group.title}</div>
-              <div class="group-subtitle">${group.subtitle}</div>
             </div>
             <div class="group-pill">${group.pill}</div>
             <div class="chev" aria-hidden="true">⌄</div>
           </button>
           <div class="group-content">
             <div class="group-content-inner">
-              <p class="group-note">${group.note}</p>
               <div class="${isPackageGroup ? 'package-grid' : 'cards-grid'}"></div>
             </div>
           </div>
@@ -2682,20 +3005,75 @@ const groups = [
         return startOfDay(date) < todayStart();
       }
 
-      function setSelectedDate(key) {
-        els.dateField.value = key;
+      const TIME_SLOTS = ['09:00', '10:30', '12:00', '13:30', '15:00', '16:30', '18:00'];
+
+      function formatSelectedDate(key) {
         const picked = parseDateKey(key);
-        state.currentMonth = new Date(picked.getFullYear(), picked.getMonth(), 1);
-        const nice = picked.toLocaleDateString('lt-LT', {
+        return picked.toLocaleDateString('lt-LT', {
           weekday: 'long',
           year: 'numeric',
           month: 'long',
           day: 'numeric'
         });
+      }
+
+      function timeSlotKey(dateKeyValue, timeValue) {
+        return `${dateKeyValue}|${timeValue}`;
+      }
+
+      function renderTimeSlots() {
+        if (!els.timeGrid || !els.timeField) return;
+        const dateKeyValue = els.dateField.value;
+        const hasDate = Boolean(dateKeyValue);
+        const currentTime = els.timeField.value;
+
+        els.timeGrid.innerHTML = TIME_SLOTS.map((time) => {
+          const slotKey = hasDate ? timeSlotKey(dateKeyValue, time) : '';
+          const booked = hasDate ? state.bookedSlots.has(slotKey) : true;
+          const active = currentTime === time;
+          return `<button type="button" class="time-chip ${active ? 'is-active' : ''}" data-time-slot="${time}" ${!hasDate || booked ? 'disabled' : ''}>${time}</button>`;
+        }).join('');
+
+        els.timeGrid.querySelectorAll('[data-time-slot]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const time = btn.dataset.timeSlot;
+            if (!time || !els.dateField.value) return;
+            if (state.bookedSlots.has(timeSlotKey(els.dateField.value, time))) return;
+            setSelectedTime(time);
+          });
+        });
+      }
+
+      function setSelectedDate(key) {
+        els.dateField.value = key;
+        const nice = formatSelectedDate(key);
+        state.currentMonth = new Date(parseDateKey(key).getFullYear(), parseDateKey(key).getMonth(), 1);
         els.dateHint.textContent = `Pasirinkta data: ${nice}`;
         els.selectedDateChip.style.display = 'inline-flex';
         els.selectedDateChip.textContent = `Pasirinkta data: ${nice}`;
+        if (els.timeField && els.timeField.value && state.bookedSlots.has(timeSlotKey(key, els.timeField.value))) {
+          clearSelectedTime();
+        }
         renderQuickDates();
+        renderTimeSlots();
+        updateSummary();
+      }
+
+      function setSelectedTime(time) {
+        if (!els.timeField) return;
+        els.timeField.value = time;
+        els.selectedTimeChip.style.display = 'inline-flex';
+        els.selectedTimeChip.textContent = `Pasirinktas laikas: ${time}`;
+        renderTimeSlots();
+        updateSummary();
+      }
+
+      function clearSelectedTime() {
+        if (!els.timeField) return;
+        els.timeField.value = '';
+        els.selectedTimeChip.style.display = 'none';
+        renderTimeSlots();
+        updateSummary();
       }
 
       function clearSelectedDate() {
@@ -2704,7 +3082,10 @@ const groups = [
         els.dateField.value = '';
         els.dateHint.textContent = 'Pasirinkite datą kalendoriuje.';
         els.selectedDateChip.style.display = 'none';
+        clearSelectedTime();
         renderQuickDates();
+        renderTimeSlots();
+        updateSummary();
       }
 
       function renderCalendar() {
@@ -2726,11 +3107,10 @@ const groups = [
           const d = new Date(date.getFullYear(), date.getMonth(), day);
           const key = dateKey(d);
           const selected = els.dateField.value === key;
-          const booked = state.bookedDates.has(key);
-          const disabled = isPastDate(d) || (booked && !selected);
+          const disabled = isPastDate(d);
           const classes = ['day'];
 
-          if (disabled && !selected) classes.push(booked ? 'is-booked' : 'is-disabled');
+          if (disabled && !selected) classes.push('is-disabled');
           if (isPastDate(d)) classes.push('is-past');
           if (selected) classes.push('is-selected');
 
@@ -2742,12 +3122,12 @@ const groups = [
         els.calendarGrid.querySelectorAll('[data-date]').forEach((btn) => {
           btn.addEventListener('click', () => {
             const key = btn.dataset.date;
-            if (state.bookedDates.has(key)) return;
             setSelectedDate(key);
             renderCalendar();
           });
         });
         renderQuickDates();
+        renderTimeSlots();
       }
 
       function observeFadeIns() {
@@ -2793,6 +3173,7 @@ const groups = [
         state.selected.clear();
         els.bookingForm.reset();
         clearSelectedDate();
+        clearSelectedTime();
         document.querySelectorAll('.service-card').forEach((card) => {
           card.classList.remove('selected');
           const check = card.querySelector('input[type="checkbox"]');
@@ -2805,6 +3186,7 @@ const groups = [
         });
         updateSummary();
         renderCalendar();
+        renderTimeSlots();
       });
 
       els.closeModal.addEventListener('click', closeModal);
@@ -2818,13 +3200,18 @@ const groups = [
         const payloadServices = getSelectedServices();
         const total = payloadServices.reduce((sum, service) => sum + service.price, 0);
         const bookingDate = form.get('Data');
+        const bookingTime = form.get('Laikas');
 
         if (!bookingDate) {
           alert('Pasirinkite datą.');
           return;
         }
-        if (state.bookedDates.has(bookingDate)) {
-          alert('Ši data jau užimta. Pasirinkite kitą dieną.');
+        if (!bookingTime) {
+          alert('Pasirinkite laiką.');
+          return;
+        }
+        if (state.bookedSlots.has(timeSlotKey(bookingDate, bookingTime))) {
+          alert('Šis laiko langas jau užimtas. Pasirinkite kitą laiką.');
           return;
         }
 
@@ -2835,6 +3222,7 @@ const groups = [
           Miestas: form.get('Miestas') || '',
           Telefonas: form.get('Telefonas') || '',
           Data: bookingDate,
+          Laikas: bookingTime,
           Paslaugos: serviceNames || 'Nenurodyta',
           Suma: money(total)
         };
@@ -2854,12 +3242,13 @@ const groups = [
             throw new Error(data?.error || 'Nepavyko išsiųsti formos');
           }
 
-          state.bookedDates.add(bookingDate);
+          state.bookedSlots.add(timeSlotKey(bookingDate, bookingTime));
           saveBookedDates();
           openModal();
           state.selected.clear();
           els.bookingForm.reset();
           clearSelectedDate();
+          clearSelectedTime();
           document.querySelectorAll('.service-card').forEach((card) => {
             card.classList.remove('selected');
             const check = card.querySelector('input[type="checkbox"]');
@@ -2872,6 +3261,7 @@ const groups = [
           });
           updateSummary();
           renderCalendar();
+          renderTimeSlots();
         } catch (error) {
           console.error(error);
           alert('Klaida siunčiant registraciją. Patikrinkite interneto ryšį arba Formspree nustatymus.');
@@ -2885,6 +3275,7 @@ const groups = [
         els.dateHint.textContent = 'Pasirinkite datą kalendoriuje.';
         els.selectedDateChip.style.display = 'none';
         renderCalendar();
+        renderTimeSlots();
       }
 
       function initReveal() {
