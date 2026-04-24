@@ -328,6 +328,11 @@
     .service-summary{margin:8px 0 0;color:var(--muted);line-height:1.55;font-size:.95rem;overflow-wrap:anywhere}
     .service-details{margin-top:12px;border-top:1px solid rgba(15,23,42,.06);padding-top:12px;color:#334155;line-height:1.65;display:none;font-size:.96rem}
     .service-card.is-open .service-details{display:block;animation:fadeUp .28s ease both}
+    .service-card .service-details{
+      margin-top:12px;
+      border-top:1px solid rgba(15,23,42,.06);
+      padding-top:12px;
+    }
     .service-toggle{margin-top:10px;width:100%;text-align:left;border:0;background:transparent;color:var(--primary-2);font-weight:850;cursor:pointer;padding:4px 0 0}
 
     .booking-panel{padding:22px;margin-top:18px}
@@ -1644,12 +1649,15 @@
             <input class="check" type="checkbox" aria-label="Pasirinkti ${service.title}" data-service-id="${service.id}">
             <div>
               <h3 class="service-title">${service.title}</h3>
-              <p class="service-summary">${service.summary}</p>
             </div>
             <div class="service-price">${money(service.price)}</div>
           </div>
           <button class="service-toggle" type="button" aria-expanded="false">Plačiau</button>
-          <div class="service-details">${service.detail}</div>
+          <div class="service-details">
+            <div class="package-detail-title">Kas atliekama šiame darbe</div>
+            <p class="package-detail-copy">${service.summary}</p>
+            <p class="package-detail-copy">${service.detail}</p>
+          </div>
         `;
 
         const checkbox = card.querySelector('input[type="checkbox"]');
