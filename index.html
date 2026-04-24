@@ -459,21 +459,284 @@
       .services-layout,.about-grid{grid-template-columns:1fr}
       .summary-panel,.booking-panel{position:static}
     }
+
     @media (max-width:860px){
-      .header-inner{gap:10px;padding:14px 14px 12px}
-      .brand-name{font-size:clamp(1.08rem,6vw,1.58rem)}
-      .nav{width:100%}
-      .nav-row{gap:8px}
-      .nav-item{padding:10px 13px;font-size:.92rem}
-      .hero{padding:10px 0 14px}
-      .hero-copy{padding:24px 18px 20px;border-radius:24px}
-      .hero-image img{height:212px}
-      .section{padding:24px 0}
-      .cards-grid,.reviews-grid,.contact-grid,.form-grid,.why-grid{grid-template-columns:1fr}
-      .service-card{padding:16px}
-      .floating-mobile-cta{display:grid}
-      .footer{padding-bottom:96px}
+      .container{
+        width:100%;
+        padding-inline:8px;
+      }
+
+      .header-inner{
+        gap:8px;
+        padding:12px 8px 10px;
+      }
+      .brand-name{
+        font-size:clamp(1.08rem,6vw,1.56rem);
+      }
+
+      .hero{
+        padding:8px 0 12px;
+      }
+      .hero-grid{
+        gap:12px;
+      }
+      .hero-copy{
+        width:100%;
+        padding:22px 14px 18px;
+        border-radius:22px;
+      }
+      .hero-title{
+        font-size:clamp(1.9rem,7.4vw,2.6rem);
+        line-height:1.02;
+      }
+      .hero-text{
+        font-size:1rem;
+        line-height:1.72;
+        max-width:none;
+        margin-top:12px;
+      }
+      .cta-row{
+        margin-top:18px;
+        gap:10px;
+      }
+      .btn{
+        min-height:52px;
+        padding:0 18px;
+      }
+      .hero-image{
+        width:100%;
+        border-radius:22px;
+      }
+      .hero-image img{
+        height:210px;
+      }
+
+      .section{
+        padding:20px 0;
+      }
+      .section-glass,
+      .service-intro-shell{
+        padding:16px 14px;
+        border-radius:22px;
+      }
+      .service-intro-title{
+        font-size:clamp(1.9rem,8vw,2.8rem);
+        line-height:1.02;
+      }
+      .service-intro-lead{
+        font-size:1rem;
+        line-height:1.7;
+        margin-top:14px;
+      }
+
+      .services-layout,
+      .about-grid,
+      .reviews-grid,
+      .contact-grid,
+      .form-grid,
+      .why-grid{
+        grid-template-columns:1fr;
+        gap:12px;
+      }
+
+      .summary-panel,
+      .booking-panel,
+      .about-panel,
+      .contact-panel,
+      .review-card,
+      .faq-card{
+        padding:16px;
+        border-radius:22px;
+      }
+      .summary-panel{
+        position:static;
+      }
+      .booking-panel{
+        margin-top:14px;
+      }
+      .section-title{
+        font-size:clamp(1.5rem,5.8vw,2.15rem);
+        line-height:1.05;
+      }
+      .section-lead{
+        line-height:1.72;
+        max-width:none;
+      }
+
+      .group-head{
+        padding:16px;
+        gap:12px;
+      }
+      .group-title{
+        font-size:1rem;
+      }
+      .group-subtitle{
+        font-size:.9rem;
+        line-height:1.45;
+      }
+      .group-pill{
+        padding:8px 10px;
+        font-size:.82rem;
+      }
+      .group-content{
+        padding:0 14px 14px;
+      }
+      .group-note{
+        margin-bottom:12px;
+      }
+      .cards-grid{
+        gap:12px;
+      }
+
+      .service-card{
+        padding:15px;
+        border-radius:20px;
+      }
+      .service-top{
+        grid-template-columns:auto minmax(0,1fr);
+        gap:10px;
+      }
+      .service-price{
+        grid-column:2;
+        justify-self:start;
+        font-size:1rem;
+        margin-top:2px;
+      }
+      .service-summary,
+      .service-details{
+        line-height:1.65;
+      }
+
+      .package-grid{
+        gap:12px;
+      }
+      .package-card{
+        padding:16px;
+        border-radius:22px;
+      }
+      .package-top{
+        grid-template-columns:1fr;
+        gap:10px;
+      }
+      .package-price-wrap{
+        justify-items:start;
+        padding-left:0;
+      }
+      .package-price{
+        font-size:clamp(1.5rem,8vw,2.1rem);
+      }
+      .package-features{
+        margin-top:14px;
+      }
+      .package-features li,
+      .package-detail-list li{
+        padding:10px 12px;
+        border-radius:14px;
+      }
+      .package-card .service-details{
+        margin-top:14px;
+        padding:14px;
+        border-radius:16px;
+      }
+      .package-actions{
+        margin-top:14px;
+        align-items:flex-start;
+      }
+
+      .field label{
+        font-size:.9rem;
+      }
+      .field input,
+      .field select,
+      .field textarea{
+        padding:14px 14px;
+        border-radius:16px;
+      }
+      .field textarea{
+        min-height:110px;
+      }
+
+      .date-picker{
+        padding:12px;
+        border-radius:22px;
+      }
+      .calendar-head{
+        padding:10px;
+        border-radius:16px;
+        gap:8px;
+      }
+      .calendar-month{
+        font-size:1rem;
+      }
+      .calendar-nav{
+        gap:6px;
+      }
+      .icon-btn{
+        width:40px;
+        height:40px;
+        border-radius:12px;
+      }
+      .quick-date-row{
+        gap:8px;
+      }
+      .quick-date-chip{
+        min-width:calc(50% - 4px);
+        flex:1 1 calc(50% - 4px);
+        padding:11px 12px;
+        border-radius:16px;
+      }
+      .quick-date-chip strong{
+        font-size:.88rem;
+      }
+      .quick-date-chip span{
+        font-size:.74rem;
+      }
+      .calendar-grid{
+        min-width:380px;
+        gap:6px;
+      }
+      .weekday,
+      .day{
+        min-height:44px;
+        border-radius:14px;
+      }
+
+      .total-box,
+      .booking-total{
+        padding:16px;
+        border-radius:18px;
+      }
+      .total-amount{
+        font-size:clamp(1.6rem,8vw,2.3rem);
+      }
+      .selected-list li,
+      .summary-panel li{
+        gap:10px;
+      }
+
+      .contact-item,
+      .why-item,
+      .review-card{
+        border-radius:18px;
+      }
+      .why-item{
+        padding:16px;
+      }
+
+      .floating-mobile-cta{
+        left:10px;
+        right:10px;
+        bottom:10px;
+      }
+      .floating-mobile-cta .btn{
+        min-height:52px;
+        border-radius:14px;
+      }
+      .footer{
+        padding-bottom:90px;
+      }
     }
+
 
     /* Premium overrides for packages */
     .group-card[data-group-type="packages"] .group-head {
