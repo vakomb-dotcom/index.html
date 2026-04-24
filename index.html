@@ -3467,6 +3467,576 @@
 
 
   </style>
+
+  <style id="final-mobile-polish">
+    :root{
+      --max: 1248px;
+    }
+
+    html{
+      scroll-behavior:smooth;
+      scroll-padding-top:120px;
+    }
+
+    .container{
+      width:min(100% - 24px, var(--max)) !important;
+    }
+
+    .topbar{
+      background:rgba(244,247,251,.90) !important;
+      border-bottom:1px solid rgba(15,23,42,.05) !important;
+      box-shadow:none !important;
+    }
+
+    .header-inner{
+      gap:12px !important;
+      padding:14px 16px 12px !important;
+    }
+
+    .brand-logo{
+      width:min(74%,700px) !important;
+      max-width:74% !important;
+      padding-bottom:18px !important;
+    }
+
+    .nav{
+      width:min(100%,820px) !important;
+    }
+
+    .nav-row{
+      gap:12px !important;
+    }
+
+    .nav-item{
+      padding:13px 20px !important;
+      font-size:1rem !important;
+      min-height:48px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .hero{
+      padding:20px 0 28px !important;
+    }
+
+    .hero-grid{
+      gap:14px !important;
+    }
+
+    .hero-copy{
+      padding:36px 24px 28px !important;
+      border-radius:30px !important;
+    }
+
+    .hero-title{
+      font-size:clamp(2.05rem,5.8vw,3.25rem) !important;
+      line-height:1.03 !important;
+    }
+
+    .hero-text{
+      max-width:66ch !important;
+      font-size:1.04rem !important;
+      line-height:1.72 !important;
+      margin-top:14px !important;
+    }
+
+    .btn{
+      min-height:54px !important;
+      padding:0 22px !important;
+      border-radius:999px !important;
+    }
+
+    .hero-image img{
+      height:320px !important;
+    }
+
+    .section{
+      padding:34px 0 !important;
+    }
+
+    .section-glass,
+    .service-intro-shell,
+    .summary-panel,
+    .booking-panel,
+    .about-shell,
+    .contact-panel,
+    .review-card,
+    .faq-card,
+    .group-card{
+      border-radius:28px !important;
+    }
+
+    .service-intro-shell{
+      padding:28px 22px 24px !important;
+      margin-bottom:16px !important;
+    }
+
+    .service-intro-title{
+      font-size:clamp(2.15rem,5.4vw,3.35rem) !important;
+      line-height:1.0 !important;
+    }
+
+    .service-intro-lead{
+      font-size:1.04rem !important;
+      line-height:1.76 !important;
+      max-width:70ch !important;
+    }
+
+    .services-layout{
+      gap:12px !important;
+      align-items:start !important;
+    }
+
+    .summary-panel{
+      padding:22px !important;
+      background:#fff !important;
+    }
+
+    .booking-total,
+    .total-box{
+      position:relative !important;
+      overflow:hidden !important;
+      background:#f8fbff !important;
+      border:1px solid rgba(37,99,235,.09) !important;
+    }
+
+    .booking-total::after,
+    .total-box::after{
+      content:none !important;
+      display:none !important;
+    }
+
+    .total-amount{
+      text-shadow:none !important;
+    }
+
+    .group-card{
+      overflow:hidden;
+    }
+
+    .services-stack{
+      gap:10px !important;
+    }
+
+    .group-head{
+      padding:18px 18px !important;
+      gap:12px !important;
+      background:#f8fbff !important;
+    }
+
+    .group-title{
+      font-size:1.03rem !important;
+    }
+
+    .group-pill{
+      padding:8px 12px !important;
+      font-size:.86rem !important;
+    }
+
+    .group-content{
+      padding:0 18px 18px !important;
+    }
+
+    .group-card.is-open .group-content{
+      padding:0 18px 18px !important;
+    }
+
+    .cards-grid,
+    .package-grid{
+      gap:10px !important;
+    }
+
+    .service-card,
+    .package-card{
+      padding:14px !important;
+      border-radius:22px !important;
+      box-shadow:0 10px 22px rgba(15,23,42,.05) !important;
+    }
+
+    .service-top{
+      gap:10px !important;
+    }
+
+    .service-title{
+      font-size:1rem !important;
+      line-height:1.18 !important;
+    }
+
+    .service-summary{
+      margin-top:7px !important;
+      line-height:1.58 !important;
+      font-size:.93rem !important;
+    }
+
+    .service-details{
+      font-size:.94rem !important;
+      line-height:1.68 !important;
+    }
+
+    .service-toggle{
+      padding:9px 12px !important;
+      font-size:.92rem !important;
+    }
+
+    .package-card.is-featured{
+      background:#fff8ef !important;
+      border-color:rgba(245,158,11,.22) !important;
+    }
+
+    .package-card.is-premium{
+      background:#fff4e8 !important;
+      border-color:rgba(245,158,11,.26) !important;
+    }
+
+    .package-card .package-badge,
+    .group-card[data-group-id="paruosimas-pardavimui"] .group-pill{
+      background:rgba(245,158,11,.12) !important;
+      color:#92400e !important;
+      border-color:rgba(245,158,11,.18) !important;
+    }
+
+    .group-card[data-group-id="paruosimas-pardavimui"] .group-head{
+      background:linear-gradient(180deg, #fff7e8, #fffaf1) !important;
+    }
+
+    .group-card[data-group-id="paruosimas-pardavimui"] .group-title{
+      color:#5c3b14 !important;
+    }
+
+    .group-card[data-group-id="paruosimas-pardavimui"] .package-card{
+      background:#fffaf1 !important;
+      border-color:rgba(245,158,11,.16) !important;
+    }
+
+    .group-card[data-group-id="paruosimas-pardavimui"] .package-card .service-toggle{
+      background:rgba(245,158,11,.10) !important;
+      border-color:rgba(245,158,11,.14) !important;
+      color:#92400e !important;
+    }
+
+    #paslaugos,
+    #apie,
+    #kontaktai,
+    #registracija{
+      scroll-margin-top:120px;
+    }
+
+    .about-vip{
+      padding:30px 22px 24px !important;
+    }
+
+    .about-title-blue{
+      color:#0f172a !important;
+      font-size:clamp(2.35rem,5.8vw,3.55rem) !important;
+      line-height:1.0 !important;
+    }
+
+    .about-lead-boost{
+      color:#0f172a !important;
+      font-size:1.18rem !important;
+      line-height:1.84 !important;
+      max-width:60ch !important;
+    }
+
+    .about-visual-grid{
+      width:min(100%,860px) !important;
+      margin-top:20px !important;
+    }
+
+    .about-visual-card{
+      border-radius:26px !important;
+      box-shadow:0 18px 40px rgba(15,23,42,.08) !important;
+    }
+
+    .about-visual-copy{
+      padding:16px 18px 18px !important;
+    }
+
+    .about-visual-copy h3{
+      color:#0f172a !important;
+      font-size:1.2rem !important;
+      line-height:1.12 !important;
+    }
+
+    .about-visual-copy p{
+      color:#0f172a !important;
+      font-size:1rem !important;
+      line-height:1.82 !important;
+    }
+
+    .about-spotlight-grid{
+      gap:12px !important;
+    }
+
+    .about-spotlight{
+      padding:18px !important;
+    }
+
+    .about-spotlight strong{
+      color:#0f172a !important;
+    }
+
+    .about-spotlight span{
+      color:#334155 !important;
+      line-height:1.75 !important;
+      font-size:.98rem !important;
+    }
+
+    .about-accordion-list-center{
+      display:none !important;
+    }
+
+    .review-card,
+    .contact-panel,
+    .faq-card{
+      box-shadow:0 12px 30px rgba(15,23,42,.06) !important;
+    }
+
+    .contact-item{
+      border-radius:20px !important;
+    }
+
+    .faq-list{
+      display:grid;
+      gap:12px !important;
+      margin-top:14px !important;
+    }
+
+    .faq-card{
+      padding:0 !important;
+      overflow:hidden;
+    }
+
+    .faq-card summary{
+      padding:18px 18px 16px !important;
+    }
+
+    .faq-card p{
+      padding:0 18px 16px !important;
+      margin:0 !important;
+    }
+
+    .faq-card:nth-child(n+5){
+      display:none !important;
+    }
+
+    .floating-mobile-cta{
+      left:10px !important;
+      right:10px !important;
+      bottom:10px !important;
+    }
+
+    .floating-mobile-cta .btn{
+      min-height:54px !important;
+      border-radius:16px !important;
+    }
+
+    .modal-card{
+      border:1px solid rgba(37,99,235,.10) !important;
+    }
+
+    @media (max-width:860px){
+      .container{
+        width:100% !important;
+        padding-inline:10px !important;
+      }
+
+      .header-inner{
+        gap:10px !important;
+        padding:12px 10px 12px !important;
+      }
+
+      .brand-logo{
+        width:min(82%,600px) !important;
+        max-width:82% !important;
+        padding-bottom:14px !important;
+      }
+
+      .nav-row{
+        gap:8px !important;
+      }
+
+      .nav-item{
+        padding:12px 16px !important;
+        font-size:.95rem !important;
+        min-height:46px !important;
+      }
+
+      .hero{
+        padding:12px 0 16px !important;
+      }
+
+      .hero-grid{
+        gap:12px !important;
+      }
+
+      .hero-copy{
+        padding:20px 12px 18px !important;
+        border-radius:24px !important;
+      }
+
+      .hero-title{
+        font-size:clamp(2rem,8vw,2.75rem) !important;
+      }
+
+      .hero-text{
+        font-size:1rem !important;
+        line-height:1.7 !important;
+      }
+
+      .hero-image img{
+        height:220px !important;
+      }
+
+      .section{
+        padding:14px 0 !important;
+      }
+
+      .service-intro-shell{
+        padding:16px 12px 14px !important;
+        border-radius:22px !important;
+      }
+
+      .service-intro-title{
+        font-size:clamp(1.9rem,8vw,2.8rem) !important;
+      }
+
+      .service-intro-lead{
+        font-size:1rem !important;
+        line-height:1.68 !important;
+      }
+
+      .services-layout{
+        gap:8px !important;
+      }
+
+      .summary-panel,
+      .booking-panel,
+      .about-shell,
+      .contact-panel,
+      .review-card,
+      .faq-card,
+      .group-card{
+        border-radius:22px !important;
+      }
+
+      .summary-panel{
+        padding:16px !important;
+      }
+
+      .booking-panel{
+        padding:16px !important;
+      }
+
+      .group-head{
+        padding:14px 14px !important;
+        gap:10px !important;
+      }
+
+      .group-title{
+        font-size:.98rem !important;
+      }
+
+      .group-pill{
+        padding:7px 10px !important;
+        font-size:.8rem !important;
+      }
+
+      .group-content,
+      .group-card.is-open .group-content{
+        padding:0 12px 12px !important;
+      }
+
+      .cards-grid,
+      .package-grid{
+        gap:8px !important;
+      }
+
+      .service-card,
+      .package-card{
+        padding:12px !important;
+        border-radius:18px !important;
+      }
+
+      .service-title{
+        font-size:.98rem !important;
+      }
+
+      .service-summary,
+      .service-details{
+        font-size:.9rem !important;
+        line-height:1.56 !important;
+      }
+
+      .package-title{
+        font-size:1.12rem !important;
+      }
+
+      .package-price{
+        font-size:clamp(1.5rem,7vw,2.1rem) !important;
+      }
+
+      .about-vip{
+        padding:18px 12px 16px !important;
+        border-radius:22px !important;
+      }
+
+      .about-title-blue{
+        font-size:clamp(2.05rem,8vw,2.95rem) !important;
+      }
+
+      .about-lead-boost{
+        font-size:1.02rem !important;
+        line-height:1.74 !important;
+      }
+
+      .about-visual-grid{
+        width:100% !important;
+        margin-top:16px !important;
+      }
+
+      .about-visual-copy{
+        padding:14px 14px 15px !important;
+      }
+
+      .about-visual-copy h3{
+        font-size:1.08rem !important;
+      }
+
+      .about-visual-copy p{
+        font-size:.96rem !important;
+      }
+
+      .faq-list{
+        gap:10px !important;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{
+        animation:none !important;
+        transition:none !important;
+        scroll-behavior:auto !important;
+      }
+    }
+
+    .section,
+    .group-card,
+    .service-card,
+    .package-card,
+    .review-card,
+    .contact-panel,
+    .faq-card,
+    .about-visual-card{
+      content-visibility:auto;
+      contain-intrinsic-size:1px 240px;
+    }
+
+    .group-card.is-open{
+      contain: none;
+    }
+  </style>
 </head>
 <body>
   <header class="topbar">
@@ -3492,11 +4062,11 @@
         <div class="hero-grid">
           <div class="hero-copy fade-in">
             <h1 class="hero-title">
-              Automobilių švaros
-              <span>paslaugos Ukmergėje</span>
+              Automobilių švara
+              <span>Ukmergėje</span>
             </h1>
             <p class="hero-text">
-              Kruopšti salono, kėbulo ir paruošimo pardavimui priežiūra vienoje vietoje. Aiškios kainos, patogus laiko pasirinkimas ir premium registracija be chaoso.
+              Profesionaliai pasirūpiname jūsų automobilio švara nuo salono iki kėbulo. Patogi sistema leidžia greitai pasirinkti paslaugas ir užsiregistruoti be jokio vargo.
             </p>
             <div class="cta-row">
               <a class="btn btn-primary" href="#paslaugos">Peržiūrėti paslaugas</a>
@@ -3624,7 +4194,7 @@
           <div class="eyebrow about-eyebrow-boost">Apie mus</div>
           <div class="section-title about-center-title about-title-blue">Švara, kurią jauti iš karto</div>
           <p class="section-lead about-center-lead about-lead-boost">
-            Mes rūpinamės, kad automobilis atrodytų nepriekaištingai – tiek kasdieniam naudojimui, tiek prieš pardavimą. Kiekvienas darbas atliekamas kruopščiai, su dėmesiu detalėms ir aiškiu tikslu – pasiekti rezultatą, kuris matomas iš karto.
+            Rūpinamės, kad automobilis atrodytų nepriekaištingai tiek kasdieniam naudojimui, tiek prieš pardavimą. Darbai atliekami kruopščiai, su dėmesiu detalėms ir matomu rezultatu iš karto.
           </p>
 
                     
@@ -3716,18 +4286,6 @@
               <details class="faq-card">
                 <summary>Kiek laiko užtrunka paslaugos?<span>+</span></summary>
                 <p>Trukmė priklauso nuo pasirinktos paslaugos. Paprastesni darbai užtrunka trumpiau, o paketai ir gilesnis valymas — ilgiau.</p>
-              </details>
-              <details class="faq-card">
-                <summary>Ar reikia automobilį atvežti švarų?<span>+</span></summary>
-                <p>Ne. Automobilį galite atvežti įprastos būklės — mes parenkame tinkamiausią valymo eigą pagal situaciją.</p>
-              </details>
-              <details class="faq-card">
-                <summary>Ar galima keisti rezervacijos datą?<span>+</span></summary>
-                <p>Taip. Tiesiog susisiekite telefonu, ir galėsime suderinti kitą laisvą dieną pagal užimtumą.</p>
-              </details>
-              <details class="faq-card">
-                <summary>Ar forma veikia telefone?<span>+</span></summary>
-                <p>Taip. Visa registracija pritaikyta telefonui, todėl paslaugas, datą ir užklausą galima pateikti iš karto iš mobiliojo įrenginio.</p>
               </details>
             </div>
           </div>
@@ -4565,6 +5123,37 @@ Suma: ${money(total)}`;
       updateSummary();
       initDateDefaults();
       initReveal();
+    })();
+  </script>
+
+
+  <script>
+    (function () {
+      'use strict';
+      const headerOffset = () => {
+        const topbar = document.querySelector('.topbar');
+        return (topbar ? topbar.getBoundingClientRect().height : 0) + 12;
+      };
+
+      function scrollToServices(e) {
+        const target = document.querySelector('#paslaugos .service-intro-shell') || document.getElementById('paslaugos');
+        if (!target) return;
+        e.preventDefault();
+        const y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset();
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
+
+      function bindHeroCta() {
+        document.querySelectorAll('a[href="#paslaugos"]').forEach((link) => {
+          link.addEventListener('click', scrollToServices, { passive: false });
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', bindHeroCta);
+      } else {
+        bindHeroCta();
+      }
     })();
   </script>
 
