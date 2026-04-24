@@ -1509,6 +1509,272 @@
       *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
     }
 
+
+    /* Final polish overrides */
+    .group-head{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto auto;
+      align-items:center;
+      gap:14px;
+    }
+    .group-head-left{
+      grid-column:1;
+    }
+    .group-pill{
+      grid-column:2;
+      justify-self:end;
+      margin-left:0;
+    }
+    .chev{
+      grid-column:3;
+      justify-self:end;
+    }
+    .cards-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .service-card{
+      width:100%;
+    }
+
+    .about-shell{
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+      gap:18px;
+      padding:24px;
+      border-radius:34px;
+      background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,250,255,.98));
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:var(--shadow-card);
+      position:relative;
+      overflow:hidden;
+    }
+    .about-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,.12), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(15,23,42,.05), transparent 30%);
+      pointer-events:none;
+    }
+    .about-hero,
+    .about-feature-panel{
+      position:relative;
+      z-index:1;
+    }
+    .about-pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+    .about-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(37,99,235,.12);
+      color:#0f172a;
+      box-shadow:0 10px 22px rgba(15,23,42,.05);
+      font-size:.92rem;
+      font-weight:800;
+    }
+    .about-feature-panel{
+      border-radius:28px;
+      background:linear-gradient(180deg, rgba(15,23,42,.96), rgba(37,99,235,.94));
+      color:#fff;
+      padding:22px;
+      box-shadow:0 22px 50px rgba(15,23,42,.16);
+      display:grid;
+      align-content:start;
+      gap:14px;
+    }
+    .about-feature-head{
+      font-size:1.02rem;
+      font-weight:900;
+      letter-spacing:-.02em;
+      color:#fff;
+    }
+    .about-feature-grid{
+      display:grid;
+      gap:12px;
+    }
+    .about-feature-card{
+      padding:16px;
+      border-radius:20px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      backdrop-filter:blur(10px);
+    }
+    .about-feature-card strong{
+      display:block;
+      margin-bottom:6px;
+      color:#fff;
+      font-size:.98rem;
+      letter-spacing:-.02em;
+    }
+    .about-feature-card span{
+      display:block;
+      color:rgba(255,255,255,.86);
+      line-height:1.7;
+      font-size:.95rem;
+    }
+    .about-feature-card-accent{
+      background:rgba(255,255,255,.16);
+      border-color:rgba(255,255,255,.20);
+    }
+
+    @media (max-width:860px){
+      .container{
+        width:100%;
+        padding-inline:6px;
+      }
+      .section{
+        padding:16px 0;
+      }
+      .hero-copy{
+        padding:20px 12px 16px;
+        border-radius:22px;
+      }
+      .hero-image img{
+        height:200px;
+      }
+      .section-glass,
+      .service-intro-shell,
+      .summary-panel,
+      .booking-panel,
+      .about-shell,
+      .contact-panel,
+      .review-card,
+      .faq-card,
+      .group-card{
+        border-radius:20px;
+      }
+      .services-layout{
+        gap:10px;
+      }
+      .summary-panel,
+      .booking-panel{
+        padding:14px;
+      }
+      .group-head{
+        padding:14px 12px;
+        gap:10px;
+        grid-template-columns:minmax(0,1fr) auto auto;
+      }
+      .group-title{
+        font-size:1rem;
+      }
+      .group-subtitle{
+        font-size:.9rem;
+        line-height:1.45;
+      }
+      .group-pill{
+        padding:8px 10px;
+        font-size:.8rem;
+      }
+      .group-content{
+        padding:0 12px 12px;
+      }
+      .cards-grid,
+      .package-grid{
+        grid-template-columns:1fr;
+        gap:10px;
+      }
+      .service-card{
+        padding:12px;
+        border-radius:18px;
+        box-shadow:0 10px 18px rgba(15,23,42,.04);
+      }
+      .service-top{
+        gap:8px;
+      }
+      .service-title{
+        font-size:.98rem;
+        line-height:1.18;
+      }
+      .service-summary{
+        font-size:.9rem;
+        line-height:1.55;
+      }
+      .service-actions{
+        margin-top:10px;
+      }
+      .service-toggle{
+        padding:9px 12px;
+        font-size:.92rem;
+      }
+      .date-picker{
+        padding:10px;
+        border-radius:18px;
+      }
+      .calendar-head{
+        padding:10px;
+        border-radius:14px;
+        gap:8px;
+        align-items:flex-start;
+      }
+      .calendar-grid{
+        min-width:0;
+        gap:4px;
+      }
+      .calendar-wrap{
+        overflow:visible;
+      }
+      .weekday,
+      .day{
+        min-height:40px;
+        border-radius:12px;
+      }
+      .about-shell{
+        grid-template-columns:1fr;
+        padding:14px;
+        gap:12px;
+      }
+      .about-pill-row{
+        gap:8px;
+        margin-top:14px;
+      }
+      .about-pill{
+        padding:9px 12px;
+        font-size:.84rem;
+      }
+      .about-feature-panel{
+        padding:16px;
+        border-radius:22px;
+      }
+      .about-feature-card{
+        padding:14px;
+        border-radius:18px;
+      }
+      .form-grid,
+      .contact-grid,
+      .reviews-grid,
+      .why-grid{
+        gap:10px;
+      }
+      .footer{
+        padding-bottom:88px;
+      }
+    }
+
+    @media (max-width:480px){
+      .hero-title{
+        font-size:clamp(1.78rem,8vw,2.45rem);
+      }
+      .service-intro-title{
+        font-size:clamp(1.72rem,8.3vw,2.5rem);
+      }
+      .section-title{
+        font-size:clamp(1.45rem,6.2vw,2rem);
+      }
+      .service-card .service-top{
+        grid-template-columns:auto minmax(0,1fr) auto;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -1653,99 +1919,40 @@
       </div>
     </section>
 
-    <section id="apie" class="section">
+        <section id="apie" class="section">
       <div class="container">
         <div class="about-shell fade-in">
           <div class="about-hero">
             <div class="eyebrow">Apie mus</div>
-            <div class="section-title">Premium automobilio paruošimas, kuris matosi iš karto</div>
+            <div class="section-title">Auto paruošimas, kuris atrodo premium ir veikia patogiai telefone</div>
             <p class="section-lead">
-              Kuriame švarų, tvarkingą ir labiau parduodamą automobilio įspūdį. Kiekviena paslauga ir kiekvienas žingsnis parenkami taip, kad rezultatas atrodytų solidžiai tiek gyvai, tiek nuotraukose.
+              Dirbame tam, kad automobilis būtų tvarkingesnis, švaresnis ir vizualiai stipresnis tiek gyvai, tiek skelbime.
+              Viskas pateikta aiškiai: paslaugos, kaina, data ir registracija.
             </p>
-            <div class="about-stats">
-              <div class="about-stat">
-                <strong>Greita registracija</strong>
-                <span>Paslaugas pasirenkate vienoje vietoje, datą pažymite kalendoriuje ir pateikiate užklausą be painiavos.</span>
-              </div>
-              <div class="about-stat">
-                <strong>Tvarkingas vaizdas</strong>
-                <span>Dėmesys skiriamas tiek salonui, tiek kėbului, kad automobilis atrodytų gaivesnis ir prižiūrėtas.</span>
-              </div>
-              <div class="about-stat">
-                <strong>Pritaikyta pardavimui</strong>
-                <span>Sprendimai sukurti taip, kad automobilis atrodytų patraukliau ir labiau pasitikėjimą keliantis.</span>
-              </div>
+
+            <div class="about-pill-row" aria-label="Pagrindiniai privalumai">
+              <span class="about-pill">Salonas ir kėbulas</span>
+              <span class="about-pill">Aiškios kainos</span>
+              <span class="about-pill">Greita registracija</span>
             </div>
           </div>
 
-          <div class="about-accordion-list">
-            <details class="about-accordion-card" open>
-              <summary>
-                <span>
-                  <strong>Kaip dirbame</strong>
-                  <small>Aiškiai, tvarkingai ir be perteklinių žingsnių.</small>
-                </span>
-                <span class="about-accordion-icon" aria-hidden="true">⌄</span>
-              </summary>
-              <div class="about-accordion-body">
-                <div>
-                  <p>
-                    Pirmiausia pasirenkate reikalingas paslaugas, tada patogiai susikuriate užsakymą ir iš karto matote kainą. Visa sistema orientuota į greitą sprendimą telefonu.
-                  </p>
-                </div>
+          <div class="about-feature-panel">
+            <div class="about-feature-head">Kodėl ši sistema patogi</div>
+            <div class="about-feature-grid">
+              <div class="about-feature-card">
+                <strong>Aiškiai matoma</strong>
+                <span>Paslaugos ir kainos išdėstytos taip, kad telefone viską rastumėte iš karto.</span>
               </div>
-            </details>
-
-            <details class="about-accordion-card">
-              <summary>
-                <span>
-                  <strong>Ką gaunate</strong>
-                  <small>Tvarką, gaivą ir švaresnį bendrą įspūdį.</small>
-                </span>
-                <span class="about-accordion-icon" aria-hidden="true">⌄</span>
-              </summary>
-              <div class="about-accordion-body">
-                <div>
-                  <p>
-                    Salonas atrodo švaresnis ir lengviau prižiūrėtas, o kėbulas – vizualiai gaivesnis. Dėl to automobilis nuotraukose ir realybėje palieka solidesnį įspūdį.
-                  </p>
-                </div>
+              <div class="about-feature-card">
+                <strong>Minimalu ir švaru</strong>
+                <span>Neperkrauta forma, daug oro, aiškus kontrastas ir modernus vaizdas.</span>
               </div>
-            </details>
-
-            <details class="about-accordion-card">
-              <summary>
-                <span>
-                  <strong>Kodėl verta rinktis mus</strong>
-                  <small>Paslaugos pateiktos moderniai, aiškiai ir patogiai.</small>
-                </span>
-                <span class="about-accordion-icon" aria-hidden="true">⌄</span>
-              </summary>
-              <div class="about-accordion-body">
-                <div>
-                  <p>
-                    Visa struktūra sukurta taip, kad nereikėtų ieškoti informacijos. Matote paslaugas, kainas, datą ir registraciją vienoje vietoje, be papildomų skambučių ar žinučių.
-                  </p>
-                </div>
+              <div class="about-feature-card about-feature-card-accent">
+                <strong>Premium pojūtis</strong>
+                <span>Mėlyna, juoda ir balta spalvos su švelniais šešėliais kuria kokybišką įspūdį.</span>
               </div>
-            </details>
-
-            <details class="about-accordion-card">
-              <summary>
-                <span>
-                  <strong>Pritaikyta skirtingiems poreikiams</strong>
-                  <small>Nuo greito atnaujinimo iki pilnesnio paruošimo.</small>
-                </span>
-                <span class="about-accordion-icon" aria-hidden="true">⌄</span>
-              </summary>
-              <div class="about-accordion-body">
-                <div>
-                  <p>
-                    Galite rinktis pavienes paslaugas arba pilnesnius paketus. Taip lengvai susikomplektuojate būtent tokį rezultatą, kokio reikia konkrečiai situacijai.
-                  </p>
-                </div>
-              </div>
-            </details>
+            </div>
           </div>
         </div>
       </div>
