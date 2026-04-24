@@ -1775,6 +1775,112 @@
       }
     }
 
+  
+    /* Overrides for list-style services and tighter mobile layout */
+    .cards-grid,
+    .package-grid{
+      grid-template-columns:1fr !important;
+      gap:12px !important;
+    }
+    .service-card{
+      display:block;
+      padding:14px 16px;
+    }
+    .service-top{
+      grid-template-columns:auto minmax(0,1fr) auto !important;
+      align-items:start;
+      gap:10px;
+    }
+    .service-copy{
+      min-width:0;
+    }
+    .service-title{
+      display:block;
+      -webkit-line-clamp:unset;
+      overflow:visible;
+      font-size:1rem;
+      line-height:1.18;
+    }
+    .service-summary{
+      margin-top:8px;
+      font-size:.93rem;
+      line-height:1.55;
+    }
+    .package-card{
+      padding:18px 16px;
+    }
+    .package-title{
+      margin:10px 0 0;
+    }
+    .package-summary{
+      display:none !important;
+    }
+    .package-actions{
+      margin-top:14px;
+      justify-content:flex-start;
+    }
+    .group-head{
+      grid-template-columns:minmax(0,1fr) auto auto !important;
+    }
+    .group-pill{
+      justify-self:end;
+      margin-left:0;
+    }
+    @media (max-width:860px){
+      .container{
+        width:100%;
+        padding-inline:4px;
+      }
+      .section{
+        padding:14px 0;
+      }
+      .section-glass,
+      .service-intro-shell,
+      .about-shell,
+      .summary-panel,
+      .booking-panel,
+      .contact-panel,
+      .review-card,
+      .faq-card,
+      .group-card{
+        border-radius:20px;
+      }
+      .services-layout{
+        gap:10px;
+      }
+      .group-head{
+        padding:14px 12px;
+        gap:10px;
+      }
+      .group-content{
+        padding:0 10px 10px !important;
+      }
+      .service-card,
+      .package-card{
+        padding:12px 12px 11px;
+      }
+      .service-top{
+        gap:8px;
+      }
+      .service-summary{
+        font-size:.9rem;
+      }
+      .package-features li{
+        padding:10px 12px;
+      }
+      .about-shell{
+        padding:14px;
+        gap:12px;
+      }
+      .about-feature-panel{
+        padding:16px;
+      }
+      .about-feature-card{
+        padding:14px;
+      }
+    }
+
+
   </style>
 </head>
 <body>
@@ -1919,38 +2025,38 @@
       </div>
     </section>
 
-        <section id="apie" class="section">
+    
+    <section id="apie" class="section">
       <div class="container">
         <div class="about-shell fade-in">
           <div class="about-hero">
             <div class="eyebrow">Apie mus</div>
-            <div class="section-title">Auto paruošimas, kuris atrodo premium ir veikia patogiai telefone</div>
+            <div class="section-title">Švarus automobilio vaizdas, aiškus procesas ir premium pojūtis telefone</div>
             <p class="section-lead">
-              Dirbame tam, kad automobilis būtų tvarkingesnis, švaresnis ir vizualiai stipresnis tiek gyvai, tiek skelbime.
-              Viskas pateikta aiškiai: paslaugos, kaina, data ir registracija.
+              Dirbame taip, kad viskas būtų paprasta: pasirinkite paslaugą, matykite kainą, pažymėkite datą ir registruokitės be papildomo vargo.
             </p>
 
             <div class="about-pill-row" aria-label="Pagrindiniai privalumai">
-              <span class="about-pill">Salonas ir kėbulas</span>
-              <span class="about-pill">Aiškios kainos</span>
+              <span class="about-pill">Mėlyna, juoda, balta</span>
+              <span class="about-pill">Patogu telefone</span>
               <span class="about-pill">Greita registracija</span>
             </div>
           </div>
 
           <div class="about-feature-panel">
-            <div class="about-feature-head">Kodėl ši sistema patogi</div>
+            <div class="about-feature-head">Kodėl ši sistema atrodo kokybiškai</div>
             <div class="about-feature-grid">
               <div class="about-feature-card">
-                <strong>Aiškiai matoma</strong>
-                <span>Paslaugos ir kainos išdėstytos taip, kad telefone viską rastumėte iš karto.</span>
+                <strong>Aiškiai ir greitai</strong>
+                <span>Paslaugos, kainos ir data pateikti taip, kad nereikėtų ieškoti po kelis ekranus.</span>
               </div>
               <div class="about-feature-card">
-                <strong>Minimalu ir švaru</strong>
-                <span>Neperkrauta forma, daug oro, aiškus kontrastas ir modernus vaizdas.</span>
+                <strong>Švarus vizualas</strong>
+                <span>Daug oro, minkšti šešėliai ir tvarkinga hierarchija sukuria aukštesnės klasės įspūdį.</span>
               </div>
               <div class="about-feature-card about-feature-card-accent">
-                <strong>Premium pojūtis</strong>
-                <span>Mėlyna, juoda ir balta spalvos su švelniais šešėliais kuria kokybišką įspūdį.</span>
+                <strong>Premium akcentai</strong>
+                <span>Subtilūs mėlyni akcentai ir kontrastingas tekstas sustiprina modernų, solidų vaizdą.</span>
               </div>
             </div>
           </div>
@@ -2071,83 +2177,49 @@
     (function () {
       'use strict';
 
-      const groups = [
+      
+const groups = [
         {
           id: 'salonas',
           title: 'Salonas',
           subtitle: 'Tvarka, gaiva ir švara salone.',
-          pill: '10 paslaugų',
-          note: 'Šios paslaugos skirtos salono atnaujinimui prieš pardavimą, fotosesiją ar kasdienį naudojimą.',
+          pill: '5 paslaugų',
+          note: 'Salono paslaugos pateiktos nuo lengvesnio iki gilesnio valymo, kad rinktis būtų paprasta ir aišku.',
           services: [
             {
-              id: 18,
-              title: 'Stiklų valymas salone',
-              price: 15,
-              summary: 'Vidaus stiklų ir veidrodėlių valymas iki skaidraus rezultato.',
-              detail: 'Išvalomi priekinis ir galiniai stiklai, vidiniai veidrodėliai ir matomiausi kraštai, kad salono vaizdas būtų švaresnis, šviesesnis ir tvarkingesnis.'
-            },
-            {
-              id: 1,
-              title: 'Salono sausas valymas',
-              price: 25,
-              summary: 'Greitas ir kruopštus salono atnaujinimas be perteklinės drėgmės.',
-              detail: 'Pirmiausia kruopščiai išsiurbiamos sėdynės, kilimai, grindys ir visi tarpai. Tada sausu mikropluoštu nuvalomos dulkės, trupiniai ir lengvi nešvarumai, kad salonas iš karto atrodytų tvarkingesnis ir tinkamas fotosesijai.'
-            },
-            {
-              id: 19,
-              title: 'Panelės ir durelių valymas',
-              price: 30,
-              summary: 'Pagrindinių salono paviršių švarai ir vientisam įvaizdžiui.',
-              detail: 'Nuvaloma prietaisų panelė, durelių rankenos, porankiai ir kiti dažnai liečiami paviršiai, kad salonas atrodytų tvarkingas ir prižiūrėtas.'
-            },
-            {
-              id: 4,
-              title: 'Kilimėlių cheminis valymas',
-              price: 35,
-              summary: 'Kilimėlių gilesnis išvalymas ir gaivesnis vaizdas.',
-              detail: 'Kilimėliai išimami, išpurškiami aktyvia priemone, išvalomi nuo įsisenėjusių nešvarumų ir išdžiovinami, kad interjeras atrodytų švarus ir prižiūrėtas.'
-            },
-            {
-              id: 20,
-              title: 'Plastiko detalių atnaujinimas',
+              id: 101,
+              title: 'Pilnas salono sausas valymas',
               price: 40,
-              summary: 'Matinių plastikų gaivinimas be riebaus blizgesio.',
-              detail: 'Vidaus plastikai nuriebalinami, švelniai nuvalomi ir padengiami atnaujinančia priemone, kuri išlaiko natūralią, švarią išvaizdą.'
+              summary: 'Siurbimas, plastikai ir langai viename tvarkingame rezultate.',
+              detail: 'Išsiurbiamos pagrindinės salono vietos, nuvalomi plastikai ir stiklai, kad vidus atrodytų švarus, gaivus ir paruoštas naudojimui.'
             },
             {
-              id: 21,
-              title: 'Kvapų neutralizavimas',
-              price: 45,
-              summary: 'Nemalonių kvapų mažinimas ir gaivesnė salono aplinka.',
-              detail: 'Salono oras ir paviršiai apdorojami kvapus mažinančiomis priemonėmis, kad automobilis būtų malonesnis tiek pardavimui, tiek kasdieniam naudojimui.'
+              id: 102,
+              title: 'Kilimėlių cheminis valymas',
+              price: 20,
+              summary: 'Kilimėliai išvalomi nuo dėmių ir nešvarumų.',
+              detail: 'Kilimėliai išimami, išpurškiami ir išvalomi, kad interjeras atrodytų švaresnis ir gaivesnis.'
             },
             {
-              id: 22,
-              title: 'Sėdynių tarpų giluminis išsiurbimas',
-              price: 55,
-              summary: 'Tikslinis valymas ten, kur dažniausiai kaupiasi trupiniai.',
-              detail: 'Specialiais antgaliais pasiekiami tarpai tarp sėdynių, bėgeliai ir sunkiau prieinamos vietos, iš kurių pašalinamos dulkės, smulkūs trupiniai ir šiukšlės.'
+              id: 103,
+              title: 'Pilnas salono cheminis valymas',
+              price: 90,
+              summary: 'Gilus salono atnaujinimas ir ryškiai gaivesnis vaizdas.',
+              detail: 'Atliekamas gilesnis salono valymas su dėmių, dulkių ir įsisenėjusių nešvarumų mažinimu, kad automobilio vidus atrodytų stipriai atnaujintas.'
             },
             {
-              id: 3,
-              title: 'Plastikų atnaujinimas',
-              price: 60,
-              summary: 'Panelės, durų ir salono plastikų vizualinis atgaivinimas.',
-              detail: 'Paviršiai pirmiausia nuriebalinami, tada nuvalomi ir atnaujinami specialiomis priemonėmis, kurios sugrąžina vientisą, tvarkingą išvaizdą be riebaus blizgesio.'
+              id: 104,
+              title: 'Odinių sėdynių valymas',
+              price: 30,
+              summary: 'Odos paviršius švelniai nuvalomas ir atgaivinamas.',
+              detail: 'Odinės sėdynės valomos specialiomis priemonėmis, kurios padeda išlaikyti estetišką vaizdą ir tvarkingą paviršių.'
             },
             {
-              id: 23,
-              title: 'Sėdynių dėmių lokalus valymas',
-              price: 75,
-              summary: 'Tikslinis dėmių mažinimas ant tekstilės ar odos.',
-              detail: 'Įsisenėjusios dėmės apdorojamos pagal paviršiaus tipą, kad sėdynės atrodytų švaresnės, lygesnės ir vizualiai patrauklesnės.'
-            },
-            {
-              id: 2,
-              title: 'Cheminis salono valymas',
-              price: 110,
-              summary: 'Gilesnis salono atnaujinimas su dėmių ir kvapų mažinimu.',
-              detail: 'Naudojamos aktyvios priemonės pagal medžiagą: tekstilei, odai ar plastikui. Pirmiausia apdorojamos dėmės, po to paviršiai išvalomi ir ištraukiami nešvarumai, kad salonas taptų švaresnis ir gaivesnis.'
+              id: 105,
+              title: 'Plastmasinių dalių atnaujinimas',
+              price: 30,
+              summary: 'Plastikai nuvalomi ir vizualiai sugaivinami.',
+              detail: 'Vidaus plastiko detalės nuvalomos ir atnaujinamos, kad salonas atrodytų modernesnis ir švaresnis.'
             }
           ]
         },
@@ -2155,78 +2227,71 @@
           id: 'kebulas',
           title: 'Kėbulas',
           subtitle: 'Išorės blizgesys, apsauga ir vizualinis efektas.',
-          pill: '10 paslaugų',
-          note: 'Kėbulo grupė apima tiek vizualinį atnaujinimą, tiek pasiruošimą gražesniam pardavimo įvaizdžiui.',
+          pill: '9 paslaugos',
+          note: 'Kėbulo paslaugos sudėtos pagal kainą, nuo greito atnaujinimo iki stipresnio vizualinio efekto.',
           services: [
             {
-              id: 10,
+              id: 201,
+              title: 'Vabzdžių likučių šalinimas',
+              price: 5,
+              summary: 'Pašalinami vabzdžių likučiai nuo priekinės dalies.',
+              detail: 'Kruopščiai nuvalomi vabzdžių pėdsakai nuo bamperio, kapoto ir kitų matomų vietų.'
+            },
+            {
+              id: 202,
               title: 'Padangų juodinimas',
-              price: 8,
-              summary: 'Padangoms suteikiama sodresnė ir švaresnė išvaizda.',
-              detail: 'Padangos nuvalomos nuo dulkių ir senų priemonių likučių, tuomet padengiamos juodinimo priemone, kuri vizualiai suvienodina spalvą ir paryškina automobilio stovą.'
+              price: 5,
+              summary: 'Padangos paryškinamos tamsesnei ir švaresnei išvaizdai.',
+              detail: 'Padangos padengiamos juodinimo priemone, kad automobilis vizualiai atrodytų tvarkingesnis.'
             },
             {
-              id: 5,
-              title: 'Plovimas',
+              id: 203,
+              title: 'Bekontaktis plovimas',
               price: 20,
-              summary: 'Kruopštus išorės plovimas prieš fotosesiją ar paruošimą.',
-              detail: 'Kėbulas plaunamas etapais: pašalinami purvai, dulkės, druskos ir kelio nuosėdos. Ypatingas dėmesys skiriamas vietoms aplink ratų arkas, slenksčius ir sunkiau pasiekiamus kampus.'
+              summary: 'Kėbulas plaunamas švelniai, be prisilietimo šepečiais.',
+              detail: 'Pašalinami pagrindiniai nešvarumai, druskos ir kelio apnašos, išlaikant saugų ir vizualiai švarų rezultatą.'
             },
             {
-              id: 11,
-              title: 'Vaško padengimas (antras etapas)',
-              price: 25,
-              summary: 'Papildomas apsauginis sluoksnis ir sodresnis blizgesys.',
-              detail: 'Antras sluoksnis naudojamas tuomet, kai norisi dar sodresnio blizgesio ir papildomo paviršiaus užbaigimo prieš automobilio pardavimą.'
+              id: 204,
+              title: 'Kėbulo džiovinimas',
+              price: 10,
+              summary: 'Nuimami vandens lašai ir paliekamas švaresnis paviršius.',
+              detail: 'Po plovimo kėbulas džiovinamas taip, kad neliktų ryškių lašų žymių ar nubėgimų.'
             },
             {
-              id: 24,
-              title: 'Ratlankių valymas',
-              price: 30,
-              summary: 'Ratlankių paviršiaus ir tarpo atnaujinimas.',
-              detail: 'Ratlankiai išvalomi nuo dulkių, stabdžių apnašų ir kelių nešvarumų, kad automobilio išorė atrodytų kur kas tvarkingiau.'
+              id: 205,
+              title: 'Ratlankių giluminis valymas',
+              price: 15,
+              summary: 'Išvalomos stabdžių dulkės ir susikaupę nešvarumai.',
+              detail: 'Ratlankiai išvalomi giliau, kad automobilio išorė atrodytų ryškiau ir tvarkingiau.'
             },
             {
-              id: 6,
-              title: 'Vaško padengimas',
+              id: 206,
+              title: 'Vaškavimas',
+              price: 10,
+              summary: 'Suteikiamas blizgesys ir papildoma paviršiaus apsauga.',
+              detail: 'Ant švaraus kėbulo padengiamas vaško sluoksnis, padedantis išlaikyti gražesnį blizgesį ir geresnį paviršiaus užbaigimą.'
+            },
+            {
+              id: 207,
+              title: 'Smulkių defektų maskavimas',
               price: 35,
-              summary: 'Didesnis blizgesys ir apsauginis sluoksnis kėbului.',
-              detail: 'Po švaraus plovimo ant kėbulo padengiamas vaško sluoksnis, kuris sustiprina blizgesį, padeda vandeniui nubėgti nuo paviršiaus ir suteikia vizualiai sodresnį efektą.'
+              summary: 'Maži įbrėžimai vizualiai sumažinami pagal spalvą.',
+              detail: 'Smulkūs defektai maskuojami pagal spalvos kodą, kad jie būtų mažiau matomi gyvai ir nuotraukose.'
             },
             {
-              id: 8,
+              id: 208,
               title: 'Žibintų poliravimas',
-              price: 45,
-              summary: 'Skaidresni ir gražesni priekiniai žibintai.',
-              detail: 'Žibintų paviršius atnaujinamas, mažinamas matinimas ir pageltimas, kad automobilio priekis atrodytų tvarkingiau ir šviesa būtų paskirstoma tolygiau.'
+              price: 35,
+              summary: 'Žibintai išskaidrinami ir vizualiai atnaujinami.',
+              detail: 'Poliruojami žibintai, mažinamas matinimas ir pageltimas, kad automobilio priekis atrodytų švaresnis.'
             },
             {
-              id: 9,
-              title: 'Smulkių defektų maskavimas su markeriu / dažais pagal spalvą',
-              price: 55,
-              summary: 'Smulkių įbrėžimų ir nelygumų vizualinis sumažinimas.',
-              detail: 'Maži defektai įvertinami, lokalizuojami ir koreguojami markeriu arba dažais pagal spalvą taip, kad jie mažiau matytųsi gyvai bei nuotraukose.'
-            },
-            {
-              id: 25,
-              title: 'Apsauginio sealanto padengimas',
-              price: 65,
-              summary: 'Ilgiau išliekantis paviršiaus gaivumo efektas.',
-              detail: 'Ant švaraus kėbulo padengiamas apsauginis sluoksnis, padedantis ilgiau išlaikyti švaresnę išvaizdą ir geresnį blizgesį.'
-            },
-            {
-              id: 26,
-              title: 'Mikroįbrėžimų korekcija',
-              price: 95,
-              summary: 'Paviršinių defektų mažinimas ir vientisesnis vaizdas.',
-              detail: 'Smulkūs lako defektai koreguojami taip, kad automobilio kėbulas vizualiai atrodytų lygesnis ir tvarkingesnis.'
-            },
-            {
-              id: 7,
-              title: 'Kėbulo poliravimas',
-              price: 160,
-              summary: 'Lako paviršiaus atgaivinimas ir vizualiai geresnis blizgesys.',
-              detail: 'Atliekamas pagal lako būklę parinktas poliravimo procesas, kuris padeda sumažinti smulkius paviršinius defektus, sustiprinti blizgesį ir padaryti automobilį patrauklesnį nuotraukose.'
+              id: 209,
+              title: 'Poliravimas (1 žingsnio)',
+              price: 100,
+              summary: 'Atgaivinamas lako paviršius ir sustiprinamas blizgesys.',
+              detail: 'Vieno žingsnio poliravimas skirtas kėbulo paviršiui atnaujinti, sumažinti smulkius defektus ir vizualiai pagerinti blizgesį.'
             }
           ]
         },
@@ -2248,58 +2313,7 @@
               features: ['Siurbimas', 'Stiklų valymas', 'Panelės valymas', 'Plastikų valymas'],
               detail: 'Atliekamas bazinis, bet tvarkingas salono atnaujinimas: išsiurbiamos pagrindinės zonos, nuvalomi stiklai, panelė ir plastikai, kad automobilio vidus iškart atrodytų švaresnis ir gaivesnis. Tai geras pasirinkimas, kai reikia greito rezultato prieš kasdienį naudojimą ar trumpą pardavimo paruošimą.',
               detailTitle: 'Kas atliekama šiame pakete',
-              detailPoints: ["Salonas kruopščiai išsiurbiamas ir paruošiamas vizualiai švaresniam vaizdui.", "Nuvalomi stiklai, panelė ir pagrindiniai plastikai.", "Atliekamas greitas, bet tvarkingas atgaivinimas prieš kasdienį naudojimą.", "Tinka, kai reikia gaivaus rezultato be ilgos procedūros."]
-            },
-            {
-              id: 16,
-              title: 'Vidutinis paketas – 129 €',
-              price: 129,
-              badge: 'Populiariausias',
-              ribbon: 'Geriausias balansas',
-              summary: 'Standartinis paketas ir papildomai cheminis salono valymas, kilimėlių cheminis valymas, žibintų poliravimas.',
-              features: ['Viskas iš standartinio', 'Salono cheminis valymas', 'Kilimėlių cheminis valymas', 'Žibintų poliravimas'],
-              detail: 'Šis variantas sujungia bazinę švarą su gilesniu atnaujinimu: papildomai atliekamas cheminis salono valymas, tvarkomi kilimėliai, atgaivinami žibintai ir išvalomi dažniausiai matomi paviršiai. Rezultatas — gaivesnis, tvarkingesnis ir labiau pardavimui paruoštas automobilis.',
-              detailTitle: 'Kas atliekama šiame pakete',
-              detailPoints: ["Atliekamas viso bazinio paketo darbų komplektas.", "Papildomai naudojamas cheminis salono valymas ir kilimėlių atnaujinimas.", "Žibintai poliruojami, kad automobilio priekis atrodytų skaidresnis ir tvarkingesnis.", "Rezultatas labiau orientuotas į pardavimo įspūdį ir bendrą gaivą."]
-            },
-            {
-              id: 17,
-              title: 'MAXI paketas – 249 €',
-              price: 249,
-              badge: 'Maksimalus',
-              ribbon: 'Premium rezultatas',
-              summary: 'Standartinis ir vidutinis paketai + kėbulo 1 step poliravimas, padangų juodinimas, vidaus plastikų atnaujinimas.',
-              features: ['Viskas iš ankstesnių paketų', 'Kėbulo 1 step poliravimas', 'Padangų juodinimas', 'Vidaus plastikų atnaujinimas'],
-              detail: 'Pilnas paruošimas skirtas stipriausiam vizualiniam efektui: be standartinių ir vidutinių veiksmų atliekamas 1 step kėbulo poliravimas, juodinamos padangos, atnaujinami vidiniai plastikų paviršiai ir paruošiamas itin tvarkingas bendras pateikimas. Šis paketas sukurtas tada, kai norisi, kad automobilis atrodytų maksimaliai tvarkingas ir įsimintinas.',
-              detailTitle: 'Kas atliekama šiame pakete',
-              detailPoints: ["Atliekami visi baziniai ir vidutinio paketo darbai.", "Kėbulas papildomai poliruojamas 1 step principu.", "Padangos juodinamos, o vidaus plastikai atnaujinami.", "Tai pilnesnis vizualinis paruošimas stipresniam įspūdžiui."]
-            }
-          ]
-        },
-        {
-          id: 'paketai',
-          type: 'packages',
-          title: 'Automobilio paruošimas pardavimui',
-          subtitle: 'Trys paketai, sukurti skirtingam biudžetui ir rezultatui.',
-          pill: '3 paketai',
-          note: 'Paketai sukurti taip, kad juose jau būtų sudėta svarbiausia kombinacija pagal pasirinktą lygį.',
-          services: [
-            {
-              id: 12,
-              title: 'Standartinis paketas – 89 €',
-              price: 89,
-              badge: 'Startas',
-              ribbon: 'Bazinis',
-              summary: 'Auto plovimas, vaško padengimas, pilnas sausas salono valymas, nuotraukų padarymas, skelbimo įdėjimas į Autoplius.',
-              features: [
-                'Auto plovimas ir vaško padengimas',
-                'Pilnas sausas salono valymas',
-                'Nuotraukų paruošimas',
-                'Skelbimo įdėjimas į Autoplius'
-              ],
-              detail: 'Šis paketas apima pagrindinį paruošimą pardavimui: automobilis nuplaunamas, nuvalomi langai, išsiurbiamas salonas, sutvarkomi pagrindiniai paviršiai ir uždedamas vaško sluoksnis. Papildomai paruošiamos pardavimui tinkamos nuotraukos bei skelbimo bazinis turinys, kad automobilio pateikimas būtų tvarkingas ir aiškus.',
-              detailTitle: 'Kas atliekama šiame pakete',
-              detailPoints: ["Automobilis nuplaunamas ir padengiamas vaško sluoksniu.", "Pilnai išsiurbiamas sausas salonas, nuvalomi pagrindiniai paviršiai.", "Padaromos pardavimui tinkamos nuotraukos ir paruošiamas skelbimas.", "Šis paketas skirtas greitam, tvarkingam startui prieš pardavimą."]
+              detailPoints: ["Salonas kruopščiai išsiurbiamas ir paruošiamas vizualiai švaresniam vaizdui.", "Nuvalomi stiklai ir matomiausi vidiniai paviršiai.", "Panelė ir plastikai atgaivinami, kad salonas atrodytų tvarkingesnis."]
             },
             {
               id: 13,
@@ -2308,12 +2322,7 @@
               badge: 'Populiariausias',
               ribbon: 'Rekomenduojama',
               summary: 'Viskas iš standartinio paketo + cheminis salono valymas, padangų juodinimas, žibintų poliravimas.',
-              features: [
-                'Standartinio paketo darbai',
-                'Cheminis salono valymas',
-                'Padangų juodinimas',
-                'Žibintų poliravimas'
-              ],
+              features: ['Standartinio paketo darbai', 'Cheminis salono valymas', 'Padangų juodinimas', 'Žibintų poliravimas'],
               detail: 'Į šį paketą įeina visi baziniai darbai, papildomai atliekamas cheminis salono valymas, giliau sutvarkomi kilimėliai, atnaujinami žibintai ir suvienodinami matomiausi salono paviršiai. Rezultatas — švaresnis, gaivesnis ir vizualiai solidesnis automobilis, kuris pardavimui atrodo žymiai stipriau.',
               detailTitle: 'Kas atliekama šiame pakete',
               detailPoints: ["Atliekami visi standartinio paketo darbai.", "Pridedamas cheminis salono valymas ir padangų juodinimas.", "Žibintai poliruojami, kad automobilis vizualiai atrodytų naujesnis.", "Tai geras balansas tarp kainos, švaros ir pardavimo efekto."]
@@ -2325,15 +2334,86 @@
               badge: 'Maksimalus',
               ribbon: 'TOP',
               summary: 'Viskas iš standartinio ir vidutinio paketo + 1 step poliravimas, skelbimų kėlimas į 3 populiariausius portalus su iškėlimais.',
-              features: [
-                'Standartinio ir vidutinio paketo darbai',
-                '1 step kėbulo poliravimas',
-                'Skelbimai į 3 portalus',
-                'Iškėlimai ir maksimalus matomumas'
-              ],
+              features: ['Standartinio ir vidutinio paketo darbai', '1 step kėbulo poliravimas', 'Skelbimai į 3 portalus', 'Iškėlimai ir maksimalus matomumas'],
               detail: 'Tai pilniausias variantas: atliekami baziniai ir vidutiniai darbai, papildomas 1 step poliravimas, sustiprinamas kėbulo blizgesys ir pasirūpinama platesniu skelbimų matomumu. Šis paketas skirtas maksimaliai stipriam įspūdžiui, kai svarbu ir automobilio išvaizda, ir jo pateikimo kokybė.',
               detailTitle: 'Kas atliekama šiame pakete',
               detailPoints: ["Atliekami baziniai ir vidutiniai darbai, kad automobilis būtų paruoštas kompleksiškai.", "Papildomai atliekamas 1 step poliravimas, kad kėbulas atrodytų blizgesnis.", "Skelbimai keliami į 3 populiariausius portalus su iškėlimais.", "Skirtas maksimaliam matomumui ir stipriausiam bendram pateikimui."]
+            }
+          ]
+        },
+        {
+          id: 'paruosimas-pardavimui',
+          type: 'packages',
+          title: 'Automobilių paruošimas pardavimui',
+          subtitle: 'Trys paketai, sudėti pagal augantį rezultatą ir biudžetą.',
+          pill: '3 paketai',
+          note: 'Pilnas pardavimui skirtas paruošimas nuo bazinio starto iki maksimalaus vizualinio efekto.',
+          services: [
+            {
+              id: 301,
+              title: 'Standartinis paketas – 89 €',
+              price: 89,
+              badge: 'Startas',
+              ribbon: 'Bazinis',
+              summary: 'Auto plovimas, vaško padengimas, pilnas sausas salono valymas, nuotraukų paruošimas ir skelbimo įdėjimas į Autoplius.',
+              features: [
+                'Auto plovimas ir vaško padengimas',
+                'Pilnas sausas salono valymas',
+                'Nuotraukų paruošimas',
+                'Skelbimo įdėjimas į Autoplius'
+              ],
+              detail: 'Bazinis, bet labai tvarkingas paruošimas pardavimui: automobilis nuplaunamas, nuvalomi langai, išsiurbiamas salonas, sutvarkomi pagrindiniai paviršiai ir uždedamas vaško sluoksnis. Papildomai paruošiamos pardavimui tinkamos nuotraukos bei skelbimo bazinis turinys, kad automobilis būtų pateiktas aiškiai ir patraukliai.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: [
+                'Automobilis nuplaunamas ir padengiamas vaško sluoksniu.',
+                'Pilnai išsiurbiamas sausas salonas, nuvalomi pagrindiniai paviršiai.',
+                'Padaromos pardavimui tinkamos nuotraukos ir paruošiamas skelbimas.',
+                'Šis paketas skirtas greitam ir tvarkingam startui prieš pardavimą.'
+              ]
+            },
+            {
+              id: 302,
+              title: 'Vidutinis paketas – 149 €',
+              price: 149,
+              badge: 'Populiariausias',
+              ribbon: 'Rekomenduojama',
+              summary: 'Viskas iš standartinio paketo + cheminis salono valymas, padangų juodinimas ir žibintų poliravimas.',
+              features: [
+                'Standartinio paketo darbai',
+                'Cheminis salono valymas',
+                'Padangų juodinimas',
+                'Žibintų poliravimas'
+              ],
+              detail: 'Į šį paketą įeina visi baziniai darbai, papildomai atliekamas cheminis salono valymas, giliau sutvarkomi kilimėliai, atnaujinami žibintai ir suvienodinami matomiausi salono paviršiai. Rezultatas — švaresnis, gaivesnis ir vizualiai solidesnis automobilis, kuris pardavimui atrodo žymiai stipriau.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: [
+                'Atliekami visi standartinio paketo darbai.',
+                'Pridedamas cheminis salono valymas ir padangų juodinimas.',
+                'Žibintai poliruojami, kad automobilis vizualiai atrodytų naujesnis.',
+                'Tai geras balansas tarp kainos, švaros ir pardavimo efekto.'
+              ]
+            },
+            {
+              id: 303,
+              title: 'MAXI paketas – 249 €',
+              price: 249,
+              badge: 'Maksimalus',
+              ribbon: 'Premium rezultatas',
+              summary: 'Standartinis ir vidutinis paketai + kėbulo 1 step poliravimas, padangų juodinimas ir vidaus plastikų atnaujinimas.',
+              features: [
+                'Viskas iš ankstesnių paketų',
+                'Kėbulo 1 step poliravimas',
+                'Padangų juodinimas',
+                'Vidaus plastikų atnaujinimas'
+              ],
+              detail: 'Pilnas paruošimas stipriausiam vizualiniam efektui: be standartinių ir vidutinių veiksmų atliekamas 1 step kėbulo poliravimas, juodinamos padangos, atnaujinami vidiniai plastikų paviršiai ir paruošiamas itin tvarkingas bendras pateikimas. Šis paketas sukurtas tada, kai norisi, kad automobilis atrodytų maksimaliai tvarkingas ir įsimintinas.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: [
+                'Atliekami visi baziniai ir vidutinio paketo darbai.',
+                'Kėbulas papildomai poliruojamas 1 step principu.',
+                'Padangos juodinamos, o vidaus plastikai atnaujinami.',
+                'Tai pilnesnis vizualinis paruošimas stipresniam įspūdžiui.'
+              ]
             }
           ]
         }
@@ -2396,6 +2476,7 @@
           ? `Pasirinkti darbai:\n${selected.map((s) => `• ${s.title} — ${money(s.price)}`).join('\n')}\n\nSuma: ${money(total)}`
           : `Pasirinkti darbai:\nNėra pasirinktų paslaugų.\n\nSuma: ${money(total)}`;
       }
+
       function buildServiceCard(service) {
         const card = document.createElement('article');
         card.className = 'service-card fade-in';
@@ -2409,23 +2490,12 @@
             </div>
             <div class="service-price">${money(service.price)}</div>
           </div>
-          <div class="service-actions">
-            <button class="service-toggle" type="button" aria-expanded="false">Plačiau</button>
-          </div>
-          <div class="service-details">
-            <div class="service-details-inner">
-              <div class="package-detail-title">Kas atliekama šiame darbe</div>
-              <p class="package-detail-copy">${service.summary}</p>
-              <p class="package-detail-copy">${service.detail}</p>
-            </div>
-          </div>
         `;
 
         const checkbox = card.querySelector('input[type="checkbox"]');
-        const toggle = card.querySelector('.service-toggle');
 
         card.addEventListener('click', (event) => {
-          if (event.target.closest('button') || event.target.closest('input')) return;
+          if (event.target.closest('input')) return;
           checkbox.checked = !checkbox.checked;
           checkbox.dispatchEvent(new Event('change', { bubbles: true }));
         });
@@ -2437,14 +2507,9 @@
           updateSummary();
         });
 
-        toggle.addEventListener('click', () => {
-          const open = card.classList.toggle('is-open');
-          toggle.textContent = open ? 'Sutraukti' : 'Plačiau';
-          toggle.setAttribute('aria-expanded', String(open));
-        });
-
         return card;
       }
+
 
       function buildPackageCard(service) {
         const card = document.createElement('article');
@@ -2456,7 +2521,6 @@
             <div class="package-copy">
               <div class="package-badge">${service.badge || 'Paketas'}</div>
               <h3 class="package-title">${service.title}</h3>
-              <p class="package-summary">${service.summary}</p>
             </div>
             <div class="package-price-wrap">
               <div class="package-price-label">Kaina</div>
@@ -2473,23 +2537,13 @@
               <input class="check" type="checkbox" aria-label="Pasirinkti ${service.title}" data-service-id="${service.id}">
               <span>Pasirinkti paketą</span>
             </label>
-            <button class="service-toggle" type="button" aria-expanded="false">Plačiau</button>
-          </div>
-
-          <div class="service-details">
-            <div class="service-details-inner">
-              <div class="package-detail-title">${service.detailTitle || 'Kas atliekama šiame pakete'}</div>
-              <p class="package-detail-copy">${service.detail}</p>
-              ${detailPoints.length ? `<ul class="package-detail-list">${detailPoints.map((item) => `<li>${item}</li>`).join('')}</ul>` : ''}
-            </div>
           </div>
         `;
 
         const checkbox = card.querySelector('input[type="checkbox"]');
-        const toggle = card.querySelector('.service-toggle');
 
         card.addEventListener('click', (event) => {
-          if (event.target.closest('button') || event.target.closest('input')) return;
+          if (event.target.closest('input')) return;
           checkbox.checked = !checkbox.checked;
           checkbox.dispatchEvent(new Event('change', { bubbles: true }));
         });
@@ -2501,16 +2555,11 @@
           updateSummary();
         });
 
-        toggle.addEventListener('click', () => {
-          const open = card.classList.toggle('is-open');
-          toggle.textContent = open ? 'Sutraukti' : 'Plačiau';
-          toggle.setAttribute('aria-expanded', String(open));
-        });
-
         return card;
       }
 
       function formatDateLabel(date) {
+
 
         return date.toLocaleDateString('lt-LT', {
           weekday: 'short',
@@ -2745,14 +2794,9 @@
         els.bookingForm.reset();
         clearSelectedDate();
         document.querySelectorAll('.service-card').forEach((card) => {
-          card.classList.remove('selected', 'is-open');
+          card.classList.remove('selected');
           const check = card.querySelector('input[type="checkbox"]');
-          const toggle = card.querySelector('.service-toggle');
           if (check) check.checked = false;
-          if (toggle) {
-            toggle.textContent = 'Plačiau';
-            toggle.setAttribute('aria-expanded', 'false');
-          }
         });
         document.querySelectorAll('.group-card').forEach((card) => {
           card.classList.remove('is-open');
