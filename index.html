@@ -524,6 +524,24 @@
     }
 
     @media (max-width:860px){
+      .cards-grid{grid-template-columns:1fr}
+      .group-card .group-content{padding:0 14px}
+      .group-card.is-open .group-content{padding:0 14px 14px}
+      .group-content-inner{padding-top:2px}
+      .calendar-subtitle{font-size:.84rem;line-height:1.4}
+      .calendar-grid{min-width:0;gap:5px}
+      .calendar-wrap{overflow:visible}
+      .weekday,.day{min-height:42px;border-radius:14px}
+      .service-card .service-top{grid-template-columns:auto minmax(0,1fr) auto;gap:10px}
+      .service-summary{font-size:.9rem;line-height:1.55}
+      .service-actions{margin-top:12px}
+      .about-shell{grid-template-columns:1fr;padding:16px;border-radius:24px;gap:14px}
+      .about-hero{padding-right:0}
+      .about-stat{padding:14px;border-radius:18px}
+      .about-accordion-card summary{padding:16px}
+      .about-accordion-body > div{padding:0 16px 16px}
+      .about-accordion-icon{width:36px;height:36px;border-radius:12px}
+
       .container{
         width:100%;
         padding-inline:8px;
@@ -665,8 +683,8 @@
         margin-top:2px;
       }
       .service-title{
-        font-size:.94rem;
-        line-height:1.16;
+        font-size:1rem;
+        line-height:1.18;
         -webkit-line-clamp:3;
       }
       .service-price{
@@ -1081,6 +1099,412 @@
       box-shadow:none;
     }
 
+
+    .calendar-subtitle{
+      margin-top:4px;
+      color:#64748b;
+      font-size:.88rem;
+      line-height:1.45;
+      font-weight:600;
+    }
+
+    .group-card .group-content{
+      display:grid;
+      grid-template-rows:0fr;
+      padding:0 20px;
+      transition:grid-template-rows .35s ease, padding .35s ease;
+    }
+    .group-card.is-open .group-content{
+      display:grid;
+      grid-template-rows:1fr;
+      padding:0 20px 20px;
+    }
+    .group-content > *{overflow:hidden}
+    .group-card .group-content > :first-child{overflow:hidden}
+
+    .service-summary{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:.92rem;
+      overflow-wrap:anywhere;
+    }
+    .service-actions{
+      margin-top:14px;
+      display:flex;
+      justify-content:flex-start;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .service-card .service-details,
+    .package-card .service-details{
+      display:grid;
+      grid-template-rows:0fr;
+      margin-top:12px;
+      padding-top:0;
+      border-top:1px solid rgba(15,23,42,.06);
+      transition:grid-template-rows .35s ease, margin-top .35s ease, padding-top .35s ease;
+    }
+    .service-card.is-open .service-details,
+    .package-card.is-open .service-details{
+      grid-template-rows:1fr;
+      margin-top:14px;
+      padding-top:14px;
+    }
+    .service-details > div,
+    .service-details > p,
+    .service-details > ul{
+      overflow:hidden;
+    }
+    .service-card.is-open .service-toggle,
+    .package-card.is-open .service-toggle{
+      background:rgba(37,99,235,.14);
+      border-color:rgba(37,99,235,.18);
+    }
+    .service-card .service-top{
+      align-items:start;
+      grid-template-columns:auto minmax(0,1fr) auto;
+      gap:12px;
+    }
+    .service-card .service-price{
+      margin-top:2px;
+    }
+    .service-card .service-toggle{
+      margin-top:auto;
+    }
+
+    .about-shell{
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+      gap:18px;
+      padding:24px;
+      border-radius:34px;
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,251,255,.98));
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:var(--shadow-card);
+    }
+    .about-hero{
+      padding:4px 2px 4px 0;
+    }
+    .about-stats{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+    .about-stat{
+      padding:16px 16px 15px;
+      border-radius:20px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 12px 24px rgba(15,23,42,.05);
+    }
+    .about-stat strong{
+      display:block;
+      margin-bottom:6px;
+      color:var(--primary-2);
+      font-size:1rem;
+      letter-spacing:-.02em;
+    }
+    .about-stat span{
+      display:block;
+      color:#475569;
+      line-height:1.7;
+      font-size:.95rem;
+    }
+    .about-accordion-list{
+      display:grid;
+      gap:12px;
+      align-content:start;
+    }
+    .about-accordion-card{
+      border-radius:22px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 12px 26px rgba(15,23,42,.05);
+      overflow:hidden;
+      transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .about-accordion-card:hover{
+      transform:translateY(-1px);
+      box-shadow:0 16px 32px rgba(15,23,42,.07);
+      border-color:rgba(37,99,235,.12);
+    }
+    .about-accordion-card summary{
+      list-style:none;
+      cursor:pointer;
+      padding:18px 18px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      background:linear-gradient(180deg, #ffffff, #f8fbff);
+      font-weight:850;
+    }
+    .about-accordion-card summary::-webkit-details-marker{display:none}
+    .about-accordion-card summary span:first-child{
+      display:grid;
+      gap:4px;
+      min-width:0;
+    }
+    .about-accordion-card summary strong{
+      font-size:1.02rem;
+      letter-spacing:-.02em;
+      color:#0f172a;
+    }
+    .about-accordion-card summary small{
+      color:#64748b;
+      font-size:.9rem;
+      line-height:1.45;
+      font-weight:600;
+    }
+    .about-accordion-icon{
+      flex:0 0 auto;
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(15,23,42,.08);
+      background:#fff;
+      color:#334155;
+      transition:transform .3s ease, background .3s ease, color .3s ease;
+    }
+    .about-accordion-card[open] .about-accordion-icon{
+      transform:rotate(180deg);
+      background:rgba(37,99,235,.08);
+      color:var(--primary-2);
+      border-color:rgba(37,99,235,.12);
+    }
+    .about-accordion-body{
+      display:grid;
+      grid-template-rows:0fr;
+      transition:grid-template-rows .35s ease;
+      border-top:1px solid rgba(15,23,42,.06);
+    }
+    .about-accordion-card[open] .about-accordion-body{
+      grid-template-rows:1fr;
+    }
+    .about-accordion-body > div{
+      overflow:hidden;
+      padding:0 18px 18px;
+    }
+    .about-accordion-body p{
+      margin:14px 0 0;
+      color:#475569;
+      line-height:1.75;
+      font-size:.96rem;
+    }
+
+    .cards-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .calendar-subtitle{
+      margin-top:4px;
+      color:#64748b;
+      font-size:.88rem;
+      line-height:1.45;
+      font-weight:600;
+    }
+
+    .group-card .group-content{
+      display:grid;
+      grid-template-rows:0fr;
+      padding:0 20px;
+      transition:grid-template-rows .35s ease, padding .35s ease;
+    }
+    .group-card.is-open .group-content{
+      display:grid;
+      grid-template-rows:1fr;
+      padding:0 20px 20px;
+    }
+    .group-content-inner{
+      overflow:hidden;
+    }
+    .group-note{
+      margin:0 0 16px;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:.96rem;
+    }
+
+    .service-summary{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:.92rem;
+      overflow-wrap:anywhere;
+    }
+    .service-actions{
+      margin-top:14px;
+      display:flex;
+      justify-content:flex-start;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .service-card .service-details,
+    .package-card .service-details{
+      display:grid;
+      grid-template-rows:0fr;
+      margin-top:12px;
+      padding-top:0;
+      border-top:1px solid rgba(15,23,42,.06);
+      transition:grid-template-rows .35s ease, margin-top .35s ease, padding-top .35s ease;
+    }
+    .service-card.is-open .service-details,
+    .package-card.is-open .service-details{
+      grid-template-rows:1fr;
+      margin-top:14px;
+      padding-top:14px;
+    }
+    .service-details-inner{
+      overflow:hidden;
+    }
+    .service-card.is-open .service-toggle,
+    .package-card.is-open .service-toggle{
+      background:rgba(37,99,235,.14);
+      border-color:rgba(37,99,235,.18);
+    }
+    .service-card .service-top{
+      align-items:start;
+      grid-template-columns:auto minmax(0,1fr) auto;
+      gap:12px;
+    }
+    .service-card .service-price{
+      margin-top:2px;
+    }
+    .service-card .service-toggle{
+      margin-top:auto;
+    }
+
+    .about-shell{
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+      gap:18px;
+      padding:24px;
+      border-radius:34px;
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,251,255,.98));
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:var(--shadow-card);
+    }
+    .about-hero{
+      padding:4px 2px 4px 0;
+    }
+    .about-stats{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+    .about-stat{
+      padding:16px 16px 15px;
+      border-radius:20px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 12px 24px rgba(15,23,42,.05);
+    }
+    .about-stat strong{
+      display:block;
+      margin-bottom:6px;
+      color:var(--primary-2);
+      font-size:1rem;
+      letter-spacing:-.02em;
+    }
+    .about-stat span{
+      display:block;
+      color:#475569;
+      line-height:1.7;
+      font-size:.95rem;
+    }
+    .about-accordion-list{
+      display:grid;
+      gap:12px;
+      align-content:start;
+    }
+    .about-accordion-card{
+      border-radius:22px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 12px 26px rgba(15,23,42,.05);
+      overflow:hidden;
+      transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .about-accordion-card:hover{
+      transform:translateY(-1px);
+      box-shadow:0 16px 32px rgba(15,23,42,.07);
+      border-color:rgba(37,99,235,.12);
+    }
+    .about-accordion-card summary{
+      list-style:none;
+      cursor:pointer;
+      padding:18px 18px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      background:linear-gradient(180deg, #ffffff, #f8fbff);
+      font-weight:850;
+    }
+    .about-accordion-card summary::-webkit-details-marker{display:none}
+    .about-accordion-card summary span:first-child{
+      display:grid;
+      gap:4px;
+      min-width:0;
+    }
+    .about-accordion-card summary strong{
+      font-size:1.02rem;
+      letter-spacing:-.02em;
+      color:#0f172a;
+    }
+    .about-accordion-card summary small{
+      color:#64748b;
+      font-size:.9rem;
+      line-height:1.45;
+      font-weight:600;
+    }
+    .about-accordion-icon{
+      flex:0 0 auto;
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(15,23,42,.08);
+      background:#fff;
+      color:#334155;
+      transition:transform .3s ease, background .3s ease, color .3s ease;
+    }
+    .about-accordion-card[open] .about-accordion-icon{
+      transform:rotate(180deg);
+      background:rgba(37,99,235,.08);
+      color:var(--primary-2);
+      border-color:rgba(37,99,235,.12);
+    }
+    .about-accordion-body{
+      display:grid;
+      grid-template-rows:0fr;
+      transition:grid-template-rows .35s ease;
+      border-top:1px solid rgba(15,23,42,.06);
+    }
+    .about-accordion-card[open] .about-accordion-body{
+      grid-template-rows:1fr;
+    }
+    .about-accordion-body > div{
+      overflow:hidden;
+      padding:0 18px 18px;
+    }
+    .about-accordion-body p{
+      margin:14px 0 0;
+      color:#475569;
+      line-height:1.75;
+      font-size:.96rem;
+    }
+
+    .cards-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
     }
@@ -1195,20 +1619,19 @@
                   <div class="calendar-head">
                     <div>
                       <div class="calendar-month" id="calendarMonth">2026 m.</div>
-                      <div class="microcopy" style="margin-top:4px;">Greitas pasirinkimas arba kalendorius žemiau.</div>
+                      <div class="calendar-subtitle">Pasirinkite vieną datą tiesiai kalendoriuje apačioje.</div>
                     </div>
                     <div class="calendar-nav">
                       <button class="icon-btn" type="button" id="prevMonth" aria-label="Ankstesnis mėnuo">‹</button>
                       <button class="icon-btn" type="button" id="nextMonth" aria-label="Kitas mėnuo">›</button>
                     </div>
                   </div>
-                  <div class="quick-date-row" id="quickDateRow" aria-label="Greitas datos pasirinkimas"></div>
                   <div class="calendar-wrap">
                     <div class="calendar-grid" id="calendarGrid"></div>
                   </div>
                   <div class="selected-date-chip" id="selectedDateChip" style="display:none;"></div>
                   <input id="data" name="Data" type="hidden" required />
-                  <div class="microcopy" id="dateHint">Pasirinkite laisvą dieną kalendoriuje.</div>
+                  <div class="microcopy" id="dateHint">Pasirinkite datą kalendoriuje.</div>
                 </div>
               </div>
 
@@ -1232,41 +1655,97 @@
 
     <section id="apie" class="section">
       <div class="container">
-        <div class="about-grid">
-          <div class="about-panel fade-in">
-            <div class="section-title">Apie mus</div>
+        <div class="about-shell fade-in">
+          <div class="about-hero">
+            <div class="eyebrow">Apie mus</div>
+            <div class="section-title">Premium automobilio paruošimas, kuris matosi iš karto</div>
             <p class="section-lead">
-              Mes kuriame ne tik švarią, bet ir geriau parduodamą automobilio išvaizdą. Kiekviena procedūra parenkama taip, kad salonas atrodytų gaivesnis, kėbulas – tvarkingesnis, o bendras įspūdis – solidesnis tiek gyvai, tiek nuotraukose.
+              Kuriame švarų, tvarkingą ir labiau parduodamą automobilio įspūdį. Kiekviena paslauga ir kiekvienas žingsnis parenkami taip, kad rezultatas atrodytų solidžiai tiek gyvai, tiek nuotraukose.
             </p>
-            <p class="section-lead" style="margin-bottom:0;">
-              Dirbame aiškiai ir patogiai: matote paslaugas, pasirenkate norimus darbus, iš karto žinote kainą ir užsakymą pateikiate be papildomų žingsnių.
-            </p>
-          </div>
-
-          <div class="about-panel fade-in">
-            <div class="section-title">Kodėl rinktis mus</div>
-            <div class="why-grid">
-              <div class="why-item">
-                <strong>Aiškios paslaugos</strong>
-                <p>Kiekviena paslauga pateikta suprantamai, kad iš karto matytumėte, kas atliekama ir kokią vertę gaunate.</p>
+            <div class="about-stats">
+              <div class="about-stat">
+                <strong>Greita registracija</strong>
+                <span>Paslaugas pasirenkate vienoje vietoje, datą pažymite kalendoriuje ir pateikiate užklausą be painiavos.</span>
               </div>
-              <div class="why-item">
-                <strong>Tvarkingas rezultatas</strong>
-                <p>Mūsų tikslas – ne tik išvalyti, bet ir sukurti vizualiai švaresnį, gaivesnį ir labiau prižiūrėtą automobilio įspūdį.</p>
+              <div class="about-stat">
+                <strong>Tvarkingas vaizdas</strong>
+                <span>Dėmesys skiriamas tiek salonui, tiek kėbului, kad automobilis atrodytų gaivesnis ir prižiūrėtas.</span>
               </div>
-              <div class="why-item">
-                <strong>Patogi registracija</strong>
-                <p>Paslaugas pasirenkate vienoje vietoje, datą pažymite kalendoriuje ir užklausą pateikiate vos per kelias minutes.</p>
-              </div>
-              <div class="why-item">
-                <strong>Paketai pagal poreikį</strong>
-                <p>Nuo greito atnaujinimo iki pilnesnio paruošimo prieš pardavimą, kad galėtumėte pasirinkti tai, kas tikrai reikalinga.</p>
-              </div>
-              <div class="why-item">
-                <strong>Premium pateikimas</strong>
-                <p>Visa aplinka sukurta švariai, moderniai ir vientisai, kad jaustųsi aukštesnės klasės paslaugos įspūdis.</p>
+              <div class="about-stat">
+                <strong>Pritaikyta pardavimui</strong>
+                <span>Sprendimai sukurti taip, kad automobilis atrodytų patraukliau ir labiau pasitikėjimą keliantis.</span>
               </div>
             </div>
+          </div>
+
+          <div class="about-accordion-list">
+            <details class="about-accordion-card" open>
+              <summary>
+                <span>
+                  <strong>Kaip dirbame</strong>
+                  <small>Aiškiai, tvarkingai ir be perteklinių žingsnių.</small>
+                </span>
+                <span class="about-accordion-icon" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="about-accordion-body">
+                <div>
+                  <p>
+                    Pirmiausia pasirenkate reikalingas paslaugas, tada patogiai susikuriate užsakymą ir iš karto matote kainą. Visa sistema orientuota į greitą sprendimą telefonu.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details class="about-accordion-card">
+              <summary>
+                <span>
+                  <strong>Ką gaunate</strong>
+                  <small>Tvarką, gaivą ir švaresnį bendrą įspūdį.</small>
+                </span>
+                <span class="about-accordion-icon" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="about-accordion-body">
+                <div>
+                  <p>
+                    Salonas atrodo švaresnis ir lengviau prižiūrėtas, o kėbulas – vizualiai gaivesnis. Dėl to automobilis nuotraukose ir realybėje palieka solidesnį įspūdį.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details class="about-accordion-card">
+              <summary>
+                <span>
+                  <strong>Kodėl verta rinktis mus</strong>
+                  <small>Paslaugos pateiktos moderniai, aiškiai ir patogiai.</small>
+                </span>
+                <span class="about-accordion-icon" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="about-accordion-body">
+                <div>
+                  <p>
+                    Visa struktūra sukurta taip, kad nereikėtų ieškoti informacijos. Matote paslaugas, kainas, datą ir registraciją vienoje vietoje, be papildomų skambučių ar žinučių.
+                  </p>
+                </div>
+              </div>
+            </details>
+
+            <details class="about-accordion-card">
+              <summary>
+                <span>
+                  <strong>Pritaikyta skirtingiems poreikiams</strong>
+                  <small>Nuo greito atnaujinimo iki pilnesnio paruošimo.</small>
+                </span>
+                <span class="about-accordion-icon" aria-hidden="true">⌄</span>
+              </summary>
+              <div class="about-accordion-body">
+                <div>
+                  <p>
+                    Galite rinktis pavienes paslaugas arba pilnesnius paketus. Taip lengvai susikomplektuojate būtent tokį rezultatą, kokio reikia konkrečiai situacijai.
+                  </p>
+                </div>
+              </div>
+            </details>
           </div>
         </div>
       </div>
@@ -1717,21 +2196,32 @@
         card.innerHTML = `
           <div class="service-top">
             <input class="check" type="checkbox" aria-label="Pasirinkti ${service.title}" data-service-id="${service.id}">
-            <div>
+            <div class="service-copy">
               <h3 class="service-title">${service.title}</h3>
+              <p class="service-summary">${service.summary}</p>
             </div>
             <div class="service-price">${money(service.price)}</div>
           </div>
-          <button class="service-toggle" type="button" aria-expanded="false">Plačiau</button>
+          <div class="service-actions">
+            <button class="service-toggle" type="button" aria-expanded="false">Plačiau</button>
+          </div>
           <div class="service-details">
-            <div class="package-detail-title">Kas atliekama šiame darbe</div>
-            <p class="package-detail-copy">${service.summary}</p>
-            <p class="package-detail-copy">${service.detail}</p>
+            <div class="service-details-inner">
+              <div class="package-detail-title">Kas atliekama šiame darbe</div>
+              <p class="package-detail-copy">${service.summary}</p>
+              <p class="package-detail-copy">${service.detail}</p>
+            </div>
           </div>
         `;
 
         const checkbox = card.querySelector('input[type="checkbox"]');
         const toggle = card.querySelector('.service-toggle');
+
+        card.addEventListener('click', (event) => {
+          if (event.target.closest('button') || event.target.closest('input')) return;
+          checkbox.checked = !checkbox.checked;
+          checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+        });
 
         checkbox.addEventListener('change', () => {
           if (checkbox.checked) state.selected.add(service.id);
@@ -1780,9 +2270,11 @@
           </div>
 
           <div class="service-details">
-            <div class="package-detail-title">${service.detailTitle || 'Kas atliekama šiame pakete'}</div>
-            <p class="package-detail-copy">${service.detail}</p>
-            ${detailPoints.length ? `<ul class="package-detail-list">${detailPoints.map((item) => `<li>${item}</li>`).join('')}</ul>` : ''}
+            <div class="service-details-inner">
+              <div class="package-detail-title">${service.detailTitle || 'Kas atliekama šiame pakete'}</div>
+              <p class="package-detail-copy">${service.detail}</p>
+              ${detailPoints.length ? `<ul class="package-detail-list">${detailPoints.map((item) => `<li>${item}</li>`).join('')}</ul>` : ''}
+            </div>
           </div>
         `;
 
@@ -1812,6 +2304,7 @@
       }
 
       function formatDateLabel(date) {
+
         return date.toLocaleDateString('lt-LT', {
           weekday: 'short',
           day: 'numeric',
@@ -1874,8 +2367,10 @@
             <div class="chev" aria-hidden="true">⌄</div>
           </button>
           <div class="group-content">
-            <p class="group-note">${group.note}</p>
-            <div class="${isPackageGroup ? 'package-grid' : 'cards-grid'}"></div>
+            <div class="group-content-inner">
+              <p class="group-note">${group.note}</p>
+              <div class="${isPackageGroup ? 'package-grid' : 'cards-grid'}"></div>
+            </div>
           </div>
         `;
 
@@ -1951,7 +2446,7 @@
         const today = todayStart();
         state.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         els.dateField.value = '';
-        els.dateHint.textContent = 'Pasirinkite laisvą dieną kalendoriuje.';
+        els.dateHint.textContent = 'Pasirinkite datą kalendoriuje.';
         els.selectedDateChip.style.display = 'none';
         renderQuickDates();
       }
@@ -2135,6 +2630,9 @@
       function initDateDefaults() {
         const today = todayStart();
         state.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        els.dateField.value = '';
+        els.dateHint.textContent = 'Pasirinkite datą kalendoriuje.';
+        els.selectedDateChip.style.display = 'none';
         renderCalendar();
       }
 
@@ -2149,14 +2647,6 @@
       updateSummary();
       initDateDefaults();
       initReveal();
-
-      const defaultDate = new Date();
-      defaultDate.setDate(defaultDate.getDate() + 1);
-      const defKey = dateKey(defaultDate);
-      if (!state.bookedDates.has(defKey) && !isPastDate(defaultDate)) {
-        setSelectedDate(defKey);
-        renderCalendar();
-      }
     })();
   </script>
 
