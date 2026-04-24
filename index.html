@@ -7,990 +7,792 @@
   <meta name="theme-color" content="#f7f8fc" />
   <title>automobilius.lt – Auto valymas ir paruošimas pardavimui</title>
   <style>
-    :root {
-      --bg: #f6f8fc;
-      --bg-2: #eef3fb;
-      --surface: rgba(255, 255, 255, 0.88);
-      --surface-strong: #ffffff;
-      --surface-soft: #eef3fb;
-      --text: #0f172a;
-      --muted: #64748b;
-      --line: rgba(15, 23, 42, 0.08);
-      --primary: #2563eb;
-      --primary-2: #1d4ed8;
-      --primary-soft: rgba(37, 99, 235, 0.10);
-      --success: #16a34a;
-      --shadow: 0 24px 80px rgba(15, 23, 42, 0.10);
-      --shadow-soft: 0 10px 30px rgba(15, 23, 42, 0.06);
-      --shadow-card: 0 16px 42px rgba(15, 23, 42, 0.08);
-      --radius-xl: 34px;
-      --radius-lg: 26px;
-      --radius-md: 20px;
-      --radius-sm: 16px;
-      --max: 1180px;
-      --transition: 280ms cubic-bezier(.2,.8,.2,1);
+    :root{
+      --bg:#f6f8fc;
+      --text:#0f172a;
+      --muted:#64748b;
+      --line:rgba(15,23,42,.08);
+      --primary:#2563eb;
+      --primary-2:#1d4ed8;
+      --primary-soft:rgba(37,99,235,.10);
+      --surface:rgba(255,255,255,.86);
+      --surface-strong:#fff;
+      --shadow:0 24px 80px rgba(15,23,42,.10);
+      --shadow-soft:0 10px 30px rgba(15,23,42,.06);
+      --shadow-card:0 16px 42px rgba(15,23,42,.08);
+      --radius-xl:34px;
+      --radius-lg:26px;
+      --radius-md:20px;
+      --radius-sm:16px;
+      --max:1180px;
+      --transition:280ms cubic-bezier(.2,.8,.2,1);
     }
-
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; overflow-x: hidden; }
-    body {
-      margin: 0;
-      width: 100%;
-      overflow-x: hidden;
-      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth;overflow-x:hidden}
+    body{
+      margin:0;
+      width:100%;
+      overflow-x:hidden;
+      font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(37,99,235,.08), transparent 34%),
+        radial-gradient(circle at top left, rgba(37,99,235,.09), transparent 34%),
         radial-gradient(circle at top right, rgba(29,78,216,.08), transparent 28%),
-        linear-gradient(180deg, #fbfcff 0%, var(--bg) 40%, #f3f6fb 100%);
-      color: var(--text);
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
+        linear-gradient(180deg, #fbfcff 0%, var(--bg) 42%, #f3f6fb 100%);
+      color:var(--text);
+      -webkit-font-smoothing:antialiased;
+      text-rendering:optimizeLegibility;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block}
+    button,input,select,textarea{font:inherit}
+    details summary{list-style:none}
+    details summary::-webkit-details-marker{display:none}
+    .container{width:min(100% - 32px,var(--max));margin-inline:auto}
+
+    .topbar{
+      position:sticky; top:0; z-index:1000;
+      backdrop-filter: blur(22px);
+      background: rgba(247,248,252,.78);
+      border-bottom:1px solid rgba(15,23,42,.06);
+      box-shadow:0 14px 32px rgba(15,23,42,.04);
+    }
+    .header-inner{
+      display:grid; gap:14px;
+      justify-items:center;
+      padding:16px 18px 14px;
+    }
+    .brand{
+      display:inline-flex; align-items:center; justify-content:center; gap:12px;
+      font-weight:900; letter-spacing:-.06em; text-align:center;
+      min-height:52px;
+    }
+    .logo-mark{
+      width:52px;height:52px;border-radius:18px;
+      background:
+        radial-gradient(circle at 32% 30%, rgba(255,255,255,.95), transparent 26%),
+        linear-gradient(135deg, rgba(37,99,235,.18), rgba(255,255,255,.96));
+      border:1px solid rgba(37,99,235,.15);
+      box-shadow:0 14px 30px rgba(37,99,235,.12);
+      display:grid;place-items:center;flex:0 0 auto;
+    }
+    .logo-mark svg{width:28px;height:28px;fill:var(--primary-2)}
+    .brand-name{
+      font-size:clamp(1.18rem,4vw,1.92rem);
+      line-height:1;
+      background:linear-gradient(135deg,#0f172a 0%,#2563eb 44%,#1d4ed8 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+      white-space:nowrap;
     }
 
-    a { color: inherit; text-decoration: none; }
-    img { max-width: 100%; display: block; }
-    button, input, select, textarea { font: inherit; }
-    details summary { list-style: none; }
-    details summary::-webkit-details-marker { display: none; }
-
-    .container {
-      width: min(100% - 32px, var(--max));
-      margin-inline: auto;
+    .nav{
+      width:min(100%,760px);
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
+      scrollbar-width:none;
+      padding:8px;
+      border-radius:999px;
+      background:
+        linear-gradient(135deg, rgba(15,23,42,.96), rgba(37,99,235,.88) 52%, rgba(29,78,216,.92));
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:
+        0 18px 34px rgba(15,23,42,.10),
+        inset 0 1px 0 rgba(255,255,255,.12);
+    }
+    .nav::-webkit-scrollbar{display:none}
+    .nav-row{
+      display:flex;justify-content:center;gap:10px;min-width:max-content;
+    }
+    .nav-item{
+      flex:0 0 auto;
+      white-space:nowrap;
+      padding:12px 18px;
+      border-radius:999px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.10);
+      backdrop-filter: blur(10px);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.08);
+      font-weight:800;font-size:.96rem;
+      color:#fff;
+      transition: transform var(--transition), background var(--transition), box-shadow var(--transition), border-color var(--transition), opacity var(--transition);
+    }
+    .nav-item:hover,.nav-item.active{
+      background:rgba(255,255,255,.18);
+      border-color:rgba(255,255,255,.22);
+      box-shadow:0 12px 22px rgba(15,23,42,.12);
+      transform:translateY(-1px);
     }
 
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      backdrop-filter: blur(18px);
-      background: rgba(247, 248, 252, 0.86);
-      border-bottom: 1px solid rgba(15,23,42,.06);
-      box-shadow: 0 12px 30px rgba(15,23,42,.04);
+    .hero{padding:12px 0 18px}
+    .hero-grid{display:grid;gap:16px;justify-items:center}
+    .hero-copy{
+      width:min(100%,980px);
+      padding:34px 22px 28px;
+      border-radius:32px;
+      text-align:center;
+      background:
+        radial-gradient(circle at top, rgba(37,99,235,.10), transparent 48%),
+        radial-gradient(circle at 30% 0%, rgba(96,165,250,.16), transparent 32%),
+        linear-gradient(180deg,#f8fbff 0%,#eef3fb 100%);
+      border:1px solid rgba(15,23,42,.05);
+      box-shadow:var(--shadow-card);
+      position:relative;overflow:hidden;
+    }
+    .hero-copy::before{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.30), transparent 42%, rgba(255,255,255,.16));
+      pointer-events:none;
+    }
+    .hero-badge{
+      position:relative;display:inline-flex;align-items:center;gap:8px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(37,99,235,.10);
+      border:1px solid rgba(37,99,235,.14);
+      color:var(--primary-2);font-weight:850;font-size:.92rem;
+      margin-bottom:14px;
+    }
+    .hero-title{
+      position:relative;margin:0;
+      font-size:clamp(2.15rem,6vw,3.15rem);
+      line-height:1.06;letter-spacing:-.04em;
+      font-weight:950;color:#0f172a;
+    }
+    .hero-title span{
+      display:block;
+      background:linear-gradient(135deg,#2563eb 0%,#1d4ed8 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .hero-text{
+      position:relative;margin:16px auto 0;
+      color:#334155;font-size:1.06rem;line-height:1.6;
+      max-width:60ch;font-weight:500;
+    }
+    .cta-row{
+      position:relative;display:flex;justify-content:center;gap:12px;
+      margin-top:24px;flex-wrap:wrap;
+    }
+    .btn{
+      display:inline-flex;align-items:center;justify-content:center;gap:10px;
+      min-height:56px;padding:0 22px;border-radius:999px;
+      border:1px solid transparent;font-weight:850;letter-spacing:-.01em;
+      cursor:pointer;transition:transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition);
+      user-select:none;
+    }
+    .btn:hover{transform:translateY(-2px)}
+    .btn-primary{
+      background:linear-gradient(135deg,var(--primary) 0%,var(--primary-2) 100%);
+      color:#fff;box-shadow:0 18px 36px rgba(37,99,235,.24);
+    }
+    .btn-primary:hover{box-shadow:0 24px 44px rgba(37,99,235,.28)}
+    .btn-ghost{
+      background:rgba(255,255,255,.95);
+      color:#0f172a;border-color:rgba(15,23,42,.08);
+      box-shadow:0 14px 28px rgba(15,23,42,.05);
+    }
+    .hero-image{
+      width:min(100%,980px);
+      border-radius:28px;overflow:hidden;
+      box-shadow:0 18px 44px rgba(15,23,42,.07);
+      background:#fff;
+    }
+    .hero-image img{width:100%;height:300px;object-fit:cover}
+
+    .section{padding:28px 0}
+    .eyebrow{
+      display:inline-flex;align-items:center;justify-content:center;gap:8px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(37,99,235,.10);border:1px solid rgba(37,99,235,.14);
+      color:var(--primary-2);font-weight:850;font-size:.92rem;margin-bottom:14px;
     }
 
-    .header-inner {
-      display: grid;
-      gap: 14px;
-      justify-items: center;
-      padding: 16px 18px 14px;
+    .section-title{
+      margin:0 0 10px;
+      font-size:clamp(1.62rem,3vw,2.65rem);
+      line-height:1.05;letter-spacing:-.05em;
+      font-weight:950;color:#0f172a;
+    }
+    .section-title.gradient{
+      background:linear-gradient(135deg,#0f172a 0%,#1d4ed8 42%,#2563eb 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .section-lead{
+      margin:0 0 18px;color:var(--muted);line-height:1.68;max-width:68ch;
+    }
+    .section-lead.center{margin-left:auto;margin-right:auto;text-align:center}
+    .section-glass{
+      padding:22px 22px 18px;border-radius:30px;
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.12), transparent 38%),
+        radial-gradient(circle at top right, rgba(29,78,216,.12), transparent 36%),
+        linear-gradient(180deg, rgba(248,251,255,.98), rgba(238,243,251,.96));
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:var(--shadow-card);position:relative;overflow:hidden;
+    }
+    .section-glass::after{
+      content:"";position:absolute;inset:0;
+      background:linear-gradient(180deg, rgba(255,255,255,.28), transparent 40%, rgba(255,255,255,.08));
+      pointer-events:none;
+    }
+    .section-glass-inner{position:relative;z-index:1}
+
+    .services-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.45fr) minmax(320px,.75fr);
+      gap:18px;align-items:start;margin-top:10px;
+    }
+    .summary-panel,.booking-panel,.about-panel,.contact-panel,.review-card,.faq-card,.group-card{
+      background:var(--surface);
+      border:1px solid rgba(15,23,42,.06);
+      border-radius:28px;
+      box-shadow:var(--shadow-soft);
+    }
+    .summary-panel{padding:22px}
+    .summary-panel ul{
+      margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px;
+    }
+    .summary-panel li{
+      display:flex;justify-content:space-between;gap:14px;
+      padding:10px 0;border-bottom:1px solid rgba(15,23,42,.06);color:#334155;
+    }
+    .total-box{
+      display:grid;gap:8px;padding:18px;margin-top:18px;
+      border-radius:22px;
+      background:linear-gradient(180deg, rgba(37,99,235,.06), rgba(37,99,235,.02));
+      border:1px solid rgba(37,99,235,.10);
+    }
+    .total-amount{
+      font-size:clamp(1.8rem,4vw,2.75rem);
+      font-weight:950;letter-spacing:-.05em;line-height:1;
+    }
+    .price-note{color:var(--muted);font-size:.90rem}
+
+    .services-stack{display:grid;gap:16px}
+    .group-card{overflow:hidden}
+    .group-head{
+      width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;
+      padding:20px;border:0;cursor:pointer;text-align:left;
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.10), transparent 28%),
+        linear-gradient(180deg, rgba(248,250,252,.98), rgba(239,243,251,.96));
+    }
+    .group-head-left{display:grid;gap:5px}
+    .group-title{
+      font-size:1.08rem;font-weight:950;letter-spacing:-.03em;color:#0f172a;
+    }
+    .group-subtitle{color:var(--muted);font-size:.93rem;line-height:1.4}
+    .group-pill{
+      flex:0 0 auto;padding:9px 12px;border-radius:999px;
+      background:rgba(37,99,235,.10);color:var(--primary-2);
+      font-size:.88rem;font-weight:850;border:1px solid rgba(37,99,235,.12);
+    }
+    .chev{
+      width:38px;height:38px;border-radius:13px;display:grid;place-items:center;
+      border:1px solid rgba(15,23,42,.08);background:rgba(255,255,255,.88);color:#334155;
+      flex:0 0 auto;transition:transform var(--transition);
+    }
+    .group-card.is-open .chev{transform:rotate(180deg)}
+    .group-content{display:none;padding:0 20px 20px}
+    .group-card.is-open .group-content{display:block;animation:fadeUp .28s ease both}
+    .group-note{margin:0 0 16px;color:var(--muted);line-height:1.6;font-size:.96rem}
+    .cards-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+
+    .service-card{
+      position:relative;overflow:hidden;padding:18px;border-radius:22px;
+      background:rgba(255,255,255,.95);
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 12px 24px rgba(15,23,42,.04);
+      transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition), background var(--transition);
+    }
+    .service-card:hover{
+      transform:translateY(-2px);
+      box-shadow:0 18px 34px rgba(15,23,42,.08);
+      border-color:rgba(37,99,235,.12);
+    }
+    .service-card.selected{
+      border-color:rgba(37,99,235,.26);
+      box-shadow:0 18px 34px rgba(37,99,235,.10);
+      background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(239,246,255,.95));
+    }
+    .service-top{
+      display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;
+    }
+    .check{
+      width:22px;height:22px;accent-color:var(--primary);margin-top:2px;
+      cursor:pointer;
+    }
+    .service-title{
+      margin:0;font-size:1.02rem;line-height:1.22;letter-spacing:-.02em;font-weight:850;color:#0f172a;
+    }
+    .service-price{
+      font-weight:950;font-size:1.06rem;color:var(--primary-2);white-space:nowrap;
+    }
+    .service-summary{
+      margin:8px 0 0;color:var(--muted);line-height:1.55;font-size:.95rem;
+    }
+    .service-details{
+      margin-top:12px;border-top:1px solid rgba(15,23,42,.06);padding-top:12px;
+      color:#334155;line-height:1.65;display:none;font-size:.96rem;
+    }
+    .service-card.is-open .service-details{display:block;animation:fadeUp .28s ease both}
+    .service-toggle{
+      margin-top:10px;width:100%;text-align:left;border:0;background:transparent;
+      color:var(--primary-2);font-weight:850;cursor:pointer;padding:4px 0 0;
     }
 
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      font-weight: 900;
-      letter-spacing: -0.06em;
-      text-align: center;
-      min-height: 52px;
+    .booking-panel{padding:22px;margin-top:18px}
+    .form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .field{display:grid;gap:8px}
+    .field label{font-size:.92rem;font-weight:850;color:#334155}
+    .field input,.field select,.field textarea{
+      width:100%;border:1px solid rgba(15,23,42,.10);
+      background:rgba(255,255,255,.96);
+      border-radius:18px;padding:15px 16px;outline:none;
+      transition:border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    }
+    .field input:focus,.field select:focus,.field textarea:focus{
+      border-color:rgba(37,99,235,.35);box-shadow:0 0 0 5px rgba(37,99,235,.10);
+    }
+    .field textarea{min-height:120px;resize:vertical}
+    .input-wide{grid-column:1/-1}
+    .date-picker{margin-top:10px;display:grid;gap:12px}
+    .calendar-head{
+      display:flex;align-items:center;justify-content:space-between;gap:10px;
+      padding:10px 12px;border-radius:20px;
+      background:linear-gradient(135deg, rgba(37,99,235,.08), rgba(255,255,255,.85));
+      border:1px solid rgba(37,99,235,.10);
+    }
+    .calendar-month{font-weight:950;letter-spacing:-.02em;color:#0f172a}
+    .calendar-nav{display:flex;gap:8px}
+    .icon-btn{
+      width:44px;height:44px;border-radius:14px;border:1px solid rgba(15,23,42,.08);
+      background:rgba(255,255,255,.94);cursor:pointer;display:grid;place-items:center;
+      transition:transform var(--transition), box-shadow var(--transition), background var(--transition);
+    }
+    .icon-btn:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(15,23,42,.08)}
+    .calendar-grid{
+      display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;
+    }
+    .weekday,.day{
+      text-align:center;border-radius:16px;min-height:48px;display:grid;place-items:center;font-weight:800;
+    }
+    .weekday{color:#64748b;font-size:.82rem;min-height:28px}
+    .day{
+      border:1px solid rgba(15,23,42,.06);
+      background:rgba(255,255,255,.92);
+      cursor:pointer;
+      transition:transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
+    }
+    .day:hover{transform:translateY(-1px);box-shadow:0 10px 22px rgba(15,23,42,.08)}
+    .day.is-empty{background:transparent;border-color:transparent;cursor:default}
+    .day.is-past,.day.is-disabled{opacity:.38;cursor:not-allowed;text-decoration:line-through}
+    .day.is-selected{
+      background:linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
+      color:#fff;border-color:transparent;box-shadow:0 14px 28px rgba(37,99,235,.22)
+    }
+    .day.is-booked{
+      background:rgba(239,68,68,.08);color:#b91c1c;border-color:rgba(239,68,68,.18)
+    }
+    .selected-date-chip{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(37,99,235,.10);
+      border:1px solid rgba(37,99,235,.14);
+      color:var(--primary-2);font-weight:850;font-size:.92rem;
+      width:fit-content;
+    }
+    .microcopy{margin-top:8px;font-size:.88rem;color:#64748b}
+    .section-split{
+      margin-top:18px;height:1px;background:linear-gradient(90deg, transparent, rgba(15,23,42,.10), transparent)
     }
 
-    .logo-mark {
-      width: 50px;
-      height: 50px;
-      border-radius: 18px;
-      background: linear-gradient(135deg, rgba(37,99,235,.14), rgba(255,255,255,.95));
-      border: 1px solid rgba(37,99,235,.15);
-      box-shadow: 0 14px 30px rgba(37,99,235,.12);
-      display: grid;
-      place-items: center;
-      flex: 0 0 auto;
+    .about-grid{
+      display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:stretch;margin-top:6px;
+    }
+    .about-panel,.contact-panel,.faq-card{padding:24px}
+    .reviews-grid{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;
+    }
+    .review-card{padding:20px}
+    .review-card p{color:#334155;line-height:1.7}
+    .review-meta{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px
+    }
+    .stars{letter-spacing:2px;color:#f59e0b;font-size:1rem}
+
+    .contact-grid{
+      display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;
+    }
+    .contact-item{
+      padding:18px;border-radius:20px;background:rgba(255,255,255,.76);
+      border:1px solid rgba(15,23,42,.06);display:grid;gap:6px;
+    }
+    .contact-item span{color:var(--muted);font-size:.9rem}
+
+    .faq-list{display:grid;gap:14px;margin-top:18px}
+    .faq-card summary{
+      cursor:pointer;font-weight:850;display:flex;align-items:center;justify-content:space-between;gap:14px
+    }
+    .faq-card p{color:#334155;line-height:1.7;margin-bottom:0;padding-top:12px}
+
+    .footer{
+      padding:24px 0 40px;color:#64748b;border-top:1px solid rgba(15,23,42,.06);margin-top:18px;
     }
 
-    .logo-mark svg {
-      width: 28px;
-      height: 28px;
-      fill: var(--primary-2);
+    .floating-mobile-cta{
+      display:none;position:fixed;left:16px;right:16px;bottom:16px;z-index:1200;gap:10px;grid-template-columns:1fr;
+    }
+    .floating-mobile-cta .btn{
+      width:100%;min-height:54px;border-radius:16px
     }
 
-    .brand-name {
-      font-size: clamp(1.2rem, 4vw, 1.95rem);
-      line-height: 1;
-      background: linear-gradient(135deg, #0f172a 0%, #2563eb 44%, #1d4ed8 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      white-space: nowrap;
+    .modal{
+      position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;
+      background:rgba(15,23,42,.42);z-index:2000;
+    }
+    .modal.is-open{display:flex;animation:fade .2s ease both}
+    .modal-card{
+      width:min(100%,440px);border-radius:28px;background:white;padding:24px;
+      box-shadow:0 30px 90px rgba(15,23,42,.28);text-align:center;
+    }
+    .modal-card h3{margin-top:10px;margin-bottom:10px}
+    .modal-card p{color:var(--muted);line-height:1.6}
+    .modal-icon{
+      width:70px;height:70px;border-radius:22px;margin:0 auto;
+      background:linear-gradient(135deg, rgba(22,163,74,.15), rgba(16,185,129,.10));
+      display:grid;place-items:center;color:var(--success);font-size:2rem;font-weight:900;
     }
 
-    .nav {
-      width: min(100%, 980px);
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      scrollbar-width: none;
-      padding: 8px 10px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.88);
-      border: 1px solid rgba(15,23,42,.06);
-      box-shadow: 0 12px 26px rgba(15,23,42,.06);
-    }
-    .nav::-webkit-scrollbar { display: none; }
+    .fade-in{opacity:0;transform:translateY(12px);transition:opacity .55s ease, transform .55s ease}
+    .fade-in.is-visible{opacity:1;transform:translateY(0)}
+    .hidden{display:none !important}
 
-    .nav-row {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      min-width: max-content;
-    }
+    @keyframes fade{from{opacity:0}to{opacity:1}}
+    @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-    .nav-item {
-      flex: 0 0 auto;
-      white-space: nowrap;
-      padding: 11px 16px;
-      border-radius: 999px;
-      background: rgba(248,250,252,.95);
-      border: 1px solid rgba(15,23,42,.06);
-      box-shadow: 0 8px 18px rgba(15,23,42,.04);
-      font-weight: 700;
-      font-size: .96rem;
-      color: #334155;
-      transition: transform var(--transition), background var(--transition), color var(--transition), box-shadow var(--transition);
+    @media (max-width:1060px){
+      .services-layout,.about-grid{grid-template-columns:1fr}
+      .summary-panel,.booking-panel{position:static}
+    }
+    @media (max-width:860px){
+      .header-inner{gap:10px;padding:14px 14px 12px}
+      .brand{gap:10px}
+      .brand-name{font-size:clamp(1.08rem,6vw,1.58rem)}
+      .nav{
+        width:100%;
+        padding:8px;
+        border-radius:22px;
+      }
+      .nav-item{padding:10px 13px;font-size:.92rem}
+      .hero{padding:10px 0 14px}
+      .hero-copy{padding:24px 18px 20px;border-radius:24px}
+      .hero-image img{height:212px}
+      .section{padding:24px 0}
+      .cards-grid,.reviews-grid,.contact-grid,.form-grid{grid-template-columns:1fr}
+      .service-card{padding:16px}
+      .floating-mobile-cta{display:grid}
+      .footer{padding-bottom:96px}
     }
 
-    .nav-item.active,
-    .nav-item:hover {
-      background: #fff;
-      color: var(--primary-2);
-      border-color: rgba(37,99,235,.18);
-      box-shadow: 0 10px 20px rgba(37,99,235,.12);
-      transform: translateY(-1px);
+    /* Premium overrides for packages */
+    .group-card[data-group-type="packages"] .group-head {
+      background:
+        radial-gradient(circle at top left, rgba(255,255,255,.18), transparent 24%),
+        linear-gradient(135deg, rgba(15,23,42,.98), rgba(37,99,235,.92) 54%, rgba(29,78,216,.96));
+      color: #fff;
+    }
+    .group-card[data-group-type="packages"] .group-title,
+    .group-card[data-group-type="packages"] .group-subtitle,
+    .group-card[data-group-type="packages"] .chev {
+      color: #fff;
+    }
+    .group-card[data-group-type="packages"] .group-subtitle {
+      opacity: .84;
+    }
+    .group-card[data-group-type="packages"] .group-pill {
+      background: rgba(255,255,255,.14);
+      border-color: rgba(255,255,255,.16);
+      color: #fff;
+    }
+    .group-card[data-group-type="packages"] .chev {
+      background: rgba(255,255,255,.12);
+      border-color: rgba(255,255,255,.16);
     }
 
-    .hero {
-      padding: 12px 0 18px;
-    }
-
-    .hero-shell {
-      width: 100%;
-      border-radius: 0;
-      overflow: hidden;
-    }
-
-    .hero-grid {
+    .package-grid {
       display: grid;
       gap: 16px;
-      justify-items: center;
     }
-
-    .hero-copy {
-      width: min(100%, 980px);
-      padding: 32px 22px 26px;
-      border-radius: 32px;
-      text-align: center;
-      background:
-        radial-gradient(circle at top, rgba(37,99,235,.08), transparent 48%),
-        linear-gradient(180deg, #f8fbff 0%, #eef3fb 100%);
-      border: 1px solid rgba(15,23,42,.05);
-      box-shadow: var(--shadow-card);
+    .package-card {
       position: relative;
       overflow: hidden;
+      padding: 22px;
+      border-radius: 28px;
+      border: 1px solid rgba(37,99,235,.12);
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.12), transparent 34%),
+        linear-gradient(180deg, rgba(255,255,255,.99), rgba(239,246,255,.95));
+      box-shadow: 0 18px 40px rgba(15,23,42,.08);
     }
-
-    .hero-copy::before {
+    .package-card::after {
       content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(255,255,255,.30), transparent 42%, rgba(255,255,255,.16));
+      inset: auto -20% -35% auto;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(37,99,235,.12), transparent 62%);
       pointer-events: none;
     }
-
-    .hero-badge {
+    .package-card.is-featured {
+      border-color: rgba(37,99,235,.22);
+      box-shadow: 0 24px 50px rgba(37,99,235,.12);
+    }
+    .package-card.is-premium {
+      border-color: rgba(250,204,21,.28);
+      background:
+        radial-gradient(circle at top left, rgba(250,204,21,.16), transparent 28%),
+        linear-gradient(180deg, rgba(255,255,255,.99), rgba(239,246,255,.96));
+      box-shadow: 0 26px 56px rgba(37,99,235,.14);
+    }
+    .package-ribbon {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      z-index: 1;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.86);
+      border: 1px solid rgba(15,23,42,.08);
+      color: #0f172a;
+      font-size: .82rem;
+      font-weight: 900;
+      box-shadow: 0 10px 22px rgba(15,23,42,.08);
+    }
+    .package-top {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      align-items: flex-start;
       position: relative;
+      z-index: 1;
+    }
+    .package-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 10px 14px;
+      padding: 8px 12px;
       border-radius: 999px;
       background: rgba(37,99,235,.10);
       border: 1px solid rgba(37,99,235,.14);
       color: var(--primary-2);
-      font-weight: 800;
-      font-size: .92rem;
-      margin-bottom: 14px;
+      font-size: .84rem;
+      font-weight: 900;
+      width: fit-content;
     }
-
-    .hero-title {
-      position: relative;
-      margin: 0;
-      font-size: clamp(2.15rem, 6vw, 3.15rem);
-      line-height: 1.08;
-      letter-spacing: -0.04em;
+    .package-title {
+      margin: 12px 0 10px;
+      font-size: clamp(1.18rem, 2.2vw, 1.52rem);
+      line-height: 1.15;
+      letter-spacing: -.04em;
       font-weight: 950;
       color: #0f172a;
     }
-
-    .hero-title span {
-      display: block;
-      background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
+    .package-summary {
+      margin: 0;
+      color: #475569;
+      line-height: 1.65;
+      max-width: 66ch;
     }
-
-    .hero-text {
-      position: relative;
-      margin: 16px auto 0;
-      color: #334155;
-      font-size: 1.06rem;
-      line-height: 1.6;
-      max-width: 60ch;
-      font-weight: 500;
+    .package-price-wrap {
+      flex: 0 0 auto;
+      display: grid;
+      justify-items: end;
+      gap: 6px;
     }
-
-    .cta-row {
+    .package-price-label {
+      font-size: .82rem;
+      color: var(--muted);
+      font-weight: 850;
+    }
+    .package-price {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 950;
+      letter-spacing: -.06em;
+      line-height: 1;
+      color: var(--primary-2);
+    }
+    .package-features {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
       position: relative;
+      z-index: 1;
+    }
+    .package-features li {
       display: flex;
-      justify-content: center;
-      gap: 12px;
-      margin-top: 24px;
-      flex-wrap: wrap;
+      gap: 10px;
+      align-items: flex-start;
+      color: #334155;
+      line-height: 1.5;
     }
-
-    .btn {
+    .package-features li::before {
+      content: "✓";
+      flex: 0 0 auto;
+      width: 22px;
+      height: 22px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(37,99,235,.10);
+      color: var(--primary-2);
+      font-weight: 900;
+      font-size: .8rem;
+      margin-top: 1px;
+    }
+    .package-actions {
+      margin-top: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 1;
+    }
+    .package-select {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 10px;
-      min-height: 56px;
-      padding: 0 22px;
-      border-radius: 999px;
-      border: 1px solid transparent;
-      font-weight: 800;
-      letter-spacing: -.01em;
-      cursor: pointer;
-      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition);
-      user-select: none;
-    }
-
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-      color: #fff;
-      box-shadow: 0 18px 36px rgba(37,99,235,.24);
-    }
-
-    .btn-primary:hover { box-shadow: 0 24px 44px rgba(37,99,235,.28); }
-
-    .btn-ghost {
-      background: rgba(255,255,255,.95);
-      color: #0f172a;
-      border-color: rgba(15,23,42,.08);
-      box-shadow: 0 14px 28px rgba(15,23,42,.05);
-    }
-
-    .hero-image {
-      width: min(100%, 980px);
-      border-radius: 28px;
-      overflow: hidden;
-      box-shadow: 0 18px 44px rgba(15,23,42,.07);
-      background: #fff;
-    }
-
-    .hero-image img {
-      width: 100%;
-      height: 300px;
-      object-fit: cover;
-      display: block;
-    }
-
-    .section {
-      padding: 28px 0;
-    }
-
-    .section-title {
-      margin: 0 0 10px;
-      font-size: clamp(1.6rem, 2.9vw, 2.55rem);
-      line-height: 1.08;
-      letter-spacing: -0.04em;
       font-weight: 900;
       color: #0f172a;
+      cursor: pointer;
+    }
+    .package-select .check {
+      margin-top: 0;
     }
 
-    .section-lead {
-      margin: 0 0 18px;
-      color: var(--muted);
-      line-height: 1.68;
-      max-width: 68ch;
-    }
-
-    .section-lead.center {
-      margin-left: auto;
-      margin-right: auto;
-      text-align: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
+    .package-card .service-toggle {
       padding: 10px 14px;
       border-radius: 999px;
-      background: rgba(37,99,235,.10);
-      border: 1px solid rgba(37,99,235,.14);
-      color: var(--primary-2);
-      font-weight: 800;
-      font-size: .92rem;
-      margin-bottom: 14px;
+      background: rgba(37,99,235,.08);
+      border: 1px solid rgba(37,99,235,.12);
+      box-shadow: 0 10px 20px rgba(15,23,42,.05);
+      width: auto;
+      margin-top: 0;
     }
-
-    .services-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.45fr) minmax(320px, .75fr);
-      gap: 18px;
-      align-items: start;
-      margin-top: 10px;
+    .package-card .service-toggle:hover {
+      background: rgba(37,99,235,.12);
     }
-
-    .summary-panel,
-    .booking-panel,
-    .about-panel,
-    .contact-panel,
-    .review-card,
-    .faq-card,
-    .group-card {
-      background: var(--surface);
-      border: 1px solid rgba(15,23,42,.06);
-      border-radius: 28px;
-      box-shadow: var(--shadow-soft);
-    }
-
-    .summary-panel {
-      padding: 22px;
-      position: static;
-    }
-
-    .summary-panel ul {
-      margin: 14px 0 0;
+    .package-features {
+      position: relative;
+      z-index: 1;
+      margin: 18px 0 0;
       padding: 0;
       list-style: none;
       display: grid;
       gap: 10px;
     }
-
-    .summary-panel li {
+    .package-features li {
       display: flex;
-      justify-content: space-between;
-      gap: 14px;
-      padding: 10px 0;
-      border-bottom: 1px solid rgba(15,23,42,.06);
-      color: #334155;
-    }
-
-    .total-box {
-      display: grid;
-      gap: 8px;
-      padding: 18px;
-      margin-top: 18px;
-      border-radius: 22px;
-      background: linear-gradient(180deg, rgba(37,99,235,.06), rgba(37,99,235,.02));
-      border: 1px solid rgba(37,99,235,.10);
-    }
-
-    .total-amount {
-      font-size: clamp(1.8rem, 4vw, 2.75rem);
-      font-weight: 950;
-      letter-spacing: -.05em;
-      line-height: 1;
-    }
-
-    .price-note {
-      color: var(--muted);
-      font-size: .90rem;
-    }
-
-    .services-stack {
-      display: grid;
-      gap: 16px;
-    }
-
-    .group-card {
-      overflow: hidden;
-    }
-
-    .group-head {
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      padding: 20px 20px;
-      border: 0;
-      background: linear-gradient(180deg, rgba(248,250,252,.96), rgba(239,243,251,.96));
-      cursor: pointer;
-      text-align: left;
-    }
-
-    .group-head-left {
-      display: grid;
-      gap: 5px;
-    }
-
-    .group-title {
-      font-size: 1.08rem;
-      font-weight: 900;
-      letter-spacing: -.03em;
-      color: #0f172a;
-    }
-
-    .group-subtitle {
-      color: var(--muted);
-      font-size: .93rem;
-      line-height: 1.4;
-    }
-
-    .group-pill {
-      flex: 0 0 auto;
-      padding: 9px 12px;
-      border-radius: 999px;
-      background: rgba(37,99,235,.10);
-      color: var(--primary-2);
-      font-size: .88rem;
-      font-weight: 800;
-      border: 1px solid rgba(37,99,235,.12);
-    }
-
-    .chev {
-      width: 38px;
-      height: 38px;
-      border-radius: 13px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(15,23,42,.08);
+      align-items: flex-start;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 16px;
       background: rgba(255,255,255,.88);
-      color: #334155;
-      flex: 0 0 auto;
-      transition: transform var(--transition);
-    }
-
-    .group-card.is-open .chev {
-      transform: rotate(180deg);
-    }
-
-    .group-content {
-      display: none;
-      padding: 0 20px 20px;
-    }
-
-    .group-card.is-open .group-content {
-      display: block;
-      animation: fadeUp .28s ease both;
-    }
-
-    .group-note {
-      margin: 0 0 16px;
-      color: var(--muted);
-      line-height: 1.6;
-      font-size: .96rem;
-    }
-
-    .cards-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .service-card {
-      position: relative;
-      overflow: hidden;
-      padding: 18px;
-      border-radius: 22px;
-      background: rgba(255,255,255,.95);
       border: 1px solid rgba(15,23,42,.06);
-      box-shadow: 0 12px 24px rgba(15,23,42,.04);
-      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      color: #0f172a;
+      line-height: 1.45;
+      font-size: .93rem;
     }
-
-    .service-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 18px 34px rgba(15,23,42,.08);
-      border-color: rgba(37,99,235,.12);
-    }
-
-    .service-card.selected {
-      border-color: rgba(37,99,235,.26);
-      box-shadow: 0 18px 34px rgba(37,99,235,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.98), rgba(239,246,255,.95));
-    }
-
-    .service-top {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 12px;
-      align-items: start;
-    }
-
-    .check {
+    .package-features li::before {
+      content: "✓";
+      flex: 0 0 auto;
       width: 22px;
       height: 22px;
-      accent-color: var(--primary);
-      margin-top: 2px;
-    }
-
-    .service-title {
-      margin: 0;
-      font-size: 1.02rem;
-      line-height: 1.22;
-      letter-spacing: -.02em;
-      font-weight: 800;
-      color: #0f172a;
-    }
-
-    .service-price {
-      font-weight: 950;
-      font-size: 1.06rem;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: rgba(37,99,235,.10);
       color: var(--primary-2);
-      white-space: nowrap;
-    }
-
-    .service-summary {
-      margin: 8px 0 0;
-      color: var(--muted);
-      line-height: 1.55;
-      font-size: .95rem;
-    }
-
-    .service-details {
-      margin-top: 12px;
-      border-top: 1px solid rgba(15,23,42,.06);
-      padding-top: 12px;
-      color: #334155;
-      line-height: 1.65;
-      display: none;
-      font-size: .96rem;
-    }
-
-    .service-card.is-open .service-details {
-      display: block;
-      animation: fadeUp .28s ease both;
-    }
-
-    .service-toggle {
-      margin-top: 10px;
-      width: 100%;
-      text-align: left;
-      border: 0;
-      background: transparent;
-      color: var(--primary-2);
-      font-weight: 800;
-      cursor: pointer;
-      padding: 4px 0 0;
-    }
-
-    .booking-panel {
-      padding: 22px;
-      margin-top: 18px;
-    }
-
-    .form-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-    }
-
-    .field {
-      display: grid;
-      gap: 8px;
-    }
-
-    .field label {
-      font-size: .92rem;
-      font-weight: 800;
-      color: #334155;
-    }
-
-    .field input, .field select, .field textarea {
-      width: 100%;
-      border: 1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.96);
-      border-radius: 18px;
-      padding: 15px 16px;
-      outline: none;
-      transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
-    }
-
-    .field input:focus, .field select:focus, .field textarea:focus {
-      border-color: rgba(37,99,235,.35);
-      box-shadow: 0 0 0 5px rgba(37,99,235,.10);
-    }
-
-    .field textarea {
-      min-height: 120px;
-      resize: vertical;
-    }
-
-    .input-wide { grid-column: 1 / -1; }
-
-    .date-picker {
-      margin-top: 10px;
-      display: grid;
-      gap: 12px;
-    }
-
-    .calendar-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .calendar-month {
       font-weight: 900;
-      letter-spacing: -.02em;
+      font-size: .8rem;
+      margin-top: 1px;
+    }
+
+    /* More comfortable calendar */
+    .date-picker {
+      padding: 16px;
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top left, rgba(37,99,235,.08), transparent 36%),
+        linear-gradient(180deg, rgba(255,255,255,.94), rgba(245,248,253,.98));
+      border: 1px solid rgba(15,23,42,.06);
+      box-shadow: 0 18px 40px rgba(15,23,42,.06);
+    }
+    .quick-date-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .quick-date-chip {
+      display: grid;
+      gap: 2px;
+      text-align: left;
+      padding: 12px 14px;
+      min-width: 142px;
+      border-radius: 18px;
+      border: 1px solid rgba(15,23,42,.08);
+      background: rgba(255,255,255,.95);
+      box-shadow: 0 10px 22px rgba(15,23,42,.05);
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), border-color var(--transition);
+    }
+    .quick-date-chip strong {
+      font-size: .92rem;
+      line-height: 1.2;
       color: #0f172a;
     }
-
-    .calendar-nav {
-      display: flex;
-      gap: 8px;
-    }
-
-    .icon-btn {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      border: 1px solid rgba(15,23,42,.08);
-      background: rgba(255,255,255,.92);
-      cursor: pointer;
-      display: grid;
-      place-items: center;
-      transition: transform var(--transition), box-shadow var(--transition);
-    }
-
-    .icon-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(15,23,42,.08);
-    }
-
-    .calendar-grid {
-      display: grid;
-      grid-template-columns: repeat(7, minmax(0, 1fr));
-      gap: 8px;
-    }
-
-    .weekday, .day {
-      text-align: center;
-      border-radius: 14px;
-      min-height: 44px;
-      display: grid;
-      place-items: center;
-      font-weight: 700;
-    }
-
-    .weekday {
-      color: #64748b;
-      font-size: .82rem;
-      min-height: 28px;
-    }
-
-    .day {
-      border: 1px solid rgba(15,23,42,.06);
-      background: rgba(255,255,255,.90);
-      cursor: pointer;
-      transition: transform var(--transition), box-shadow var(--transition), background var(--transition), color var(--transition), border-color var(--transition);
-    }
-
-    .day:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 10px 22px rgba(15,23,42,.08);
-    }
-
-    .day.is-empty {
-      background: transparent;
-      border-color: transparent;
-      cursor: default;
-    }
-
-    .day.is-past, .day.is-disabled {
-      opacity: .38;
-      cursor: not-allowed;
-      text-decoration: line-through;
-    }
-
-    .day.is-selected {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-2) 100%);
-      color: #fff;
-      border-color: transparent;
-      box-shadow: 0 14px 28px rgba(37,99,235,.22);
-    }
-
-    .day.is-booked {
-      background: rgba(239,68,68,.08);
-      color: #b91c1c;
-      border-color: rgba(239,68,68,.18);
-    }
-
-    .microcopy {
-      margin-top: 8px;
-      font-size: .88rem;
-      color: #64748b;
-    }
-
-    .section-split {
-      margin-top: 18px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(15,23,42,.10), transparent);
-    }
-
-    .about-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      align-items: stretch;
-      margin-top: 6px;
-    }
-
-    .about-panel, .contact-panel, .faq-card {
-      padding: 24px;
-    }
-
-    .reviews-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .review-card {
-      padding: 20px;
-    }
-
-    .review-card p {
-      color: #334155;
-      line-height: 1.7;
-    }
-
-    .review-meta {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    .stars {
-      letter-spacing: 2px;
-      color: #f59e0b;
-      font-size: 1rem;
-    }
-
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .contact-item {
-      padding: 18px;
-      border-radius: 20px;
-      background: rgba(255,255,255,.76);
-      border: 1px solid rgba(15,23,42,.06);
-      display: grid;
-      gap: 6px;
-    }
-
-    .contact-item span {
+    .quick-date-chip span {
+      font-size: .78rem;
       color: var(--muted);
-      font-size: .9rem;
+      font-weight: 800;
     }
-
-    .faq-list {
-      display: grid;
-      gap: 14px;
-      margin-top: 18px;
+    .quick-date-chip:hover,
+    .quick-date-chip.is-active {
+      transform: translateY(-1px);
+      border-color: rgba(37,99,235,.22);
+      background: linear-gradient(135deg, rgba(37,99,235,.10), rgba(255,255,255,.98));
+      box-shadow: 0 14px 26px rgba(37,99,235,.10);
     }
-
-    .faq-card summary {
-      cursor: pointer;
-      font-weight: 850;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
+    .quick-date-chip:disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      box-shadow: none;
     }
-
-    .faq-card p {
-      color: #334155;
-      line-height: 1.7;
-      margin-bottom: 0;
-      padding-top: 12px;
+    .calendar-wrap {
+      overflow: auto;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 2px;
     }
-
-    .footer {
-      padding: 24px 0 40px;
-      color: #64748b;
-      border-top: 1px solid rgba(15,23,42,.06);
-      margin-top: 18px;
+    .calendar-grid {
+      min-width: 420px;
+      padding-top: 2px;
     }
-
-    .floating-mobile-cta {
-      display: none;
-      position: fixed;
-      left: 16px;
-      right: 16px;
-      bottom: 16px;
-      z-index: 1200;
-      gap: 10px;
-      grid-template-columns: 1fr;
-    }
-
-    .floating-mobile-cta .btn {
-      width: 100%;
-      min-height: 54px;
+    .weekday, .day {
+      min-height: 50px;
       border-radius: 16px;
     }
-
-    .modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: rgba(15,23,42,.42);
-      z-index: 2000;
+    .day {
+      font-size: .96rem;
+      font-weight: 850;
+    }
+    .selected-date-chip {
+      margin-top: 4px;
     }
 
-    .modal.is-open {
-      display: flex;
-      animation: fade .2s ease both;
-    }
-
-    .modal-card {
-      width: min(100%, 440px);
-      border-radius: 28px;
-      background: white;
-      padding: 24px;
-      box-shadow: 0 30px 90px rgba(15,23,42,.28);
-      text-align: center;
-    }
-
-    .modal-card h3 {
-      margin-top: 10px;
-      margin-bottom: 10px;
-    }
-
-    .modal-card p {
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    .modal-icon {
-      width: 70px;
-      height: 70px;
-      border-radius: 22px;
-      margin: 0 auto;
-      background: linear-gradient(135deg, rgba(22,163,74,.15), rgba(16,185,129,.10));
-      display: grid;
-      place-items: center;
-      color: var(--success);
-      font-size: 2rem;
-      font-weight: 900;
-    }
-
-    .fade-in {
-      opacity: 0;
-      transform: translateY(12px);
-      transition: opacity .55s ease, transform .55s ease;
-    }
-
-    .fade-in.is-visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    .hidden { display: none !important; }
-
-    @keyframes fade {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 1060px) {
-      .services-layout,
-      .about-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .summary-panel,
-      .booking-panel {
-        position: static;
-      }
-    }
-
-    @media (max-width: 860px) {
-      .header-inner {
-        gap: 10px;
-        padding: 14px 14px 12px;
-      }
-
-      .brand {
-        gap: 10px;
-      }
-
-      .brand-name {
-        font-size: clamp(1.1rem, 6vw, 1.6rem);
-      }
-
-      .nav {
-        width: 100%;
-        padding: 8px 6px;
-        border-radius: 20px;
-      }
-
-      .nav-item {
-        padding: 10px 13px;
-        font-size: .92rem;
-      }
-
-      .hero {
-        padding: 10px 0 14px;
-      }
-
-      .hero-copy {
-        padding: 24px 18px 20px;
-        border-radius: 24px;
-      }
-
-      .hero-image img {
-        height: 212px;
-      }
-
-      .section {
-        padding: 24px 0;
-      }
-
-      .cards-grid,
-      .reviews-grid,
-      .contact-grid,
-      .form-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .service-card {
-        padding: 16px;
-      }
-
-      .floating-mobile-cta {
-        display: grid;
-      }
-
-      .footer {
-        padding-bottom: 96px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation: none !important;
-        transition: none !important;
-        scroll-behavior: auto !important;
-      }
+    @media (prefers-reduced-motion:reduce){
+      *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
     }
   </style>
 </head>
@@ -1010,8 +812,7 @@
       <nav class="nav" aria-label="Pagrindinė navigacija">
         <div class="nav-row">
           <a class="nav-item active" href="#pagrindinis">Pagrindinis</a>
-          <a class="nav-item" href="#paslaugos">Paslaugos</a>
-          <a class="nav-item" href="#registracija">Registracija</a>
+          <a class="nav-item" href="#apie">Apie mus</a>
           <a class="nav-item" href="#kontaktai">Kontaktai</a>
         </div>
       </nav>
@@ -1023,7 +824,6 @@
       <div class="container hero-shell">
         <div class="hero-grid">
           <div class="hero-copy fade-in">
-            <div class="hero-badge">Premium automobilių priežiūra · Ukmergė</div>
             <h1 class="hero-title">
               Automobilių švaros
               <span>paslaugos Ukmergėje</span>
@@ -1034,7 +834,6 @@
             </p>
             <div class="cta-row">
               <a class="btn btn-primary" href="#paslaugos">Peržiūrėti paslaugas</a>
-              <a class="btn btn-ghost" href="#registracija">Registracija</a>
             </div>
           </div>
 
@@ -1050,13 +849,14 @@
 
     <section id="paslaugos" class="section">
       <div class="container">
-        <div class="fade-in" style="text-align:center; margin-bottom:18px;">
-          <div class="eyebrow">Paslaugos</div>
-          <h2 class="section-title">Automobilių paruošimas pardavimui</h2>
-          <p class="section-lead center">
-            Pasirinkite pavienes paslaugas arba vieną iš paruošimo paketų.
-            Kaina suskaičiuojama automatiškai, o apačioje matysite visas pasirinktas paslaugas.
-          </p>
+        <div class="section-glass fade-in" style="margin-bottom:18px;">
+          <div class="section-glass-inner" style="text-align:center;">
+            <h2 class="section-title gradient">Automobilių paruošimas<br>pardavimui</h2>
+            <p class="section-lead center" style="max-width:74ch;">
+              Pasirinkite pavienes paslaugas arba vieną iš paruošimo paketų.
+              Kaina suskaičiuojama automatiškai, o apačioje matysite visas pasirinktas paslaugas.
+            </p>
+          </div>
         </div>
 
         <div class="services-stack" id="servicesStack"></div>
@@ -1090,13 +890,20 @@
                 <label>Data</label>
                 <div class="date-picker">
                   <div class="calendar-head">
-                    <div class="calendar-month" id="calendarMonth">2026 m.</div>
+                    <div>
+                      <div class="calendar-month" id="calendarMonth">2026 m.</div>
+                      <div class="microcopy" style="margin-top:4px;">Greitas pasirinkimas arba kalendorius žemiau.</div>
+                    </div>
                     <div class="calendar-nav">
                       <button class="icon-btn" type="button" id="prevMonth" aria-label="Ankstesnis mėnuo">‹</button>
                       <button class="icon-btn" type="button" id="nextMonth" aria-label="Kitas mėnuo">›</button>
                     </div>
                   </div>
-                  <div class="calendar-grid" id="calendarGrid"></div>
+                  <div class="quick-date-row" id="quickDateRow" aria-label="Greitas datos pasirinkimas"></div>
+                  <div class="calendar-wrap">
+                    <div class="calendar-grid" id="calendarGrid"></div>
+                  </div>
+                  <div class="selected-date-chip" id="selectedDateChip" style="display:none;"></div>
                   <input id="data" name="Data" type="hidden" required />
                   <div class="microcopy" id="dateHint">Pasirinkite laisvą dieną kalendoriuje.</div>
                 </div>
@@ -1238,6 +1045,7 @@
     </div>
   </footer>
 
+  
   <script>
     (function () {
       'use strict';
@@ -1284,7 +1092,7 @@
           id: 'kebulas',
           title: 'Kėbulas',
           subtitle: 'Išorės blizgesys, apsauga ir vizualinis efektas.',
-          pill: '8 paslaugos',
+          pill: '7 paslaugos',
           note: 'Kėbulo grupė apima tiek vizualinį atnaujinimą, tiek pasiruošimą gražesniam pardavimo įvaizdžiui.',
           services: [
             {
@@ -1339,7 +1147,48 @@
           ]
         },
         {
+          id: 'svaros-paketai',
+          type: 'packages',
+          title: 'Automobilių švaros paketai',
+          subtitle: 'Trys aiškūs paketai skirtingam rezultatui.',
+          pill: '3 paketai',
+          note: 'Greitesni paketai, kai reikia pasirinkti aiškų rezultatą nuo bazinės švaros iki pilnesnio vizualinio paruošimo.',
+          services: [
+            {
+              id: 15,
+              title: 'Standartinis paketas – 49 €',
+              price: 49,
+              badge: 'Bazinis',
+              ribbon: 'Greitas startas',
+              summary: 'Siurbimas, stiklų valymas, panelės ir kitų plastikų valymas.',
+              features: ['Siurbimas', 'Stiklų valymas', 'Panelės valymas', 'Plastikų valymas'],
+              detail: 'Šis paketas tinka, kai reikia greitai ir tvarkingai atnaujinti automobilio vidų be papildomų gilesnių procedūrų.'
+            },
+            {
+              id: 16,
+              title: 'Vidutinis paketas – 129 €',
+              price: 129,
+              badge: 'Populiariausias',
+              ribbon: 'Geriausias balansas',
+              summary: 'Standartinis paketas ir papildomai cheminis salono valymas, kilimėlių cheminis valymas, žibintų poliravimas.',
+              features: ['Viskas iš standartinio', 'Salono cheminis valymas', 'Kilimėlių cheminis valymas', 'Žibintų poliravimas'],
+              detail: 'Tai variantas, kai norisi aiškiai stipresnio rezultato ir geresnio automobilio įvaizdžio prieš pardavimą.'
+            },
+            {
+              id: 17,
+              title: 'MAXI paketas – 249 €',
+              price: 249,
+              badge: 'Maksimalus',
+              ribbon: 'Premium rezultatas',
+              summary: 'Standartinis ir vidutinis paketai + kėbulo 1 step poliravimas, padangų juodinimas, vidaus plastikų atnaujinimas.',
+              features: ['Viskas iš ankstesnių paketų', 'Kėbulo 1 step poliravimas', 'Padangų juodinimas', 'Vidaus plastikų atnaujinimas'],
+              detail: 'Pilnesnis paruošimas, kai norisi maksimaliai stipraus vizualinio efekto ir tvarkingo bendro automobilio pateikimo.'
+            }
+          ]
+        },
+        {
           id: 'paketai',
+          type: 'packages',
           title: 'Automobilio paruošimas pardavimui',
           subtitle: 'Trys paketai, sukurti skirtingam biudžetui ir rezultatui.',
           pill: '3 paketai',
@@ -1349,21 +1198,45 @@
               id: 12,
               title: 'Standartinis paketas – 89 €',
               price: 89,
+              badge: 'Startas',
+              ribbon: 'Bazinis',
               summary: 'Auto plovimas, vaško padengimas, pilnas sausas salono valymas, nuotraukų padarymas, skelbimo įdėjimas į Autoplius.',
+              features: [
+                'Auto plovimas ir vaško padengimas',
+                'Pilnas sausas salono valymas',
+                'Nuotraukų paruošimas',
+                'Skelbimo įdėjimas į Autoplius'
+              ],
               detail: 'Šis variantas tinka, kai norisi greitai ir tvarkingai paruošti automobilį pardavimui už aiškią kainą. Į paketą įeina pagrindinis išorės ir salono sutvarkymas bei skelbimo paruošimas.'
             },
             {
               id: 13,
               title: 'Vidutinis paketas – 149 €',
               price: 149,
+              badge: 'Populiariausias',
+              ribbon: 'Rekomenduojama',
               summary: 'Viskas iš standartinio paketo + cheminis salono valymas, padangų juodinimas, žibintų poliravimas.',
+              features: [
+                'Standartinio paketo darbai',
+                'Cheminis salono valymas',
+                'Padangų juodinimas',
+                'Žibintų poliravimas'
+              ],
               detail: 'Tai stipresnis variantas, kai norisi ne tik švaros, bet ir vizualiai geresnio automobilio pateikimo. Puikus balansas tarp kainos ir įspūdžio.'
             },
             {
               id: 14,
               title: 'MAX paketas – 279 €',
               price: 279,
+              badge: 'Maksimalus',
+              ribbon: 'TOP',
               summary: 'Viskas iš standartinio ir vidutinio paketo + 1 step poliravimas, skelbimų kėlimas į 3 populiariausius portalus su iškėlimais.',
+              features: [
+                'Standartinio ir vidutinio paketo darbai',
+                '1 step kėbulo poliravimas',
+                'Skelbimai į 3 portalus',
+                'Iškėlimai ir maksimalus matomumas'
+              ],
               detail: 'Tobulas sprendimas, kai tikslas yra maksimaliai padidinti automobilio pateikimo kokybę ir pardavimo šansą. Šis paketas sukurtas geriausiam rezultatui.'
             }
           ]
@@ -1391,12 +1264,12 @@
         prevMonth: document.getElementById('prevMonth'),
         nextMonth: document.getElementById('nextMonth'),
         dateField: document.getElementById('data'),
-        dateHint: document.getElementById('dateHint')
+        dateHint: document.getElementById('dateHint'),
+        selectedDateChip: document.getElementById('selectedDateChip'),
+        quickDateRow: document.getElementById('quickDateRow')
       };
 
-      function money(amount) {
-        return `${amount} €`;
-      }
+      const money = (amount) => `${amount} €`;
 
       function saveBookedDates() {
         localStorage.setItem('automobiliusBookedDates', JSON.stringify(Array.from(state.bookedDates)));
@@ -1419,19 +1292,14 @@
         els.totalAmount.textContent = money(total);
         els.selectedCount.textContent = `Pasirinkta: ${selected.length} paslaug${selected.length === 1 ? 'a' : 'ų'}`;
 
-        if (selected.length === 0) {
-          els.selectedList.innerHTML = '<li class="selected-empty">Kol kas nieko nepasirinkta.</li>';
-        } else {
-          els.selectedList.innerHTML = selected.map((s) => `<li><span>${s.title}</span><strong>${money(s.price)}</strong></li>`).join('');
-        }
+        els.selectedList.innerHTML = selected.length
+          ? selected.map((s) => `<li><span>${s.title}</span><strong>${money(s.price)}</strong></li>`).join('')
+          : '<li class="selected-empty">Kol kas nieko nepasirinkta.</li>';
 
-        const selectedText = selected.length
-          ? selected.map((s) => `• ${s.title} — ${money(s.price)}`).join('\n')
-          : 'Nėra pasirinktų paslaugų.';
-
-        els.summaryBox.value = `Paslaugos:\n${selectedText}\n\nSuma: ${money(total)}`;
+        els.summaryBox.value = selected.length
+          ? `Pasirinkti darbai:\n${selected.map((s) => `• ${s.title} — ${money(s.price)}`).join('\n')}\n\nSuma: ${money(total)}`
+          : `Pasirinkti darbai:\nNėra pasirinktų paslaugų.\n\nSuma: ${money(total)}`;
       }
-
       function buildServiceCard(service) {
         const card = document.createElement('article');
         card.className = 'service-card fade-in';
@@ -1468,10 +1336,116 @@
         return card;
       }
 
+      function buildPackageCard(service) {
+        const card = document.createElement('article');
+        card.className = `package-card fade-in ${service.price >= 279 ? 'is-premium' : service.price >= 149 ? 'is-featured' : ''}`;
+        card.dataset.serviceId = service.id;
+        card.innerHTML = `
+          <div class="package-ribbon">${service.ribbon || ''}</div>
+          <div class="package-top">
+            <div class="package-copy">
+              <div class="package-badge">${service.badge || 'Paketas'}</div>
+              <h3 class="package-title">${service.title}</h3>
+              <p class="package-summary">${service.summary}</p>
+            </div>
+            <div class="package-price-wrap">
+              <div class="package-price-label">Kaina</div>
+              <div class="package-price">${money(service.price)}</div>
+            </div>
+          </div>
+
+          <ul class="package-features">
+            ${(service.features || []).map((item) => `<li>${item}</li>`).join('')}
+          </ul>
+
+          <div class="package-actions">
+            <label class="package-select">
+              <input class="check" type="checkbox" aria-label="Pasirinkti ${service.title}" data-service-id="${service.id}">
+              <span>Pasirinkti paketą</span>
+            </label>
+            <button class="service-toggle" type="button" aria-expanded="false">Plačiau</button>
+          </div>
+
+          <div class="service-details">${service.detail}</div>
+        `;
+
+        const checkbox = card.querySelector('input[type="checkbox"]');
+        const toggle = card.querySelector('.service-toggle');
+
+        card.addEventListener('click', (event) => {
+          if (event.target.closest('button') || event.target.closest('input')) return;
+          checkbox.checked = !checkbox.checked;
+          checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+
+        checkbox.addEventListener('change', () => {
+          if (checkbox.checked) state.selected.add(service.id);
+          else state.selected.delete(service.id);
+          card.classList.toggle('selected', checkbox.checked);
+          updateSummary();
+        });
+
+        toggle.addEventListener('click', () => {
+          const open = card.classList.toggle('is-open');
+          toggle.textContent = open ? 'Sutraukti' : 'Plačiau';
+          toggle.setAttribute('aria-expanded', String(open));
+        });
+
+        return card;
+      }
+
+      function formatDateLabel(date) {
+        return date.toLocaleDateString('lt-LT', {
+          weekday: 'short',
+          day: 'numeric',
+          month: 'short'
+        });
+      }
+
+      function renderQuickDates() {
+        if (!els.quickDateRow) return;
+
+        const presets = [
+          { label: 'Šiandien', offset: 0 },
+          { label: 'Rytoj', offset: 1 },
+          { label: '+3 d.', offset: 3 },
+          { label: '+7 d.', offset: 7 },
+          { label: '+14 d.', offset: 14 }
+        ];
+
+        const today = todayStart();
+        els.quickDateRow.innerHTML = presets.map((preset) => {
+          const d = new Date(today);
+          d.setDate(d.getDate() + preset.offset);
+          const key = dateKey(d);
+          const booked = state.bookedDates.has(key);
+          const selected = els.dateField.value === key;
+          return `
+            <button class="quick-date-chip ${selected ? 'is-active' : ''}" type="button" data-quick-date="${key}" ${booked ? 'disabled' : ''}>
+              <span>${preset.label}</span>
+              <strong>${formatDateLabel(d)}</strong>
+            </button>
+          `;
+        }).join('');
+
+        els.quickDateRow.querySelectorAll('[data-quick-date]').forEach((btn) => {
+          btn.addEventListener('click', () => {
+            const key = btn.dataset.quickDate;
+            if (!key || state.bookedDates.has(key)) return;
+            setSelectedDate(key);
+            renderCalendar();
+            document.getElementById('registracija')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          });
+        });
+      }
+
       function buildGroupCard(group) {
         const card = document.createElement('section');
         card.className = 'group-card fade-in';
         card.dataset.groupId = group.id;
+        card.dataset.groupType = group.type || 'services';
+
+        const isPackageGroup = group.type === 'packages';
         card.innerHTML = `
           <button class="group-head" type="button" aria-expanded="false">
             <div class="group-head-left">
@@ -1483,15 +1457,18 @@
           </button>
           <div class="group-content">
             <p class="group-note">${group.note}</p>
-            <div class="cards-grid"></div>
+            <div class="${isPackageGroup ? 'package-grid' : 'cards-grid'}"></div>
           </div>
         `;
 
         const head = card.querySelector('.group-head');
-        const content = card.querySelector('.group-content');
-        const cardsGrid = card.querySelector('.cards-grid');
+        const cardsGrid = card.querySelector('.group-content .package-grid, .group-content .cards-grid');
 
-        group.services.forEach((service) => cardsGrid.appendChild(buildServiceCard(service)));
+        if (isPackageGroup) {
+          group.services.forEach((service) => cardsGrid.appendChild(buildPackageCard(service)));
+        } else {
+          group.services.forEach((service) => cardsGrid.appendChild(buildServiceCard(service)));
+        }
 
         head.addEventListener('click', () => {
           const open = card.classList.toggle('is-open');
@@ -1516,10 +1493,7 @@
       }
 
       function dateKey(date) {
-        const y = date.getFullYear();
-        const m = pad(date.getMonth() + 1);
-        const d = pad(date.getDate());
-        return `${y}-${m}-${d}`;
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
       }
 
       function parseDateKey(key) {
@@ -1541,13 +1515,27 @@
 
       function setSelectedDate(key) {
         els.dateField.value = key;
-        const nice = parseDateKey(key).toLocaleDateString('lt-LT', {
+        const picked = parseDateKey(key);
+        state.currentMonth = new Date(picked.getFullYear(), picked.getMonth(), 1);
+        const nice = picked.toLocaleDateString('lt-LT', {
           weekday: 'long',
           year: 'numeric',
           month: 'long',
           day: 'numeric'
         });
         els.dateHint.textContent = `Pasirinkta data: ${nice}`;
+        els.selectedDateChip.style.display = 'inline-flex';
+        els.selectedDateChip.textContent = `Pasirinkta data: ${nice}`;
+        renderQuickDates();
+      }
+
+      function clearSelectedDate() {
+        const today = todayStart();
+        state.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        els.dateField.value = '';
+        els.dateHint.textContent = 'Pasirinkite laisvą dieną kalendoriuje.';
+        els.selectedDateChip.style.display = 'none';
+        renderQuickDates();
       }
 
       function renderCalendar() {
@@ -1559,9 +1547,7 @@
         const weekdays = ['Pr', 'An', 'Tr', 'Kt', 'Pn', 'Št', 'Sk'];
         const cells = [];
 
-        weekdays.forEach((day) => {
-          cells.push(`<div class="weekday">${day}</div>`);
-        });
+        weekdays.forEach((day) => cells.push(`<div class="weekday">${day}</div>`));
 
         for (let i = 0; i < firstDay; i += 1) {
           cells.push('<button class="day is-empty" type="button" tabindex="-1" aria-hidden="true"></button>');
@@ -1592,6 +1578,7 @@
             renderCalendar();
           });
         });
+        renderQuickDates();
       }
 
       function observeFadeIns() {
@@ -1636,8 +1623,7 @@
       els.clearBooking.addEventListener('click', () => {
         state.selected.clear();
         els.bookingForm.reset();
-        els.dateField.value = '';
-        els.dateHint.textContent = 'Pasirinkite laisvą dieną kalendoriuje.';
+        clearSelectedDate();
         document.querySelectorAll('.service-card').forEach((card) => {
           card.classList.remove('selected', 'is-open');
           const check = card.querySelector('input[type="checkbox"]');
@@ -1647,6 +1633,11 @@
             toggle.textContent = 'Plačiau';
             toggle.setAttribute('aria-expanded', 'false');
           }
+        });
+        document.querySelectorAll('.group-card').forEach((card) => {
+          card.classList.remove('is-open');
+          const head = card.querySelector('.group-head');
+          if (head) head.setAttribute('aria-expanded', 'false');
         });
         updateSummary();
         renderCalendar();
@@ -1704,12 +1695,16 @@
           openModal();
           state.selected.clear();
           els.bookingForm.reset();
-          els.dateField.value = '';
-          els.dateHint.textContent = 'Pasirinkite laisvą dieną kalendoriuje.';
+          clearSelectedDate();
           document.querySelectorAll('.service-card').forEach((card) => {
             card.classList.remove('selected');
             const check = card.querySelector('input[type="checkbox"]');
             if (check) check.checked = false;
+          });
+          document.querySelectorAll('.group-card').forEach((card) => {
+            card.classList.remove('is-open');
+            const head = card.querySelector('.group-head');
+            if (head) head.setAttribute('aria-expanded', 'false');
           });
           updateSummary();
           renderCalendar();
@@ -1746,5 +1741,6 @@
       }
     })();
   </script>
+
 </body>
 </html>
