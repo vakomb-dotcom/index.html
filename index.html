@@ -245,7 +245,7 @@
       border-radius:28px;
       box-shadow:var(--shadow-soft);
     }
-    .summary-panel{padding:22px}
+    .summary-panel{padding:22px;position:sticky;top:16px}
     .summary-panel ul{
       margin:14px 0 0;padding:0;list-style:none;display:grid;gap:10px;
     }
@@ -264,6 +264,31 @@
       font-weight:950;letter-spacing:-.05em;line-height:1;
     }
     .price-note{color:var(--muted);font-size:.90rem}
+    .booking-total{
+      display:grid;gap:8px;padding:18px;margin-top:18px;
+      border-radius:22px;
+      background:linear-gradient(180deg, rgba(37,99,235,.06), rgba(37,99,235,.02));
+      border:1px solid rgba(37,99,235,.10);
+    }
+    .selected-list{
+      margin:14px 0 0;
+      padding:0;
+      list-style:none;
+      display:grid;
+      gap:10px;
+    }
+    .selected-list li{
+      display:flex;
+      justify-content:space-between;
+      gap:14px;
+      padding:10px 0;
+      border-bottom:1px solid rgba(15,23,42,.06);
+      color:#334155;
+    }
+    .selected-empty{
+      color:var(--muted);
+      padding:8px 0 0;
+    }
 
     .services-stack{display:grid;gap:16px}
     .group-card{overflow:hidden}
@@ -859,9 +884,25 @@
           </div>
         </div>
 
-        <div class="services-stack" id="servicesStack"></div>
+        <div class="services-layout">
+  <div class="services-stack" id="servicesStack"></div>
 
-        <div class="booking-panel fade-in" id="registracija">
+  <aside class="summary-panel fade-in" aria-live="polite">
+    <h3 style="margin:0 0 10px;">Dinaminė kaina</h3>
+    <div class="price-note">Bendra suma atnaujinama iš karto pagal pasirinktų paslaugų skaičių.</div>
+    <div class="booking-total">
+      <div class="price-note">Bendra suma</div>
+      <div class="total-amount" id="totalAmount">0 €</div>
+      <div class="price-note" id="selectedCount">Pasirinkta: 0 paslaugų</div>
+    </div>
+    <h4 style="margin:18px 0 10px;">Pasirinktos paslaugos ir darbai</h4>
+    <ul id="selectedList">
+      <li class="selected-empty">Kol kas nieko nepasirinkta.</li>
+    </ul>
+  </aside>
+</div>
+
+<div class="booking-panel fade-in" id="registracija">
           <div class="section-title" style="margin-bottom:8px;">Registracija</div>
           <p class="section-lead" style="margin-bottom:18px;">
             Užregistruokite automobilį tiesiogiai iš svetainės. Pasirinkta data bus priskirta tik vienam klientui, o praeities dienos nėra aktyvios.
