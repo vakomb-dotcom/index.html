@@ -3,226 +3,316 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>NT supirkimas Ukmergėje ir aplink</title>
+  <title>Ukmergės NT supirkimas</title>
   <meta name="description" content="Perku garažus, sodo sklypus, apleistas patalpas ir kitą nereikalingą nekilnojamą turtą Ukmergėje ir aplink." />
-  <meta name="theme-color" content="#f6f7f9" />
+  <meta name="theme-color" content="#f5f7f8" />
   <style>
     :root{
-      --bg:#f6f7f9;
+      --bg:#f5f7f8;
       --card:#ffffff;
-      --text:#17212f;
-      --muted:#667085;
-      --line:#dde3ea;
+      --text:#17212b;
+      --muted:#607080;
+      --line:#dfe6ed;
       --accent:#0f6a18;
-      --accent-2:#1f7a2e;
-      --soft:#eef6f0;
-      --shadow:0 10px 30px rgba(16,24,40,.08);
-      --radius:22px;
-      --max:980px;
+      --accent-2:#176b2a;
+      --soft:#edf8f0;
+      --soft-2:#f7fafc;
+      --shadow:0 18px 48px rgba(15, 23, 42, .08);
+      --radius:26px;
+      --max:1040px;
     }
     *{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{
       margin:0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-      background:var(--bg);
       color:var(--text);
+      background:
+        radial-gradient(circle at 10% 10%, rgba(15,106,24,.06), transparent 24%),
+        radial-gradient(circle at 88% 18%, rgba(15,106,24,.05), transparent 20%),
+        var(--bg);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
       -webkit-font-smoothing:antialiased;
       text-rendering:optimizeLegibility;
     }
     a{color:inherit;text-decoration:none}
-    .wrap{max-width:var(--max); margin:0 auto; padding:14px}
+    img{max-width:100%;display:block}
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:14px;
+    }
 
-    .topbar{
+    .brandbar{
       display:flex;
       align-items:center;
       justify-content:center;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:16px 18px;
-      box-shadow:var(--shadow);
-      text-align:center;
       margin-bottom:14px;
     }
     .brand{
+      width:100%;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(223,230,237,.9);
+      box-shadow:var(--shadow);
+      border-radius:24px;
+      padding:16px 18px;
       display:flex;
       align-items:center;
       justify-content:center;
-      min-width:0;
-      width:100%;
-    }
-    .brand-center{
-      width:100%;
-      display:flex;
-      flex-direction:column;
-      align-items:center;
-      justify-content:center;
-      gap:7px;
+      gap:12px;
+      backdrop-filter: blur(8px);
     }
     .brand-mark{
       display:flex;
       align-items:center;
-      justify-content:center;
-      gap:10px;
-      font-size:clamp(26px, 6vw, 34px);
-      line-height:1;
+      gap:12px;
       letter-spacing:-.05em;
+      line-height:1;
       font-weight:900;
-      color:#14202c;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      color:#16212c;
+      font-size:clamp(24px, 5.8vw, 34px);
+      text-align:center;
+      white-space:nowrap;
     }
-    .brand-mark .brand-word{font-weight:900}
-    .brand-mark .brand-badge{
+    .brand-mark .dot{
+      width:12px;
+      height:12px;
+      border-radius:999px;
+      background:var(--accent);
+      box-shadow:0 0 0 8px rgba(15,106,24,.10);
+      flex:0 0 auto;
+    }
+    .brand-sub{
       display:inline-flex;
       align-items:center;
       justify-content:center;
-      padding:6px 12px;
+      padding:7px 12px;
       border-radius:999px;
-      background:rgba(15,106,24,.10);
+      background:var(--soft);
       color:var(--accent);
-      font-size:.52em;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      font-weight:900;
-    }
-    .brand-sub{
-      font-size:13px;
-      color:var(--accent);
-      font-weight:700;
-      letter-spacing:-.01em;
-      background:rgba(15,106,24,.06);
-      padding:6px 11px;
-      border-radius:999px;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.02em;
+      white-space:nowrap;
     }
 
     .hero{
-      margin-top:14px;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:28px;
+      background:rgba(255,255,255,.95);
+      border:1px solid rgba(223,230,237,.95);
+      border-radius:32px;
       box-shadow:var(--shadow);
       overflow:hidden;
     }
-    .hero-copy{
-      padding:30px 16px 12px;
+    .hero-inner{
+      padding:28px 16px 18px;
       text-align:center;
-      background:linear-gradient(180deg, #fff 0%, #fafcfb 100%);
     }
-    .hero-copy h2{
-      margin:0 auto 10px;
-      max-width:760px;
-      font-size:clamp(29px, 6.2vw, 56px);
-      line-height:1.03;
-      letter-spacing:-.05em;
-      font-weight:900;
-      color:#152131;
-    }
-    .hero-copy h2 .accent{
-      color:var(--accent);
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 12px;
+      border-radius:999px;
       background:rgba(15,106,24,.08);
+      color:var(--accent);
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+      margin-bottom:14px;
+    }
+    .eyebrow::before{
+      content:"";
+      width:8px;height:8px;border-radius:999px;background:var(--accent);
+      box-shadow:0 0 0 6px rgba(15,106,24,.10);
+    }
+    .hero h1{
+      margin:0 auto 12px;
+      max-width:820px;
+      font-size:clamp(31px, 8.2vw, 60px);
+      line-height:1.02;
+      letter-spacing:-.055em;
+      font-weight:900;
+      color:#152130;
+    }
+    .hero h1 .accent{
+      color:var(--accent);
+      background:linear-gradient(180deg, rgba(15,106,24,.09), rgba(15,106,24,.04));
       padding:0 .18em;
       border-radius:.22em;
       box-decoration-break:clone;
       -webkit-box-decoration-break:clone;
     }
-    .hero-copy p{
+    .hero p{
       margin:0 auto;
-      max-width:690px;
-      font-size:clamp(16px, 3.8vw, 20px);
-      line-height:1.45;
-      color:#4e5a69;
+      max-width:720px;
+      color:#536273;
+      font-size:clamp(16px, 4.1vw, 20px);
+      line-height:1.5;
     }
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:8px;
+      margin:18px 0 18px;
+    }
+    .chip{
+      padding:9px 12px;
+      border-radius:999px;
+      background:var(--soft-2);
+      border:1px solid #e4ebf1;
+      color:#39485b;
+      font-size:12px;
+      font-weight:700;
+      letter-spacing:.01em;
+    }
+
     .hero-media{
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:8px;
-      width:min(100%, 320px);
-      margin:0 auto 12px;
-      padding:0 16px;
+      gap:10px;
+      width:min(100%, 360px);
+      margin:0 auto;
+      padding:0 4px 14px;
     }
-    .hero-thumb{
-      aspect-ratio: 1 / 0.84;
-      background:#eef2f6;
+    .photo-card{
+      border-radius:18px;
       overflow:hidden;
-      border-radius:16px;
-      box-shadow:0 8px 20px rgba(16,24,40,.08);
-      border:1px solid #e3e8ef;
+      border:1px solid #e2e8ef;
+      background:#edf1f5;
+      box-shadow:0 10px 24px rgba(15,23,42,.08);
+      aspect-ratio: 1 / 0.88;
+      position:relative;
     }
-    .hero-thumb img{
+    .photo-card img{
       width:100%;
       height:100%;
       object-fit:cover;
-      display:block;
     }
-    .hero-actions{
+    .photo-tag{
+      position:absolute;
+      left:10px;
+      bottom:10px;
+      padding:7px 10px;
+      background:rgba(255,255,255,.92);
+      border-radius:999px;
+      font-size:11px;
+      font-weight:800;
+      color:#16212c;
+      box-shadow:0 8px 16px rgba(15,23,42,.10);
+    }
+
+    .cta-row{
+      padding:0 16px 22px;
       display:flex;
       justify-content:center;
-      padding:0 16px 24px;
     }
     .btn{
       appearance:none;
       border:0;
       cursor:pointer;
-      border-radius:16px;
-      min-height:54px;
+      min-height:56px;
       padding:0 20px;
+      border-radius:16px;
       font-size:16px;
       font-weight:800;
       letter-spacing:-.02em;
-      transition:transform .12s ease, box-shadow .12s ease, opacity .12s ease;
+      transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
     }
     .btn:hover{transform:translateY(-1px)}
     .btn-primary{
-      background:#0f6a18;
       color:#fff;
-      box-shadow:0 10px 20px rgba(15,106,24,.16);
-    }
-    .btn-secondary{
-      background:#fff;
-      color:#273043;
-      border:1px solid #d6dbe2;
+      background:linear-gradient(180deg, #1a7d2a 0%, #0f6a18 100%);
+      box-shadow:0 14px 24px rgba(15,106,24,.18);
     }
 
     .section{
       margin-top:14px;
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:28px;
+      background:rgba(255,255,255,.95);
+      border:1px solid rgba(223,230,237,.95);
+      border-radius:32px;
       box-shadow:var(--shadow);
       overflow:hidden;
     }
     .section-head{
-      padding:22px 16px 8px;
       text-align:center;
+      padding:24px 16px 10px;
     }
-    .section-head h3{
+    .section-head h2{
       margin:0;
-      font-size:clamp(26px, 5vw, 42px);
-      line-height:1.05;
-      letter-spacing:-.04em;
+      font-size:clamp(26px, 5.8vw, 42px);
+      line-height:1.06;
+      letter-spacing:-.045em;
       font-weight:900;
-      color:#1f2937;
+      color:#192534;
     }
     .section-head p{
       margin:10px auto 0;
       max-width:760px;
       color:var(--muted);
       font-size:15px;
-      line-height:1.45;
+      line-height:1.55;
     }
+
     form{
-      padding:0 16px 18px;
-      max-width:760px;
+      max-width:780px;
       margin:0 auto;
+      padding:0 16px 18px;
+    }
+    .choice-group{margin-bottom:18px}
+    .choice-title{
+      margin:0 0 10px;
+      font-size:15px;
+      font-weight:800;
+      color:#243243;
+      letter-spacing:-.01em;
+    }
+    .choice-list{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+    }
+    .choice-list.single{
+      grid-template-columns:1fr;
+    }
+    .choice{
+      position:relative;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:56px;
+      padding:13px 14px;
+      border:1.5px solid #cfd8e1;
+      border-radius:16px;
+      background:#fff;
+      font-size:15px;
+      font-weight:750;
+      color:#1f2937;
+      cursor:pointer;
+      user-select:none;
+      text-align:center;
+      transition:border-color .15s ease, background .15s ease, transform .15s ease, box-shadow .15s ease;
+    }
+    .choice:hover{transform:translateY(-1px)}
+    .choice input{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      margin:0;
+      cursor:pointer;
+    }
+    .choice.selected{
+      border-color:rgba(15,106,24,.82);
+      background:linear-gradient(180deg, rgba(15,106,24,.07), rgba(15,106,24,.03));
+      box-shadow:0 0 0 4px rgba(15,106,24,.06);
     }
 
     .field{display:flex; flex-direction:column; gap:8px; margin-bottom:14px}
     .label{
-      font-size:15px;
+      font-size:14px;
       font-weight:800;
+      color:#243243;
       letter-spacing:-.01em;
-      color:#243043;
     }
     input, select, textarea{
       width:100%;
@@ -234,62 +324,18 @@
       padding:13px 14px;
       font-size:16px;
       line-height:1.35;
+      transition:border-color .15s ease, box-shadow .15s ease;
     }
-    textarea{min-height:98px; resize:vertical}
+    textarea{min-height:96px; resize:vertical}
     input:focus, select:focus, textarea:focus{
-      border-color:rgba(15,106,24,.5);
+      border-color:rgba(15,106,24,.62);
       box-shadow:0 0 0 4px rgba(15,106,24,.08);
     }
-    .choice-group{margin-bottom:18px}
-    .choice-title{
-      margin:0 0 10px;
-      font-size:15px;
-      font-weight:800;
-      color:#243043;
-    }
-    .choice-list{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
-    }
-    .choice{
-      position:relative;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      min-height:56px;
-      padding:12px 14px;
-      border:1.5px solid #cfd7e1;
-      border-radius:16px;
-      background:#fff;
-      font-size:15px;
-      font-weight:700;
-      cursor:pointer;
-      user-select:none;
-      text-align:center;
-    }
-    .choice input{
-      position:absolute;
-      inset:0;
-      opacity:0;
-      margin:0;
-      cursor:pointer;
-    }
-    .choice.selected{
-      border-color:#0f6a18;
-      background:#f5fbf6;
-      box-shadow:0 0 0 1px rgba(15,106,24,.08);
-    }
-    .hint{
-      margin:-6px 0 12px;
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.45;
-    }
+
     .subpanel{
-      background:#f8fafc;
-      border:1px dashed #d9e0e8;
-      border-radius:18px;
+      background:linear-gradient(180deg, #fbfcfd 0%, #f7fafb 100%);
+      border:1px solid #e2e8ef;
+      border-radius:22px;
       padding:14px;
       margin-bottom:14px;
     }
@@ -298,47 +344,56 @@
       align-items:center;
       justify-content:space-between;
       gap:10px;
-      margin-bottom:10px;
+      margin-bottom:12px;
       font-size:14px;
-      font-weight:800;
+      font-weight:900;
+      color:#233143;
     }
     .badge{
-      background:var(--soft);
-      color:var(--accent);
-      font-size:12px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      white-space:nowrap;
       padding:6px 10px;
       border-radius:999px;
-      white-space:nowrap;
+      background:var(--soft);
+      color:var(--accent);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.04em;
+      text-transform:uppercase;
     }
 
     .actions{
       display:grid;
       gap:10px;
-      margin-top:4px;
+      margin-top:6px;
     }
     .btn-submit{
       width:100%;
       min-height:58px;
-      background:#0f6a18;
       color:#fff;
-      box-shadow:0 10px 20px rgba(15,106,24,.16);
+      background:linear-gradient(180deg, #1a7d2a 0%, #0f6a18 100%);
+      box-shadow:0 14px 24px rgba(15,106,24,.18);
     }
     .btn-back{
       width:100%;
       min-height:52px;
       background:#fff;
-      border:1px solid #d7dce3;
-      color:#273043;
+      color:#243243;
+      border:1px solid #d7dde4;
     }
 
     .notice{
-      margin:14px 16px 0;
-      padding:14px;
+      margin:14px 0 0;
+      padding:14px 15px;
       border-radius:16px;
       border:1px solid #d9e9dd;
       background:#f4fbf6;
       color:#155724;
       display:none;
+      font-size:14px;
+      line-height:1.45;
     }
     .notice.show{display:block}
     .notice.error{
@@ -354,14 +409,37 @@
       margin-top:14px;
     }
     .info-card{
-      border:1px solid var(--line);
+      border:1px solid rgba(223,230,237,.95);
       border-radius:22px;
-      background:#fff;
+      background:rgba(255,255,255,.96);
       box-shadow:var(--shadow);
       padding:16px;
     }
-    .info-card b{display:block; margin-bottom:6px; font-size:15px}
-    .info-card p{margin:0; color:var(--muted); font-size:14px; line-height:1.5}
+    .info-card .kicker{
+      display:inline-flex;
+      margin-bottom:10px;
+      padding:6px 10px;
+      border-radius:999px;
+      background:rgba(15,106,24,.08);
+      color:var(--accent);
+      font-size:11px;
+      font-weight:900;
+      letter-spacing:.04em;
+      text-transform:uppercase;
+    }
+    .info-card b{
+      display:block;
+      margin-bottom:6px;
+      font-size:15px;
+      line-height:1.3;
+      color:#182433;
+    }
+    .info-card p{
+      margin:0;
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.55;
+    }
 
     .footer{
       text-align:center;
@@ -371,73 +449,86 @@
     }
 
     @media (max-width: 759px){
-      .topbar{padding:14px 14px}
-      .brand-mark{font-size:24px; gap:8px}
-      .brand-mark .brand-badge{padding:5px 10px; font-size:.56em}
-      .brand-sub{font-size:12px; padding:5px 10px}
-      .hero-copy{padding:24px 14px 10px}
-      .hero-copy h2{font-size:clamp(28px, 8vw, 34px)}
-      .hero-media{width:min(100%, 292px); gap:7px; padding:0 12px}
-      .hero-thumb{border-radius:14px}
-      .hero-actions{padding:0 14px 22px}
+      .wrap{padding:12px}
+      .brand{padding:14px 14px}
+      .brand-mark{font-size:23px}
+      .brand-sub{font-size:11px; padding:6px 10px}
+      .hero-inner{padding:24px 14px 16px}
+      .hero h1{font-size:clamp(30px, 9vw, 36px)}
+      .hero p{font-size:16px}
+      .chips{margin:16px 0 14px}
+      .hero-media{width:min(100%, 304px); gap:8px}
+      .photo-card{border-radius:16px}
+      .cta-row{padding:0 14px 20px}
+      .section-head{padding:22px 14px 10px}
+      .section-head h2{font-size:clamp(24px, 6.5vw, 32px)}
+      form{padding:0 14px 18px}
+      .label,.choice-title{font-size:14px}
+      input, select, textarea{font-size:15px}
     }
 
     @media (min-width: 760px){
       .wrap{padding:18px}
-      .hero-copy{padding:34px 22px 14px}
-      .hero-media{width:min(100%, 470px); gap:10px}
-      .hero-thumb{border-radius:20px}
-      .hero-actions{padding-bottom:30px}
-      .section-head{padding:24px 18px 10px}
-      .small-grid{
-        grid-template-columns:repeat(3, 1fr);
-      }
+      .hero-inner{padding:34px 22px 18px}
+      .hero h1{font-size:clamp(42px, 5.4vw, 60px)}
+      .hero-media{width:min(100%, 480px); gap:12px}
+      .photo-card{border-radius:20px}
+      .section-head{padding:26px 18px 12px}
       .choice-list{
         grid-template-columns:repeat(2, minmax(0,1fr));
       }
-      .choice-list.single{
-        grid-template-columns:1fr;
-      }
+      .choice-list.single{grid-template-columns:1fr}
       .actions{
         grid-template-columns:1fr 1fr;
       }
       .actions .btn-submit{grid-column:1 / -1}
-      form{padding-bottom:22px}
-      .brand-mark{font-size:36px}
-      .brand-sub{font-size:14px}
+      .small-grid{
+        grid-template-columns:repeat(3, 1fr);
+      }
     }
   </style>
-
+</head>
 <body>
   <div class="wrap">
-    <header class="topbar">
-      <div class="brand brand-center">
-        <div class="brand-mark"><span class="brand-word">Ukmergės</span><span class="brand-badge">NT</span></div>
-        <div class="brand-sub">Nekilnojamo turto supirkimas</div>
+    <header class="brandbar">
+      <div class="brand">
+        <div class="brand-mark"><span>Ukmergės NT</span><span class="dot" aria-hidden="true"></span></div>
+        <div class="brand-sub">nekilnojamo turto supirkimas</div>
       </div>
     </header>
 
     <section class="hero">
-      <div class="hero-copy">
-        <h2>Perku nekilnojamą turtą <span class="accent">Ukmergėje ir aplink</span></h2>
-        <p>Trumpa užklausa. Aiškus atsakymas per 15 min.</p>
+      <div class="hero-inner">
+        <div class="eyebrow">Greitas vertinimas</div>
+        <h1>Perku <span class="accent">nekilnojamą turtą</span> Ukmergėje ir aplink</h1>
+        <p>Trumpa užklausa. Aiškus atsakymas per 15 min. Jokio bereikalingo vargo.</p>
+        <div class="chips" aria-label="Pagrindiniai privalumai">
+          <span class="chip">Trumpa forma</span>
+          <span class="chip">Atsakymas per 15 min</span>
+          <span class="chip">Ukmergė ir aplinka</span>
+        </div>
       </div>
+
       <div class="hero-media" aria-label="NT vizualai">
-        <div class="hero-thumb">
-          <img src="https://tikraverte.lt/wp-content/uploads/2024/08/Garazas.jpg" alt="Parduodamo garažo vizualas" />
+        <div class="photo-card">
+          <img src="https://tikraverte.lt/wp-content/uploads/2024/08/Garazas.jpg" alt="Garažo vizualas" />
+          <div class="photo-tag">Garažas</div>
         </div>
-        <div class="hero-thumb">
-          <img src="https://skelbiu.vip/wp-content/uploads/classified-listing/2024/01/IMG_7775-scaled.jpeg" alt="Parduodamo objekto vizualas" />
+        <div class="photo-card">
+          <img src="https://skelbiu.vip/wp-content/uploads/classified-listing/2024/01/IMG_7775-scaled.jpeg" alt="Kito parduodamo objekto vizualas" />
+          <div class="photo-tag">Objektas</div>
         </div>
       </div>
-      <div class="hero-actions">
+
+      <div class="cta-row">
         <button class="btn btn-primary" type="button" id="scrollBtn">Parduoti NT</button>
       </div>
     </section>
-<section class="section" id="forma">
+
+    <section class="section" id="forma">
       <div class="section-head">
-        <h3>Trumpa pardavimo užklausa</h3>
-        <p>Užpildyti užtruks akimirką, atsakymą gausite per 15 min.</p>
+        <h2>Trumpa pardavimo užklausa</h2>
+        <p>Užpildysite akimirksniu, o atsakymą gausite per 15 min.</p>
       </div>
 
       <form id="leadForm" action="https://formspree.io/f/xpqkqbbw" method="POST">
@@ -467,7 +558,6 @@
         </div>
 
         <div id="dynamicFields">
-          <!-- Garažas -->
           <div class="type-panel" data-type="Garažas">
             <div class="subpanel">
               <div class="subpanel-title">
@@ -499,7 +589,6 @@
             </div>
           </div>
 
-          <!-- Sodo sklypas -->
           <div class="type-panel" data-type="Sodo sklypas" style="display:none">
             <div class="subpanel">
               <div class="subpanel-title">
@@ -542,7 +631,6 @@
             </div>
           </div>
 
-          <!-- Apleistos patalpos -->
           <div class="type-panel" data-type="Apleistos patalpos" style="display:none">
             <div class="subpanel">
               <div class="subpanel-title">
@@ -579,7 +667,6 @@
             </div>
           </div>
 
-          <!-- Nereikalingas NT -->
           <div class="type-panel" data-type="Nereikalingas NT" style="display:none">
             <div class="subpanel">
               <div class="subpanel-title">
@@ -619,20 +706,23 @@
 
     <section class="small-grid">
       <div class="info-card">
-        <b>Trumpa užklausa</b>
-        <p>Keli laukai telefone ir svarbiausia informacija jau pateikta.</p>
+        <div class="kicker">Greita</div>
+        <b>Trumpa anketa be nereikalingų žingsnių.</b>
+        <p>Pateiksite tik kelis esminius duomenis, kad užklausa būtų aiški ir greitai įvertinama.</p>
       </div>
       <div class="info-card">
-        <b>Aiškus atsakymas</b>
-        <p>Greitai įvertiname objektą ir pateikiame konkretų atsakymą.</p>
+        <div class="kicker">Tiksliai</div>
+        <b>Renkami tik tie NT tipai, kuriuos realiai perkate.</b>
+        <p>Garažai, sodo sklypai, apleisti objektai ir panašūs atvejai — be perteklinių kategorijų.</p>
       </div>
       <div class="info-card">
-        <b>Jokio vargo</b>
-        <p>Forma sukurta taip, kad nereikėtų pildyti nieko perteklinio.</p>
+        <div class="kicker">Tvarkingai</div>
+        <b>Užklausa siunčiama tiesiai į Formspree.</b>
+        <p>Jokių papildomų sistemų ar sudėtingo backend'o — paprastas ir stabilus sprendimas.</p>
       </div>
     </section>
 
-    <div class="footer">© <span id="year"></span> NT supirkimas</div>
+    <div class="footer">© <span id="year"></span> Ukmergės NT supirkimas</div>
   </div>
 
   <script>
@@ -683,6 +773,7 @@
     scrollBtn.addEventListener('click', () => {
       document.getElementById('forma').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
+
     scrollTopBtn.addEventListener('click', () => {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     });
