@@ -3,19 +3,39 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
-  <title>Auto Skelbimų Monitorius</title>
+  <title>Visureigių skelbimų monitorius</title>
   <style>
     :root{
-      --bg:#f5f7fb; --bg2:#eef3fb; --surface:rgba(255,255,255,.88); --surface-solid:#fff;
-      --surface-2:#f3f6fb; --surface-3:#e8eef8; --text:#0f172a; --muted:#64748b; --muted-2:#94a3b8;
-      --line:rgba(148,163,184,.22); --shadow:0 18px 48px rgba(15,23,42,.10); --shadow-soft:0 10px 24px rgba(15,23,42,.06);
-      --accent:#2563eb; --accent-2:#0f766e; --success:#16a34a; --warn:#d97706; --danger:#ef4444;
-      --radius:26px; --glass: blur(16px) saturate(160%);
+      --bg:#f4f7fb;
+      --bg2:#eef4fb;
+      --panel:rgba(255,255,255,.86);
+      --panel-strong:#ffffff;
+      --text:#0f172a;
+      --muted:#64748b;
+      --muted2:#94a3b8;
+      --line:rgba(148,163,184,.18);
+      --shadow:0 20px 50px rgba(15,23,42,.10);
+      --shadow-soft:0 10px 24px rgba(15,23,42,.06);
+      --accent:#2563eb;
+      --accent2:#0f766e;
+      --good:#16a34a;
+      --warn:#d97706;
+      --danger:#ef4444;
+      --radius:24px;
+      --radius2:28px;
+      --glass: blur(16px) saturate(150%);
     }
     html[data-theme="dark"]{
-      --bg:#08111f; --bg2:#0d1728; --surface:rgba(17,24,39,.86); --surface-solid:#111827; --surface-2:#162033; --surface-3:#1e293b;
-      --text:#f8fafc; --muted:#cbd5e1; --muted-2:#94a3b8; --line:rgba(148,163,184,.16);
-      --shadow:0 18px 48px rgba(0,0,0,.26); --shadow-soft:0 10px 24px rgba(0,0,0,.18);
+      --bg:#07111f;
+      --bg2:#0d1728;
+      --panel:rgba(17,24,39,.84);
+      --panel-strong:#111827;
+      --text:#f8fafc;
+      --muted:#cbd5e1;
+      --muted2:#94a3b8;
+      --line:rgba(148,163,184,.14);
+      --shadow:0 22px 52px rgba(0,0,0,.30);
+      --shadow-soft:0 10px 24px rgba(0,0,0,.18);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -25,62 +45,98 @@
       font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
       color:var(--text);
       background:
-        radial-gradient(circle at 10% 0%, rgba(37,99,235,.13), transparent 28%),
-        radial-gradient(circle at 90% 10%, rgba(14,165,233,.12), transparent 24%),
+        radial-gradient(circle at 12% 8%, rgba(37,99,235,.12), transparent 26%),
+        radial-gradient(circle at 86% 10%, rgba(15,118,110,.11), transparent 22%),
         linear-gradient(180deg,var(--bg) 0%, var(--bg2) 100%);
       background-attachment:fixed;
       overflow-x:hidden;
-      -webkit-tap-highlight-color:transparent;
       text-rendering:optimizeLegibility;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
     }
     body::before{
-      content:""; position:fixed; inset:-20vh -20vw auto auto; width:420px; height:420px; border-radius:50%;
-      background:radial-gradient(circle, rgba(37,99,235,.14), transparent 68%); filter:blur(24px); pointer-events:none; z-index:-1;
+      content:""; position:fixed; inset:-20vh -20vw auto auto; width:440px; height:440px; border-radius:50%;
+      background:radial-gradient(circle, rgba(37,99,235,.12), transparent 70%); filter:blur(24px); pointer-events:none; z-index:-1;
     }
     body::after{
-      content:""; position:fixed; inset:auto auto 6vh -16vw; width:360px; height:360px; border-radius:50%;
-      background:radial-gradient(circle, rgba(15,118,110,.10), transparent 68%); filter:blur(24px); pointer-events:none; z-index:-1;
+      content:""; position:fixed; inset:auto auto 4vh -18vw; width:380px; height:380px; border-radius:50%;
+      background:radial-gradient(circle, rgba(15,118,110,.08), transparent 68%); filter:blur(24px); pointer-events:none; z-index:-1;
     }
-    .app{width:min(100%, 520px); margin:0 auto; min-height:100%; padding:12px 12px 132px; isolation:isolate}
+
+    .app{
+      width:min(100%, 900px);
+      margin:0 auto;
+      padding:14px 14px 120px;
+    }
+
     .topbar{
-      position:sticky; top:0; z-index:25; margin:0 -12px 12px; padding:calc(env(safe-area-inset-top) + 10px) 12px 12px;
-      background:linear-gradient(180deg, rgba(245,247,251,.92) 0%, rgba(245,247,251,.62) 100%);
-      backdrop-filter:var(--glass); border-bottom:1px solid rgba(148,163,184,.18);
+      position:sticky;
+      top:0;
+      z-index:20;
+      margin:0 -14px 14px;
+      padding:calc(env(safe-area-inset-top) + 10px) 14px 12px;
+      background:linear-gradient(180deg, rgba(245,247,251,.88) 0%, rgba(245,247,251,.52) 100%);
+      backdrop-filter:var(--glass);
+      border-bottom:1px solid rgba(148,163,184,.16);
     }
-    html[data-theme="dark"] .topbar{background:linear-gradient(180deg, rgba(8,17,31,.92) 0%, rgba(8,17,31,.64) 100%); border-bottom-color:rgba(148,163,184,.12)}
+    html[data-theme="dark"] .topbar{
+      background:linear-gradient(180deg, rgba(7,17,31,.92) 0%, rgba(7,17,31,.66) 100%);
+      border-bottom-color:rgba(148,163,184,.12);
+    }
     .topbarInner{display:flex; align-items:center; justify-content:space-between; gap:10px}
-    .brand{display:flex; align-items:center; gap:10px; min-width:0}
+    .brand{display:flex; align-items:center; gap:12px; min-width:0}
     .brandMark{
-      width:40px; height:40px; border-radius:14px; display:grid; place-items:center;
+      width:44px; height:44px; border-radius:16px; display:grid; place-items:center;
       background:linear-gradient(180deg, rgba(37,99,235,.16) 0%, rgba(37,99,235,.08) 100%);
-      border:1px solid rgba(37,99,235,.14); box-shadow:0 10px 24px rgba(37,99,235,.14); flex:0 0 auto; font-size:19px;
+      border:1px solid rgba(37,99,235,.14);
+      box-shadow:0 12px 24px rgba(37,99,235,.12);
+      flex:0 0 auto;
+      font-size:20px;
     }
     .brandText{min-width:0}
     .brandText strong{display:block; font-size:18px; letter-spacing:-.03em; line-height:1.05}
-    .brandText span{display:block; margin-top:3px; font-size:11px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+    .brandText span{display:block; margin-top:4px; font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+
     .topActions{display:flex; gap:8px; flex:0 0 auto}
     .iconBtn{
-      width:42px; height:42px; border-radius:14px; border:1px solid var(--line); background:var(--surface); color:var(--text);
+      width:42px; height:42px; border-radius:14px; border:1px solid var(--line); background:var(--panel); color:var(--text);
       box-shadow:var(--shadow-soft); display:grid; place-items:center; cursor:pointer; font:inherit; appearance:none;
     }
+
     .view{display:none; animation:fade .18s ease}
     .view.active{display:block}
-    @keyframes fade{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
-    .section{margin-top:14px; scroll-margin-top:102px}
+    @keyframes fade{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
+
+    .section{margin-top:14px; scroll-margin-top:110px}
     .sectionHead{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin:0 4px 10px}
     .sectionHead h2{margin:0; font-size:16px; letter-spacing:-.02em; font-weight:900}
-    .sectionHead span{font-size:11px; color:var(--muted); background:rgba(148,163,184,.10); border:1px solid rgba(148,163,184,.14); padding:7px 10px; border-radius:999px; white-space:nowrap}
-    .panel{
-      background:linear-gradient(180deg, var(--surface) 0%, rgba(255,255,255,.96) 100%);
-      border:1px solid var(--line); border-radius:var(--radius); box-shadow:var(--shadow); overflow:hidden; backdrop-filter:blur(14px);
+    .sectionHead span{
+      font-size:11px; color:var(--muted);
+      background:rgba(148,163,184,.10);
+      border:1px solid rgba(148,163,184,.14);
+      padding:7px 10px;
+      border-radius:999px;
+      white-space:nowrap
     }
-    html[data-theme="dark"] .panel{background:linear-gradient(180deg, rgba(17,24,39,.96) 0%, rgba(17,24,39,.92) 100%)}
+
+    .panel{
+      background:linear-gradient(180deg, var(--panel) 0%, rgba(255,255,255,.95) 100%);
+      border:1px solid var(--line);
+      border-radius:var(--radius2);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter:blur(14px);
+    }
+    html[data-theme="dark"] .panel{
+      background:linear-gradient(180deg, rgba(17,24,39,.96) 0%, rgba(17,24,39,.92) 100%);
+    }
     .panel.pad{padding:16px}
+
     .hero{display:grid; gap:12px}
     .heroCard{padding:16px; display:grid; gap:14px; border-radius:28px}
     .heroTop{display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
     .heroTop h3{margin:0; font-size:22px; line-height:1.06; letter-spacing:-.04em}
-    .heroTop p{margin:6px 0 0; color:var(--muted); font-size:12px; line-height:1.45}
+    .heroTop p{margin:6px 0 0; color:var(--muted); font-size:12px; line-height:1.45; max-width:54ch}
     .statusPill{
       display:inline-flex; align-items:center; gap:6px; padding:8px 11px; border-radius:999px;
       border:1px solid rgba(37,99,235,.14); background:rgba(37,99,235,.08); color:var(--text); font-size:11px; font-weight:800; white-space:nowrap; flex:0 0 auto;
@@ -88,90 +144,168 @@
     .statusPill.good{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.18)}
     .statusPill.warn{background:rgba(217,119,6,.10); border-color:rgba(217,119,6,.18)}
     .statusPill.danger{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.18)}
+
     .statsGrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
     .miniStat{
-      padding:14px; border-radius:22px; background:linear-gradient(180deg, rgba(241,245,249,.96) 0%, rgba(248,250,252,.98) 100%);
-      border:1px solid rgba(148,163,184,.18); box-shadow:0 10px 22px rgba(15,23,42,.05)
+      padding:14px;
+      border-radius:22px;
+      background:linear-gradient(180deg, rgba(241,245,249,.96) 0%, rgba(248,250,252,.98) 100%);
+      border:1px solid rgba(148,163,184,.18);
+      box-shadow:0 10px 22px rgba(15,23,42,.05)
     }
-    html[data-theme="dark"] .miniStat{background:linear-gradient(180deg, rgba(30,41,59,.96) 0%, rgba(15,23,42,.94) 100%); border-color:rgba(148,163,184,.14)}
+    html[data-theme="dark"] .miniStat{
+      background:linear-gradient(180deg, rgba(30,41,59,.96) 0%, rgba(15,23,42,.94) 100%);
+      border-color:rgba(148,163,184,.14)
+    }
     .miniStat .label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:800; margin-bottom:10px}
     .miniStat .value{font-size:24px; line-height:1; letter-spacing:-.03em; font-weight:900}
-    .miniStat .hint{margin-top:6px; font-size:11px; color:var(--muted-2); line-height:1.35}
-    .stack{display:flex; gap:8px; flex-wrap:wrap}
-    .tiny{
-      display:inline-flex; align-items:center; gap:6px; padding:6px 9px; border-radius:999px; background:var(--surface-2); border:1px solid var(--line);
+    .miniStat .hint{margin-top:6px; font-size:11px; color:var(--muted2); line-height:1.35}
+
+    .stackLine{display:flex; gap:8px; flex-wrap:wrap}
+    .tiny2{
+      display:inline-flex; align-items:center; gap:6px; padding:6px 9px; border-radius:999px; background:var(--panel);
+      border:1px solid var(--line);
       font-size:11px; color:var(--muted); font-weight:700
     }
-    .tiny.good{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.16); color:var(--text)}
+    .tiny2.good{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.16); color:var(--text)}
+
     .filtersBar{display:flex; gap:10px; overflow:auto; padding:2px 2px 6px; scrollbar-width:none}
     .filtersBar::-webkit-scrollbar{display:none}
     .chip{
       display:inline-flex; align-items:center; gap:7px; min-height:38px; padding:0 12px; border-radius:999px; border:1px solid var(--line);
-      background:var(--surface); color:var(--text); box-shadow:var(--shadow-soft); white-space:nowrap; font-size:12px; font-weight:700;
+      background:var(--panel); color:var(--text); box-shadow:var(--shadow-soft); white-space:nowrap; font-size:12px; font-weight:700;
       cursor:pointer; appearance:none; flex:0 0 auto;
     }
     .chip.active{background:linear-gradient(180deg, rgba(37,99,235,.12) 0%, rgba(37,99,235,.08) 100%); border-color:rgba(37,99,235,.18)}
     .chip .dot{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(37,99,235,.09)}
-    .portalWall{display:grid; gap:10px}
-    .portalCard{
-      padding:14px; border-radius:22px; background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(248,250,252,.98) 100%);
-      border:1px solid var(--line); box-shadow:var(--shadow-soft); display:flex; justify-content:space-between; gap:10px; align-items:center
-    }
-    html[data-theme="dark"] .portalCard{background:linear-gradient(180deg, rgba(30,41,59,.96) 0%, rgba(15,23,42,.94) 100%)}
-    .portalCard strong{display:block; font-size:14px}
-    .portalCard span{display:block; font-size:12px; color:var(--muted); margin-top:3px; line-height:1.35}
-    .portalCard .right{display:flex; align-items:center; gap:8px; flex:0 0 auto}
-    .miniBadge{
-      display:inline-flex; align-items:center; gap:5px; padding:7px 9px; border-radius:999px; background:var(--surface-2); border:1px solid var(--line); font-size:11px; font-weight:800;
-    }
-    .miniBadge.live{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.18)}
-    .miniBadge.off{background:rgba(148,163,184,.12); border-color:rgba(148,163,184,.18)}
-    .toggleWrap{
-      width:56px; height:34px; border-radius:999px; background:var(--surface-3); border:1px solid var(--line); position:relative; cursor:pointer; flex:0 0 auto
-    }
-    .toggleWrap::after{
-      content:""; position:absolute; top:3px; left:3px; width:26px; height:26px; border-radius:50%; background:#fff; box-shadow:0 8px 16px rgba(15,23,42,.16); transition:transform .18s ease
-    }
-    .toggleWrap.on{background:var(--accent)}
-    .toggleWrap.on::after{transform:translateX(22px)}
+
     .feedTop{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px}
     .feedTop .search{flex:1}
+
     .input{
-      width:100%; min-height:46px; padding:13px 14px; border-radius:16px; border:1px solid rgba(148,163,184,.22); background:rgba(255,255,255,.92); color:var(--text); font:inherit; outline:none
+      width:100%; min-height:46px; padding:13px 14px; border-radius:16px; border:1px solid rgba(148,163,184,.22);
+      background:rgba(255,255,255,.92); color:var(--text); font:inherit; outline:none
     }
     html[data-theme="dark"] .input{background:rgba(15,23,42,.66); border-color:rgba(148,163,184,.16)}
+
     select.input{
       appearance:none;
       background-image:linear-gradient(45deg, transparent 50%, currentColor 50%),linear-gradient(135deg, currentColor 50%, transparent 50%);
       background-position:calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
-      background-size:5px 5px,5px 5px; background-repeat:no-repeat; padding-right:36px
+      background-size:5px 5px,5px 5px;
+      background-repeat:no-repeat;
+      padding-right:36px
     }
+
     .feedList{display:grid; gap:10px}
+
     .listingCard{
-      border-radius:24px; background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(248,250,252,.98) 100%);
-      border:1px solid var(--line); box-shadow:var(--shadow-soft); overflow:hidden; display:grid; grid-template-columns:120px 1fr; min-height:124px;
-      text-decoration:none; color:inherit;
+      border-radius:24px;
+      background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(248,250,252,.98) 100%);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow-soft);
+      overflow:hidden;
+      display:grid;
+      grid-template-columns:140px 1fr;
+      min-height:150px;
+      text-decoration:none;
+      color:inherit;
     }
     html[data-theme="dark"] .listingCard{background:linear-gradient(180deg, rgba(30,41,59,.96) 0%, rgba(15,23,42,.94) 100%)}
-    .listingImg{background:var(--surface-3); background-size:cover; background-position:center; position:relative}
-    .listingImg::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,23,42,0) 15%, rgba(15,23,42,.22) 100%)}
-    .listingBody{padding:14px; display:grid; gap:10px; min-width:0}
+    .listingImg{
+      background:var(--panel);
+      background-size:cover;
+      background-position:center;
+      position:relative;
+      min-height:100%;
+    }
+    .listingImg::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(180deg, rgba(15,23,42,0) 20%, rgba(15,23,42,.22) 100%);
+    }
+    .listingBody{padding:14px; display:grid; gap:12px; min-width:0}
     .listingTop{display:flex; justify-content:space-between; gap:10px; align-items:flex-start}
     .listingTop strong{
-      display:block; font-size:15px; letter-spacing:-.01em; line-height:1.22; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+      display:block; font-size:16px; line-height:1.25; letter-spacing:-.01em;
+      overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
     }
-    .listingTop .price{flex:0 0 auto; font-size:16px; font-weight:900; letter-spacing:-.03em; color:var(--accent); white-space:nowrap}
-    .metaRow{display:flex; flex-wrap:wrap; gap:7px; align-items:center; font-size:11px; color:var(--muted)}
-    .metaTag{
-      display:inline-flex; align-items:center; gap:5px; padding:6px 9px; border-radius:999px; background:var(--surface-2); border:1px solid var(--line); font-weight:700
+    .price{flex:0 0 auto; font-size:18px; font-weight:900; letter-spacing:-.03em; color:var(--accent); white-space:nowrap}
+
+    .metaGrid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:8px;
     }
-    .metaTag.good{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.16)}
-    .metaTag.warn{background:rgba(217,119,6,.10); border-color:rgba(217,119,6,.16)}
-    .metaTag.danger{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.16)}
-    .listingActions{display:flex; gap:8px; flex-wrap:wrap}
+    .infoBox{
+      padding:10px 11px;
+      border-radius:16px;
+      background:rgba(241,245,249,.96);
+      border:1px solid var(--line);
+      min-width:0;
+    }
+    html[data-theme="dark"] .infoBox{background:rgba(30,41,59,.92)}
+    .infoBox .k{display:block; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:800; margin-bottom:5px}
+    .infoBox .v{display:block; font-size:13px; font-weight:800; line-height:1.25; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+    .desc{
+      font-size:12px; line-height:1.5; color:var(--muted);
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
+    }
+
+    .metaRow{display:flex; flex-wrap:wrap; gap:7px; align-items:center}
+    .tag{
+      display:inline-flex; align-items:center; gap:5px; padding:6px 9px; border-radius:999px;
+      background:rgba(241,245,249,.96); border:1px solid var(--line); font-size:11px; font-weight:800; color:var(--text)
+    }
+    html[data-theme="dark"] .tag{background:rgba(30,41,59,.92)}
+    .tag.good{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.16)}
+    .tag.warn{background:rgba(217,119,6,.10); border-color:rgba(217,119,6,.16)}
+    .tag.danger{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.16)}
+    .tag.link{color:var(--accent)}
+
+    .footer{display:flex; gap:8px; flex-wrap:wrap}
+    .empty{
+      padding:18px;
+      border-radius:20px;
+      border:1px dashed rgba(148,163,184,.32);
+      background:rgba(255,255,255,.72);
+      color:var(--muted);
+      line-height:1.5
+    }
+
+    .toolbar{display:grid; gap:10px; margin-bottom:14px}
+    .row{display:grid; grid-template-columns:1.3fr .7fr; gap:10px}
+    .pillBar{display:flex; gap:8px; flex-wrap:wrap}
+    .pill{padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.82); font-size:12px; font-weight:700; color:var(--muted)}
+    .pill.active{background:rgba(37,99,235,.10); color:var(--text); border-color:rgba(37,99,235,.16)}
+
+    .sheetWrap{
+      position:fixed; inset:auto 0 0 0; z-index:45; display:none; align-items:flex-end; justify-content:center; background:rgba(15,23,42,.44); backdrop-filter:blur(8px)
+    }
+    .sheetWrap.show{display:flex}
+    .sheet{
+      width:min(100%,900px); max-height:90vh; overflow:auto;
+      background:linear-gradient(180deg, var(--panel-strong) 0%, rgba(255,255,255,.98) 100%);
+      border:1px solid var(--line); border-radius:30px 30px 0 0; box-shadow:var(--shadow); padding:16px
+    }
+    html[data-theme="dark"] .sheet{background:linear-gradient(180deg, rgba(17,24,39,.99) 0%, rgba(17,24,39,.96) 100%)}
+    .sheetHead{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px}
+    .sheetHead h3{margin:0; font-size:20px; letter-spacing:-.02em}
+    .closeBtn{width:44px; height:44px; border-radius:16px; border:1px solid var(--line); background:var(--panel); color:var(--text); font-size:18px}
+
+    .field{margin-bottom:12px}
+    .field label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px 2px}
+    .grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
+    .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
+    .note{padding:12px 14px; border-radius:16px; border:1px solid var(--line); background:var(--panel); color:var(--muted); font-size:12px; line-height:1.5}
+
+    .smallBtnRow{display:flex; gap:8px; flex-wrap:wrap}
     .btn{
       border:none; cursor:pointer; font:inherit; font-weight:800; padding:12px 14px; border-radius:16px;
-      background:linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%); color:#fff; box-shadow:0 14px 24px rgba(37,99,235,.20);
+      background:linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+      color:#fff;
+      box-shadow:0 14px 24px rgba(37,99,235,.18);
       transition:transform .12s ease, filter .12s ease, opacity .12s ease;
     }
     .btn.secondary{
@@ -181,40 +315,27 @@
     html[data-theme="dark"] .btn.secondary{background:linear-gradient(180deg, rgba(30,41,59,.98) 0%, rgba(15,23,42,.96) 100%)}
     .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(148,163,184,.18); box-shadow:none}
     .btn.danger{background:linear-gradient(180deg, #ef4444 0%, #dc2626 100%)}
-    .btn:active,.iconBtn:active,.chip:active,.toggleWrap:active,.listingCard:active,.portalCard:active{transform:scale(.985)}
+    .btn:active,.iconBtn:active,.chip:active,.listingCard:active,.btn:active{transform:scale(.985)}
     .btn:disabled{opacity:.45; cursor:not-allowed; transform:none}
-    .empty{
-      padding:18px; border-radius:20px; background:var(--surface); border:1px dashed rgba(148,163,184,.28); color:var(--muted); line-height:1.5; font-size:13px
+
+    .toastWrap{
+      position:fixed; left:50%; bottom:126px; transform:translateX(-50%); z-index:60;
+      width:min(92vw,430px); display:grid; gap:10px; pointer-events:none
     }
-    .sheetWrap{
-      position:fixed; inset:auto 0 0 0; z-index:45; display:none; align-items:flex-end; justify-content:center; background:rgba(15,23,42,.44); backdrop-filter:blur(8px)
+    .toast{
+      background:rgba(17,24,39,.96); color:#fff; border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:12px 14px;
+      box-shadow:0 18px 42px rgba(15,23,42,.20); display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:13px; animation:toastIn .22s ease
     }
-    .sheetWrap.show{display:flex}
-    .sheet{
-      width:min(100%,520px); max-height:90vh; overflow:auto; background:linear-gradient(180deg, var(--surface-solid) 0%, rgba(255,255,255,.98) 100%);
-      border:1px solid var(--line); border-radius:30px 30px 0 0; box-shadow:var(--shadow); padding:16px
-    }
-    html[data-theme="dark"] .sheet{background:linear-gradient(180deg, rgba(17,24,39,.99) 0%, rgba(17,24,39,.96) 100%)}
-    .sheetHead{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px}
-    .sheetHead h3{margin:0; font-size:20px; letter-spacing:-.02em}
-    .closeBtn{
-      width:44px; height:44px; border-radius:16px; border:1px solid var(--line); background:var(--surface-2); color:var(--text); font-size:18px
-    }
-    .field{margin-bottom:12px}
-    .field label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px 2px}
-    .grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
-    .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
-    .note{
-      padding:12px 14px; border-radius:16px; border:1px solid var(--line); background:var(--surface-2); color:var(--muted); font-size:12px; line-height:1.45
-    }
-    .footerSpace{height:10px}
+    html[data-theme="light"] .toast{background:#fff; color:var(--text); border-color:var(--line)}
+    @keyframes toastIn{from{opacity:0; transform:translateY(10px) scale(.98)}to{opacity:1; transform:none}}
+
     .navWrap{
       position:fixed; left:0; right:0; bottom:0; z-index:30; padding:10px 12px calc(12px + env(safe-area-inset-bottom));
       background:linear-gradient(180deg, rgba(245,247,251,.10) 0%, rgba(245,247,251,.82) 100%); pointer-events:none
     }
-    html[data-theme="dark"] .navWrap{background:linear-gradient(180deg, rgba(8,17,31,.10) 0%, rgba(8,17,31,.88) 100%)}
+    html[data-theme="dark"] .navWrap{background:linear-gradient(180deg, rgba(7,17,31,.10) 0%, rgba(7,17,31,.88) 100%)}
     .nav{
-      width:min(100%,520px); margin:0 auto; background:rgba(255,255,255,.72); border:1px solid rgba(148,163,184,.18); border-radius:26px;
+      width:min(100%,900px); margin:0 auto; background:rgba(255,255,255,.74); border:1px solid rgba(148,163,184,.18); border-radius:26px;
       box-shadow:0 18px 42px rgba(15,23,42,.12); backdrop-filter:var(--glass); display:grid; grid-template-columns:repeat(4,1fr); gap:6px; pointer-events:auto; padding:10px
     }
     html[data-theme="dark"] .nav{background:rgba(15,23,42,.78); border-color:rgba(148,163,184,.14)}
@@ -224,64 +345,22 @@
     }
     .navBtn .ico{font-size:19px; line-height:1}
     .navBtn.active{color:var(--text); background:linear-gradient(180deg, rgba(37,99,235,.12) 0%, rgba(37,99,235,.08) 100%); border:1px solid rgba(37,99,235,.14); transform:translateY(-1px)}
-    .toastWrap{
-      position:fixed; left:50%; bottom:126px; transform:translateX(-50%); z-index:60; width:min(92vw,430px); display:grid; gap:10px; pointer-events:none
+
+    @media (max-width: 700px){
+      .statsGrid,.grid2,.grid3{grid-template-columns:1fr 1fr}
+      .listingCard{grid-template-columns:108px 1fr}
     }
-    .toast{
-      background:rgba(17,24,39,.96); color:#fff; border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:12px 14px;
-      box-shadow:0 18px 42px rgba(15,23,42,.20); display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:13px; animation:toastIn .22s ease
-    }
-    html[data-theme="light"] .toast{background:#fff; color:var(--text); border-color:var(--line)}
-    @keyframes toastIn{from{opacity:0; transform:translateY(10px) scale(.98)}to{opacity:1; transform:none}}
-    .spark{position:fixed; pointer-events:none; z-index:9999; font-size:22px; transform:translate(-50%,-50%); animation:spark .8s ease forwards}
-    @keyframes spark{0%{opacity:0;transform:translate(-50%,-50%) scale(.7)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-130%) scale(1.35)}}
-    .scrollHint{font-size:11px; color:var(--muted); margin-top:4px}
-    .rowGap{display:grid; gap:10px}
-    .stackLine{display:flex; gap:8px; flex-wrap:wrap}
-    .tiny2{
-      display:inline-flex; align-items:center; gap:6px; padding:6px 9px; border-radius:999px; background:var(--surface-2); border:1px solid var(--line);
-      font-size:11px; color:var(--muted); font-weight:700
-    }
-    .subtleTitle{font-size:12px; color:var(--muted); text-transform:uppercase; letter-spacing:.10em; font-weight:900; margin-bottom:8px}
-    .divider{
-      height:1px; background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0
-    }
-    .kpiRow{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
-    .kpi{
-      padding:14px; border-radius:22px; border:1px solid var(--line); background:linear-gradient(180deg, rgba(255,255,255,.95) 0%, rgba(248,250,252,.98) 100%); box-shadow:var(--shadow-soft)
-    }
-    html[data-theme="dark"] .kpi{background:linear-gradient(180deg, rgba(30,41,59,.96) 0%, rgba(15,23,42,.94) 100%)}
-    .kpi .label{font-size:11px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:800; margin-bottom:8px}
-    .kpi .value{font-size:22px; line-height:1; font-weight:900; letter-spacing:-.03em}
-    .kpi .hint{font-size:11px; color:var(--muted-2); margin-top:6px; line-height:1.35}
-    textarea.input{min-height:120px; resize:vertical; line-height:1.45}
-    .smallBtnRow{display:flex; gap:8px; flex-wrap:wrap}
-    .matchGlow{position:relative}
-    .matchGlow::before{
-      content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px;
-      background:linear-gradient(135deg, rgba(37,99,235,.46), rgba(14,165,233,.16), rgba(22,163,74,.22));
-      -webkit-mask:linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-      -webkit-mask-composite:xor; mask-composite:exclude; pointer-events:none; opacity:.9
-    }
-    .portalCard2{
-      padding:14px; border-radius:22px; background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(248,250,252,.98) 100%);
-      border:1px solid var(--line); box-shadow:var(--shadow-soft); display:flex; justify-content:space-between; gap:10px; align-items:center
-    }
-    html[data-theme="dark"] .portalCard2{background:linear-gradient(180deg, rgba(30,41,59,.96) 0%, rgba(15,23,42,.94) 100%)}
-    .portalCard2 strong{display:block; font-size:14px}
-    .portalCard2 span{display:block; font-size:12px; color:var(--muted); margin-top:3px; line-height:1.35}
-    .portalCard2 .right{display:flex; align-items:center; gap:8px; flex:0 0 auto}
-    @media (max-width: 430px){
+    @media (max-width: 520px){
       .app{padding-left:12px; padding-right:12px}
       .topbar{margin-left:-12px; margin-right:-12px}
-      .statsGrid,.grid2,.grid3,.kpiRow{grid-template-columns:repeat(2,1fr)}
-      .listingCard{grid-template-columns:104px 1fr}
+      .controls,.row,.grid2,.grid3,.statsGrid{grid-template-columns:1fr}
+      .listingCard{grid-template-columns:1fr}
+      .listingImg{height:180px}
+      .heroTop{flex-direction:column}
+      .feedTop{flex-direction:column; align-items:stretch}
       .nav{grid-template-columns:repeat(4,1fr)}
       .brandText strong{font-size:17px}
       .heroTop h3{font-size:20px}
-    }
-    @media (min-width: 700px){
-      .app{width:min(100%,520px)}
     }
   </style>
 </head>
@@ -290,10 +369,10 @@
     <div class="topbar">
       <div class="topbarInner">
         <div class="brand">
-          <div class="brandMark">🚘</div>
+          <div class="brandMark">🚙</div>
           <div class="brandText">
-            <strong>Skelbimų monitorius</strong>
-            <span>Autoplius · Autogidas · Skelbiu · Autobilis · Autosel · NoriuAuto · Alio.lt</span>
+            <strong>Visureigių skelbimų monitorius</strong>
+            <span>Naujausi SUV / visureigiai iki 3000 €</span>
           </div>
         </div>
         <div class="topActions">
@@ -309,19 +388,20 @@
           <div class="heroTop">
             <div>
               <div class="statusPill good" id="liveState">🟢 Tikrinama</div>
-              <h3>Rodo tik tai, kas atitinka tavo filtrus.</h3>
-              <p>Kai backend'as atsiunčia naują skelbimą, šiame lange jis pasirodo ir gali iškart mesti įspėjimą.</p>
+              <h3>Rodo tik naujausius atitikmenis.</h3>
+              <p>Sąraše matysi svarbiausią informaciją iš karto: telefono numerį, variklį, metus, modelį, miestą ir trumpą aprašymą.</p>
             </div>
             <div class="statusPill" id="notifState">🔔 Įspėjimai</div>
           </div>
+
           <div class="statsGrid">
             <div class="miniStat"><div class="label">Nauji</div><div class="value" id="matchedCount">0</div><div class="hint">atitinka filtrus</div></div>
-            <div class="miniStat"><div class="label">Stebimi</div><div class="value" id="sourcesCount">7</div><div class="hint">portalai įjungti</div></div>
+            <div class="miniStat"><div class="label">Portalai</div><div class="value" id="sourcesCount">7</div><div class="hint">aktyvūs šaltiniai</div></div>
             <div class="miniStat"><div class="label">Tikrinimas</div><div class="value" id="pollAge">0s</div><div class="hint">nuo paskutinio nuskaitymo</div></div>
           </div>
+
           <div class="stackLine">
             <div class="tiny2 good">🧠 filtras veikia gyvai</div>
-            <div class="tiny2">📍 vieta / miestas</div>
             <div class="tiny2">🚙 SUV / visureigis</div>
             <div class="tiny2">💸 iki 3000 €</div>
           </div>
@@ -339,7 +419,7 @@
               <div class="subtleTitle">Rasti variantai</div>
               <div class="scrollHint" id="resultsHint">Atitinkančių skelbimų sąrašas.</div>
             </div>
-            <div style="width:132px;flex:0 0 auto">
+            <div style="width:160px;flex:0 0 auto">
               <select class="input" id="sortBy">
                 <option value="newest">Naujausi</option>
                 <option value="priceAsc">Kaina ↑</option>
@@ -348,11 +428,12 @@
               </select>
             </div>
           </div>
-          <div class="search"><input class="input" id="searchInput" placeholder="Paieška: Kia Sorento, SUV, Vilnius..." /></div>
+
+          <div class="search"><input class="input" id="searchInput" placeholder="Paieška: markė, modelis, miestas..." /></div>
           <div class="filtersBar" id="quickChips" style="margin-top:10px"></div>
-          <div class="divider"></div>
+          <div class="divider" style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
           <div class="feedList" id="feedList"></div>
-          <div id="emptyFeed" class="empty" style="display:none">Šiuo metu niekas neatitinka tavo filtrų. Pakoreguok kainą, metus, modelį arba portalus.</div>
+          <div id="emptyFeed" class="empty" style="display:none">Šiuo metu niekas neatitinka tavo filtrų. Pakoreguok kainą arba įkelk naujus duomenis.</div>
         </div>
       </div>
     </div>
@@ -360,85 +441,100 @@
     <div class="view" id="view-rules">
       <div class="sectionHead"><h2>Filtrai</h2><span>kas turi būti rodomas</span></div>
       <div class="panel pad">
-        <div class="kpiRow">
-          <div class="kpi"><div class="label">Modelis</div><div class="value" id="ruleModelLabel">—</div><div class="hint">automatiškai taikomas pavadinimui</div></div>
-          <div class="kpi"><div class="label">Maks. kaina</div><div class="value" id="rulePriceLabel">—</div><div class="hint">įspėjimas pagal kainą</div></div>
+        <div class="kpiRow" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
+          <div class="kpi"><div class="label">Bendras filtras</div><div class="value" id="ruleModelLabel">SUV iki 3000 €</div><div class="hint">automatiškai taikoma paieškai</div></div>
+          <div class="kpi"><div class="label">Maks. kaina</div><div class="value" id="rulePriceLabel">3000 €</div><div class="hint">įspėjimas pagal kainą</div></div>
         </div>
-        <div class="divider"></div>
+        <div class="divider" style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
+
         <div class="grid2">
-          <div class="field"><label>Markė</label><input class="input" id="ruleMake" placeholder="Kia" /></div>
-          <div class="field"><label>Modelis</label><input class="input" id="ruleModel" placeholder="Sorento" /></div>
-        </div>
-        <div class="grid2">
-          <div class="field">
-            <label>Auto tipas</label>
-            <select class="input" id="ruleBody">
-              <option value="">Bet koks</option><option value="suv">Visureigis / SUV</option><option value="sedan">Sedanas</option><option value="wagon">Universalas</option><option value="hatch">Hečbekas</option><option value="coupe">Kupė</option><option value="van">Vienatūris / mikroautobusas</option><option value="pickup">Pikapas</option>
+          <div class="field"><label>Backend URL</label><input class="input" id="backendUrl" placeholder="http://127.0.0.1:5000/data" /></div>
+          <div class="field"><label>Rikiavimas</label>
+            <select class="input" id="defaultSort">
+              <option value="newest">Naujausi</option>
+              <option value="priceAsc">Kaina ↑</option>
+              <option value="priceDesc">Kaina ↓</option>
+              <option value="yearDesc">Metai ↓</option>
             </select>
           </div>
-          <div class="field"><label>Maks. kaina €</label><input class="input" id="ruleMaxPrice" type="number" min="0" step="1" placeholder="3000" /></div>
         </div>
+
+        <div class="grid3">
+          <div class="field"><label>Markė</label><input class="input" id="ruleMake" placeholder="Kia" /></div>
+          <div class="field"><label>Modelis</label><input class="input" id="ruleModel" placeholder="Sorento" /></div>
+          <div class="field"><label>Max. kaina €</label><input class="input" id="ruleMaxPrice" type="number" min="0" step="1" placeholder="3000" /></div>
+        </div>
+
         <div class="grid3">
           <div class="field"><label>Min. metai</label><input class="input" id="ruleMinYear" type="number" min="1960" step="1" placeholder="2005" /></div>
           <div class="field"><label>Max. rida km</label><input class="input" id="ruleMaxMileage" type="number" min="0" step="1000" placeholder="250000" /></div>
           <div class="field"><label>Miestas</label><input class="input" id="ruleCity" placeholder="Vilnius" /></div>
         </div>
+
         <div class="grid2">
-          <div class="field">
-            <label>Kuras</label>
+          <div class="field"><label>Kuras</label>
             <select class="input" id="ruleFuel">
-              <option value="">Bet koks</option><option value="diesel">Dyzelis</option><option value="petrol">Benzinas</option><option value="hybrid">Hibridas</option><option value="electric">Elektra</option><option value="lpg">Dujos</option>
+              <option value="">Bet koks</option>
+              <option value="diesel">Dyzelis</option>
+              <option value="petrol">Benzinas</option>
+              <option value="hybrid">Hibridas</option>
+              <option value="electric">Elektra</option>
+              <option value="lpg">Dujos</option>
             </select>
           </div>
-          <div class="field">
-            <label>Pavarų dėžė</label>
+          <div class="field"><label>Pavarų dėžė</label>
             <select class="input" id="ruleGearbox">
-              <option value="">Bet kokia</option><option value="automatic">Automatinė</option><option value="manual">Mechaninė</option>
+              <option value="">Bet kokia</option>
+              <option value="automatic">Automatinė</option>
+              <option value="manual">Mechaninė</option>
             </select>
           </div>
         </div>
+
         <div class="grid2">
-          <div class="field"><label>Įtraukti žodžius</label><textarea class="input" id="ruleKeywords" placeholder="4x4, AWD, facelift"></textarea></div>
-          <div class="field"><label>Išmesti žodžius</label><textarea class="input" id="ruleExclude" placeholder="daužtas, anglija, projektas"></textarea></div>
+          <div class="field"><label>Įtraukti žodžius</label><textarea class="input" id="ruleKeywords" style="min-height:106px;resize:vertical" placeholder="4x4, AWD, facelift"></textarea></div>
+          <div class="field"><label>Išmesti žodžius</label><textarea class="input" id="ruleExclude" style="min-height:106px;resize:vertical" placeholder="daužtas, anglija, projektas"></textarea></div>
         </div>
-        <div class="grid2">
-          <div class="field"><label>Rodyti tik iš portalų</label><div class="stackLine" id="ruleSourceChips"></div></div>
-          <div class="field">
-            <label>Įspėjimai</label>
-            <div class="portalCard2" style="padding:12px 14px">
-              <div><strong>Push notifikacijos</strong><span>Leisti naršyklei rodyti pranešimus.</span></div>
-              <div class="right"><div class="toggleWrap" id="notifToggle"></div></div>
+
+        <div class="field">
+          <label>Įspėjimai</label>
+          <div class="panel pad" style="box-shadow:none;padding:12px 14px;border-radius:18px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
+              <div>
+                <strong style="display:block;font-size:14px">Push notifications</strong>
+                <span style="display:block;font-size:12px;color:var(--muted);margin-top:3px">Pranešimai apie naujus skelbimus, atitinkančius filtrą.</span>
+              </div>
+              <div class="right"><div class="toggleWrap" id="notifToggle" style="width:56px;height:34px;border-radius:999px;background:var(--panel);border:1px solid var(--line);position:relative;cursor:pointer;flex:0 0 auto"></div></div>
             </div>
           </div>
         </div>
+
         <div class="smallBtnRow">
           <button class="btn" id="saveRulesBtn">Išsaugoti filtrus</button>
           <button class="btn secondary" id="resetRulesBtn">Atstatyti</button>
           <button class="btn secondary" id="requestNotifBtn">Leisti įspėjimus</button>
         </div>
-        <div class="divider"></div>
-        <div class="portalCard2" style="align-items:flex-start">
-          <div><strong>Automatinis monitorius</strong><span>Ši sąsaja paima JSON iš tavo backend'o. Jei tavo Python serveris grąžina `data` arba `listings`, viskas susijungia automatiškai.</span></div>
-          <div class="right"><span class="miniBadge live" id="ruleMatchBadge">aktyvus</span></div>
-        </div>
+
+        <div class="divider" style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
+        <div class="note"><strong style="color:var(--text)">Kaip veikia:</strong> app paima JSON iš tavo backend'o. Tinka masyvas arba <code>{\"listings\":[...]}</code> / <code>{\"data\":[...]}</code>.</div>
       </div>
     </div>
 
     <div class="view" id="view-import">
       <div class="sectionHead"><h2>Importas</h2><span>įkelk skelbimus</span></div>
       <div class="panel pad">
-        <div class="note">Čia gali įklijuoti savo backend'o sugeneruotą JSON. Forma: <code>{"listings":[...]}</code> arba paprastas masyvas. Visi įrašai bus sufiltruoti pagal tavo nustatymus ir nauji atitikimai iškart iššoks kaip įspėjimas.</div>
-        <div class="field" style="margin-top:12px"><label>JSON</label><textarea class="input" id="jsonInput" placeholder='{"listings":[{"portal":"Autogidas","title":"Kia Sorento 2005","price":900,"year":2005,"body":"suv","fuel":"diesel","gearbox":"manual","mileage":280000,"city":"Kaunas","url":"https://...","image":"https://...","publishedAt":"2026-04-30T09:00:00+03:00"}]}'></textarea></div>
+        <div class="note">Čia gali įklijuoti savo backend'o sugeneruotą JSON. Skelbimai bus išrūšiuoti nuo naujausių ir pritaikyti pagal tavo filtrą.</div>
+        <div class="field" style="margin-top:12px">
+          <label>JSON</label>
+          <textarea class="input" id="jsonInput" style="min-height:190px;resize:vertical" placeholder='{"listings":[{"portal":"Autogidas","title":"Toyota RAV4 2.0","price":2950,"year":2006,"body":"suv","fuel":"diesel","gearbox":"manual","mileage":242000,"city":"Vilnius","phone":"+37060000000","engine":"2.0 D-4D","description":"Tvarkingas, naujai aptarnautas.","url":"https://...","image":"https://...","publishedAt":"2026-04-30T09:00:00+03:00"}]}'></textarea>
+        </div>
         <div class="smallBtnRow">
           <button class="btn" id="importJsonBtn">Importuoti JSON</button>
-          <button class="btn secondary" id="seedBtn">Įkelti demo</button>
+          <button class="btn secondary" id="seedBtn">Demo</button>
           <button class="btn danger" id="clearBtn">Išvalyti viską</button>
         </div>
-        <div class="divider"></div>
-        <div class="portalCard2">
-          <div><strong>Paskutinis patikrinimas</strong><span id="lastSyncText">Dar netikrinta.</span></div>
-          <div class="right"><span class="miniBadge off" id="storageBadge">localStorage</span></div>
-        </div>
+        <div class="divider" style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
+        <div class="note"><strong style="color:var(--text)">Paskutinis patikrinimas:</strong> <span id="lastSyncText">dar netikrinta.</span></div>
       </div>
     </div>
 
@@ -450,11 +546,11 @@
             <div class="subtleTitle">Bendri</div>
             <div class="grid2">
               <div class="field"><label>Temos režimas</label><select class="input" id="themeSelect"><option value="light">Šviesi</option><option value="dark">Tamsi</option></select></div>
-              <div class="field"><label>Rikiavimas</label><select class="input" id="defaultSort"><option value="newest">Naujausi</option><option value="priceAsc">Kaina ↑</option><option value="priceDesc">Kaina ↓</option></select></div>
+              <div class="field"><label>Automatinis rikiavimas</label><select class="input" id="defaultSort2"><option value="newest">Naujausi</option><option value="priceAsc">Kaina ↑</option><option value="priceDesc">Kaina ↓</option><option value="yearDesc">Metai ↓</option></select></div>
             </div>
             <div class="grid2">
-              <div class="field"><label>Backend URL</label><input class="input" id="backendUrl" placeholder="http://127.0.0.1:5000/data" /></div>
               <div class="field"><label>Auto-įspėjimo garsas</label><select class="input" id="soundSelect"><option value="on">Įjungtas</option><option value="off">Išjungtas</option></select></div>
+              <div class="field"><label>Atnaujinimo intervalas</label><select class="input" id="pollSelect"><option value="10000">10 s</option><option value="15000">15 s</option><option value="30000">30 s</option><option value="60000">60 s</option></select></div>
             </div>
           </div>
           <div class="panel pad" style="box-shadow:none">
@@ -492,79 +588,187 @@
     { id:'NoriuAuto', emoji:'🟡', desc:'papildomas automobilių srautas' },
     { id:'Alio.lt', emoji:'⚪', desc:'bendras skelbimų portalas' },
   ];
+
   const DEFAULT_RULES = {
-    make:'Kia', model:'Sorento', body:'suv', maxPrice:3000, minYear:2005, maxMileage:250000,
-    city:'', fuel:'', gearbox:'', keywords:'', exclude:'', enabledPortals:PORTALS.map(p=>p.id),
-    theme:'light', defaultSort:'newest', sound:'on', notifications:false
+    make:'', model:'', body:'suv', maxPrice:3000, minYear:'', maxMileage:'',
+    city:'', fuel:'', gearbox:'', keywords:'', exclude:'',
+    enabledPortals:PORTALS.map(p=>p.id),
+    theme:'light', defaultSort:'newest', sound:'on', notifications:false,
+    pollMs:15000, backendUrl:''
   };
+
   const DEMO_LISTINGS = [
-    { id:'a1', portal:'Autogidas', title:'Kia Sorento 2.5 CRDi 4x4', price:900, year:2005, body:'suv', fuel:'diesel', gearbox:'manual', mileage:280000, city:'Kaunas', publishedAt:'2026-04-30T09:00:00+03:00', url:'#', image:'' },
-    { id:'a2', portal:'Autoplius', title:'Toyota RAV4 2.0 D-4D', price:2950, year:2006, body:'suv', fuel:'diesel', gearbox:'manual', mileage:248000, city:'Vilnius', publishedAt:'2026-04-30T08:52:00+03:00', url:'#', image:'' },
-    { id:'a3', portal:'Skelbiu', title:'BMW X5 3.0d facelift', price:4800, year:2008, body:'suv', fuel:'diesel', gearbox:'automatic', mileage:320000, city:'Panevėžys', publishedAt:'2026-04-30T08:30:00+03:00', url:'#', image:'' },
-    { id:'a4', portal:'Autobilis', title:'Honda CR-V 2.2 i-CTDi', price:3400, year:2007, body:'suv', fuel:'diesel', gearbox:'manual', mileage:267000, city:'Šiauliai', publishedAt:'2026-04-30T08:12:00+03:00', url:'#', image:'' },
-    { id:'a5', portal:'Autosel', title:'Ford Kuga 2.0 TDCi 4x4', price:2900, year:2008, body:'suv', fuel:'diesel', gearbox:'manual', mileage:236000, city:'Klaipėda', publishedAt:'2026-04-30T07:55:00+03:00', url:'#', image:'' },
-    { id:'a6', portal:'NoriuAuto', title:'Volvo XC60 D5 AWD', price:7200, year:2011, body:'suv', fuel:'diesel', gearbox:'automatic', mileage:218000, city:'Vilnius', publishedAt:'2026-04-30T07:40:00+03:00', url:'#', image:'' },
-    { id:'a7', portal:'Alio.lt', title:'Peugeot 3008 1.6 HDi', price:2500, year:2009, body:'suv', fuel:'diesel', gearbox:'manual', mileage:255000, city:'Alytus', publishedAt:'2026-04-30T07:15:00+03:00', url:'#', image:'' },
-    { id:'a8', portal:'Autoplius', title:'Audi A4 2.0 TDI Avant', price:2400, year:2007, body:'wagon', fuel:'diesel', gearbox:'manual', mileage:292000, city:'Kaunas', publishedAt:'2026-04-30T06:55:00+03:00', url:'#', image:'' }
+    {
+      id:'demo1', portal:'Autogidas', title:'Toyota RAV4 2.0 D-4D', price:2950, year:2006, body:'suv',
+      fuel:'diesel', gearbox:'manual', mileage:242000, city:'Vilnius', phone:'+37060011122',
+      engine:'2.0 D-4D', description:'Tvarkingas, važiuoja gerai, važiuoklė be pašalinių garsų. Sėsti ir važiuoti.',
+      url:'#', image:'', publishedAt:'2026-04-30T09:00:00+03:00'
+    },
+    {
+      id:'demo2', portal:'Autoplius', title:'Ford Kuga 2.0 TDCi 4x4', price:2900, year:2008, body:'suv',
+      fuel:'diesel', gearbox:'manual', mileage:236000, city:'Kaunas', phone:'+37060022233',
+      engine:'2.0 TDCi', description:'Geras variantas važinėjimui kasdien. Tech. tvarkingas, 4x4 veikia.',
+      url:'#', image:'', publishedAt:'2026-04-30T09:20:00+03:00'
+    },
+    {
+      id:'demo3', portal:'Skelbiu', title:'Honda CR-V 2.2 i-CTDi', price:2500, year:2007, body:'suv',
+      fuel:'diesel', gearbox:'manual', mileage:267000, city:'Šiauliai', phone:'+37060033344',
+      engine:'2.2 i-CTDi', description:'Patikimas modelis, kėbulas sveikas, salone tvarkinga. Be didelių investicijų.',
+      url:'#', image:'', publishedAt:'2026-04-30T08:50:00+03:00'
+    },
+    {
+      id:'demo4', portal:'Autobilis', title:'Peugeot 3008 1.6 HDi', price:2400, year:2009, body:'suv',
+      fuel:'diesel', gearbox:'manual', mileage:255000, city:'Alytus', phone:'+37060044455',
+      engine:'1.6 HDi', description:'Kompaktiškas SUV, ekonomiškas variklis, prižiūrėtas. Tinka miestui ir kelionėms.',
+      url:'#', image:'', publishedAt:'2026-04-30T08:20:00+03:00'
+    },
+    {
+      id:'demo5', portal:'NoriuAuto', title:'Volvo XC90 D5 AWD', price:2800, year:2005, body:'suv',
+      fuel:'diesel', gearbox:'automatic', mileage:298000, city:'Panevėžys', phone:'+37060055566',
+      engine:'2.4 D5', description:'Didelis, komfortiškas, AW D veikia. Reikia kosmetikos, bet techniškai važiuojantis.',
+      url:'#', image:'', publishedAt:'2026-04-30T08:05:00+03:00'
+    }
   ];
 
   const $ = (s, r=document) => r.querySelector(s);
   const $$ = (s, r=document) => Array.from(r.querySelectorAll(s));
 
-  const els = {
-    matchedCount:$('#matchedCount'), sourcesCount:$('#sourcesCount'), pollAge:$('#pollAge'),
-    liveState:$('#liveState'), notifState:$('#notifState'), sourceWall:$('#sourceWall'),
-    feedList:$('#feedList'), emptyFeed:$('#emptyFeed'), resultsHint:$('#resultsHint'),
-    searchInput:$('#searchInput'), sortBy:$('#sortBy'), quickChips:$('#quickChips'),
-    ruleSourceChips:$('#ruleSourceChips'), ruleMake:$('#ruleMake'), ruleModel:$('#ruleModel'),
-    ruleBody:$('#ruleBody'), ruleMaxPrice:$('#ruleMaxPrice'), ruleMinYear:$('#ruleMinYear'),
-    ruleMaxMileage:$('#ruleMaxMileage'), ruleCity:$('#ruleCity'), ruleFuel:$('#ruleFuel'),
-    ruleGearbox:$('#ruleGearbox'), ruleKeywords:$('#ruleKeywords'), ruleExclude:$('#ruleExclude'),
-    saveRulesBtn:$('#saveRulesBtn'), resetRulesBtn:$('#resetRulesBtn'),
-    requestNotifBtn:$('#requestNotifBtn'), notifToggle:$('#notifToggle'),
-    themeSelect:$('#themeSelect'), defaultSort:$('#defaultSort'), soundSelect:$('#soundSelect'),
-    backendUrl:$('#backendUrl'), sheetWrap:$('#sheetWrap'), settingsBtn:$('#settingsBtn'),
-    closeSheetBtn:$('#closeSheetBtn'), refreshBtn:$('#refreshBtn'), addDemoMatchBtn:$('#addDemoMatchBtn'),
-    seedBtn:$('#seedBtn'), clearBtn:$('#clearBtn'), importJsonBtn:$('#importJsonBtn'), jsonInput:$('#jsonInput'),
-    goToFeedBtn:$('#goToFeedBtn'), goToRulesBtn:$('#goToRulesBtn'), viewButtons:$$('.navBtn'),
-    lastSyncText:$('#lastSyncText'), storageBadge:$('#storageBadge'), ruleMatchBadge:$('#ruleMatchBadge'),
-    ruleModelLabel:$('#ruleModelLabel'), rulePriceLabel:$('#rulePriceLabel'), toastWrap:$('#toastWrap')
-  };
-
   const state = {
     rules: loadRules(),
-    listings: loadListings(),
+    items: loadItems(),
     query: '',
-    sortBy: loadRules().defaultSort || 'newest',
     lastPoll: Date.now(),
-    seen: new Set(loadSeen())
+    seen: new Set(loadSeen()),
+    sortBy: loadRules().defaultSort || 'newest',
+    pollMs: Number(loadRules().pollMs) || 15000
   };
 
-  function loadRules(){ try { return {...DEFAULT_RULES, ...(JSON.parse(localStorage.getItem('auto_monitor_rules') || '{}'))}; } catch { return {...DEFAULT_RULES}; } }
-  function loadListings(){ try { const raw = JSON.parse(localStorage.getItem('auto_monitor_listings') || '[]'); return Array.isArray(raw) ? raw : []; } catch { return []; } }
-  function loadSeen(){ try { const raw = JSON.parse(localStorage.getItem('auto_monitor_seen') || '[]'); return Array.isArray(raw) ? raw : []; } catch { return []; } }
-  function saveState(){
-    localStorage.setItem('auto_monitor_rules', JSON.stringify(state.rules));
-    localStorage.setItem('auto_monitor_listings', JSON.stringify(state.listings));
-    localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
-    localStorage.setItem('auto_monitor_seen', JSON.stringify([...state.seen].slice(-5000)));
+  const els = {
+    matchedCount:$('#matchedCount'),
+    sourcesCount:$('#sourcesCount'),
+    pollAge:$('#pollAge'),
+    liveState:$('#liveState'),
+    notifState:$('#notifState'),
+    sourceWall:$('#sourceWall'),
+    feedList:$('#feedList'),
+    emptyFeed:$('#emptyFeed'),
+    resultsHint:$('#resultsHint'),
+    searchInput:$('#searchInput'),
+    sortBy:$('#sortBy'),
+    quickChips:$('#quickChips'),
+    ruleSourceChips:$('#ruleSourceChips'),
+    ruleMake:$('#ruleMake'),
+    ruleModel:$('#ruleModel'),
+    ruleBody:$('#ruleBody'),
+    ruleMaxPrice:$('#ruleMaxPrice'),
+    ruleMinYear:$('#ruleMinYear'),
+    ruleMaxMileage:$('#ruleMaxMileage'),
+    ruleCity:$('#ruleCity'),
+    ruleFuel:$('#ruleFuel'),
+    ruleGearbox:$('#ruleGearbox'),
+    ruleKeywords:$('#ruleKeywords'),
+    ruleExclude:$('#ruleExclude'),
+    saveRulesBtn:$('#saveRulesBtn'),
+    resetRulesBtn:$('#resetRulesBtn'),
+    requestNotifBtn:$('#requestNotifBtn'),
+    notifToggle:$('#notifToggle'),
+    themeSelect:$('#themeSelect'),
+    defaultSort:$('#defaultSort'),
+    defaultSort2:$('#defaultSort2'),
+    soundSelect:$('#soundSelect'),
+    pollSelect:$('#pollSelect'),
+    backendUrl:$('#backendUrl'),
+    sheetWrap:$('#sheetWrap'),
+    settingsBtn:$('#settingsBtn'),
+    closeSheetBtn:$('#closeSheetBtn'),
+    refreshBtn:$('#refreshBtn'),
+    addDemoMatchBtn:$('#addDemoMatchBtn'),
+    seedBtn:$('#seedBtn'),
+    clearBtn:$('#clearBtn'),
+    importJsonBtn:$('#importJsonBtn'),
+    jsonInput:$('#jsonInput'),
+    goToFeedBtn:$('#goToFeedBtn'),
+    goToRulesBtn:$('#goToRulesBtn'),
+    viewButtons:$$('.navBtn'),
+    lastSyncText:$('#lastSyncText'),
+    storageBadge:$('#storageBadge'),
+    ruleMatchBadge:$('#ruleMatchBadge'),
+    ruleModelLabel:$('#ruleModelLabel'),
+    rulePriceLabel:$('#rulePriceLabel'),
+    toastWrap:$('#toastWrap'),
+  };
+
+  function loadRules(){
+    try { return {...DEFAULT_RULES, ...(JSON.parse(localStorage.getItem('auto_monitor_rules') || '{}'))}; }
+    catch { return {...DEFAULT_RULES}; }
   }
+  function loadItems(){
+    try { const raw = JSON.parse(localStorage.getItem('auto_monitor_listings') || '[]'); return Array.isArray(raw) ? raw : []; }
+    catch { return []; }
+  }
+  function loadSeen(){
+    try { const raw = JSON.parse(localStorage.getItem('auto_monitor_seen') || '[]'); return Array.isArray(raw) ? raw : []; }
+    catch { return []; }
+  }
+  function saveRules(){ localStorage.setItem('auto_monitor_rules', JSON.stringify(state.rules)); }
+  function saveItems(){ localStorage.setItem('auto_monitor_listings', JSON.stringify(state.items)); }
+  function saveSeen(){ localStorage.setItem('auto_monitor_seen', JSON.stringify([...state.seen].slice(-5000))); }
+
   function normalize(v){ return String(v ?? '').toLowerCase().trim(); }
   function money(v){ return new Intl.NumberFormat('lt-LT').format(Number(v || 0)) + ' €'; }
-  function niceDate(ts){ return new Intl.DateTimeFormat('lt-LT', { dateStyle:'medium', timeStyle:'short' }).format(new Date(ts)); }
   function ageShort(ts){
     const diff = Math.max(0, Date.now() - new Date(ts).getTime());
-    const mins = Math.floor(diff/60000);
-    if (mins < 1) return 'dabar';
+    const sec = Math.floor(diff / 1000);
+    if (sec < 60) return sec + ' s';
+    const mins = Math.floor(sec / 60);
     if (mins < 60) return mins + ' min';
-    const h = Math.floor(mins/60);
+    const h = Math.floor(mins / 60);
     if (h < 24) return h + ' val';
-    return Math.floor(h/24) + ' d.';
+    return Math.floor(h / 24) + ' d.';
   }
-  function portalEmoji(name){ return (PORTALS.find(p => p.id === name) || {}).emoji || '🚘'; }
+  function ageFull(ts){
+    try {
+      return new Intl.DateTimeFormat('lt-LT', { dateStyle:'medium', timeStyle:'short' }).format(new Date(ts));
+    } catch {
+      return ts || '';
+    }
+  }
+  function parseCsv(text){ return normalize(text).split(',').map(s => s.trim()).filter(Boolean); }
+
+  function firstNonEmpty(...vals){
+    for (const v of vals) {
+      if (v !== undefined && v !== null && String(v).trim() !== '') return String(v);
+    }
+    return '';
+  }
+
+  function normalizeItem(item){
+    const price = Number(String(item.price ?? '').replace(/[^\d]/g, '')) || Number(item.price) || 0;
+    const year = Number(item.year) || '';
+    const title = firstNonEmpty(item.title, item.model, item.name);
+    return {
+      id: item.id || `${normalize(item.portal)}|${normalize(title)}|${price}|${year}|${normalize(item.city)}|${normalize(item.url)}`,
+      portal: item.portal || 'Nežinoma',
+      title,
+      price,
+      year,
+      body: item.body || item.type || 'suv',
+      fuel: item.fuel || '',
+      gearbox: item.gearbox || '',
+      mileage: Number(item.mileage) || '',
+      city: item.city || '',
+      phone: firstNonEmpty(item.phone, item.tel, item.phoneNumber, item.contactPhone),
+      engine: firstNonEmpty(item.engine, item.enginespec, item.engineSize),
+      description: firstNonEmpty(item.description, item.desc, item.text, item.details),
+      url: item.url || '#',
+      image: item.image || item.photo || '',
+      publishedAt: item.publishedAt || item.createdAt || new Date().toISOString()
+    };
+  }
+
   function bodySynonyms(body){
     const map = {
-      suv:['suv','visureigis','crossover','4x4','allroad'],
+      suv:['suv','visureigis','crossover','4x4','awd','allroad'],
       sedan:['sedan','sedanas'],
       wagon:['wagon','universalas','avant','estate'],
       hatch:['hatch','hečbekas','hecbekas'],
@@ -574,57 +778,32 @@
     };
     return map[body] || [];
   }
-  function parseCSV(text){ return normalize(text).split(',').map(s => s.trim()).filter(Boolean); }
-  function numOrEmpty(v){ const n = Number(v); return Number.isFinite(n) && v !== '' ? n : ''; }
-
-  function normalizeListing(item){
-    const price = Number(String(item.price ?? '').replace(/[^\d.]/g, '')) || Number(item.price) || 0;
-    const year = Number(item.year) || (String(item.title || '').match(/\b(19\d{2}|20\d{2})\b/)?.[0] ? Number(String(item.title).match(/\b(19\d{2}|20\d{2})\b/)[0]) : '');
-    return {
-      id: item.id || `${normalize(item.portal)}|${normalize(item.title)}|${price}|${year}|${normalize(item.city)}|${normalize(item.url)}`,
-      portal: item.portal || 'Nežinoma',
-      title: item.title || '',
-      price,
-      currency: item.currency || '€',
-      year: year || '',
-      body: item.body || '',
-      fuel: item.fuel || '',
-      gearbox: item.gearbox || '',
-      mileage: Number(item.mileage) || '',
-      city: item.city || '',
-      url: item.url || '#',
-      image: item.image || '',
-      publishedAt: item.publishedAt || new Date().toISOString()
-    };
-  }
 
   function matchesRule(item){
     const r = state.rules;
-    const title = normalize(item.title), city = normalize(item.city), keywords = parseCSV(r.keywords), exclude = parseCSV(r.exclude);
+    const title = normalize(item.title);
+    const city = normalize(item.city);
+    const hay = [item.title, item.city, item.description, item.engine, item.fuel, item.gearbox, item.body].map(normalize).join(' ');
+    const keywords = parseCsv(r.keywords);
+    const exclude = parseCsv(r.exclude);
+
     if (r.enabledPortals.length && !r.enabledPortals.includes(item.portal)) return false;
-    if (r.make && !title.includes(normalize(r.make))) return false;
-    if (r.model && !title.includes(normalize(r.model))) return false;
     if (r.body){
       const syn = bodySynonyms(r.body);
-      const hay = [normalize(item.body), title].join(' ');
-      if (!syn.some(s => hay.includes(s))) return false;
+      const ok = syn.some(s => hay.includes(s));
+      if (!ok) return false;
     }
+    if (r.make && !title.includes(normalize(r.make))) return false;
+    if (r.model && !title.includes(normalize(r.model))) return false;
     if (r.maxPrice && Number(item.price) > Number(r.maxPrice)) return false;
     if (r.minYear && Number(item.year) < Number(r.minYear)) return false;
     if (r.maxMileage && Number(item.mileage) > Number(r.maxMileage)) return false;
     if (r.city && !city.includes(normalize(r.city))) return false;
     if (r.fuel && !normalize(item.fuel).includes(normalize(r.fuel))) return false;
     if (r.gearbox && !normalize(item.gearbox).includes(normalize(r.gearbox))) return false;
-    for (const ex of exclude){ if (title.includes(ex) || city.includes(ex)) return false; }
-    if (keywords.length){
-      const ok = keywords.some(k => title.includes(k) || city.includes(k) || normalize(item.body).includes(k));
-      if (!ok) return false;
-    }
-    if (state.query){
-      const q = normalize(state.query);
-      const hay = [item.portal, item.title, item.city, item.body, item.fuel, item.gearbox].map(normalize).join(' ');
-      if (!hay.includes(q)) return false;
-    }
+    if (exclude.some(ex => hay.includes(ex))) return false;
+    if (keywords.length && !keywords.some(k => hay.includes(k))) return false;
+    if (state.query && ![item.portal,item.title,item.city,item.description,item.engine,item.fuel,item.gearbox,item.phone].map(normalize).join(' ').includes(normalize(state.query))) return false;
     return true;
   }
 
@@ -638,89 +817,93 @@
     }
   }
 
-  function filteredListings(){ return sortListings(state.listings.filter(matchesRule)); }
-  function escapeHtml(str){ return String(str ?? '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
+  function filteredListings(){ return sortListings(state.items.filter(matchesRule)); }
+
+  function escapeHtml(str){
+    return String(str ?? '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
+  }
 
   function toast(message, detail=''){
     const node = document.createElement('div');
     node.className = 'toast';
-    node.innerHTML = `<div>${escapeHtml(message)}</div>${detail ? `<div style="color:var(--muted);font-size:12px">${escapeHtml(detail)}</div>` : ''}`;
+    node.innerHTML = `<div><div style="font-weight:800">${escapeHtml(message)}</div>${detail ? `<div style="color:var(--muted);font-size:12px;margin-top:3px">${escapeHtml(detail)}</div>` : ''}</div>`;
     els.toastWrap.appendChild(node);
     setTimeout(() => {
       node.style.opacity = '0';
       node.style.transform = 'translateY(10px) scale(.98)';
       setTimeout(() => node.remove(), 180);
-    }, 2200);
+    }, 2600);
   }
 
   function sparkle(){
     const s = document.createElement('div');
     s.className = 'spark';
     s.textContent = '✦';
+    s.style.position = 'fixed';
     s.style.left = (window.innerWidth * 0.7) + 'px';
-    s.style.top = (window.innerHeight * 0.22) + 'px';
+    s.style.top = (window.innerHeight * 0.20) + 'px';
+    s.style.zIndex = 9999;
+    s.style.fontSize = '22px';
+    s.style.pointerEvents = 'none';
+    s.style.transform = 'translate(-50%,-50%)';
+    s.style.animation = 'toastIn .7s ease forwards';
     document.body.appendChild(s);
     setTimeout(() => s.remove(), 800);
   }
 
-  function applyFormToRules(){
-    state.rules.make = els.ruleMake.value.trim();
-    state.rules.model = els.ruleModel.value.trim();
-    state.rules.body = els.ruleBody.value;
-    state.rules.maxPrice = numOrEmpty(els.ruleMaxPrice.value);
-    state.rules.minYear = numOrEmpty(els.ruleMinYear.value);
-    state.rules.maxMileage = numOrEmpty(els.ruleMaxMileage.value);
-    state.rules.city = els.ruleCity.value.trim();
-    state.rules.fuel = els.ruleFuel.value;
-    state.rules.gearbox = els.ruleGearbox.value;
-    state.rules.keywords = els.ruleKeywords.value.trim();
-    state.rules.exclude = els.ruleExclude.value.trim();
-    state.rules.theme = els.themeSelect.value;
-    state.rules.defaultSort = els.defaultSort.value;
-    state.rules.sound = els.soundSelect.value;
-    state.sortBy = els.sortBy.value || state.rules.defaultSort || 'newest';
-  }
-
   function updateSummary(){
-    els.ruleModelLabel.textContent = state.rules.make || state.rules.model ? `${state.rules.make || ''} ${state.rules.model || ''}`.trim() : '—';
-    els.rulePriceLabel.textContent = state.rules.maxPrice ? money(state.rules.maxPrice) : '—';
-    els.ruleMake.value = state.rules.make || '';
-    els.ruleModel.value = state.rules.model || '';
-    els.ruleBody.value = state.rules.body || '';
-    els.ruleMaxPrice.value = state.rules.maxPrice || '';
-    els.ruleMinYear.value = state.rules.minYear || '';
-    els.ruleMaxMileage.value = state.rules.maxMileage || '';
-    els.ruleCity.value = state.rules.city || '';
-    els.ruleFuel.value = state.rules.fuel || '';
-    els.ruleGearbox.value = state.rules.gearbox || '';
-    els.ruleKeywords.value = state.rules.keywords || '';
-    els.ruleExclude.value = state.rules.exclude || '';
-    els.themeSelect.value = state.rules.theme || 'light';
-    els.defaultSort.value = state.rules.defaultSort || 'newest';
-    els.soundSelect.value = state.rules.sound || 'on';
-    els.backendUrl.value = state.rules.backendUrl || 'http://127.0.0.1:5000/data';
+    const r = state.rules;
+    els.ruleModelLabel.textContent = `${r.make || 'bet kokia markė'} ${r.model || ''}`.trim() || 'SUV iki 3000 €';
+    els.rulePriceLabel.textContent = r.maxPrice ? money(r.maxPrice) : '—';
+    els.ruleMake.value = r.make || '';
+    els.ruleModel.value = r.model || '';
+    els.ruleBody.value = r.body || 'suv';
+    els.ruleMaxPrice.value = r.maxPrice || '';
+    els.ruleMinYear.value = r.minYear || '';
+    els.ruleMaxMileage.value = r.maxMileage || '';
+    els.ruleCity.value = r.city || '';
+    els.ruleFuel.value = r.fuel || '';
+    els.ruleGearbox.value = r.gearbox || '';
+    els.ruleKeywords.value = r.keywords || '';
+    els.ruleExclude.value = r.exclude || '';
+    els.themeSelect.value = r.theme || 'light';
+    els.defaultSort.value = r.defaultSort || 'newest';
+    els.defaultSort2.value = r.defaultSort || 'newest';
+    els.soundSelect.value = r.sound || 'on';
+    els.pollSelect.value = String(r.pollMs || 15000);
+    els.backendUrl.value = r.backendUrl || localStorage.getItem('suv_backend_url') || '';
     els.sortBy.value = state.sortBy || 'newest';
-    els.notifToggle.classList.toggle('on', !!state.rules.notifications);
-    els.notifState.textContent = state.rules.notifications ? '🔔 Įspėjimai įjungti' : '🔕 Įspėjimai išjungti';
-    els.liveState.textContent = '🟢 Tikrinama';
+    els.notifState.textContent = r.notifications ? '🔔 Įspėjimai įjungti' : '🔕 Įspėjimai išjungti';
     els.pollAge.textContent = ageShort(state.lastPoll);
+    els.sourcesCount.textContent = r.enabledPortals.length;
     const lastSync = localStorage.getItem('auto_monitor_last_sync');
-    els.lastSyncText.textContent = lastSync ? `Paskutinis patikrinimas: ${niceDate(Number(lastSync))}` : 'Dar netikrinta.';
-    document.documentElement.dataset.theme = state.rules.theme || 'light';
-    els.storageBadge.textContent = 'localStorage';
+    els.lastSyncText.textContent = lastSync ? `Paskutinis patikrinimas: ${ageFull(Number(lastSync))}` : 'dar netikrinta.';
+    document.documentElement.dataset.theme = r.theme || 'light';
+    els.notifToggle.classList.toggle('on', !!r.notifications);
+    els.notifToggle.style.background = r.notifications ? 'var(--accent)' : 'var(--panel)';
+    els.notifToggle.innerHTML = `<div style="position:absolute;top:3px;left:${r.notifications ? '28px' : '3px'};width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 8px 16px rgba(15,23,42,.16);transition:all .18s ease"></div>`;
+    els.ruleMatchBadge && (els.ruleMatchBadge.textContent = filteredListings().length ? 'aktyvus' : 'nieko nėra');
   }
 
   function renderSources(){
     const enabled = state.rules.enabledPortals;
-    els.sourcesCount.textContent = enabled.length;
     els.sourceWall.innerHTML = '';
     PORTALS.forEach(p => {
       const on = enabled.includes(p.id);
       const row = document.createElement('div');
       row.className = 'portalCard';
-      row.innerHTML = `<div style="display:flex;align-items:center;gap:12px;min-width:0"><div class="brandMark" style="width:44px;height:44px;border-radius:16px">${p.emoji}</div><div style="min-width:0"><strong>${p.id}</strong><span>${p.desc}</span></div></div><div class="right"><span class="miniBadge ${on ? 'live' : 'off'}">${on ? 'Įjungtas' : 'Išjungtas'}</span><div class="toggleWrap ${on ? 'on' : ''}" data-toggle-source="${p.id}" aria-label="${p.id}"></div></div>`;
+      row.innerHTML = `
+        <div style="display:flex;align-items:center;gap:12px;min-width:0">
+          <div class="brandMark" style="width:44px;height:44px;border-radius:16px">${p.emoji}</div>
+          <div style="min-width:0">
+            <strong style="display:block;font-size:14px">${p.id}</strong>
+            <span style="display:block;font-size:12px;color:var(--muted);margin-top:3px;line-height:1.35">${p.desc}</span>
+          </div>
+        </div>
+        <div class="right"><span class="miniBadge ${on ? 'live' : 'off'}" style="display:inline-flex;align-items:center;padding:7px 9px;border-radius:999px;background:${on ? 'rgba(22,163,74,.10)' : 'rgba(148,163,184,.12)'};border:1px solid ${on ? 'rgba(22,163,74,.18)' : 'rgba(148,163,184,.18)'};font-size:11px;font-weight:800">${on ? 'Įjungtas' : 'Išjungtas'}</span><div class="toggleWrap ${on ? 'on' : ''}" data-toggle-source="${p.id}"></div></div>`;
       els.sourceWall.appendChild(row);
     });
+
     els.ruleSourceChips.innerHTML = '';
     PORTALS.forEach(p => {
       const chip = document.createElement('button');
@@ -729,6 +912,7 @@
       chip.onclick = () => toggleSource(p.id);
       els.ruleSourceChips.appendChild(chip);
     });
+
     $$('.toggleWrap[data-toggle-source]').forEach(el => {
       el.onclick = () => toggleSource(el.dataset.toggleSource);
     });
@@ -736,8 +920,12 @@
 
   function renderQuickChips(){
     const chips = [
-      {label:'SUV', key:'SUV'},{label:'Kia Sorento', key:'Sorento'},{label:'Iki 3000 €', key:'3000'},
-      {label:'Dyzelis', key:'dyzelis'},{label:'Kaunas', key:'Kaunas'},{label:'Vilnius', key:'Vilnius'}
+      {label:'Naujausi', key:''},
+      {label:'SUV', key:'SUV'},
+      {label:'Iki 3000 €', key:'3000'},
+      {label:'Vilnius', key:'Vilnius'},
+      {label:'Kaunas', key:'Kaunas'},
+      {label:'Dyzelis', key:'dyzelis'}
     ];
     els.quickChips.innerHTML = '';
     chips.forEach(c => {
@@ -755,8 +943,7 @@
     els.feedList.innerHTML = '';
     els.emptyFeed.style.display = list.length ? 'none' : 'block';
     els.resultsHint.textContent = `${list.length} skelb. rodomi pagal filtrus`;
-    els.ruleMatchBadge.textContent = list.length ? 'aktyvus' : 'nieko nėra';
-    els.ruleMatchBadge.className = 'miniBadge ' + (list.length ? 'live' : 'off');
+    state.rules && (els.ruleMatchBadge.textContent = list.length ? 'aktyvus' : 'nieko nėra');
 
     list.forEach(item => {
       const card = document.createElement('a');
@@ -764,54 +951,143 @@
       card.href = item.url || '#';
       card.target = '_blank';
       card.rel = 'noopener';
+
+      const details = [
+        ['Metai', item.year ? `${item.year} m.` : '—'],
+        ['Modelis', item.title || '—'],
+        ['Variklis', item.engine || '—'],
+        ['Kuras', item.fuel || '—'],
+        ['Pavaros', item.gearbox || '—'],
+        ['Rida', item.mileage ? item.mileage.toLocaleString('lt-LT') + ' km' : '—']
+      ];
+
       card.innerHTML = `
         <div class="listingImg" style="background-image:${item.image ? `url('${item.image}')` : `linear-gradient(135deg, rgba(37,99,235,.18) 0%, rgba(14,165,233,.08) 100%)`}"></div>
         <div class="listingBody">
           <div class="listingTop">
-            <div style="min-width:0;flex:1"><strong>${escapeHtml(item.title)}</strong></div>
+            <div style="min-width:0;flex:1">
+              <strong>${escapeHtml(item.title)}</strong>
+              <div class="metaRow" style="margin-top:8px">
+                <span class="tag link">🕒 ${ageShort(item.publishedAt)}</span>
+                <span class="tag">${escapeHtml(item.portal)}</span>
+                <span class="tag">${escapeHtml(item.city || '—')}</span>
+              </div>
+            </div>
             <div class="price">${money(item.price)}</div>
           </div>
-          <div class="metaRow">
-            <span class="metaTag">${portalEmoji(item.portal)} ${escapeHtml(item.portal)}</span>
-            <span class="metaTag">${item.year || '—'} m.</span>
-            <span class="metaTag">${escapeHtml(item.body || '—')}</span>
-            <span class="metaTag">${escapeHtml(item.city || '—')}</span>
+
+          <div class="metaGrid">
+            ${details.map(([k,v]) => `<div class="infoBox"><span class="k">${escapeHtml(k)}</span><span class="v">${escapeHtml(v)}</span></div>`).join('')}
           </div>
+
+          ${item.description ? `<div class="desc">${escapeHtml(item.description)}</div>` : ''}
+
           <div class="metaRow">
-            <span class="metaTag ${(Number(item.price) <= Number(state.rules.maxPrice || 0) || !state.rules.maxPrice) ? 'good' : 'warn'}">🕒 ${ageShort(item.publishedAt)}</span>
-            <span class="metaTag">🏁 ${escapeHtml(item.fuel || '—')}</span>
-            <span class="metaTag">⚙︎ ${escapeHtml(item.gearbox || '—')}</span>
-            <span class="metaTag">${item.mileage ? item.mileage.toLocaleString('lt-LT') + ' km' : '—'}</span>
-          </div>
-          <div class="listingActions">
-            <button class="btn secondary" data-open="${item.id}" type="button">Atidaryti</button>
-            <button class="btn ghost" data-copy="${item.id}" type="button">Kopijuoti</button>
+            ${item.phone ? `<span class="tag good">📞 ${escapeHtml(item.phone)}</span>` : `<span class="tag warn">📞 nėra telefono</span>`}
+            ${item.year ? `<span class="tag">📅 ${item.year}</span>` : ''}
+            ${item.body ? `<span class="tag">🚙 ${escapeHtml(item.body)}</span>` : ''}
           </div>
         </div>`;
       els.feedList.appendChild(card);
     });
-
-    $$('[data-open]').forEach(btn => btn.onclick = e => {
-      e.preventDefault();
-      const item = state.listings.find(x => x.id === btn.dataset.open);
-      if (item && item.url && item.url !== '#') window.open(item.url, '_blank', 'noopener');
-      else toast(`Peržiūra: ${item?.title || 'skelbimas'}`);
-    });
-
-    $$('[data-copy]').forEach(btn => btn.onclick = async e => {
-      e.preventDefault();
-      const item = state.listings.find(x => x.id === btn.dataset.copy);
-      if (!item) return;
-      const text = `${item.portal} | ${item.title} | ${money(item.price)} | ${item.city} | ${item.year} | ${item.url || ''}`;
-      try{ await navigator.clipboard.writeText(text); toast('Nukopijuota į iškarpinę'); }catch{ toast('Kopijavimas nepavyko'); }
-    });
-
-    updateSummary();
   }
 
-  function notifyListing(item){
+  function toggleSource(id){
+    const set = new Set(state.rules.enabledPortals);
+    if (set.has(id)) set.delete(id); else set.add(id);
+    state.rules.enabledPortals = [...set];
+    saveRules();
+    updateSummary();
+    renderSources();
+    renderFeed();
+    toast(`${id}: ${state.rules.enabledPortals.includes(id) ? 'įjungtas' : 'išjungtas'}`);
+  }
+
+  function applyFormToRules(){
+    state.rules.make = els.ruleMake.value.trim();
+    state.rules.model = els.ruleModel.value.trim();
+    state.rules.body = els.ruleBody.value;
+    state.rules.maxPrice = els.ruleMaxPrice.value ? Number(els.ruleMaxPrice.value) : '';
+    state.rules.minYear = els.ruleMinYear.value ? Number(els.ruleMinYear.value) : '';
+    state.rules.maxMileage = els.ruleMaxMileage.value ? Number(els.ruleMaxMileage.value) : '';
+    state.rules.city = els.ruleCity.value.trim();
+    state.rules.fuel = els.ruleFuel.value;
+    state.rules.gearbox = els.ruleGearbox.value;
+    state.rules.keywords = els.ruleKeywords.value.trim();
+    state.rules.exclude = els.ruleExclude.value.trim();
+    state.rules.theme = els.themeSelect.value;
+    state.rules.defaultSort = els.defaultSort.value;
+    state.rules.sound = els.soundSelect.value;
+    state.rules.pollMs = Number(els.pollSelect.value) || 15000;
+    state.rules.backendUrl = els.backendUrl.value.trim();
+    state.sortBy = els.defaultSort.value || 'newest';
+    state.pollMs = state.rules.pollMs;
+  }
+
+  function saveRulesAndRender(){
+    applyFormToRules();
+    saveRules();
+    localStorage.setItem('suv_backend_url', state.rules.backendUrl || '');
+    updateSummary();
+    renderSources();
+    renderQuickChips();
+    renderFeed();
+    toast('Filtrai išsaugoti');
+  }
+
+  function resetRules(){
+    state.rules = {...DEFAULT_RULES, enabledPortals: PORTALS.map(p=>p.id)};
+    state.sortBy = state.rules.defaultSort;
+    state.pollMs = state.rules.pollMs;
+    saveRules();
+    updateSummary();
+    renderSources();
+    renderQuickChips();
+    renderFeed();
+    toast('Filtrai atstatyti');
+  }
+
+  function switchView(view){
+    const map = { feed:'#view-feed', rules:'#view-rules', import:'#view-import' };
+    if (view === 'settings'){ openSheet(true); return; }
+    $$('.view').forEach(v => v.classList.remove('active'));
+    $(map[view]).classList.add('active');
+    els.viewButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
+  }
+
+  function openSheet(open=true){
+    els.sheetWrap.classList.toggle('show', open);
+    els.sheetWrap.setAttribute('aria-hidden', String(!open));
+  }
+
+  function openInNewTab(url){
+    if (url && url !== '#') window.open(url, '_blank', 'noopener');
+  }
+
+  function setNotifyToggleUI(){
+    const on = !!state.rules.notifications;
+    els.notifToggle.classList.toggle('on', on);
+    els.notifToggle.style.background = on ? 'var(--accent)' : 'var(--panel)';
+    els.notifToggle.innerHTML = `<div style="position:absolute;top:3px;left:${on ? '28px' : '3px'};width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 8px 16px rgba(15,23,42,.16);transition:all .18s ease"></div>`;
+  }
+
+  function requestNotificationPermission(){
+    if (!('Notification' in window)) { toast('Naršyklė nepalaiko notifications'); return; }
+    Notification.requestPermission().then(res => {
+      state.rules.notifications = res === 'granted';
+      saveRules();
+      setNotifyToggleUI();
+      updateSummary();
+      toast(state.rules.notifications ? 'Pranešimai leisti' : 'Pranešimai neįjungti');
+      if (state.rules.notifications && Notification.permission === 'granted'){
+        new Notification('Įspėjimai įjungti', { body:'Gausi pranešimus apie naujus atitinkančius skelbimus.' });
+      }
+    });
+  }
+
+  function notifyNewItem(item){
     const title = `${item.portal}: ${item.title}`;
-    const body = `${money(item.price)} · ${item.year || '—'} m. · ${item.city || '—'}`;
+    const body = `${money(item.price)} • ${item.city || '—'} • ${ageShort(item.publishedAt)}`;
     toast(title, body);
     sparkle();
 
@@ -831,165 +1107,115 @@
     }
   }
 
-  function dedupeListings(arr){
+  function notifyNewItems(items){
+    items.forEach(item => notifyNewItem(item));
+  }
+
+  function importListings(rawListings, notify=true){
+    const normalized = rawListings.map(normalizeItem);
+    const previousIds = new Set(state.items.map(x => x.id));
+    const newItems = normalized.filter(x => !previousIds.has(x.id));
+
+    state.items = dedupe(normalized);
+    saveItems();
+    state.lastPoll = Date.now();
+    localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
+    saveSeen();
+    updateSummary();
+    renderFeed();
+
+    if (notify){
+      const matchingNew = newItems.filter(x => matchesRule(x) && Number(x.price || 0) <= Number(state.rules.maxPrice || 3000));
+      matchingNew.forEach(x => state.seen.add(x.id));
+      saveSeen();
+      notifyNewItems(matchingNew);
+    }
+  }
+
+  function dedupe(arr){
     const seen = new Map();
     arr.forEach(item => {
       const key = `${normalize(item.portal)}|${normalize(item.title)}|${item.price}|${item.year}|${normalize(item.city)}|${normalize(item.url)}`;
       if (!seen.has(key) || new Date(item.publishedAt) > new Date(seen.get(key).publishedAt)) seen.set(key, item);
     });
-    return [...seen.values()].sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
-  }
-
-  function importListings(rawListings, notify=true){
-    const beforeIds = new Set(state.listings.map(x => x.id));
-    const normalized = rawListings.map(normalizeListing);
-    normalized.forEach(item => {
-      if (!item.publishedAt) item.publishedAt = new Date().toISOString();
-      const idx = state.listings.findIndex(x => x.id === item.id);
-      if (idx >= 0) state.listings[idx] = {...state.listings[idx], ...item};
-      else state.listings.unshift(item);
-    });
-    state.listings = dedupeListings(state.listings);
-    state.lastPoll = Date.now();
-    saveState();
-    renderAll();
-
-    if (notify){
-      normalized.forEach(item => {
-        const seenBefore = beforeIds.has(item.id) || state.seen.has(item.id);
-        state.seen.add(item.id);
-        if (!seenBefore && matchesRule(item)) notifyListing(item);
-      });
-      saveState();
-    }
+    return [...seen.values()].sort((a,b) => new Date(b.publishedAt) - new Date(a.publishedAt));
   }
 
   function seedDemo(force=false){
-    if (state.listings.length && !force) return toast('Demo jau įkelta');
-    state.listings = [];
-    importListings(DEMO_LISTINGS, false);
+    if (state.items.length && !force){ toast('Demo jau įkelta'); return; }
+    state.items = dedupe(DEMO_LISTINGS.map(normalizeItem));
+    saveItems();
+    state.lastPoll = Date.now();
+    localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
+    updateSummary();
+    renderFeed();
     toast('Įkelti demo skelbimai');
-    renderAll();
   }
 
   function clearAll(){
     if (!confirm('Išvalyti visus įrašus ir filtrus?')) return;
     localStorage.removeItem('auto_monitor_rules');
     localStorage.removeItem('auto_monitor_listings');
-    localStorage.removeItem('auto_monitor_last_sync');
     localStorage.removeItem('auto_monitor_seen');
-    state.rules = {...DEFAULT_RULES};
-    state.listings = [];
+    localStorage.removeItem('auto_monitor_last_sync');
+    localStorage.removeItem('suv_backend_url');
+    state.rules = {...DEFAULT_RULES, enabledPortals: PORTALS.map(p=>p.id)};
+    state.items = [];
     state.seen = new Set();
+    state.query = '';
     state.sortBy = state.rules.defaultSort;
-    updateSummary();
-    renderAll();
-    toast('Viskas išvalyta');
-  }
-
-  function saveRules(){
-    applyFormToRules();
-    saveState();
-    updateSummary();
-    renderAll();
-    toast('Filtrai išsaugoti');
-  }
-
-  function resetRules(){
-    state.rules = {...DEFAULT_RULES};
-    state.sortBy = state.rules.defaultSort;
-    saveState();
-    updateSummary();
-    renderAll();
-    toast('Filtrai atstatyti');
-  }
-
-  function toggleSource(id){
-    const set = new Set(state.rules.enabledPortals);
-    if (set.has(id)) set.delete(id); else set.add(id);
-    state.rules.enabledPortals = [...set];
-    saveState();
-    renderAll();
-    toast(`${id}: ${portalEnabled(id) ? 'įjungtas' : 'išjungtas'}`);
-  }
-
-  function portalEnabled(id){ return state.rules.enabledPortals.includes(id); }
-
-  function requestBrowserNotif(){
-    if (!('Notification' in window)){ toast('Naršyklė nepalaiko pranešimų'); return; }
-    Notification.requestPermission().then(res => {
-      state.rules.notifications = res === 'granted';
-      saveState();
-      updateSummary();
-      renderSources();
-      toast(state.rules.notifications ? 'Pranešimai leisti' : 'Pranešimai neįjungti');
-    });
-  }
-
-  function renderAll(){
+    state.pollMs = state.rules.pollMs;
     updateSummary();
     renderSources();
     renderQuickChips();
     renderFeed();
+    toast('Viskas išvalyta');
   }
 
-  function openSheet(open=true){
-    els.sheetWrap.classList.toggle('show', open);
-    els.sheetWrap.setAttribute('aria-hidden', String(!open));
-  }
-
-  function switchView(view){
-    const map = { feed:'#view-feed', rules:'#view-rules', import:'#view-import' };
-    if (view === 'settings'){ openSheet(true); return; }
-    $$('.view').forEach(v => v.classList.remove('active'));
-    $(map[view]).classList.add('active');
-    els.viewButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
-  }
-
-  async function fetchBackendData(){
-    const url = state.rules.backendUrl || 'http://127.0.0.1:5000/data';
+  async function fetchBackendData(notify=true){
+    const url = state.rules.backendUrl || localStorage.getItem('suv_backend_url') || 'http://127.0.0.1:5000/data';
+    if (!url) return;
     try{
       const res = await fetch(url, { cache:'no-store' });
       if (!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       const arr = Array.isArray(data) ? data : (Array.isArray(data.listings) ? data.listings : (Array.isArray(data.data) ? data.data : []));
-      if (arr.length){
-        importListings(arr, true);
-        state.lastPoll = Date.now();
-        saveState();
-        els.liveState.textContent = '🟢 Backend prijungtas';
-      } else {
-        els.liveState.textContent = '🟡 Backend tuščias';
-      }
+      if (!Array.isArray(arr)) return;
+
+      const normalized = arr.map(normalizeItem);
+      const oldIds = new Set(state.items.map(x => x.id));
+      const newItems = normalized.filter(x => !oldIds.has(x.id));
+
+      state.items = dedupe(normalized);
+      saveItems();
+      state.lastPoll = Date.now();
+      localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
+      updateSummary();
+      renderFeed();
+
+      const matchingNew = newItems.filter(x => matchesRule(x) && Number(x.price || 0) <= Number(state.rules.maxPrice || 3000));
+      matchingNew.forEach(x => state.seen.add(x.id));
+      saveSeen();
+      if (notify) notifyNewItems(matchingNew);
     }catch(err){
       els.liveState.textContent = '🔴 Backend nepasiekiamas';
     }
-    updateSummary();
   }
 
   function attachEvents(){
     els.searchInput.addEventListener('input', () => { state.query = els.searchInput.value; renderFeed(); });
-    els.sortBy.addEventListener('change', () => { state.sortBy = els.sortBy.value; saveState(); renderFeed(); });
-    els.saveRulesBtn.onclick = saveRules;
+    els.sortBy.addEventListener('change', () => { state.sortBy = els.sortBy.value; saveRules(); renderFeed(); });
+    els.saveRulesBtn.onclick = saveRulesAndRender;
     els.resetRulesBtn.onclick = resetRules;
-    els.requestNotifBtn.onclick = requestBrowserNotif;
+    els.requestNotifBtn.onclick = requestNotificationPermission;
+    els.notifToggle.onclick = requestNotificationPermission;
 
-    els.notifToggle.onclick = () => {
-      if (state.rules.notifications && 'Notification' in window && Notification.permission !== 'granted'){
-        requestBrowserNotif();
-        return;
-      }
-      state.rules.notifications = !state.rules.notifications;
-      saveState();
-      updateSummary();
-      renderSources();
-      toast(state.rules.notifications ? 'Įspėjimai įjungti' : 'Įspėjimai išjungti');
-    };
-
-    els.themeSelect.onchange = () => { state.rules.theme = els.themeSelect.value; saveState(); updateSummary(); };
-    els.defaultSort.onchange = () => { state.rules.defaultSort = els.defaultSort.value; state.sortBy = els.defaultSort.value; saveState(); renderFeed(); };
-    els.soundSelect.onchange = () => { state.rules.sound = els.soundSelect.value; saveState(); };
-    els.backendUrl.onchange = () => { state.rules.backendUrl = els.backendUrl.value.trim(); saveState(); toast('Backend URL išsaugotas'); };
+    els.themeSelect.onchange = () => { state.rules.theme = els.themeSelect.value; saveRules(); updateSummary(); };
+    els.defaultSort.onchange = () => { state.rules.defaultSort = els.defaultSort.value; state.sortBy = els.defaultSort.value; saveRules(); renderFeed(); };
+    els.defaultSort2.onchange = () => { state.rules.defaultSort = els.defaultSort2.value; state.sortBy = els.defaultSort2.value; saveRules(); renderFeed(); };
+    els.soundSelect.onchange = () => { state.rules.sound = els.soundSelect.value; saveRules(); };
+    els.pollSelect.onchange = () => { state.rules.pollMs = Number(els.pollSelect.value) || 15000; state.pollMs = state.rules.pollMs; saveRules(); };
+    els.backendUrl.onchange = () => { state.rules.backendUrl = els.backendUrl.value.trim(); localStorage.setItem('suv_backend_url', state.rules.backendUrl); saveRules(); toast('Backend URL išsaugotas'); };
 
     els.settingsBtn.onclick = () => openSheet(true);
     els.closeSheetBtn.onclick = () => openSheet(false);
@@ -997,9 +1223,9 @@
 
     els.refreshBtn.onclick = async () => {
       state.lastPoll = Date.now();
-      saveState();
+      localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
       updateSummary();
-      await fetchBackendData();
+      await fetchBackendData(true);
       renderFeed();
       toast('Atnaujinta');
     };
@@ -1010,7 +1236,7 @@
     els.importJsonBtn.onclick = () => {
       try{
         const parsed = JSON.parse(els.jsonInput.value || '{}');
-        const arr = Array.isArray(parsed.listings) ? parsed.listings : (Array.isArray(parsed) ? parsed : []);
+        const arr = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.listings) ? parsed.listings : (Array.isArray(parsed.data) ? parsed.data : []));
         if (!arr.length) return toast('JSON neturi listings[]');
         importListings(arr, true);
         toast(`Importuota: ${arr.length}`);
@@ -1019,38 +1245,49 @@
       }
     };
 
-    els.addDemoMatchBtn.onclick = () => {
-      importListings([{ id:`demo_${Date.now()}`, portal:'Autogidas', title:'Kia Sorento 2005 2.5 CRDi 4x4', price:900, year:2005, body:'suv', fuel:'diesel', gearbox:'manual', mileage:280000, city:'Kaunas', publishedAt:new Date().toISOString(), url:'#', image:'' }], true);
+    const demoMatch = {
+      id:`demo_${Date.now()}`,
+      portal:'Autogidas', title:'Toyota RAV4 2006 2.0 D-4D', price:2950, year:2006, body:'suv',
+      fuel:'diesel', gearbox:'manual', mileage:242000, city:'Vilnius', phone:'+37060000000',
+      engine:'2.0 D-4D', description:'Tvarkingas, vietoje galima apžiūrėti. Susisiekti telefonu.',
+      url:'#', image:'', publishedAt:new Date().toISOString()
     };
+    els.addDemoMatchBtn.onclick = () => importListings([demoMatch], true);
 
     els.goToFeedBtn.onclick = () => switchView('feed');
     els.goToRulesBtn.onclick = () => switchView('rules');
 
-    els.viewButtons.forEach(btn => {
-      btn.onclick = () => switchView(btn.dataset.view);
-    });
+    els.viewButtons.forEach(btn => { btn.onclick = () => switchView(btn.dataset.view); });
 
     window.addEventListener('visibilitychange', () => {
       if (!document.hidden){
         state.lastPoll = Date.now();
-        saveState();
+        localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
         updateSummary();
       }
     });
 
     setInterval(() => { els.pollAge.textContent = ageShort(state.lastPoll); }, 1000);
-    setInterval(fetchBackendData, 10000);
+    setInterval(() => fetchBackendData(true), state.pollMs);
   }
 
   function init(){
-    if (!state.listings.length) seedDemo(true);
+    if (!state.items.length) seedDemo(true);
+    else state.items = dedupe(state.items.map(normalizeItem));
+
+    if (!state.rules.backendUrl) state.rules.backendUrl = localStorage.getItem('suv_backend_url') || '';
+    if (!state.rules.enabledPortals || !state.rules.enabledPortals.length) state.rules.enabledPortals = PORTALS.map(p=>p.id);
+    if (!state.rules.body) state.rules.body = 'suv';
+
     updateSummary();
-    renderAll();
+    renderSources();
+    renderQuickChips();
+    renderFeed();
+    setNotifyToggleUI();
     attachEvents();
-    if (Notification.permission === 'granted') state.rules.notifications = true;
-    saveState();
+    saveRules();
+    fetchBackendData(true);
     toast('Paruošta');
-    fetchBackendData();
   }
 
   init();
