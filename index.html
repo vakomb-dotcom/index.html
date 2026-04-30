@@ -10,13 +10,12 @@
     :root{
       --bg:#f6f7f9;
       --card:#ffffff;
-      --text:#1f2937;
+      --text:#17212f;
       --muted:#667085;
       --line:#dde3ea;
       --accent:#0f6a18;
       --accent-2:#1f7a2e;
       --soft:#eef6f0;
-      --danger:#b42318;
       --shadow:0 10px 30px rgba(16,24,40,.08);
       --radius:22px;
       --max:980px;
@@ -33,70 +32,133 @@
     }
     a{color:inherit;text-decoration:none}
     .wrap{max-width:var(--max); margin:0 auto; padding:14px}
+
     .topbar{
-      position:sticky; top:10px; z-index:20;
-      display:flex; align-items:center; justify-content:center;
-      background:#fff; border:1px solid var(--line); border-radius:18px;
-      padding:14px 16px; box-shadow:var(--shadow);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:16px 18px;
+      box-shadow:var(--shadow);
       text-align:center;
+      margin-bottom:14px;
     }
-    .brand{display:flex; align-items:center; justify-content:center; min-width:0; width:100%}
-    .brand-center{width:100%}
-    .brand-text{display:flex; flex-direction:column; align-items:center; justify-content:center}
-    .brand h1{
-      margin:0;
-      font-size:36px;
+    .brand{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-width:0;
+      width:100%;
+    }
+    .brand-center{
+      width:100%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+    }
+    .brand-mark{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      font-size:clamp(26px, 6vw, 34px);
       line-height:1;
       letter-spacing:-.05em;
       font-weight:900;
-      font-family: Georgia, "Times New Roman", serif;
+      color:#14202c;
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
-    .brand p{display:none;}
+    .brand-mark .brand-word{font-weight:900}
+    .brand-mark .brand-badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:6px 12px;
+      border-radius:999px;
+      background:rgba(15,106,24,.10);
+      color:var(--accent);
+      font-size:.52em;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-weight:900;
+    }
+    .brand-sub{
+      font-size:13px;
+      color:var(--accent);
+      font-weight:700;
+      letter-spacing:-.01em;
+      background:rgba(15,106,24,.06);
+      padding:6px 11px;
+      border-radius:999px;
+    }
 
     .hero{
       margin-top:14px;
-      background:#fff; border:1px solid var(--line); border-radius:28px;
-      box-shadow:var(--shadow); overflow:hidden;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:28px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
     }
     .hero-copy{
-      padding:26px 16px 14px;
+      padding:30px 16px 12px;
       text-align:center;
-      background:#fff;
+      background:linear-gradient(180deg, #fff 0%, #fafcfb 100%);
     }
-    .hero-image{
-      width:min(100%, 360px);
-      aspect-ratio: 16 / 9;
-      margin:0 auto 14px;
+    .hero-copy h2{
+      margin:0 auto 10px;
+      max-width:760px;
+      font-size:clamp(29px, 6.2vw, 56px);
+      line-height:1.03;
+      letter-spacing:-.05em;
+      font-weight:900;
+      color:#152131;
+    }
+    .hero-copy h2 .accent{
+      color:var(--accent);
+      background:rgba(15,106,24,.08);
+      padding:0 .18em;
+      border-radius:.22em;
+      box-decoration-break:clone;
+      -webkit-box-decoration-break:clone;
+    }
+    .hero-copy p{
+      margin:0 auto;
+      max-width:690px;
+      font-size:clamp(16px, 3.8vw, 20px);
+      line-height:1.45;
+      color:#4e5a69;
+    }
+    .hero-media{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      width:min(100%, 320px);
+      margin:0 auto 12px;
+      padding:0 16px;
+    }
+    .hero-thumb{
+      aspect-ratio: 1 / 0.84;
       background:#eef2f6;
       overflow:hidden;
-      border-radius:20px;
-      box-shadow:0 8px 22px rgba(16,24,40,.08);
+      border-radius:16px;
+      box-shadow:0 8px 20px rgba(16,24,40,.08);
+      border:1px solid #e3e8ef;
     }
-    .hero-image img{
+    .hero-thumb img{
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
     }
-    .hero-copy h2{
-      margin:0 auto 10px;
-      max-width:780px;
-      font-size:clamp(28px, 6vw, 56px);
-      line-height:1.02;
-      letter-spacing:-.05em;
-      font-weight:900;
-    }
-    .hero-copy p{
-      margin:0 auto;
-      max-width:720px;
-      font-size:clamp(16px, 3.5vw, 21px);
-      line-height:1.45;
-      color:var(--muted);
-    }
     .hero-actions{
       display:flex;
       justify-content:center;
-      padding:0 16px 26px;
+      padding:0 16px 24px;
     }
     .btn{
       appearance:none;
@@ -122,33 +184,6 @@
       border:1px solid #d6dbe2;
     }
 
-    .visual{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:14px;
-      margin-top:14px;
-    }
-    .visual-card{
-      background:#fff;
-      border:1px solid var(--line);
-      border-radius:24px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-    }
-    .visual-image{
-      min-height:180px;
-      background:#f0f3f6;
-      display:grid;
-      place-items:center;
-      padding:18px;
-    }
-    .visual-caption{
-      padding:14px 16px 16px;
-      border-top:1px solid var(--line);
-    }
-    .visual-caption b{display:block; font-size:16px; margin-bottom:5px}
-    .visual-caption span{display:block; color:var(--muted); font-size:13px; line-height:1.45}
-
     .section{
       margin-top:14px;
       background:#fff;
@@ -166,6 +201,8 @@
       font-size:clamp(26px, 5vw, 42px);
       line-height:1.05;
       letter-spacing:-.04em;
+      font-weight:900;
+      color:#1f2937;
     }
     .section-head p{
       margin:10px auto 0;
@@ -307,7 +344,7 @@
     .notice.error{
       border-color:#f5c2c7;
       background:#fff5f5;
-      color:var(--danger);
+      color:#b42318;
     }
 
     .small-grid{
@@ -334,14 +371,24 @@
     }
 
     @media (max-width: 759px){
-      .hero-image{width:min(100%, 240px);}
+      .topbar{padding:14px 14px}
+      .brand-mark{font-size:24px; gap:8px}
+      .brand-mark .brand-badge{padding:5px 10px; font-size:.56em}
+      .brand-sub{font-size:12px; padding:5px 10px}
+      .hero-copy{padding:24px 14px 10px}
+      .hero-copy h2{font-size:clamp(28px, 8vw, 34px)}
+      .hero-media{width:min(100%, 292px); gap:7px; padding:0 12px}
+      .hero-thumb{border-radius:14px}
+      .hero-actions{padding:0 14px 22px}
     }
 
     @media (min-width: 760px){
       .wrap{padding:18px}
-      .hero-copy{padding:34px 22px 18px}
-      .hero-image{width:min(100%, 280px); margin:0 auto 16px;}
+      .hero-copy{padding:34px 22px 14px}
+      .hero-media{width:min(100%, 470px); gap:10px}
+      .hero-thumb{border-radius:20px}
       .hero-actions{padding-bottom:30px}
+      .section-head{padding:24px 18px 10px}
       .small-grid{
         grid-template-columns:repeat(3, 1fr);
       }
@@ -356,26 +403,32 @@
       }
       .actions .btn-submit{grid-column:1 / -1}
       form{padding-bottom:22px}
+      .brand-mark{font-size:36px}
+      .brand-sub{font-size:14px}
     }
   </style>
-</head>
+
 <body>
   <div class="wrap">
     <header class="topbar">
       <div class="brand brand-center">
-        <div class="brand-text">
-          <h1>Ukmergės NT</h1>
-          </div>
+        <div class="brand-mark"><span class="brand-word">Ukmergės</span><span class="brand-badge">NT</span></div>
+        <div class="brand-sub">Nekilnojamo turto supirkimas</div>
       </div>
     </header>
 
     <section class="hero">
       <div class="hero-copy">
-        <h2>Perku nekilnojamą turtą Ukmergėje ir aplink</h2>
-        <p>Trumpa užklausa, aiškus atsakymas ir jokio bereikalingo vargo.</p>
+        <h2>Perku nekilnojamą turtą <span class="accent">Ukmergėje ir aplink</span></h2>
+        <p>Trumpa užklausa. Aiškus atsakymas per 15 min.</p>
       </div>
-      <div class="hero-image">
-        <img src="https://tikraverte.lt/wp-content/uploads/2024/08/Garazas.jpg" alt="Parduodamo garažo vizualas" />
+      <div class="hero-media" aria-label="NT vizualai">
+        <div class="hero-thumb">
+          <img src="https://tikraverte.lt/wp-content/uploads/2024/08/Garazas.jpg" alt="Parduodamo garažo vizualas" />
+        </div>
+        <div class="hero-thumb">
+          <img src="https://skelbiu.vip/wp-content/uploads/classified-listing/2024/01/IMG_7775-scaled.jpeg" alt="Parduodamo objekto vizualas" />
+        </div>
       </div>
       <div class="hero-actions">
         <button class="btn btn-primary" type="button" id="scrollBtn">Parduoti NT</button>
@@ -383,8 +436,8 @@
     </section>
 <section class="section" id="forma">
       <div class="section-head">
-        <h3>Pateikite informaciją apie objektą</h3>
-        <p>Pasirinkite tipą ir užpildykite tik kelis laukus. Forma skirta greitam užklausos pateikimui telefone.</p>
+        <h3>Trumpa pardavimo užklausa</h3>
+        <p>Užpildyti užtruks akimirką, atsakymą gausite per 15 min.</p>
       </div>
 
       <form id="leadForm" action="https://formspree.io/f/xpqkqbbw" method="POST">
@@ -566,16 +619,16 @@
 
     <section class="small-grid">
       <div class="info-card">
-        <b>Greitas sprendimas</b>
-        <p>Palikite kelis duomenis ir gaukite atsakymą dėl objekto be ilgo laukimo.</p>
+        <b>Trumpa užklausa</b>
+        <p>Keli laukai telefone ir svarbiausia informacija jau pateikta.</p>
       </div>
       <div class="info-card">
-        <b>Domina realūs objektai</b>
-        <p>Perku garažus, sodo sklypus, apleistas patalpas ir kitus mažesnius NT variantus.</p>
+        <b>Aiškus atsakymas</b>
+        <p>Greitai įvertiname objektą ir pateikiame konkretų atsakymą.</p>
       </div>
       <div class="info-card">
-        <b>Ukmergė ir aplink</b>
-        <p>Dirbu vietoje, todėl procesas paprastas ir patogus tiek Ukmergėje, tiek aplinkui.</p>
+        <b>Jokio vargo</b>
+        <p>Forma sukurta taip, kad nereikėtų pildyti nieko perteklinio.</p>
       </div>
     </section>
 
