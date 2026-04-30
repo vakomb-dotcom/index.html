@@ -6,362 +6,129 @@
   <title>Visureigių skelbimų monitorius</title>
   <style>
     :root{
-      --bg:#f4f7fb;
-      --bg2:#eef4fb;
-      --panel:rgba(255,255,255,.86);
-      --panel-strong:#ffffff;
-      --text:#0f172a;
-      --muted:#64748b;
-      --muted2:#94a3b8;
-      --line:rgba(148,163,184,.18);
-      --shadow:0 20px 50px rgba(15,23,42,.10);
-      --shadow-soft:0 10px 24px rgba(15,23,42,.06);
-      --accent:#2563eb;
-      --accent2:#0f766e;
-      --good:#16a34a;
-      --warn:#d97706;
-      --danger:#ef4444;
-      --radius:24px;
-      --radius2:28px;
-      --glass: blur(16px) saturate(150%);
+      --bg:#f4f7fb; --bg2:#eef4fb; --panel:rgba(255,255,255,.88); --panel-strong:#fff;
+      --text:#0f172a; --muted:#64748b; --line:rgba(148,163,184,.18);
+      --shadow:0 18px 42px rgba(15,23,42,.10); --shadow-soft:0 8px 20px rgba(15,23,42,.06);
+      --accent:#2563eb; --good:#16a34a; --warn:#d97706; --danger:#ef4444;
+      --radius:22px; --radius2:28px; --glass:blur(16px) saturate(150%);
     }
     html[data-theme="dark"]{
-      --bg:#07111f;
-      --bg2:#0d1728;
-      --panel:rgba(17,24,39,.84);
-      --panel-strong:#111827;
-      --text:#f8fafc;
-      --muted:#cbd5e1;
-      --muted2:#94a3b8;
-      --line:rgba(148,163,184,.14);
-      --shadow:0 22px 52px rgba(0,0,0,.30);
-      --shadow-soft:0 10px 24px rgba(0,0,0,.18);
+      --bg:#07111f; --bg2:#0d1728; --panel:rgba(17,24,39,.84); --panel-strong:#111827;
+      --text:#f8fafc; --muted:#cbd5e1; --line:rgba(148,163,184,.14);
+      --shadow:0 22px 52px rgba(0,0,0,.30); --shadow-soft:0 10px 24px rgba(0,0,0,.18);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
-    html{scroll-behavior:smooth}
     body{
-      margin:0;
-      font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(circle at 12% 8%, rgba(37,99,235,.12), transparent 26%),
-        radial-gradient(circle at 86% 10%, rgba(15,118,110,.11), transparent 22%),
-        linear-gradient(180deg,var(--bg) 0%, var(--bg2) 100%);
-      background-attachment:fixed;
-      overflow-x:hidden;
-      text-rendering:optimizeLegibility;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,system-ui,sans-serif; color:var(--text);
+      background:radial-gradient(circle at 12% 8%, rgba(37,99,235,.12), transparent 26%), radial-gradient(circle at 86% 10%, rgba(15,118,110,.11), transparent 22%), linear-gradient(180deg,var(--bg) 0%, var(--bg2) 100%);
+      background-attachment:fixed; overflow-x:hidden; text-rendering:optimizeLegibility; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
     }
-    body::before{
-      content:""; position:fixed; inset:-20vh -20vw auto auto; width:440px; height:440px; border-radius:50%;
-      background:radial-gradient(circle, rgba(37,99,235,.12), transparent 70%); filter:blur(24px); pointer-events:none; z-index:-1;
-    }
-    body::after{
-      content:""; position:fixed; inset:auto auto 4vh -18vw; width:380px; height:380px; border-radius:50%;
-      background:radial-gradient(circle, rgba(15,118,110,.08), transparent 68%); filter:blur(24px); pointer-events:none; z-index:-1;
-    }
-
-    .app{
-      width:min(100%, 900px);
-      margin:0 auto;
-      padding:14px 14px 120px;
-    }
-
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:20;
-      margin:0 -14px 14px;
-      padding:calc(env(safe-area-inset-top) + 10px) 14px 12px;
-      background:linear-gradient(180deg, rgba(245,247,251,.88) 0%, rgba(245,247,251,.52) 100%);
-      backdrop-filter:var(--glass);
-      border-bottom:1px solid rgba(148,163,184,.16);
-    }
-    html[data-theme="dark"] .topbar{
-      background:linear-gradient(180deg, rgba(7,17,31,.92) 0%, rgba(7,17,31,.66) 100%);
-      border-bottom-color:rgba(148,163,184,.12);
-    }
+    .app{width:min(100%, 980px); margin:0 auto; padding:14px 14px 120px}
+    .topbar{position:sticky; top:0; z-index:20; margin:0 -14px 14px; padding:calc(env(safe-area-inset-top) + 10px) 14px 12px; background:linear-gradient(180deg, rgba(245,247,251,.88) 0%, rgba(245,247,251,.52) 100%); backdrop-filter:var(--glass); border-bottom:1px solid rgba(148,163,184,.16)}
+    html[data-theme="dark"] .topbar{background:linear-gradient(180deg, rgba(7,17,31,.92) 0%, rgba(7,17,31,.66) 100%)}
     .topbarInner{display:flex; align-items:center; justify-content:space-between; gap:10px}
     .brand{display:flex; align-items:center; gap:12px; min-width:0}
-    .brandMark{
-      width:44px; height:44px; border-radius:16px; display:grid; place-items:center;
-      background:linear-gradient(180deg, rgba(37,99,235,.16) 0%, rgba(37,99,235,.08) 100%);
-      border:1px solid rgba(37,99,235,.14);
-      box-shadow:0 12px 24px rgba(37,99,235,.12);
-      flex:0 0 auto;
-      font-size:20px;
-    }
+    .brandMark{width:44px; height:44px; border-radius:16px; display:grid; place-items:center; background:linear-gradient(180deg, rgba(37,99,235,.16) 0%, rgba(37,99,235,.08) 100%); border:1px solid rgba(37,99,235,.14); box-shadow:0 12px 24px rgba(37,99,235,.12); flex:0 0 auto; font-size:20px}
     .brandText{min-width:0}
     .brandText strong{display:block; font-size:18px; letter-spacing:-.03em; line-height:1.05}
     .brandText span{display:block; margin-top:4px; font-size:12px; color:var(--muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
-
     .topActions{display:flex; gap:8px; flex:0 0 auto}
-    .iconBtn{
-      width:42px; height:42px; border-radius:14px; border:1px solid var(--line); background:var(--panel); color:var(--text);
-      box-shadow:var(--shadow-soft); display:grid; place-items:center; cursor:pointer; font:inherit; appearance:none;
-    }
-
+    .iconBtn{width:42px; height:42px; border-radius:14px; border:1px solid var(--line); background:var(--panel); color:var(--text); box-shadow:var(--shadow-soft); display:grid; place-items:center; cursor:pointer; font:inherit; appearance:none}
     .view{display:none; animation:fade .18s ease}
     .view.active{display:block}
     @keyframes fade{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
-
-    .section{margin-top:14px; scroll-margin-top:110px}
-    .sectionHead{display:flex; align-items:flex-end; justify-content:space-between; gap:12px; margin:0 4px 10px}
-    .sectionHead h2{margin:0; font-size:16px; letter-spacing:-.02em; font-weight:900}
-    .sectionHead span{
-      font-size:11px; color:var(--muted);
-      background:rgba(148,163,184,.10);
-      border:1px solid rgba(148,163,184,.14);
-      padding:7px 10px;
-      border-radius:999px;
-      white-space:nowrap
-    }
-
-    .panel{
-      background:linear-gradient(180deg, var(--panel) 0%, rgba(255,255,255,.95) 100%);
-      border:1px solid var(--line);
-      border-radius:var(--radius2);
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      backdrop-filter:blur(14px);
-    }
-    html[data-theme="dark"] .panel{
-      background:linear-gradient(180deg, rgba(17,24,39,.96) 0%, rgba(17,24,39,.92) 100%);
-    }
+    .panel{background:linear-gradient(180deg, var(--panel) 0%, rgba(255,255,255,.95) 100%); border:1px solid var(--line); border-radius:var(--radius2); box-shadow:var(--shadow); overflow:hidden; backdrop-filter:blur(14px)}
+    html[data-theme="dark"] .panel{background:linear-gradient(180deg, rgba(17,24,39,.96) 0%, rgba(17,24,39,.92) 100%)}
     .panel.pad{padding:16px}
-
     .hero{display:grid; gap:12px}
     .heroCard{padding:16px; display:grid; gap:14px; border-radius:28px}
     .heroTop{display:flex; align-items:flex-start; justify-content:space-between; gap:12px}
     .heroTop h3{margin:0; font-size:22px; line-height:1.06; letter-spacing:-.04em}
     .heroTop p{margin:6px 0 0; color:var(--muted); font-size:12px; line-height:1.45; max-width:54ch}
-    .statusPill{
-      display:inline-flex; align-items:center; gap:6px; padding:8px 11px; border-radius:999px;
-      border:1px solid rgba(37,99,235,.14); background:rgba(37,99,235,.08); color:var(--text); font-size:11px; font-weight:800; white-space:nowrap; flex:0 0 auto;
-    }
+    .statusPill{display:inline-flex; align-items:center; gap:6px; padding:8px 11px; border-radius:999px; border:1px solid rgba(37,99,235,.14); background:rgba(37,99,235,.08); color:var(--text); font-size:11px; font-weight:800; white-space:nowrap; flex:0 0 auto}
     .statusPill.good{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.18)}
     .statusPill.warn{background:rgba(217,119,6,.10); border-color:rgba(217,119,6,.18)}
     .statusPill.danger{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.18)}
-
     .statsGrid{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
-    .miniStat{
-      padding:14px;
-      border-radius:22px;
-      background:linear-gradient(180deg, rgba(241,245,249,.96) 0%, rgba(248,250,252,.98) 100%);
-      border:1px solid rgba(148,163,184,.18);
-      box-shadow:0 10px 22px rgba(15,23,42,.05)
-    }
-    html[data-theme="dark"] .miniStat{
-      background:linear-gradient(180deg, rgba(30,41,59,.96) 0%, rgba(15,23,42,.94) 100%);
-      border-color:rgba(148,163,184,.14)
-    }
+    .miniStat{padding:14px; border-radius:22px; background:linear-gradient(180deg, rgba(241,245,249,.96) 0%, rgba(248,250,252,.98) 100%); border:1px solid rgba(148,163,184,.18); box-shadow:0 10px 22px rgba(15,23,42,.05)}
+    html[data-theme="dark"] .miniStat{background:linear-gradient(180deg, rgba(30,41,59,.96) 0%, rgba(15,23,42,.94) 100%); border-color:rgba(148,163,184,.14)}
     .miniStat .label{font-size:11px; text-transform:uppercase; letter-spacing:.08em; color:var(--muted); font-weight:800; margin-bottom:10px}
     .miniStat .value{font-size:24px; line-height:1; letter-spacing:-.03em; font-weight:900}
-    .miniStat .hint{margin-top:6px; font-size:11px; color:var(--muted2); line-height:1.35}
-
+    .miniStat .hint{margin-top:6px; font-size:11px; color:var(--muted); line-height:1.35}
     .stackLine{display:flex; gap:8px; flex-wrap:wrap}
-    .tiny2{
-      display:inline-flex; align-items:center; gap:6px; padding:6px 9px; border-radius:999px; background:var(--panel);
-      border:1px solid var(--line);
-      font-size:11px; color:var(--muted); font-weight:700
-    }
+    .tiny2{display:inline-flex; align-items:center; gap:6px; padding:6px 9px; border-radius:999px; background:var(--panel); border:1px solid var(--line); font-size:11px; color:var(--muted); font-weight:700}
     .tiny2.good{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.16); color:var(--text)}
-
     .filtersBar{display:flex; gap:10px; overflow:auto; padding:2px 2px 6px; scrollbar-width:none}
     .filtersBar::-webkit-scrollbar{display:none}
-    .chip{
-      display:inline-flex; align-items:center; gap:7px; min-height:38px; padding:0 12px; border-radius:999px; border:1px solid var(--line);
-      background:var(--panel); color:var(--text); box-shadow:var(--shadow-soft); white-space:nowrap; font-size:12px; font-weight:700;
-      cursor:pointer; appearance:none; flex:0 0 auto;
-    }
+    .chip{display:inline-flex; align-items:center; gap:7px; min-height:38px; padding:0 12px; border-radius:999px; border:1px solid var(--line); background:var(--panel); color:var(--text); box-shadow:var(--shadow-soft); white-space:nowrap; font-size:12px; font-weight:700; cursor:pointer; appearance:none; flex:0 0 auto}
     .chip.active{background:linear-gradient(180deg, rgba(37,99,235,.12) 0%, rgba(37,99,235,.08) 100%); border-color:rgba(37,99,235,.18)}
     .chip .dot{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px rgba(37,99,235,.09)}
-
     .feedTop{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px}
     .feedTop .search{flex:1}
-
-    .input{
-      width:100%; min-height:46px; padding:13px 14px; border-radius:16px; border:1px solid rgba(148,163,184,.22);
-      background:rgba(255,255,255,.92); color:var(--text); font:inherit; outline:none
-    }
+    .input{width:100%; min-height:46px; padding:13px 14px; border-radius:16px; border:1px solid rgba(148,163,184,.22); background:rgba(255,255,255,.92); color:var(--text); font:inherit; outline:none}
     html[data-theme="dark"] .input{background:rgba(15,23,42,.66); border-color:rgba(148,163,184,.16)}
-
-    select.input{
-      appearance:none;
-      background-image:linear-gradient(45deg, transparent 50%, currentColor 50%),linear-gradient(135deg, currentColor 50%, transparent 50%);
-      background-position:calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px);
-      background-size:5px 5px,5px 5px;
-      background-repeat:no-repeat;
-      padding-right:36px
-    }
-
+    select.input{appearance:none; background-image:linear-gradient(45deg, transparent 50%, currentColor 50%),linear-gradient(135deg, currentColor 50%, transparent 50%); background-position:calc(100% - 18px) calc(1em + 2px), calc(100% - 13px) calc(1em + 2px); background-size:5px 5px,5px 5px; background-repeat:no-repeat; padding-right:36px}
     .feedList{display:grid; gap:10px}
-
-    .listingCard{
-      border-radius:24px;
-      background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(248,250,252,.98) 100%);
-      border:1px solid var(--line);
-      box-shadow:var(--shadow-soft);
-      overflow:hidden;
-      display:grid;
-      grid-template-columns:140px 1fr;
-      min-height:150px;
-      text-decoration:none;
-      color:inherit;
-    }
+    .listingCard{border-radius:24px; background:linear-gradient(180deg, rgba(255,255,255,.96) 0%, rgba(248,250,252,.98) 100%); border:1px solid var(--line); box-shadow:var(--shadow-soft); overflow:hidden; display:grid; grid-template-columns:140px 1fr; min-height:150px; text-decoration:none; color:inherit}
     html[data-theme="dark"] .listingCard{background:linear-gradient(180deg, rgba(30,41,59,.96) 0%, rgba(15,23,42,.94) 100%)}
-    .listingImg{
-      background:var(--panel);
-      background-size:cover;
-      background-position:center;
-      position:relative;
-      min-height:100%;
-    }
-    .listingImg::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:linear-gradient(180deg, rgba(15,23,42,0) 20%, rgba(15,23,42,.22) 100%);
-    }
+    .listingImg{background:var(--panel); background-size:cover; background-position:center; position:relative; min-height:100%}
+    .listingImg::after{content:""; position:absolute; inset:0; background:linear-gradient(180deg, rgba(15,23,42,0) 20%, rgba(15,23,42,.22) 100%)}
     .listingBody{padding:14px; display:grid; gap:12px; min-width:0}
     .listingTop{display:flex; justify-content:space-between; gap:10px; align-items:flex-start}
-    .listingTop strong{
-      display:block; font-size:16px; line-height:1.25; letter-spacing:-.01em;
-      overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
-    }
+    .listingTop strong{display:block; font-size:16px; line-height:1.25; letter-spacing:-.01em; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical}
     .price{flex:0 0 auto; font-size:18px; font-weight:900; letter-spacing:-.03em; color:var(--accent); white-space:nowrap}
-
-    .metaGrid{
-      display:grid;
-      grid-template-columns:repeat(2, minmax(0, 1fr));
-      gap:8px;
-    }
-    .infoBox{
-      padding:10px 11px;
-      border-radius:16px;
-      background:rgba(241,245,249,.96);
-      border:1px solid var(--line);
-      min-width:0;
-    }
+    .metaGrid{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:8px}
+    .infoBox{padding:10px 11px; border-radius:16px; background:rgba(241,245,249,.96); border:1px solid var(--line); min-width:0}
     html[data-theme="dark"] .infoBox{background:rgba(30,41,59,.92)}
     .infoBox .k{display:block; font-size:10px; color:var(--muted); text-transform:uppercase; letter-spacing:.08em; font-weight:800; margin-bottom:5px}
     .infoBox .v{display:block; font-size:13px; font-weight:800; line-height:1.25; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
-    .desc{
-      font-size:12px; line-height:1.5; color:var(--muted);
-      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;
-    }
-
+    .desc{font-size:12px; line-height:1.5; color:var(--muted); display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden}
     .metaRow{display:flex; flex-wrap:wrap; gap:7px; align-items:center}
-    .tag{
-      display:inline-flex; align-items:center; gap:5px; padding:6px 9px; border-radius:999px;
-      background:rgba(241,245,249,.96); border:1px solid var(--line); font-size:11px; font-weight:800; color:var(--text)
-    }
+    .tag{display:inline-flex; align-items:center; gap:5px; padding:6px 9px; border-radius:999px; background:rgba(241,245,249,.96); border:1px solid var(--line); font-size:11px; font-weight:800; color:var(--text)}
     html[data-theme="dark"] .tag{background:rgba(30,41,59,.92)}
     .tag.good{background:rgba(22,163,74,.10); border-color:rgba(22,163,74,.16)}
     .tag.warn{background:rgba(217,119,6,.10); border-color:rgba(217,119,6,.16)}
-    .tag.danger{background:rgba(239,68,68,.10); border-color:rgba(239,68,68,.16)}
     .tag.link{color:var(--accent)}
-
-    .footer{display:flex; gap:8px; flex-wrap:wrap}
-    .empty{
-      padding:18px;
-      border-radius:20px;
-      border:1px dashed rgba(148,163,184,.32);
-      background:rgba(255,255,255,.72);
-      color:var(--muted);
-      line-height:1.5
-    }
-
+    .empty{padding:18px; border-radius:20px; border:1px dashed rgba(148,163,184,.32); background:rgba(255,255,255,.72); color:var(--muted); line-height:1.5}
     .toolbar{display:grid; gap:10px; margin-bottom:14px}
     .row{display:grid; grid-template-columns:1.3fr .7fr; gap:10px}
     .pillBar{display:flex; gap:8px; flex-wrap:wrap}
     .pill{padding:8px 12px; border-radius:999px; border:1px solid var(--line); background:rgba(255,255,255,.82); font-size:12px; font-weight:700; color:var(--muted)}
     .pill.active{background:rgba(37,99,235,.10); color:var(--text); border-color:rgba(37,99,235,.16)}
-
-    .sheetWrap{
-      position:fixed; inset:auto 0 0 0; z-index:45; display:none; align-items:flex-end; justify-content:center; background:rgba(15,23,42,.44); backdrop-filter:blur(8px)
-    }
+    .sheetWrap{position:fixed; inset:auto 0 0 0; z-index:45; display:none; align-items:flex-end; justify-content:center; background:rgba(15,23,42,.44); backdrop-filter:blur(8px)}
     .sheetWrap.show{display:flex}
-    .sheet{
-      width:min(100%,900px); max-height:90vh; overflow:auto;
-      background:linear-gradient(180deg, var(--panel-strong) 0%, rgba(255,255,255,.98) 100%);
-      border:1px solid var(--line); border-radius:30px 30px 0 0; box-shadow:var(--shadow); padding:16px
-    }
+    .sheet{width:min(100%,980px); max-height:90vh; overflow:auto; background:linear-gradient(180deg, var(--panel-strong) 0%, rgba(255,255,255,.98) 100%); border:1px solid var(--line); border-radius:30px 30px 0 0; box-shadow:var(--shadow); padding:16px}
     html[data-theme="dark"] .sheet{background:linear-gradient(180deg, rgba(17,24,39,.99) 0%, rgba(17,24,39,.96) 100%)}
     .sheetHead{display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:12px}
     .sheetHead h3{margin:0; font-size:20px; letter-spacing:-.02em}
-    .closeBtn{width:44px; height:44px; border-radius:16px; border:1px solid var(--line); background:var(--panel); color:var(--text); font-size:18px}
-
+    .closeBtn{width:44px; height:44px; border-radius:16px; border:1px solid var(--line); background:var(--panel); color:var(--text); font-size:18px; cursor:pointer}
     .field{margin-bottom:12px}
     .field label{display:block; font-size:12px; color:var(--muted); margin:0 0 6px 2px}
     .grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
     .grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:10px}
     .note{padding:12px 14px; border-radius:16px; border:1px solid var(--line); background:var(--panel); color:var(--muted); font-size:12px; line-height:1.5}
-
     .smallBtnRow{display:flex; gap:8px; flex-wrap:wrap}
-    .btn{
-      border:none; cursor:pointer; font:inherit; font-weight:800; padding:12px 14px; border-radius:16px;
-      background:linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-      color:#fff;
-      box-shadow:0 14px 24px rgba(37,99,235,.18);
-      transition:transform .12s ease, filter .12s ease, opacity .12s ease;
-    }
-    .btn.secondary{
-      background:linear-gradient(180deg, rgba(241,245,249,.98) 0%, rgba(226,232,240,.98) 100%);
-      color:var(--text); border:1px solid rgba(148,163,184,.18); box-shadow:var(--shadow-soft)
-    }
+    .btn{border:none; cursor:pointer; font:inherit; font-weight:800; padding:12px 14px; border-radius:16px; background:linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%); color:#fff; box-shadow:0 14px 24px rgba(37,99,235,.18); transition:transform .12s ease, filter .12s ease, opacity .12s ease}
+    .btn.secondary{background:linear-gradient(180deg, rgba(241,245,249,.98) 0%, rgba(226,232,240,.98) 100%); color:var(--text); border:1px solid rgba(148,163,184,.18); box-shadow:var(--shadow-soft)}
     html[data-theme="dark"] .btn.secondary{background:linear-gradient(180deg, rgba(30,41,59,.98) 0%, rgba(15,23,42,.96) 100%)}
     .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(148,163,184,.18); box-shadow:none}
     .btn.danger{background:linear-gradient(180deg, #ef4444 0%, #dc2626 100%)}
     .btn:active,.iconBtn:active,.chip:active,.listingCard:active,.btn:active{transform:scale(.985)}
     .btn:disabled{opacity:.45; cursor:not-allowed; transform:none}
-
-    .toastWrap{
-      position:fixed; left:50%; bottom:126px; transform:translateX(-50%); z-index:60;
-      width:min(92vw,430px); display:grid; gap:10px; pointer-events:none
-    }
-    .toast{
-      background:rgba(17,24,39,.96); color:#fff; border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:12px 14px;
-      box-shadow:0 18px 42px rgba(15,23,42,.20); display:flex; justify-content:space-between; align-items:center; gap:12px; font-size:13px; animation:toastIn .22s ease
-    }
+    .toastWrap{position:fixed; left:50%; bottom:126px; transform:translateX(-50%); z-index:60; width:min(92vw,430px); display:grid; gap:10px; pointer-events:none}
+    .toast{background:rgba(17,24,39,.96); color:#fff; border:1px solid rgba(255,255,255,.08); border-radius:18px; padding:12px 14px; box-shadow:0 18px 42px rgba(15,23,42,.20); font-size:13px; animation:toastIn .22s ease}
     html[data-theme="light"] .toast{background:#fff; color:var(--text); border-color:var(--line)}
     @keyframes toastIn{from{opacity:0; transform:translateY(10px) scale(.98)}to{opacity:1; transform:none}}
-
-    .navWrap{
-      position:fixed; left:0; right:0; bottom:0; z-index:30; padding:10px 12px calc(12px + env(safe-area-inset-bottom));
-      background:linear-gradient(180deg, rgba(245,247,251,.10) 0%, rgba(245,247,251,.82) 100%); pointer-events:none
-    }
+    .navWrap{position:fixed; left:0; right:0; bottom:0; z-index:30; padding:10px 12px calc(12px + env(safe-area-inset-bottom)); background:linear-gradient(180deg, rgba(245,247,251,.10) 0%, rgba(245,247,251,.82) 100%); pointer-events:none}
     html[data-theme="dark"] .navWrap{background:linear-gradient(180deg, rgba(7,17,31,.10) 0%, rgba(7,17,31,.88) 100%)}
-    .nav{
-      width:min(100%,900px); margin:0 auto; background:rgba(255,255,255,.74); border:1px solid rgba(148,163,184,.18); border-radius:26px;
-      box-shadow:0 18px 42px rgba(15,23,42,.12); backdrop-filter:var(--glass); display:grid; grid-template-columns:repeat(4,1fr); gap:6px; pointer-events:auto; padding:10px
-    }
+    .nav{width:min(100%,980px); margin:0 auto; background:rgba(255,255,255,.74); border:1px solid rgba(148,163,184,.18); border-radius:26px; box-shadow:0 18px 42px rgba(15,23,42,.12); backdrop-filter:var(--glass); display:grid; grid-template-columns:repeat(4,1fr); gap:6px; pointer-events:auto; padding:10px}
     html[data-theme="dark"] .nav{background:rgba(15,23,42,.78); border-color:rgba(148,163,184,.14)}
-    .navBtn{
-      border:none; background:transparent; border-radius:18px; min-height:64px; cursor:pointer; color:var(--muted);
-      display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; font:inherit; font-size:11px; font-weight:800; appearance:none
-    }
+    .navBtn{border:none; background:transparent; border-radius:18px; min-height:64px; cursor:pointer; color:var(--muted); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; font:inherit; font-size:11px; font-weight:800; appearance:none}
     .navBtn .ico{font-size:19px; line-height:1}
     .navBtn.active{color:var(--text); background:linear-gradient(180deg, rgba(37,99,235,.12) 0%, rgba(37,99,235,.08) 100%); border:1px solid rgba(37,99,235,.14); transform:translateY(-1px)}
-
-    @media (max-width: 700px){
-      .statsGrid,.grid2,.grid3{grid-template-columns:1fr 1fr}
-      .listingCard{grid-template-columns:108px 1fr}
-    }
-    @media (max-width: 520px){
-      .app{padding-left:12px; padding-right:12px}
-      .topbar{margin-left:-12px; margin-right:-12px}
-      .controls,.row,.grid2,.grid3,.statsGrid{grid-template-columns:1fr}
-      .listingCard{grid-template-columns:1fr}
-      .listingImg{height:180px}
-      .heroTop{flex-direction:column}
-      .feedTop{flex-direction:column; align-items:stretch}
-      .nav{grid-template-columns:repeat(4,1fr)}
-      .brandText strong{font-size:17px}
-      .heroTop h3{font-size:20px}
-    }
+    @media (max-width:700px){ .statsGrid,.grid2,.grid3{grid-template-columns:1fr 1fr}; .listingCard{grid-template-columns:108px 1fr} }
+    @media (max-width:520px){ .app{padding-left:12px; padding-right:12px} .topbar{margin-left:-12px; margin-right:-12px} .controls,.row,.grid2,.grid3,.statsGrid{grid-template-columns:1fr} .listingCard{grid-template-columns:1fr} .listingImg{height:180px} .heroTop{flex-direction:column} .feedTop{flex-direction:column; align-items:stretch} .nav{grid-template-columns:repeat(4,1fr)} .brandText strong{font-size:17px} .heroTop h3{font-size:20px} }
   </style>
 </head>
 <body>
@@ -408,30 +175,22 @@
         </div>
 
         <div class="panel pad">
-          <div class="subtleTitle">Portalai</div>
+          <div class="subtleTitle" style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;font-weight:900;margin-bottom:8px">Portalai</div>
           <div class="portalWall" id="sourceWall"></div>
-          <div class="scrollHint">Įjungti portalai bus naudojami paieškai ir įspėjimams.</div>
+          <div class="scrollHint" style="font-size:11px;color:var(--muted);margin-top:4px">Įjungti portalai bus naudojami paieškai ir įspėjimams.</div>
         </div>
 
         <div class="panel pad">
           <div class="feedTop">
             <div style="min-width:0;flex:1">
-              <div class="subtleTitle">Rasti variantai</div>
-              <div class="scrollHint" id="resultsHint">Atitinkančių skelbimų sąrašas.</div>
+              <div class="subtleTitle" style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;font-weight:900;margin-bottom:8px">Rasti variantai</div>
+              <div class="scrollHint" id="resultsHint" style="font-size:11px;color:var(--muted);margin-top:4px">Atitinkančių skelbimų sąrašas.</div>
             </div>
-            <div style="width:160px;flex:0 0 auto">
-              <select class="input" id="sortBy">
-                <option value="newest">Naujausi</option>
-                <option value="priceAsc">Kaina ↑</option>
-                <option value="priceDesc">Kaina ↓</option>
-                <option value="yearDesc">Metai ↓</option>
-              </select>
-            </div>
+            <div style="width:160px;flex:0 0 auto"><select class="input" id="sortBy"><option value="newest">Naujausi</option><option value="priceAsc">Kaina ↑</option><option value="priceDesc">Kaina ↓</option><option value="yearDesc">Metai ↓</option></select></div>
           </div>
-
           <div class="search"><input class="input" id="searchInput" placeholder="Paieška: markė, modelis, miestas..." /></div>
           <div class="filtersBar" id="quickChips" style="margin-top:10px"></div>
-          <div class="divider" style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
+          <div style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
           <div class="feedList" id="feedList"></div>
           <div id="emptyFeed" class="empty" style="display:none">Šiuo metu niekas neatitinka tavo filtrų. Pakoreguok kainą arba įkelk naujus duomenis.</div>
         </div>
@@ -439,101 +198,54 @@
     </div>
 
     <div class="view" id="view-rules">
-      <div class="sectionHead"><h2>Filtrai</h2><span>kas turi būti rodomas</span></div>
+      <div class="sectionHead" style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0 4px 10px"><h2 style="margin:0;font-size:16px;letter-spacing:-.02em;font-weight:900">Filtrai</h2><span style="font-size:11px;color:var(--muted);background:rgba(148,163,184,.10);border:1px solid rgba(148,163,184,.14);padding:7px 10px;border-radius:999px;white-space:nowrap">kas turi būti rodomas</span></div>
       <div class="panel pad">
-        <div class="kpiRow" style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px">
-          <div class="kpi"><div class="label">Bendras filtras</div><div class="value" id="ruleModelLabel">SUV iki 3000 €</div><div class="hint">automatiškai taikoma paieškai</div></div>
-          <div class="kpi"><div class="label">Maks. kaina</div><div class="value" id="rulePriceLabel">3000 €</div><div class="hint">įspėjimas pagal kainą</div></div>
-        </div>
-        <div class="divider" style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
-
+        <div class="grid2"><div class="miniStat"><div class="label">Bendras filtras</div><div class="value" id="ruleModelLabel">SUV iki 3000 €</div><div class="hint">automatiškai taikoma paieškai</div></div><div class="miniStat"><div class="label">Maks. kaina</div><div class="value" id="rulePriceLabel">3000 €</div><div class="hint">įspėjimas pagal kainą</div></div></div>
+        <div style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
         <div class="grid2">
           <div class="field"><label>Backend URL</label><input class="input" id="backendUrl" placeholder="http://127.0.0.1:5000/data" /></div>
-          <div class="field"><label>Rikiavimas</label>
-            <select class="input" id="defaultSort">
-              <option value="newest">Naujausi</option>
-              <option value="priceAsc">Kaina ↑</option>
-              <option value="priceDesc">Kaina ↓</option>
-              <option value="yearDesc">Metai ↓</option>
-            </select>
-          </div>
+          <div class="field"><label>Rikiavimas</label><select class="input" id="defaultSort"><option value="newest">Naujausi</option><option value="priceAsc">Kaina ↑</option><option value="priceDesc">Kaina ↓</option><option value="yearDesc">Metai ↓</option></select></div>
         </div>
-
         <div class="grid3">
           <div class="field"><label>Markė</label><input class="input" id="ruleMake" placeholder="Kia" /></div>
           <div class="field"><label>Modelis</label><input class="input" id="ruleModel" placeholder="Sorento" /></div>
           <div class="field"><label>Max. kaina €</label><input class="input" id="ruleMaxPrice" type="number" min="0" step="1" placeholder="3000" /></div>
         </div>
-
         <div class="grid3">
           <div class="field"><label>Min. metai</label><input class="input" id="ruleMinYear" type="number" min="1960" step="1" placeholder="2005" /></div>
           <div class="field"><label>Max. rida km</label><input class="input" id="ruleMaxMileage" type="number" min="0" step="1000" placeholder="250000" /></div>
           <div class="field"><label>Miestas</label><input class="input" id="ruleCity" placeholder="Vilnius" /></div>
         </div>
-
         <div class="grid2">
-          <div class="field"><label>Kuras</label>
-            <select class="input" id="ruleFuel">
-              <option value="">Bet koks</option>
-              <option value="diesel">Dyzelis</option>
-              <option value="petrol">Benzinas</option>
-              <option value="hybrid">Hibridas</option>
-              <option value="electric">Elektra</option>
-              <option value="lpg">Dujos</option>
-            </select>
-          </div>
-          <div class="field"><label>Pavarų dėžė</label>
-            <select class="input" id="ruleGearbox">
-              <option value="">Bet kokia</option>
-              <option value="automatic">Automatinė</option>
-              <option value="manual">Mechaninė</option>
-            </select>
-          </div>
+          <div class="field"><label>Kuras</label><select class="input" id="ruleFuel"><option value="">Bet koks</option><option value="diesel">Dyzelis</option><option value="petrol">Benzinas</option><option value="hybrid">Hibridas</option><option value="electric">Elektra</option><option value="lpg">Dujos</option></select></div>
+          <div class="field"><label>Pavarų dėžė</label><select class="input" id="ruleGearbox"><option value="">Bet kokia</option><option value="automatic">Automatinė</option><option value="manual">Mechaninė</option></select></div>
         </div>
-
         <div class="grid2">
           <div class="field"><label>Įtraukti žodžius</label><textarea class="input" id="ruleKeywords" style="min-height:106px;resize:vertical" placeholder="4x4, AWD, facelift"></textarea></div>
           <div class="field"><label>Išmesti žodžius</label><textarea class="input" id="ruleExclude" style="min-height:106px;resize:vertical" placeholder="daužtas, anglija, projektas"></textarea></div>
         </div>
-
         <div class="field">
           <label>Įspėjimai</label>
           <div class="panel pad" style="box-shadow:none;padding:12px 14px;border-radius:18px">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px">
-              <div>
-                <strong style="display:block;font-size:14px">Push notifications</strong>
-                <span style="display:block;font-size:12px;color:var(--muted);margin-top:3px">Pranešimai apie naujus skelbimus, atitinkančius filtrą.</span>
-              </div>
+              <div><strong style="display:block;font-size:14px">Push notifications</strong><span style="display:block;font-size:12px;color:var(--muted);margin-top:3px">Pranešimai apie naujus skelbimus, atitinkančius filtrą.</span></div>
               <div class="right"><div class="toggleWrap" id="notifToggle" style="width:56px;height:34px;border-radius:999px;background:var(--panel);border:1px solid var(--line);position:relative;cursor:pointer;flex:0 0 auto"></div></div>
             </div>
           </div>
         </div>
-
-        <div class="smallBtnRow">
-          <button class="btn" id="saveRulesBtn">Išsaugoti filtrus</button>
-          <button class="btn secondary" id="resetRulesBtn">Atstatyti</button>
-          <button class="btn secondary" id="requestNotifBtn">Leisti įspėjimus</button>
-        </div>
-
-        <div class="divider" style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
-        <div class="note"><strong style="color:var(--text)">Kaip veikia:</strong> app paima JSON iš tavo backend'o. Tinka masyvas arba <code>{\"listings\":[...]}</code> / <code>{\"data\":[...]}</code>.</div>
+        <div class="smallBtnRow"><button class="btn" id="saveRulesBtn">Išsaugoti filtrus</button><button class="btn secondary" id="resetRulesBtn">Atstatyti</button><button class="btn secondary" id="requestNotifBtn">Leisti įspėjimus</button></div>
+        <div style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
+        <div class="note"><strong style="color:var(--text)">Kaip veikia:</strong> app paima JSON iš tavo backend'o. Tinka masyvas arba <code>{"listings":[...]}</code> / <code>{"data":[...]}</code>.</div>
       </div>
     </div>
 
     <div class="view" id="view-import">
-      <div class="sectionHead"><h2>Importas</h2><span>įkelk skelbimus</span></div>
+      <div class="sectionHead" style="display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:0 4px 10px"><h2 style="margin:0;font-size:16px;letter-spacing:-.02em;font-weight:900">Importas</h2><span style="font-size:11px;color:var(--muted);background:rgba(148,163,184,.10);border:1px solid rgba(148,163,184,.14);padding:7px 10px;border-radius:999px;white-space:nowrap">įkelk skelbimus</span></div>
       <div class="panel pad">
         <div class="note">Čia gali įklijuoti savo backend'o sugeneruotą JSON. Skelbimai bus išrūšiuoti nuo naujausių ir pritaikyti pagal tavo filtrą.</div>
-        <div class="field" style="margin-top:12px">
-          <label>JSON</label>
-          <textarea class="input" id="jsonInput" style="min-height:190px;resize:vertical" placeholder='{"listings":[{"portal":"Autogidas","title":"Toyota RAV4 2.0","price":2950,"year":2006,"body":"suv","fuel":"diesel","gearbox":"manual","mileage":242000,"city":"Vilnius","phone":"+37060000000","engine":"2.0 D-4D","description":"Tvarkingas, naujai aptarnautas.","url":"https://...","image":"https://...","publishedAt":"2026-04-30T09:00:00+03:00"}]}'></textarea>
-        </div>
-        <div class="smallBtnRow">
-          <button class="btn" id="importJsonBtn">Importuoti JSON</button>
-          <button class="btn secondary" id="seedBtn">Demo</button>
-          <button class="btn danger" id="clearBtn">Išvalyti viską</button>
-        </div>
-        <div class="divider" style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
+        <div class="field" style="margin-top:12px"><label>JSON</label><textarea class="input" id="jsonInput" style="min-height:190px;resize:vertical" placeholder='{"listings":[{"portal":"Autogidas","title":"Toyota RAV4 2.0","price":2950,"year":2006,"body":"suv","fuel":"diesel","gearbox":"manual","mileage":242000,"city":"Vilnius","phone":"+37060000000","engine":"2.0 D-4D","description":"Tvarkingas, naujai aptarnautas.","url":"https://...","image":"https://...","publishedAt":"2026-04-30T09:00:00+03:00"}]}'></textarea></div>
+        <div class="smallBtnRow"><button class="btn" id="importJsonBtn">Importuoti JSON</button><button class="btn secondary" id="seedBtn">Demo</button><button class="btn danger" id="clearBtn">Išvalyti viską</button></div>
+        <div style="height:1px;background:linear-gradient(90deg, transparent 0%, rgba(148,163,184,.18) 12%, rgba(148,163,184,.18) 88%, transparent 100%); margin:14px 0"></div>
         <div class="note"><strong style="color:var(--text)">Paskutinis patikrinimas:</strong> <span id="lastSyncText">dar netikrinta.</span></div>
       </div>
     </div>
@@ -543,23 +255,13 @@
         <div class="sheetHead"><h3>Nustatymai</h3><button class="closeBtn" id="closeSheetBtn">✕</button></div>
         <div class="rowGap">
           <div class="panel pad" style="box-shadow:none">
-            <div class="subtleTitle">Bendri</div>
-            <div class="grid2">
-              <div class="field"><label>Temos režimas</label><select class="input" id="themeSelect"><option value="light">Šviesi</option><option value="dark">Tamsi</option></select></div>
-              <div class="field"><label>Automatinis rikiavimas</label><select class="input" id="defaultSort2"><option value="newest">Naujausi</option><option value="priceAsc">Kaina ↑</option><option value="priceDesc">Kaina ↓</option><option value="yearDesc">Metai ↓</option></select></div>
-            </div>
-            <div class="grid2">
-              <div class="field"><label>Auto-įspėjimo garsas</label><select class="input" id="soundSelect"><option value="on">Įjungtas</option><option value="off">Išjungtas</option></select></div>
-              <div class="field"><label>Atnaujinimo intervalas</label><select class="input" id="pollSelect"><option value="10000">10 s</option><option value="15000">15 s</option><option value="30000">30 s</option><option value="60000">60 s</option></select></div>
-            </div>
+            <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;font-weight:900;margin-bottom:8px">Bendri</div>
+            <div class="grid2"><div class="field"><label>Temos režimas</label><select class="input" id="themeSelect"><option value="light">Šviesi</option><option value="dark">Tamsi</option></select></div><div class="field"><label>Atnaujinimo dažnis</label><select class="input" id="pollSelect"><option value="10000">10 s</option><option value="15000">15 s</option><option value="30000">30 s</option><option value="60000">60 s</option></select></div></div>
+            <div class="grid2"><div class="field"><label>Automatinis rikiavimas</label><select class="input" id="defaultSort2"><option value="newest">Naujausi</option><option value="priceAsc">Kaina ↑</option><option value="priceDesc">Kaina ↓</option><option value="yearDesc">Metai ↓</option></select></div><div class="field"><label>Auto-įspėjimo garsas</label><select class="input" id="soundSelect"><option value="on">Įjungtas</option><option value="off">Išjungtas</option></select></div></div>
           </div>
           <div class="panel pad" style="box-shadow:none">
-            <div class="subtleTitle">Greiti veiksmai</div>
-            <div class="smallBtnRow">
-              <button class="btn secondary" id="addDemoMatchBtn">Pridėti testinį atitikimą</button>
-              <button class="btn secondary" id="goToFeedBtn">Į feed</button>
-              <button class="btn secondary" id="goToRulesBtn">Į filtrus</button>
-            </div>
+            <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.10em;font-weight:900;margin-bottom:8px">Greiti veiksmai</div>
+            <div class="smallBtnRow"><button class="btn secondary" id="addDemoMatchBtn">Pridėti testinį atitikimą</button><button class="btn secondary" id="goToFeedBtn">Į feed</button><button class="btn secondary" id="goToRulesBtn">Į filtrus</button></div>
           </div>
         </div>
       </div>
@@ -590,44 +292,16 @@
   ];
 
   const DEFAULT_RULES = {
-    make:'', model:'', body:'suv', maxPrice:3000, minYear:'', maxMileage:'',
-    city:'', fuel:'', gearbox:'', keywords:'', exclude:'',
-    enabledPortals:PORTALS.map(p=>p.id),
-    theme:'light', defaultSort:'newest', sound:'on', notifications:false,
-    pollMs:15000, backendUrl:''
+    make:'', model:'', body:'suv', maxPrice:3000, minYear:'', maxMileage:'', city:'', fuel:'', gearbox:'', keywords:'', exclude:'',
+    enabledPortals:PORTALS.map(p=>p.id), theme:'light', defaultSort:'newest', sound:'on', notifications:false, pollMs:15000, backendUrl:''
   };
 
   const DEMO_LISTINGS = [
-    {
-      id:'demo1', portal:'Autogidas', title:'Toyota RAV4 2.0 D-4D', price:2950, year:2006, body:'suv',
-      fuel:'diesel', gearbox:'manual', mileage:242000, city:'Vilnius', phone:'+37060011122',
-      engine:'2.0 D-4D', description:'Tvarkingas, važiuoja gerai, važiuoklė be pašalinių garsų. Sėsti ir važiuoti.',
-      url:'#', image:'', publishedAt:'2026-04-30T09:00:00+03:00'
-    },
-    {
-      id:'demo2', portal:'Autoplius', title:'Ford Kuga 2.0 TDCi 4x4', price:2900, year:2008, body:'suv',
-      fuel:'diesel', gearbox:'manual', mileage:236000, city:'Kaunas', phone:'+37060022233',
-      engine:'2.0 TDCi', description:'Geras variantas važinėjimui kasdien. Tech. tvarkingas, 4x4 veikia.',
-      url:'#', image:'', publishedAt:'2026-04-30T09:20:00+03:00'
-    },
-    {
-      id:'demo3', portal:'Skelbiu', title:'Honda CR-V 2.2 i-CTDi', price:2500, year:2007, body:'suv',
-      fuel:'diesel', gearbox:'manual', mileage:267000, city:'Šiauliai', phone:'+37060033344',
-      engine:'2.2 i-CTDi', description:'Patikimas modelis, kėbulas sveikas, salone tvarkinga. Be didelių investicijų.',
-      url:'#', image:'', publishedAt:'2026-04-30T08:50:00+03:00'
-    },
-    {
-      id:'demo4', portal:'Autobilis', title:'Peugeot 3008 1.6 HDi', price:2400, year:2009, body:'suv',
-      fuel:'diesel', gearbox:'manual', mileage:255000, city:'Alytus', phone:'+37060044455',
-      engine:'1.6 HDi', description:'Kompaktiškas SUV, ekonomiškas variklis, prižiūrėtas. Tinka miestui ir kelionėms.',
-      url:'#', image:'', publishedAt:'2026-04-30T08:20:00+03:00'
-    },
-    {
-      id:'demo5', portal:'NoriuAuto', title:'Volvo XC90 D5 AWD', price:2800, year:2005, body:'suv',
-      fuel:'diesel', gearbox:'automatic', mileage:298000, city:'Panevėžys', phone:'+37060055566',
-      engine:'2.4 D5', description:'Didelis, komfortiškas, AW D veikia. Reikia kosmetikos, bet techniškai važiuojantis.',
-      url:'#', image:'', publishedAt:'2026-04-30T08:05:00+03:00'
-    }
+    { id:'demo1', portal:'Autogidas', title:'Toyota RAV4 2.0 D-4D', price:2950, year:2006, body:'suv', fuel:'diesel', gearbox:'manual', mileage:242000, city:'Vilnius', phone:'+37060011122', engine:'2.0 D-4D', description:'Tvarkingas, važiuoja gerai, važiuoklė be pašalinių garsų. Sėsti ir važiuoti.', url:'#', image:'', publishedAt:'2026-04-30T09:00:00+03:00' },
+    { id:'demo2', portal:'Autoplius', title:'Ford Kuga 2.0 TDCi 4x4', price:2900, year:2008, body:'suv', fuel:'diesel', gearbox:'manual', mileage:236000, city:'Kaunas', phone:'+37060022233', engine:'2.0 TDCi', description:'Geras variantas važinėjimui kasdien. Tech. tvarkingas, 4x4 veikia.', url:'#', image:'', publishedAt:'2026-04-30T09:20:00+03:00' },
+    { id:'demo3', portal:'Skelbiu', title:'Honda CR-V 2.2 i-CTDi', price:2500, year:2007, body:'suv', fuel:'diesel', gearbox:'manual', mileage:267000, city:'Šiauliai', phone:'+37060033344', engine:'2.2 i-CTDi', description:'Patikimas modelis, kėbulas sveikas, salone tvarkinga. Be didelių investicijų.', url:'#', image:'', publishedAt:'2026-04-30T08:50:00+03:00' },
+    { id:'demo4', portal:'Autobilis', title:'Peugeot 3008 1.6 HDi', price:2400, year:2009, body:'suv', fuel:'diesel', gearbox:'manual', mileage:255000, city:'Alytus', phone:'+37060044455', engine:'1.6 HDi', description:'Kompaktiškas SUV, ekonomiškas variklis, prižiūrėtas. Tinka miestui ir kelionėms.', url:'#', image:'', publishedAt:'2026-04-30T08:20:00+03:00' },
+    { id:'demo5', portal:'NoriuAuto', title:'Volvo XC90 D5 AWD', price:2800, year:2005, body:'suv', fuel:'diesel', gearbox:'automatic', mileage:298000, city:'Panevėžys', phone:'+37060055566', engine:'2.4 D5', description:'Didelis, komfortiškas, AWD veikia. Reikia kosmetikos, bet techniškai važiuojantis.', url:'#', image:'', publishedAt:'2026-04-30T08:05:00+03:00' }
   ];
 
   const $ = (s, r=document) => r.querySelector(s);
@@ -644,103 +318,29 @@
   };
 
   const els = {
-    matchedCount:$('#matchedCount'),
-    sourcesCount:$('#sourcesCount'),
-    pollAge:$('#pollAge'),
-    liveState:$('#liveState'),
-    notifState:$('#notifState'),
-    sourceWall:$('#sourceWall'),
-    feedList:$('#feedList'),
-    emptyFeed:$('#emptyFeed'),
-    resultsHint:$('#resultsHint'),
-    searchInput:$('#searchInput'),
-    sortBy:$('#sortBy'),
-    quickChips:$('#quickChips'),
-    ruleSourceChips:$('#ruleSourceChips'),
-    ruleMake:$('#ruleMake'),
-    ruleModel:$('#ruleModel'),
-    ruleBody:$('#ruleBody'),
-    ruleMaxPrice:$('#ruleMaxPrice'),
-    ruleMinYear:$('#ruleMinYear'),
-    ruleMaxMileage:$('#ruleMaxMileage'),
-    ruleCity:$('#ruleCity'),
-    ruleFuel:$('#ruleFuel'),
-    ruleGearbox:$('#ruleGearbox'),
-    ruleKeywords:$('#ruleKeywords'),
-    ruleExclude:$('#ruleExclude'),
-    saveRulesBtn:$('#saveRulesBtn'),
-    resetRulesBtn:$('#resetRulesBtn'),
-    requestNotifBtn:$('#requestNotifBtn'),
-    notifToggle:$('#notifToggle'),
-    themeSelect:$('#themeSelect'),
-    defaultSort:$('#defaultSort'),
-    defaultSort2:$('#defaultSort2'),
-    soundSelect:$('#soundSelect'),
-    pollSelect:$('#pollSelect'),
-    backendUrl:$('#backendUrl'),
-    sheetWrap:$('#sheetWrap'),
-    settingsBtn:$('#settingsBtn'),
-    closeSheetBtn:$('#closeSheetBtn'),
-    refreshBtn:$('#refreshBtn'),
-    addDemoMatchBtn:$('#addDemoMatchBtn'),
-    seedBtn:$('#seedBtn'),
-    clearBtn:$('#clearBtn'),
-    importJsonBtn:$('#importJsonBtn'),
-    jsonInput:$('#jsonInput'),
-    goToFeedBtn:$('#goToFeedBtn'),
-    goToRulesBtn:$('#goToRulesBtn'),
-    viewButtons:$$('.navBtn'),
-    lastSyncText:$('#lastSyncText'),
-    storageBadge:$('#storageBadge'),
-    ruleMatchBadge:$('#ruleMatchBadge'),
-    ruleModelLabel:$('#ruleModelLabel'),
-    rulePriceLabel:$('#rulePriceLabel'),
-    toastWrap:$('#toastWrap'),
+    matchedCount:$('#matchedCount'), sourcesCount:$('#sourcesCount'), pollAge:$('#pollAge'), liveState:$('#liveState'), notifState:$('#notifState'),
+    sourceWall:$('#sourceWall'), feedList:$('#feedList'), emptyFeed:$('#emptyFeed'), resultsHint:$('#resultsHint'), searchInput:$('#searchInput'), sortBy:$('#sortBy'),
+    quickChips:$('#quickChips'), ruleSourceChips:$('#ruleSourceChips'), ruleMake:$('#ruleMake'), ruleModel:$('#ruleModel'), ruleBody:$('#ruleBody'), ruleMaxPrice:$('#ruleMaxPrice'),
+    ruleMinYear:$('#ruleMinYear'), ruleMaxMileage:$('#ruleMaxMileage'), ruleCity:$('#ruleCity'), ruleFuel:$('#ruleFuel'), ruleGearbox:$('#ruleGearbox'), ruleKeywords:$('#ruleKeywords'),
+    ruleExclude:$('#ruleExclude'), saveRulesBtn:$('#saveRulesBtn'), resetRulesBtn:$('#resetRulesBtn'), requestNotifBtn:$('#requestNotifBtn'), notifToggle:$('#notifToggle'),
+    themeSelect:$('#themeSelect'), defaultSort:$('#defaultSort'), defaultSort2:$('#defaultSort2'), soundSelect:$('#soundSelect'), pollSelect:$('#pollSelect'), backendUrl:$('#backendUrl'),
+    sheetWrap:$('#sheetWrap'), settingsBtn:$('#settingsBtn'), closeSheetBtn:$('#closeSheetBtn'), refreshBtn:$('#refreshBtn'), addDemoMatchBtn:$('#addDemoMatchBtn'), seedBtn:$('#seedBtn'), clearBtn:$('#clearBtn'),
+    importJsonBtn:$('#importJsonBtn'), jsonInput:$('#jsonInput'), goToFeedBtn:$('#goToFeedBtn'), goToRulesBtn:$('#goToRulesBtn'), viewButtons:$$('.navBtn'), lastSyncText:$('#lastSyncText'),
+    ruleModelLabel:$('#ruleModelLabel'), rulePriceLabel:$('#rulePriceLabel'), toastWrap:$('#toastWrap')
   };
 
-  function loadRules(){
-    try { return {...DEFAULT_RULES, ...(JSON.parse(localStorage.getItem('auto_monitor_rules') || '{}'))}; }
-    catch { return {...DEFAULT_RULES}; }
-  }
-  function loadItems(){
-    try { const raw = JSON.parse(localStorage.getItem('auto_monitor_listings') || '[]'); return Array.isArray(raw) ? raw : []; }
-    catch { return []; }
-  }
-  function loadSeen(){
-    try { const raw = JSON.parse(localStorage.getItem('auto_monitor_seen') || '[]'); return Array.isArray(raw) ? raw : []; }
-    catch { return []; }
-  }
+  function loadRules(){ try { return {...DEFAULT_RULES, ...(JSON.parse(localStorage.getItem('auto_monitor_rules') || '{}'))}; } catch { return {...DEFAULT_RULES}; } }
+  function loadItems(){ try { const raw = JSON.parse(localStorage.getItem('auto_monitor_listings') || '[]'); return Array.isArray(raw) ? raw : []; } catch { return []; } }
+  function loadSeen(){ try { const raw = JSON.parse(localStorage.getItem('auto_monitor_seen') || '[]'); return Array.isArray(raw) ? raw : []; } catch { return []; } }
   function saveRules(){ localStorage.setItem('auto_monitor_rules', JSON.stringify(state.rules)); }
   function saveItems(){ localStorage.setItem('auto_monitor_listings', JSON.stringify(state.items)); }
   function saveSeen(){ localStorage.setItem('auto_monitor_seen', JSON.stringify([...state.seen].slice(-5000))); }
-
   function normalize(v){ return String(v ?? '').toLowerCase().trim(); }
   function money(v){ return new Intl.NumberFormat('lt-LT').format(Number(v || 0)) + ' €'; }
-  function ageShort(ts){
-    const diff = Math.max(0, Date.now() - new Date(ts).getTime());
-    const sec = Math.floor(diff / 1000);
-    if (sec < 60) return sec + ' s';
-    const mins = Math.floor(sec / 60);
-    if (mins < 60) return mins + ' min';
-    const h = Math.floor(mins / 60);
-    if (h < 24) return h + ' val';
-    return Math.floor(h / 24) + ' d.';
-  }
-  function ageFull(ts){
-    try {
-      return new Intl.DateTimeFormat('lt-LT', { dateStyle:'medium', timeStyle:'short' }).format(new Date(ts));
-    } catch {
-      return ts || '';
-    }
-  }
+  function ageShort(ts){ const diff = Math.max(0, Date.now() - new Date(ts).getTime()); const sec = Math.floor(diff / 1000); if (sec < 60) return sec + ' s'; const mins = Math.floor(sec / 60); if (mins < 60) return mins + ' min'; const h = Math.floor(mins / 60); if (h < 24) return h + ' val'; return Math.floor(h / 24) + ' d.'; }
+  function ageFull(ts){ try { return new Intl.DateTimeFormat('lt-LT', { dateStyle:'medium', timeStyle:'short' }).format(new Date(ts)); } catch { return ts || ''; } }
   function parseCsv(text){ return normalize(text).split(',').map(s => s.trim()).filter(Boolean); }
-
-  function firstNonEmpty(...vals){
-    for (const v of vals) {
-      if (v !== undefined && v !== null && String(v).trim() !== '') return String(v);
-    }
-    return '';
-  }
+  function firstNonEmpty(...vals){ for (const v of vals) { if (v !== undefined && v !== null && String(v).trim() !== '') return String(v); } return ''; }
 
   function normalizeItem(item){
     const price = Number(String(item.price ?? '').replace(/[^\d]/g, '')) || Number(item.price) || 0;
@@ -748,51 +348,19 @@
     const title = firstNonEmpty(item.title, item.model, item.name);
     return {
       id: item.id || `${normalize(item.portal)}|${normalize(title)}|${price}|${year}|${normalize(item.city)}|${normalize(item.url)}`,
-      portal: item.portal || 'Nežinoma',
-      title,
-      price,
-      year,
-      body: item.body || item.type || 'suv',
-      fuel: item.fuel || '',
-      gearbox: item.gearbox || '',
-      mileage: Number(item.mileage) || '',
-      city: item.city || '',
-      phone: firstNonEmpty(item.phone, item.tel, item.phoneNumber, item.contactPhone),
-      engine: firstNonEmpty(item.engine, item.enginespec, item.engineSize),
-      description: firstNonEmpty(item.description, item.desc, item.text, item.details),
-      url: item.url || '#',
-      image: item.image || item.photo || '',
-      publishedAt: item.publishedAt || item.createdAt || new Date().toISOString()
+      portal: item.portal || 'Nežinoma', title, price, year, body: item.body || item.type || 'suv', fuel: item.fuel || '', gearbox: item.gearbox || '', mileage: Number(item.mileage) || '', city: item.city || '',
+      phone: firstNonEmpty(item.phone, item.tel, item.phoneNumber, item.contactPhone), engine: firstNonEmpty(item.engine, item.enginespec, item.engineSize), description: firstNonEmpty(item.description, item.desc, item.text, item.details),
+      url: item.url || '#', image: item.image || item.photo || '', publishedAt: item.publishedAt || item.createdAt || new Date().toISOString()
     };
   }
 
-  function bodySynonyms(body){
-    const map = {
-      suv:['suv','visureigis','crossover','4x4','awd','allroad'],
-      sedan:['sedan','sedanas'],
-      wagon:['wagon','universalas','avant','estate'],
-      hatch:['hatch','hečbekas','hecbekas'],
-      coupe:['coupe','kupė'],
-      van:['van','vienatūris','micro','mikroautobusas'],
-      pickup:['pickup','pikapas']
-    };
-    return map[body] || [];
-  }
-
+  function bodySynonyms(body){ const map = { suv:['suv','visureigis','crossover','4x4','awd','allroad'], sedan:['sedan','sedanas'], wagon:['wagon','universalas','avant','estate'], hatch:['hatch','hečbekas','hecbekas'], coupe:['coupe','kupė'], van:['van','vienatūris','micro','mikroautobusas'], pickup:['pickup','pikapas'] }; return map[body] || []; }
   function matchesRule(item){
-    const r = state.rules;
-    const title = normalize(item.title);
-    const city = normalize(item.city);
+    const r = state.rules; const title = normalize(item.title); const city = normalize(item.city);
     const hay = [item.title, item.city, item.description, item.engine, item.fuel, item.gearbox, item.body].map(normalize).join(' ');
-    const keywords = parseCsv(r.keywords);
-    const exclude = parseCsv(r.exclude);
-
+    const keywords = parseCsv(r.keywords); const exclude = parseCsv(r.exclude);
     if (r.enabledPortals.length && !r.enabledPortals.includes(item.portal)) return false;
-    if (r.body){
-      const syn = bodySynonyms(r.body);
-      const ok = syn.some(s => hay.includes(s));
-      if (!ok) return false;
-    }
+    if (r.body && !bodySynonyms(r.body).some(s => hay.includes(s))) return false;
     if (r.make && !title.includes(normalize(r.make))) return false;
     if (r.model && !title.includes(normalize(r.model))) return false;
     if (r.maxPrice && Number(item.price) > Number(r.maxPrice)) return false;
@@ -807,487 +375,113 @@
     return true;
   }
 
-  function sortListings(list){
-    const arr = [...list];
-    switch (state.sortBy){
-      case 'priceAsc': return arr.sort((a,b)=>(a.price||0)-(b.price||0) || new Date(b.publishedAt)-new Date(a.publishedAt));
-      case 'priceDesc': return arr.sort((a,b)=>(b.price||0)-(a.price||0) || new Date(b.publishedAt)-new Date(a.publishedAt));
-      case 'yearDesc': return arr.sort((a,b)=>(b.year||0)-(a.year||0) || new Date(b.publishedAt)-new Date(a.publishedAt));
-      default: return arr.sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt));
-    }
-  }
-
+  function sortListings(list){ const arr = [...list]; switch (state.sortBy){ case 'priceAsc': return arr.sort((a,b)=>(a.price||0)-(b.price||0) || new Date(b.publishedAt)-new Date(a.publishedAt)); case 'priceDesc': return arr.sort((a,b)=>(b.price||0)-(a.price||0) || new Date(b.publishedAt)-new Date(a.publishedAt)); case 'yearDesc': return arr.sort((a,b)=>(b.year||0)-(a.year||0) || new Date(b.publishedAt)-new Date(a.publishedAt)); default: return arr.sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt)); } }
   function filteredListings(){ return sortListings(state.items.filter(matchesRule)); }
-
-  function escapeHtml(str){
-    return String(str ?? '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s]));
-  }
-
-  function toast(message, detail=''){
-    const node = document.createElement('div');
-    node.className = 'toast';
-    node.innerHTML = `<div><div style="font-weight:800">${escapeHtml(message)}</div>${detail ? `<div style="color:var(--muted);font-size:12px;margin-top:3px">${escapeHtml(detail)}</div>` : ''}</div>`;
-    els.toastWrap.appendChild(node);
-    setTimeout(() => {
-      node.style.opacity = '0';
-      node.style.transform = 'translateY(10px) scale(.98)';
-      setTimeout(() => node.remove(), 180);
-    }, 2600);
-  }
-
-  function sparkle(){
-    const s = document.createElement('div');
-    s.className = 'spark';
-    s.textContent = '✦';
-    s.style.position = 'fixed';
-    s.style.left = (window.innerWidth * 0.7) + 'px';
-    s.style.top = (window.innerHeight * 0.20) + 'px';
-    s.style.zIndex = 9999;
-    s.style.fontSize = '22px';
-    s.style.pointerEvents = 'none';
-    s.style.transform = 'translate(-50%,-50%)';
-    s.style.animation = 'toastIn .7s ease forwards';
-    document.body.appendChild(s);
-    setTimeout(() => s.remove(), 800);
-  }
+  function escapeHtml(str){ return String(str ?? '').replace(/[&<>"']/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[s])); }
+  function toast(message, detail=''){ const node = document.createElement('div'); node.className = 'toast'; node.innerHTML = `<div><div style="font-weight:800">${escapeHtml(message)}</div>${detail ? `<div style="color:var(--muted);font-size:12px;margin-top:3px">${escapeHtml(detail)}</div>` : ''}</div>`; els.toastWrap.appendChild(node); setTimeout(() => { node.style.opacity='0'; node.style.transform='translateY(10px) scale(.98)'; setTimeout(() => node.remove(), 180); }, 2600); }
+  function sparkle(){ const s = document.createElement('div'); s.textContent='✦'; s.style.position='fixed'; s.style.left=(window.innerWidth*0.7)+'px'; s.style.top=(window.innerHeight*0.20)+'px'; s.style.zIndex=9999; s.style.fontSize='22px'; s.style.pointerEvents='none'; s.style.transform='translate(-50%,-50%)'; s.style.animation='toastIn .7s ease forwards'; document.body.appendChild(s); setTimeout(() => s.remove(), 800); }
 
   function updateSummary(){
     const r = state.rules;
     els.ruleModelLabel.textContent = `${r.make || 'bet kokia markė'} ${r.model || ''}`.trim() || 'SUV iki 3000 €';
     els.rulePriceLabel.textContent = r.maxPrice ? money(r.maxPrice) : '—';
-    els.ruleMake.value = r.make || '';
-    els.ruleModel.value = r.model || '';
-    els.ruleBody.value = r.body || 'suv';
-    els.ruleMaxPrice.value = r.maxPrice || '';
-    els.ruleMinYear.value = r.minYear || '';
-    els.ruleMaxMileage.value = r.maxMileage || '';
-    els.ruleCity.value = r.city || '';
-    els.ruleFuel.value = r.fuel || '';
-    els.ruleGearbox.value = r.gearbox || '';
-    els.ruleKeywords.value = r.keywords || '';
-    els.ruleExclude.value = r.exclude || '';
-    els.themeSelect.value = r.theme || 'light';
-    els.defaultSort.value = r.defaultSort || 'newest';
-    els.defaultSort2.value = r.defaultSort || 'newest';
-    els.soundSelect.value = r.sound || 'on';
-    els.pollSelect.value = String(r.pollMs || 15000);
-    els.backendUrl.value = r.backendUrl || localStorage.getItem('suv_backend_url') || '';
-    els.sortBy.value = state.sortBy || 'newest';
+    els.ruleMake.value = r.make || ''; els.ruleModel.value = r.model || ''; els.ruleBody.value = r.body || 'suv'; els.ruleMaxPrice.value = r.maxPrice || '';
+    els.ruleMinYear.value = r.minYear || ''; els.ruleMaxMileage.value = r.maxMileage || ''; els.ruleCity.value = r.city || ''; els.ruleFuel.value = r.fuel || ''; els.ruleGearbox.value = r.gearbox || '';
+    els.ruleKeywords.value = r.keywords || ''; els.ruleExclude.value = r.exclude || ''; els.themeSelect.value = r.theme || 'light'; els.defaultSort.value = r.defaultSort || 'newest'; els.defaultSort2.value = r.defaultSort || 'newest';
+    els.soundSelect.value = r.sound || 'on'; els.pollSelect.value = String(r.pollMs || 15000); els.backendUrl.value = r.backendUrl || localStorage.getItem('suv_backend_url') || ''; els.sortBy.value = state.sortBy || 'newest';
     els.notifState.textContent = r.notifications ? '🔔 Įspėjimai įjungti' : '🔕 Įspėjimai išjungti';
-    els.pollAge.textContent = ageShort(state.lastPoll);
-    els.sourcesCount.textContent = r.enabledPortals.length;
+    els.pollAge.textContent = ageShort(state.lastPoll); els.sourcesCount.textContent = r.enabledPortals.length;
     const lastSync = localStorage.getItem('auto_monitor_last_sync');
     els.lastSyncText.textContent = lastSync ? `Paskutinis patikrinimas: ${ageFull(Number(lastSync))}` : 'dar netikrinta.';
     document.documentElement.dataset.theme = r.theme || 'light';
-    els.notifToggle.classList.toggle('on', !!r.notifications);
     els.notifToggle.style.background = r.notifications ? 'var(--accent)' : 'var(--panel)';
     els.notifToggle.innerHTML = `<div style="position:absolute;top:3px;left:${r.notifications ? '28px' : '3px'};width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 8px 16px rgba(15,23,42,.16);transition:all .18s ease"></div>`;
-    els.ruleMatchBadge && (els.ruleMatchBadge.textContent = filteredListings().length ? 'aktyvus' : 'nieko nėra');
   }
 
   function renderSources(){
-    const enabled = state.rules.enabledPortals;
-    els.sourceWall.innerHTML = '';
+    const enabled = state.rules.enabledPortals; els.sourceWall.innerHTML = ''; els.ruleSourceChips.innerHTML = '';
     PORTALS.forEach(p => {
       const on = enabled.includes(p.id);
-      const row = document.createElement('div');
-      row.className = 'portalCard';
-      row.innerHTML = `
-        <div style="display:flex;align-items:center;gap:12px;min-width:0">
-          <div class="brandMark" style="width:44px;height:44px;border-radius:16px">${p.emoji}</div>
-          <div style="min-width:0">
-            <strong style="display:block;font-size:14px">${p.id}</strong>
-            <span style="display:block;font-size:12px;color:var(--muted);margin-top:3px;line-height:1.35">${p.desc}</span>
-          </div>
-        </div>
-        <div class="right"><span class="miniBadge ${on ? 'live' : 'off'}" style="display:inline-flex;align-items:center;padding:7px 9px;border-radius:999px;background:${on ? 'rgba(22,163,74,.10)' : 'rgba(148,163,184,.12)'};border:1px solid ${on ? 'rgba(22,163,74,.18)' : 'rgba(148,163,184,.18)'};font-size:11px;font-weight:800">${on ? 'Įjungtas' : 'Išjungtas'}</span><div class="toggleWrap ${on ? 'on' : ''}" data-toggle-source="${p.id}"></div></div>`;
-      els.sourceWall.appendChild(row);
+      const row = document.createElement('div'); row.className = 'portalCard'; row.innerHTML = `<div style="display:flex;align-items:center;gap:12px;min-width:0"><div class="brandMark" style="width:44px;height:44px;border-radius:16px">${p.emoji}</div><div style="min-width:0"><strong style="display:block;font-size:14px">${p.id}</strong><span style="display:block;font-size:12px;color:var(--muted);margin-top:3px;line-height:1.35">${p.desc}</span></div></div><div class="right"><span class="miniBadge" style="display:inline-flex;align-items:center;padding:7px 9px;border-radius:999px;background:${on ? 'rgba(22,163,74,.10)' : 'rgba(148,163,184,.12)'};border:1px solid ${on ? 'rgba(22,163,74,.18)' : 'rgba(148,163,184,.18)'};font-size:11px;font-weight:800">${on ? 'Įjungtas' : 'Išjungtas'}</span><div class="toggleWrap ${on ? 'on' : ''}" data-toggle-source="${p.id}" style="width:56px;height:34px;border-radius:999px;position:relative;cursor:pointer;flex:0 0 auto;background:${on ? 'var(--accent)' : 'var(--panel)'};border:1px solid var(--line)"><div style="position:absolute;top:3px;left:${on ? '28px' : '3px'};width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 8px 16px rgba(15,23,42,.16)"></div></div></div>`; els.sourceWall.appendChild(row);
+      const chip = document.createElement('button'); chip.className = 'chip' + (on ? ' active' : ''); chip.innerHTML = `<span class="dot" style="opacity:${on ? 1 : .22}"></span>${p.id}`; chip.onclick = () => toggleSource(p.id); els.ruleSourceChips.appendChild(chip);
     });
-
-    els.ruleSourceChips.innerHTML = '';
-    PORTALS.forEach(p => {
-      const chip = document.createElement('button');
-      chip.className = 'chip' + (enabled.includes(p.id) ? ' active' : '');
-      chip.innerHTML = `<span class="dot" style="opacity:${enabled.includes(p.id) ? 1 : .22}"></span>${p.id}`;
-      chip.onclick = () => toggleSource(p.id);
-      els.ruleSourceChips.appendChild(chip);
-    });
-
-    $$('.toggleWrap[data-toggle-source]').forEach(el => {
-      el.onclick = () => toggleSource(el.dataset.toggleSource);
-    });
+    $$('.toggleWrap[data-toggle-source]').forEach(el => { el.onclick = () => toggleSource(el.dataset.toggleSource); });
   }
 
   function renderQuickChips(){
-    const chips = [
-      {label:'Naujausi', key:''},
-      {label:'SUV', key:'SUV'},
-      {label:'Iki 3000 €', key:'3000'},
-      {label:'Vilnius', key:'Vilnius'},
-      {label:'Kaunas', key:'Kaunas'},
-      {label:'Dyzelis', key:'dyzelis'}
-    ];
-    els.quickChips.innerHTML = '';
-    chips.forEach(c => {
-      const btn = document.createElement('button');
-      btn.className = 'chip' + (normalize(state.query) === normalize(c.key) ? ' active' : '');
-      btn.textContent = c.label;
-      btn.onclick = () => { state.query = c.key; els.searchInput.value = c.key; renderFeed(); };
-      els.quickChips.appendChild(btn);
-    });
+    const chips = [{label:'Naujausi', key:''},{label:'SUV', key:'SUV'},{label:'Iki 3000 €', key:'3000'},{label:'Vilnius', key:'Vilnius'},{label:'Kaunas', key:'Kaunas'},{label:'Dyzelis', key:'dyzelis'}];
+    els.quickChips.innerHTML = ''; chips.forEach(c => { const btn = document.createElement('button'); btn.className = 'chip' + (normalize(state.query) === normalize(c.key) ? ' active' : ''); btn.textContent = c.label; btn.onclick = () => { state.query = c.key; els.searchInput.value = c.key; renderFeed(); }; els.quickChips.appendChild(btn); });
   }
 
   function renderFeed(){
-    const list = filteredListings();
-    els.matchedCount.textContent = list.length;
-    els.feedList.innerHTML = '';
-    els.emptyFeed.style.display = list.length ? 'none' : 'block';
-    els.resultsHint.textContent = `${list.length} skelb. rodomi pagal filtrus`;
-    state.rules && (els.ruleMatchBadge.textContent = list.length ? 'aktyvus' : 'nieko nėra');
-
+    const list = filteredListings(); els.matchedCount.textContent = list.length; els.feedList.innerHTML = ''; els.emptyFeed.style.display = list.length ? 'none' : 'block'; els.resultsHint.textContent = `${list.length} skelb. rodomi pagal filtrus`;
     list.forEach(item => {
-      const card = document.createElement('a');
-      card.className = 'listingCard matchGlow';
-      card.href = item.url || '#';
-      card.target = '_blank';
-      card.rel = 'noopener';
-
-      const details = [
-        ['Metai', item.year ? `${item.year} m.` : '—'],
-        ['Modelis', item.title || '—'],
-        ['Variklis', item.engine || '—'],
-        ['Kuras', item.fuel || '—'],
-        ['Pavaros', item.gearbox || '—'],
-        ['Rida', item.mileage ? item.mileage.toLocaleString('lt-LT') + ' km' : '—']
-      ];
-
-      card.innerHTML = `
-        <div class="listingImg" style="background-image:${item.image ? `url('${item.image}')` : `linear-gradient(135deg, rgba(37,99,235,.18) 0%, rgba(14,165,233,.08) 100%)`}"></div>
-        <div class="listingBody">
-          <div class="listingTop">
-            <div style="min-width:0;flex:1">
-              <strong>${escapeHtml(item.title)}</strong>
-              <div class="metaRow" style="margin-top:8px">
-                <span class="tag link">🕒 ${ageShort(item.publishedAt)}</span>
-                <span class="tag">${escapeHtml(item.portal)}</span>
-                <span class="tag">${escapeHtml(item.city || '—')}</span>
-              </div>
-            </div>
-            <div class="price">${money(item.price)}</div>
-          </div>
-
-          <div class="metaGrid">
-            ${details.map(([k,v]) => `<div class="infoBox"><span class="k">${escapeHtml(k)}</span><span class="v">${escapeHtml(v)}</span></div>`).join('')}
-          </div>
-
-          ${item.description ? `<div class="desc">${escapeHtml(item.description)}</div>` : ''}
-
-          <div class="metaRow">
-            ${item.phone ? `<span class="tag good">📞 ${escapeHtml(item.phone)}</span>` : `<span class="tag warn">📞 nėra telefono</span>`}
-            ${item.year ? `<span class="tag">📅 ${item.year}</span>` : ''}
-            ${item.body ? `<span class="tag">🚙 ${escapeHtml(item.body)}</span>` : ''}
-          </div>
-        </div>`;
-      els.feedList.appendChild(card);
+      const card = document.createElement('a'); card.className = 'listingCard'; card.href = item.url || '#'; card.target = '_blank'; card.rel = 'noopener';
+      const details = [['Metai', item.year ? `${item.year} m.` : '—'],['Modelis', item.title || '—'],['Variklis', item.engine || '—'],['Kuras', item.fuel || '—'],['Pavaros', item.gearbox || '—'],['Rida', item.mileage ? item.mileage.toLocaleString('lt-LT') + ' km' : '—']];
+      card.innerHTML = `<div class="listingImg" style="background-image:${item.image ? `url('${item.image}')` : `linear-gradient(135deg, rgba(37,99,235,.18) 0%, rgba(14,165,233,.08) 100%)`}"></div><div class="listingBody"><div class="listingTop"><div style="min-width:0;flex:1"><strong>${escapeHtml(item.title)}</strong><div class="metaRow" style="margin-top:8px"><span class="tag link">🕒 ${ageShort(item.publishedAt)}</span><span class="tag">${escapeHtml(item.portal)}</span><span class="tag">${escapeHtml(item.city || '—')}</span></div></div><div class="price">${money(item.price)}</div></div><div class="metaGrid">${details.map(([k,v]) => `<div class="infoBox"><span class="k">${escapeHtml(k)}</span><span class="v">${escapeHtml(v)}</span></div>`).join('')}</div>${item.description ? `<div class="desc">${escapeHtml(item.description)}</div>` : ''}<div class="metaRow">${item.phone ? `<span class="tag good">📞 ${escapeHtml(item.phone)}</span>` : `<span class="tag warn">📞 nėra telefono</span>`}${item.year ? `<span class="tag">📅 ${item.year}</span>` : ''}${item.body ? `<span class="tag">🚙 ${escapeHtml(item.body)}</span>` : ''}</div></div>`; els.feedList.appendChild(card);
     });
   }
 
-  function toggleSource(id){
-    const set = new Set(state.rules.enabledPortals);
-    if (set.has(id)) set.delete(id); else set.add(id);
-    state.rules.enabledPortals = [...set];
-    saveRules();
-    updateSummary();
-    renderSources();
-    renderFeed();
-    toast(`${id}: ${state.rules.enabledPortals.includes(id) ? 'įjungtas' : 'išjungtas'}`);
-  }
-
-  function applyFormToRules(){
-    state.rules.make = els.ruleMake.value.trim();
-    state.rules.model = els.ruleModel.value.trim();
-    state.rules.body = els.ruleBody.value;
-    state.rules.maxPrice = els.ruleMaxPrice.value ? Number(els.ruleMaxPrice.value) : '';
-    state.rules.minYear = els.ruleMinYear.value ? Number(els.ruleMinYear.value) : '';
-    state.rules.maxMileage = els.ruleMaxMileage.value ? Number(els.ruleMaxMileage.value) : '';
-    state.rules.city = els.ruleCity.value.trim();
-    state.rules.fuel = els.ruleFuel.value;
-    state.rules.gearbox = els.ruleGearbox.value;
-    state.rules.keywords = els.ruleKeywords.value.trim();
-    state.rules.exclude = els.ruleExclude.value.trim();
-    state.rules.theme = els.themeSelect.value;
-    state.rules.defaultSort = els.defaultSort.value;
-    state.rules.sound = els.soundSelect.value;
-    state.rules.pollMs = Number(els.pollSelect.value) || 15000;
-    state.rules.backendUrl = els.backendUrl.value.trim();
-    state.sortBy = els.defaultSort.value || 'newest';
-    state.pollMs = state.rules.pollMs;
-  }
-
-  function saveRulesAndRender(){
-    applyFormToRules();
-    saveRules();
-    localStorage.setItem('suv_backend_url', state.rules.backendUrl || '');
-    updateSummary();
-    renderSources();
-    renderQuickChips();
-    renderFeed();
-    toast('Filtrai išsaugoti');
-  }
-
-  function resetRules(){
-    state.rules = {...DEFAULT_RULES, enabledPortals: PORTALS.map(p=>p.id)};
-    state.sortBy = state.rules.defaultSort;
-    state.pollMs = state.rules.pollMs;
-    saveRules();
-    updateSummary();
-    renderSources();
-    renderQuickChips();
-    renderFeed();
-    toast('Filtrai atstatyti');
-  }
-
-  function switchView(view){
-    const map = { feed:'#view-feed', rules:'#view-rules', import:'#view-import' };
-    if (view === 'settings'){ openSheet(true); return; }
-    $$('.view').forEach(v => v.classList.remove('active'));
-    $(map[view]).classList.add('active');
-    els.viewButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
-  }
-
-  function openSheet(open=true){
-    els.sheetWrap.classList.toggle('show', open);
-    els.sheetWrap.setAttribute('aria-hidden', String(!open));
-  }
-
-  function openInNewTab(url){
-    if (url && url !== '#') window.open(url, '_blank', 'noopener');
-  }
-
-  function setNotifyToggleUI(){
-    const on = !!state.rules.notifications;
-    els.notifToggle.classList.toggle('on', on);
-    els.notifToggle.style.background = on ? 'var(--accent)' : 'var(--panel)';
-    els.notifToggle.innerHTML = `<div style="position:absolute;top:3px;left:${on ? '28px' : '3px'};width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 8px 16px rgba(15,23,42,.16);transition:all .18s ease"></div>`;
-  }
+  function toggleSource(id){ const set = new Set(state.rules.enabledPortals); if (set.has(id)) set.delete(id); else set.add(id); state.rules.enabledPortals = [...set]; saveRules(); updateSummary(); renderSources(); renderFeed(); toast(`${id}: ${state.rules.enabledPortals.includes(id) ? 'įjungtas' : 'išjungtas'}`); }
+  function applyFormToRules(){ state.rules.make = els.ruleMake.value.trim(); state.rules.model = els.ruleModel.value.trim(); state.rules.body = els.ruleBody.value; state.rules.maxPrice = els.ruleMaxPrice.value ? Number(els.ruleMaxPrice.value) : ''; state.rules.minYear = els.ruleMinYear.value ? Number(els.ruleMinYear.value) : ''; state.rules.maxMileage = els.ruleMaxMileage.value ? Number(els.ruleMaxMileage.value) : ''; state.rules.city = els.ruleCity.value.trim(); state.rules.fuel = els.ruleFuel.value; state.rules.gearbox = els.ruleGearbox.value; state.rules.keywords = els.ruleKeywords.value.trim(); state.rules.exclude = els.ruleExclude.value.trim(); state.rules.theme = els.themeSelect.value; state.rules.defaultSort = els.defaultSort.value; state.rules.sound = els.soundSelect.value; state.rules.pollMs = Number(els.pollSelect.value) || 15000; state.rules.backendUrl = els.backendUrl.value.trim(); state.sortBy = els.defaultSort.value || 'newest'; state.pollMs = state.rules.pollMs; }
+  function saveRulesAndRender(){ applyFormToRules(); saveRules(); localStorage.setItem('suv_backend_url', state.rules.backendUrl || ''); updateSummary(); renderSources(); renderQuickChips(); renderFeed(); toast('Filtrai išsaugoti'); }
+  function resetRules(){ state.rules = {...DEFAULT_RULES, enabledPortals: PORTALS.map(p=>p.id)}; state.sortBy = state.rules.defaultSort; state.pollMs = state.rules.pollMs; saveRules(); updateSummary(); renderSources(); renderQuickChips(); renderFeed(); toast('Filtrai atstatyti'); }
+  function switchView(view){ const map = { feed:'#view-feed', rules:'#view-rules', import:'#view-import' }; if (view === 'settings'){ openSheet(true); return; } $$('.view').forEach(v => v.classList.remove('active')); $(map[view]).classList.add('active'); els.viewButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view)); }
+  function openSheet(open=true){ els.sheetWrap.classList.toggle('show', open); els.sheetWrap.setAttribute('aria-hidden', String(!open)); }
+  function setNotifyToggleUI(){ const on = !!state.rules.notifications; els.notifToggle.style.background = on ? 'var(--accent)' : 'var(--panel)'; els.notifToggle.innerHTML = `<div style="position:absolute;top:3px;left:${on ? '28px' : '3px'};width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 8px 16px rgba(15,23,42,.16);transition:all .18s ease"></div>`; }
 
   function requestNotificationPermission(){
     if (!('Notification' in window)) { toast('Naršyklė nepalaiko notifications'); return; }
-    Notification.requestPermission().then(res => {
-      state.rules.notifications = res === 'granted';
-      saveRules();
-      setNotifyToggleUI();
-      updateSummary();
-      toast(state.rules.notifications ? 'Pranešimai leisti' : 'Pranešimai neįjungti');
-      if (state.rules.notifications && Notification.permission === 'granted'){
-        new Notification('Įspėjimai įjungti', { body:'Gausi pranešimus apie naujus atitinkančius skelbimus.' });
-      }
-    });
+    Notification.requestPermission().then(res => { state.rules.notifications = res === 'granted'; saveRules(); setNotifyToggleUI(); updateSummary(); toast(state.rules.notifications ? 'Pranešimai leisti' : 'Pranešimai neįjungti'); if (state.rules.notifications && Notification.permission === 'granted'){ new Notification('Įspėjimai įjungti', { body:'Gausi pranešimus apie naujus atitinkančius skelbimus.' }); } });
   }
-
-  function notifyNewItem(item){
-    const title = `${item.portal}: ${item.title}`;
-    const body = `${money(item.price)} • ${item.city || '—'} • ${ageShort(item.publishedAt)}`;
-    toast(title, body);
-    sparkle();
-
-    if (state.rules.sound === 'on'){
-      try{
-        const ctx = new (window.AudioContext || window.webkitAudioContext)();
-        const o = ctx.createOscillator();
-        const g = ctx.createGain();
-        o.type = 'sine'; o.frequency.value = 880; g.gain.value = 0.02;
-        o.connect(g); g.connect(ctx.destination); o.start();
-        setTimeout(() => { o.stop(); ctx.close(); }, 120);
-      }catch{}
-    }
-
-    if (state.rules.notifications && 'Notification' in window && Notification.permission === 'granted'){
-      new Notification(title, { body });
-    }
-  }
-
-  function notifyNewItems(items){
-    items.forEach(item => notifyNewItem(item));
-  }
-
-  function importListings(rawListings, notify=true){
-    const normalized = rawListings.map(normalizeItem);
-    const previousIds = new Set(state.items.map(x => x.id));
-    const newItems = normalized.filter(x => !previousIds.has(x.id));
-
-    state.items = dedupe(normalized);
-    saveItems();
-    state.lastPoll = Date.now();
-    localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
-    saveSeen();
-    updateSummary();
-    renderFeed();
-
-    if (notify){
-      const matchingNew = newItems.filter(x => matchesRule(x) && Number(x.price || 0) <= Number(state.rules.maxPrice || 3000));
-      matchingNew.forEach(x => state.seen.add(x.id));
-      saveSeen();
-      notifyNewItems(matchingNew);
-    }
-  }
-
-  function dedupe(arr){
-    const seen = new Map();
-    arr.forEach(item => {
-      const key = `${normalize(item.portal)}|${normalize(item.title)}|${item.price}|${item.year}|${normalize(item.city)}|${normalize(item.url)}`;
-      if (!seen.has(key) || new Date(item.publishedAt) > new Date(seen.get(key).publishedAt)) seen.set(key, item);
-    });
-    return [...seen.values()].sort((a,b) => new Date(b.publishedAt) - new Date(a.publishedAt));
-  }
-
-  function seedDemo(force=false){
-    if (state.items.length && !force){ toast('Demo jau įkelta'); return; }
-    state.items = dedupe(DEMO_LISTINGS.map(normalizeItem));
-    saveItems();
-    state.lastPoll = Date.now();
-    localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
-    updateSummary();
-    renderFeed();
-    toast('Įkelti demo skelbimai');
-  }
-
-  function clearAll(){
-    if (!confirm('Išvalyti visus įrašus ir filtrus?')) return;
-    localStorage.removeItem('auto_monitor_rules');
-    localStorage.removeItem('auto_monitor_listings');
-    localStorage.removeItem('auto_monitor_seen');
-    localStorage.removeItem('auto_monitor_last_sync');
-    localStorage.removeItem('suv_backend_url');
-    state.rules = {...DEFAULT_RULES, enabledPortals: PORTALS.map(p=>p.id)};
-    state.items = [];
-    state.seen = new Set();
-    state.query = '';
-    state.sortBy = state.rules.defaultSort;
-    state.pollMs = state.rules.pollMs;
-    updateSummary();
-    renderSources();
-    renderQuickChips();
-    renderFeed();
-    toast('Viskas išvalyta');
-  }
+  function notifyNewItem(item){ const title = `${item.portal}: ${item.title}`; const body = `${money(item.price)} • ${item.city || '—'} • ${ageShort(item.publishedAt)}`; toast(title, body); sparkle(); if (state.rules.sound === 'on'){ try{ const ctx = new (window.AudioContext || window.webkitAudioContext)(); const o = ctx.createOscillator(); const g = ctx.createGain(); o.type = 'sine'; o.frequency.value = 880; g.gain.value = 0.02; o.connect(g); g.connect(ctx.destination); o.start(); setTimeout(() => { o.stop(); ctx.close(); }, 120); }catch{} } if (state.rules.notifications && 'Notification' in window && Notification.permission === 'granted'){ new Notification(title, { body }); } }
+  function notifyNewItems(items){ items.forEach(item => notifyNewItem(item)); }
+  function dedupe(arr){ const seen = new Map(); arr.forEach(item => { const key = `${normalize(item.portal)}|${normalize(item.title)}|${item.price}|${item.year}|${normalize(item.city)}|${normalize(item.url)}`; if (!seen.has(key) || new Date(item.publishedAt) > new Date(seen.get(key).publishedAt)) seen.set(key, item); }); return [...seen.values()].sort((a,b)=>new Date(b.publishedAt)-new Date(a.publishedAt)); }
+  function importListings(rawListings, notify=true){ const normalized = rawListings.map(normalizeItem); const previousIds = new Set(state.items.map(x => x.id)); const newItems = normalized.filter(x => !previousIds.has(x.id)); state.items = dedupe(normalized); saveItems(); state.lastPoll = Date.now(); localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll)); saveSeen(); updateSummary(); renderFeed(); if (notify){ const matchingNew = newItems.filter(x => matchesRule(x) && Number(x.price || 0) <= Number(state.rules.maxPrice || 3000)); matchingNew.forEach(x => state.seen.add(x.id)); saveSeen(); notifyNewItems(matchingNew); } }
+  function seedDemo(force=false){ if (state.items.length && !force){ toast('Demo jau įkelta'); return; } state.items = dedupe(DEMO_LISTINGS.map(normalizeItem)); saveItems(); state.lastPoll = Date.now(); localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll)); updateSummary(); renderFeed(); toast('Įkelti demo skelbimai'); }
+  function clearAll(){ if (!confirm('Išvalyti visus įrašus ir filtrus?')) return; localStorage.removeItem('auto_monitor_rules'); localStorage.removeItem('auto_monitor_listings'); localStorage.removeItem('auto_monitor_seen'); localStorage.removeItem('auto_monitor_last_sync'); localStorage.removeItem('suv_backend_url'); state.rules = {...DEFAULT_RULES, enabledPortals: PORTALS.map(p=>p.id)}; state.items = []; state.seen = new Set(); state.query = ''; state.sortBy = state.rules.defaultSort; state.pollMs = state.rules.pollMs; updateSummary(); renderSources(); renderQuickChips(); renderFeed(); toast('Viskas išvalyta'); }
 
   async function fetchBackendData(notify=true){
     const url = state.rules.backendUrl || localStorage.getItem('suv_backend_url') || 'http://127.0.0.1:5000/data';
     if (!url) return;
     try{
-      const res = await fetch(url, { cache:'no-store' });
-      if (!res.ok) throw new Error('HTTP ' + res.status);
-      const data = await res.json();
-      const arr = Array.isArray(data) ? data : (Array.isArray(data.listings) ? data.listings : (Array.isArray(data.data) ? data.data : []));
-      if (!Array.isArray(arr)) return;
-
-      const normalized = arr.map(normalizeItem);
-      const oldIds = new Set(state.items.map(x => x.id));
-      const newItems = normalized.filter(x => !oldIds.has(x.id));
-
-      state.items = dedupe(normalized);
-      saveItems();
-      state.lastPoll = Date.now();
-      localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
-      updateSummary();
-      renderFeed();
-
-      const matchingNew = newItems.filter(x => matchesRule(x) && Number(x.price || 0) <= Number(state.rules.maxPrice || 3000));
-      matchingNew.forEach(x => state.seen.add(x.id));
-      saveSeen();
-      if (notify) notifyNewItems(matchingNew);
-    }catch(err){
-      els.liveState.textContent = '🔴 Backend nepasiekiamas';
-    }
+      const res = await fetch(url, { cache:'no-store' }); if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json(); const arr = Array.isArray(data) ? data : (Array.isArray(data.listings) ? data.listings : (Array.isArray(data.data) ? data.data : [])); if (!Array.isArray(arr)) return;
+      const normalized = arr.map(normalizeItem); const oldIds = new Set(state.items.map(x => x.id)); const newItems = normalized.filter(x => !oldIds.has(x.id)); state.items = dedupe(normalized); saveItems(); state.lastPoll = Date.now(); localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll)); updateSummary(); renderFeed(); const matchingNew = newItems.filter(x => matchesRule(x) && Number(x.price || 0) <= Number(state.rules.maxPrice || 3000)); matchingNew.forEach(x => state.seen.add(x.id)); saveSeen(); if (notify) notifyNewItems(matchingNew); els.liveState.textContent = '🟢 Backend prijungtas';
+    }catch(err){ els.liveState.textContent = '🔴 Backend nepasiekiamas'; }
   }
 
   function attachEvents(){
     els.searchInput.addEventListener('input', () => { state.query = els.searchInput.value; renderFeed(); });
     els.sortBy.addEventListener('change', () => { state.sortBy = els.sortBy.value; saveRules(); renderFeed(); });
-    els.saveRulesBtn.onclick = saveRulesAndRender;
-    els.resetRulesBtn.onclick = resetRules;
-    els.requestNotifBtn.onclick = requestNotificationPermission;
-    els.notifToggle.onclick = requestNotificationPermission;
-
+    els.saveRulesBtn.onclick = saveRulesAndRender; els.resetRulesBtn.onclick = resetRules; els.requestNotifBtn.onclick = requestNotificationPermission; els.notifToggle.onclick = requestNotificationPermission;
     els.themeSelect.onchange = () => { state.rules.theme = els.themeSelect.value; saveRules(); updateSummary(); };
     els.defaultSort.onchange = () => { state.rules.defaultSort = els.defaultSort.value; state.sortBy = els.defaultSort.value; saveRules(); renderFeed(); };
     els.defaultSort2.onchange = () => { state.rules.defaultSort = els.defaultSort2.value; state.sortBy = els.defaultSort2.value; saveRules(); renderFeed(); };
     els.soundSelect.onchange = () => { state.rules.sound = els.soundSelect.value; saveRules(); };
-    els.pollSelect.onchange = () => { state.rules.pollMs = Number(els.pollSelect.value) || 15000; state.pollMs = state.rules.pollMs; saveRules(); };
+    els.pollSelect.onchange = () => { state.rules.pollMs = Number(els.pollSelect.value) || 15000; state.pollMs = state.rules.pollMs; saveRules(); restartPoll(); };
     els.backendUrl.onchange = () => { state.rules.backendUrl = els.backendUrl.value.trim(); localStorage.setItem('suv_backend_url', state.rules.backendUrl); saveRules(); toast('Backend URL išsaugotas'); };
-
-    els.settingsBtn.onclick = () => openSheet(true);
-    els.closeSheetBtn.onclick = () => openSheet(false);
-    els.sheetWrap.addEventListener('click', e => { if (e.target === els.sheetWrap) openSheet(false); });
-
-    els.refreshBtn.onclick = async () => {
-      state.lastPoll = Date.now();
-      localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
-      updateSummary();
-      await fetchBackendData(true);
-      renderFeed();
-      toast('Atnaujinta');
-    };
-
-    els.seedBtn.onclick = () => seedDemo(true);
-    els.clearBtn.onclick = clearAll;
-
-    els.importJsonBtn.onclick = () => {
-      try{
-        const parsed = JSON.parse(els.jsonInput.value || '{}');
-        const arr = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.listings) ? parsed.listings : (Array.isArray(parsed.data) ? parsed.data : []));
-        if (!arr.length) return toast('JSON neturi listings[]');
-        importListings(arr, true);
-        toast(`Importuota: ${arr.length}`);
-      }catch(err){
-        toast('JSON klaida');
-      }
-    };
-
-    const demoMatch = {
-      id:`demo_${Date.now()}`,
-      portal:'Autogidas', title:'Toyota RAV4 2006 2.0 D-4D', price:2950, year:2006, body:'suv',
-      fuel:'diesel', gearbox:'manual', mileage:242000, city:'Vilnius', phone:'+37060000000',
-      engine:'2.0 D-4D', description:'Tvarkingas, vietoje galima apžiūrėti. Susisiekti telefonu.',
-      url:'#', image:'', publishedAt:new Date().toISOString()
-    };
+    els.settingsBtn.onclick = () => openSheet(true); els.closeSheetBtn.onclick = () => openSheet(false); els.sheetWrap.addEventListener('click', e => { if (e.target === els.sheetWrap) openSheet(false); });
+    els.refreshBtn.onclick = async () => { state.lastPoll = Date.now(); localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll)); updateSummary(); await fetchBackendData(true); renderFeed(); toast('Atnaujinta'); };
+    els.seedBtn && (els.seedBtn.onclick = () => seedDemo(true)); els.clearBtn.onclick = clearAll;
+    els.importJsonBtn.onclick = () => { try{ const parsed = JSON.parse(els.jsonInput.value || '{}'); const arr = Array.isArray(parsed) ? parsed : (Array.isArray(parsed.listings) ? parsed.listings : (Array.isArray(parsed.data) ? parsed.data : [])); if (!arr.length) return toast('JSON neturi listings[]'); importListings(arr, true); toast(`Importuota: ${arr.length}`); }catch(err){ toast('JSON klaida'); } };
+    const demoMatch = { id:`demo_${Date.now()}`, portal:'Autogidas', title:'Toyota RAV4 2006 2.0 D-4D', price:2950, year:2006, body:'suv', fuel:'diesel', gearbox:'manual', mileage:242000, city:'Vilnius', phone:'+37060000000', engine:'2.0 D-4D', description:'Tvarkingas, vietoje galima apžiūrėti. Susisiekti telefonu.', url:'#', image:'', publishedAt:new Date().toISOString() };
     els.addDemoMatchBtn.onclick = () => importListings([demoMatch], true);
-
-    els.goToFeedBtn.onclick = () => switchView('feed');
-    els.goToRulesBtn.onclick = () => switchView('rules');
-
+    els.goToFeedBtn.onclick = () => switchView('feed'); els.goToRulesBtn.onclick = () => switchView('rules');
     els.viewButtons.forEach(btn => { btn.onclick = () => switchView(btn.dataset.view); });
-
-    window.addEventListener('visibilitychange', () => {
-      if (!document.hidden){
-        state.lastPoll = Date.now();
-        localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll));
-        updateSummary();
-      }
-    });
-
+    window.addEventListener('visibilitychange', () => { if (!document.hidden){ state.lastPoll = Date.now(); localStorage.setItem('auto_monitor_last_sync', String(state.lastPoll)); updateSummary(); } });
     setInterval(() => { els.pollAge.textContent = ageShort(state.lastPoll); }, 1000);
-    setInterval(() => fetchBackendData(true), state.pollMs);
   }
 
-  function init(){
-    if (!state.items.length) seedDemo(true);
-    else state.items = dedupe(state.items.map(normalizeItem));
+  let pollTimer = null;
+  function restartPoll(){ if (pollTimer) clearInterval(pollTimer); pollTimer = setInterval(() => fetchBackendData(true), state.pollMs); }
 
-    if (!state.rules.backendUrl) state.rules.backendUrl = localStorage.getItem('suv_backend_url') || '';
+  function init(){
+    if (!state.items.length) seedDemo(true); else state.items = dedupe(state.items.map(normalizeItem));
+    if (!state.rules.backendUrl) state.rules.backendUrl = localStorage.getItem('suv_backend_url') || 'http://127.0.0.1:5000/data';
     if (!state.rules.enabledPortals || !state.rules.enabledPortals.length) state.rules.enabledPortals = PORTALS.map(p=>p.id);
     if (!state.rules.body) state.rules.body = 'suv';
-
-    updateSummary();
-    renderSources();
-    renderQuickChips();
-    renderFeed();
-    setNotifyToggleUI();
-    attachEvents();
-    saveRules();
-    fetchBackendData(true);
-    toast('Paruošta');
+    updateSummary(); renderSources(); renderQuickChips(); renderFeed(); setNotifyToggleUI(); attachEvents(); saveRules(); fetchBackendData(true); restartPoll(); toast('Paruošta');
   }
 
   init();
