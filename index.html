@@ -3,28 +3,24 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ukmergės NT supirkimas</title>
-  <meta name="description" content="Perku garažus, sodo sklypus, apleistas patalpas ir kitą nereikalingą nekilnojamą turtą Ukmergėje ir aplink." />
+  <title>NT supirkimas Ukmergėje</title>
+  <meta name="description" content="Supirkimas NT Ukmergėje ir aplink: garažai, sodo sklypai, apleistos patalpos ir kiti nereikalingi objektai." />
   <meta name="theme-color" content="#f4f7f6" />
   <style>
     :root {
       --bg: #f4f7f6;
-      --bg-2: #eef4f0;
       --card: rgba(255,255,255,.92);
       --card-strong: #ffffff;
       --text: #13202a;
       --muted: #5f6d78;
-      --muted-2: #72808a;
       --line: #dde5e1;
-      --line-2: #e9efeb;
       --accent: #0d6b22;
       --accent-2: #0c5720;
       --accent-soft: rgba(13, 107, 34, .08);
       --shadow: 0 22px 70px rgba(18, 31, 40, .08);
       --shadow-soft: 0 12px 24px rgba(18, 31, 40, .06);
       --radius: 28px;
-      --radius-sm: 18px;
-      --max: 1080px;
+      --max: 1240px;
     }
 
     * { box-sizing: border-box; }
@@ -50,10 +46,9 @@
       width: 100%;
       max-width: var(--max);
       margin: 0 auto;
-      padding: 14px;
+      padding: 20px;
     }
 
-    /* Brand */
     .brand-row {
       display: flex;
       justify-content: center;
@@ -63,7 +58,7 @@
 
     .brand {
       width: 100%;
-      max-width: 560px;
+      max-width: 640px;
       background: rgba(255,255,255,.72);
       border: 1px solid rgba(221, 229, 225, .95);
       border-radius: 24px;
@@ -80,8 +75,7 @@
       width: 46px;
       height: 46px;
       border-radius: 16px;
-      background:
-        linear-gradient(180deg, rgba(13,107,34,1), rgba(10,88,29,1));
+      background: linear-gradient(180deg, rgba(13,107,34,1), rgba(10,88,29,1));
       color: #fff;
       display: grid;
       place-items: center;
@@ -110,7 +104,7 @@
 
     .brand-copy h1 {
       margin: 0;
-      font-size: clamp(21px, 5.2vw, 30px);
+      font-size: clamp(22px, 5.5vw, 34px);
       line-height: 1;
       letter-spacing: -.05em;
       font-weight: 900;
@@ -125,7 +119,6 @@
       letter-spacing: .01em;
     }
 
-    /* Hero */
     .hero {
       background: linear-gradient(180deg, rgba(255,255,255,.95), rgba(255,255,255,.88));
       border: 1px solid rgba(221,229,225,.95);
@@ -148,38 +141,14 @@
     .hero-inner {
       position: relative;
       z-index: 1;
-      padding: 24px 16px 18px;
+      padding: 34px 24px 20px;
       text-align: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: var(--accent-soft);
-      color: var(--accent);
-      font-size: 12px;
-      font-weight: 800;
-      letter-spacing: .04em;
-      text-transform: uppercase;
-      margin-bottom: 14px;
-    }
-
-    .eyebrow::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 999px;
-      background: var(--accent);
-      box-shadow: 0 0 0 7px rgba(13,107,34,.10);
     }
 
     .hero h2 {
       margin: 0 auto 12px;
-      max-width: 860px;
-      font-size: clamp(31px, 7.6vw, 64px);
+      max-width: 920px;
+      font-size: clamp(32px, 7.2vw, 70px);
       line-height: 1.02;
       letter-spacing: -.06em;
       font-weight: 900;
@@ -196,38 +165,14 @@
 
     .hero-lead {
       margin: 0 auto;
-      max-width: 760px;
+      max-width: 900px;
       font-size: clamp(16px, 4.2vw, 20px);
       line-height: 1.55;
       color: #53616b;
     }
 
-    .microline {
-      margin: 16px auto 0;
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-      color: #43515b;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .microline strong {
-      color: #13202a;
-      font-weight: 900;
-    }
-
-    .divider-dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 999px;
-      background: #b6c2bc;
-    }
-
     .hero-media {
-      width: min(100%, 360px);
+      width: min(100%, 460px);
       margin: 18px auto 0;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -265,7 +210,7 @@
     }
 
     .cta-row {
-      padding: 18px 16px 22px;
+      padding: 18px 22px 24px;
       display: flex;
       justify-content: center;
     }
@@ -302,7 +247,7 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: 10px;
-      padding: 0 16px 22px;
+      padding: 0 22px 24px;
     }
 
     .lead-badge {
@@ -344,7 +289,6 @@
       line-height: 1.45;
     }
 
-    /* Section shell */
     .section {
       margin-top: 14px;
       background: rgba(255,255,255,.92);
@@ -355,7 +299,7 @@
     }
 
     .section-head {
-      padding: 22px 16px 10px;
+      padding: 26px 22px 12px;
       text-align: center;
     }
 
@@ -370,17 +314,16 @@
 
     .section-head p {
       margin: 10px auto 0;
-      max-width: 760px;
+      max-width: 900px;
       color: var(--muted);
       font-size: 15px;
       line-height: 1.5;
     }
 
-    /* Form */
     form {
       max-width: 780px;
       margin: 0 auto;
-      padding: 0 16px 18px;
+      padding: 0 22px 22px;
     }
 
     .type-switcher {
@@ -428,7 +371,7 @@
       background: #f8fbf9;
       border: 1px solid #dde6e1;
       border-radius: 24px;
-      padding: 14px;
+      padding: 20px;
       margin: 0 0 14px;
     }
 
@@ -469,13 +412,6 @@
       letter-spacing: -.01em;
     }
 
-    .hint {
-      font-size: 12px;
-      color: var(--muted);
-      margin-top: -4px;
-      line-height: 1.45;
-    }
-
     input,
     select,
     textarea {
@@ -485,7 +421,7 @@
       background: #fff;
       color: var(--text);
       outline: none;
-      padding: 13px 14px;
+      padding: 14px 16px;
       font-size: 16px;
       line-height: 1.35;
       transition: border-color .14s ease, box-shadow .14s ease, transform .14s ease;
@@ -534,7 +470,7 @@
     .notice {
       margin-top: 14px;
       border-radius: 16px;
-      padding: 13px 14px;
+      padding: 14px 16px;
       border: 1px solid transparent;
       display: none;
       font-size: 14px;
@@ -556,7 +492,7 @@
     }
 
     .facts {
-      padding: 12px 16px 18px;
+      padding: 14px 22px 22px;
       display: grid;
       gap: 12px;
     }
@@ -605,7 +541,7 @@
     }
 
     .how {
-      padding: 0 16px 18px;
+      padding: 0 22px 22px;
       display: grid;
       gap: 12px;
     }
@@ -649,7 +585,7 @@
     }
 
     .faq {
-      padding: 0 16px 18px;
+      padding: 0 22px 22px;
       display: grid;
       gap: 10px;
     }
@@ -681,7 +617,7 @@
       background: linear-gradient(180deg, rgba(13,107,34,.07), rgba(13,107,34,.03));
       border: 1px solid rgba(13,107,34,.12);
       border-radius: 30px;
-      padding: 18px 16px;
+      padding: 20px 22px;
       text-align: center;
     }
 
@@ -737,54 +673,30 @@
       grid-template-columns: 1fr;
     }
 
-    .mobile-compact {
-      display: block;
-    }
-
-    .desktop-only {
-      display: none;
-    }
-
     @media (min-width: 760px) {
-      .wrap {
-        padding: 18px;
-      }
-
-      .hero-inner {
-        padding: 30px 24px 18px;
-      }
-
-      .hero-media {
-        width: min(100%, 420px);
-      }
-
+      .wrap { padding: 18px; }
+      .hero-inner { padding: 30px 24px 18px; }
+      .hero-media { width: min(100%, 420px); }
       .lead-badges {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-        padding: 0 18px 24px;
+        gap: 16px;
+        padding: 0 22px 26px;
       }
-
       .facts {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        padding: 14px 18px 18px;
+        padding: 16px 22px 22px;
       }
-
       .how,
       .faq {
         grid-template-columns: repeat(3, minmax(0, 1fr));
       }
-
       .desktop-grid.two {
         grid-template-columns: 1.1fr .9fr;
       }
+    }
 
-      .desktop-only {
-        display: block;
-      }
-
-      .mobile-compact {
-        display: none;
-      }
+    @media (min-width: 760px) {
+      .hero-media { width: min(100%, 500px); }
     }
   </style>
 </head>
@@ -802,19 +714,11 @@
 
     <section class="hero">
       <div class="hero-inner">
-        <div class="eyebrow">Greitas pardavimas</div>
-        <h2>Perku <span class="accent">nekilnojamą turtą</span> Ukmergėje ir aplink</h2>
+        <h2>NT supirkimas <span class="accent">Ukmergėje</span> ir aplink</h2>
         <p class="hero-lead">
-          Trumpą pardavimo užklausą užpildysite per akimirką.
-          Atsakymą gausite per vos 15min
+          Perkame garažus, sodo sklypus, apleistas patalpas ir kitą nereikalingą nekilnojamąjį turtą.
+          Užpildykite užklausą, o mes greitai pateiksime atsakymą.
         </p>
-        <div class="microline" aria-label="Pagrindiniai privalumai">
-          <strong>Garažai</strong>
-          <span class="divider-dot"></span>
-          <span>Sklypai soduose</span>
-          <span class="divider-dot"></span>
-          <span>Įvairios patalpos</span>
-        </div>
 
         <div class="hero-media" aria-label="NT vizualai">
           <div class="photo-card">
@@ -831,36 +735,12 @@
       <div class="cta-row">
         <button class="btn btn-primary" type="button" id="scrollToForm">Parduoti NT</button>
       </div>
-
-      <div class="lead-badges">
-        <div class="lead-badge">
-          <div class="ico">1</div>
-          <div>
-            <b>Per kelias akimirkas</b>
-            <span>Forma užpildoma įprastai vos per 2min, be nereikalingų klausimų.</span>
-          </div>
-        </div>
-        <div class="lead-badge">
-          <div class="ico">2</div>
-          <div>
-            <b>Tik realiai perkami tipai</b>
-            <span>Garažai, sodo sklypai, apleistos patalpos ir panašūs objektai.</span>
-          </div>
-        </div>
-        <div class="lead-badge">
-          <div class="ico">3</div>
-          <div>
-            <b>Greitas supirkimas</b>
-            <span>Tinkamus objektus nuperkame tą pačią savaitę! Dokumentaciją sutavkome pas notarą. </span>
-          </div>
-        </div>
-      </div>
     </section>
 
     <section class="section" id="forma">
       <div class="section-head">
         <h3>Trumpa pardavimo užklausa</h3>
-        <p>Pasirinkite NT tipą ir palikite pagrindinius duomenis. Likusią informaciją aptarsime telefonu.</p>
+        <p>Pasirinkite objekto tipą ir palikite pagrindinius duomenis. Vėliau susisieksime dėl pasiūlymo.</p>
       </div>
 
       <form id="leadForm" action="https://formspree.io/f/xpqkqbbw" method="POST">
@@ -892,7 +772,7 @@
         <div id="dynamicPanels">
           <div class="panel type-panel" data-type="Garažas">
             <div class="panel-title">
-              <strong>Garažui skirta anketa</strong>
+              <strong>Garažo užklausa</strong>
               <span class="pill">Greita</span>
             </div>
 
@@ -936,7 +816,7 @@
 
           <div class="panel type-panel" data-type="Sodo sklypas" style="display:none">
             <div class="panel-title">
-              <strong>Sodo sklypui skirta anketa</strong>
+              <strong>Sodo sklypo užklausa</strong>
               <span class="pill">Ukmergės sodai</span>
             </div>
 
@@ -975,14 +855,14 @@
             </div>
 
             <div class="field" style="margin-bottom:0;">
-              <label class="label" for="s_building_desc">Jei yra pastatų, trumpas aprašymas</label>
+              <label class="label" for="s_building_desc">Jei yra pastatų, trumpai aprašykite</label>
               <textarea id="s_building_desc" name="sodo_pastatu_aprasymas" placeholder="Pvz. vasarnamis, sandėliukas, šiltnamis..."></textarea>
             </div>
           </div>
 
           <div class="panel type-panel" data-type="Apleistos patalpos" style="display:none">
             <div class="panel-title">
-              <strong>Apleistoms patalpoms skirta anketa</strong>
+              <strong>Apleistų patalpų užklausa</strong>
               <span class="pill">Greita</span>
             </div>
 
@@ -1021,7 +901,7 @@
 
           <div class="panel type-panel" data-type="Nereikalingas NT" style="display:none">
             <div class="panel-title">
-              <strong>Nereikalingam NT</strong>
+              <strong>Kita NT užklausa</strong>
               <span class="pill">Laisva forma</span>
             </div>
 
@@ -1037,12 +917,16 @@
 
             <div class="field" style="margin-bottom:0;">
               <label class="label" for="n_desc">Trumpas aprašymas</label>
-              <textarea id="n_desc" name="nereikalingas_nt_aprasymas" placeholder="Trumpai parašykite, kas svarbiausia."></textarea>
+              <textarea id="n_desc" name="nereikalingas_nt_aprasymas" placeholder="Parašykite trumpai, kas svarbiausia."></textarea>
             </div>
           </div>
         </div>
 
         <div class="phone-row">
+          <div class="field">
+            <label class="label" for="desired_price">Pageidaujama kaina</label>
+            <input id="desired_price" name="pageidaujama_kaina" type="text" inputmode="decimal" placeholder="Pvz. 12 000 €" />
+          </div>
           <div class="field" style="margin-bottom:0;">
             <label class="label" for="phone">Telefono numeris</label>
             <input id="phone" name="telefonas" type="tel" inputmode="tel" autocomplete="tel" required placeholder="Pvz. +370..." />
@@ -1061,25 +945,25 @@
 
     <section class="section">
       <div class="section-head">
-        <h3>Kodėl šis puslapis veikia geriau</h3>
-        <p>Mažiau triukšmo, daugiau aiškumo ir tikslus fokusas į tai, ko reikia žmogui, kuris nori parduoti NT greitai.</p>
+        <h3>Kas svarbiausia klientui</h3>
+        <p>Aiškus procesas, greitas atsakymas ir profesionalus bendravimas nuo pirmos užklausos.</p>
       </div>
 
       <div class="facts">
         <div class="fact-card">
           <div class="kicker">Aiškumas</div>
-          <b>Vienas ekranas, vienas veiksmas</b>
-          <p>Žmogus iškart mato, ką parduodate, kokią informaciją reikia palikti ir kiek tai užtruks.</p>
+          <b>Tik reikalinga informacija</b>
+          <p>Prašome tik tų duomenų, kurie reikalingi preliminariam įvertinimui ir tolimesniam susisiekimui.</p>
         </div>
         <div class="fact-card">
-          <div class="kicker">Patogumas</div>
-          <b>Forma skirta telefonui</b>
-          <p>Didesni mygtukai, trumpi laukai ir tik svarbiausi klausimai, kad viskas vyktų be nervų.</p>
+          <div class="kicker">Greitis</div>
+          <b>Greitas atsakymas</b>
+          <p>Užklausa keliauja tiesiai į sistemą, todėl galime greitai susisiekti ir pasiūlyti sprendimą.</p>
         </div>
         <div class="fact-card">
-          <div class="kicker">Pasitikėjimas</div>
-          <b>Profesionalus, švarus įspūdis</b>
-          <p>Subtilus stilius, tvarkinga hierarchija ir aiškus kelias iki užklausos išsiuntimo.</p>
+          <div class="kicker">Patikimumas</div>
+          <b>Tvarkingas, aiškus procesas</b>
+          <p>Puslapis sukurtas taip, kad pardavimas būtų paprastas, suprantamas ir be bereikalingų žingsnių.</p>
         </div>
       </div>
     </section>
@@ -1087,29 +971,29 @@
     <section class="section">
       <div class="section-head">
         <h3>Kaip viskas vyksta</h3>
-        <p>Kelios sekundės užpildymui, tada trumpas susisiekimas ir tolesnis derinimas dėl objekto.</p>
+        <p>Greitas kelias nuo objekto informacijos iki pasiūlymo.</p>
       </div>
 
       <div class="how">
         <div class="step-card">
           <div class="step-no">1</div>
           <div>
-            <b>Pasirenkate NT tipą</b>
-            <p>Iškart rodomi tik to tipo laukai, kad nereikėtų matyti nereikalingų klausimų.</p>
+            <b>Pasirenkate objekto tipą</b>
+            <p>Matote tik su pasirinktu NT tipu susijusius laukus.</p>
           </div>
         </div>
         <div class="step-card">
           <div class="step-no">2</div>
           <div>
-            <b>Paliekate pagrindą</b>
-            <p>Vieta, dydis, būklė ir telefonas. Viskas, ko reikia pradžiai.</p>
+            <b>Paliekate pagrindinius duomenis</b>
+            <p>Vieta, dydis, būklė ir kontaktas. To pakanka pradžiai.</p>
           </div>
         </div>
         <div class="step-card">
           <div class="step-no">3</div>
           <div>
-            <b>Gaunate atsakymą</b>
-            <p>Užklausa keliauja tiesiai į Formspree, o jūs sulaukiate skambučio ar žinutės.</p>
+            <b>Gaunate pasiūlymą</b>
+            <p>Užklausa išsiunčiama, o mes susisiekiame dėl tolesnių žingsnių.</p>
           </div>
         </div>
       </div>
@@ -1118,32 +1002,32 @@
     <section class="section">
       <div class="section-head">
         <h3>Klausimai prieš užpildant</h3>
-        <p>Trumpi atsakymai, kad žmogui nereikėtų ieškoti papildomos informacijos kitur puslapyje.</p>
+        <p>Trumpi atsakymai į dažniausiai užduodamus klausimus.</p>
       </div>
 
       <div class="faq">
         <div class="qa">
           <h4>Kiek laiko užtrunka užklausa?</h4>
-          <p>Dažniausiai užtenka kelių akimirkų, nes forma suskaidyta į labai aiškius, trumpus laukus.</p>
+          <p>Paprastai užtenka kelių minučių, nes forma trumpa ir aiški.</p>
         </div>
         <div class="qa">
-          <h4>Ką daryti, jei objektas nestandartinis?</h4>
-          <p>Pasirinkite „Nereikalingas NT“ ir trumpai aprašykite situaciją savo žodžiais.</p>
+          <h4>Ar tinka nestandartinis objektas?</h4>
+          <p>Taip. Jeigu objektas kitoks, pasirinkite „Nereikalingas NT“ ir aprašykite situaciją.</p>
         </div>
         <div class="qa">
-          <h4>Ar galima pridėti daugiau informacijos?</h4>
-          <p>Taip. Papildomus pastebėjimus galite parašyti laukelyje „Trumpas aprašymas“.</p>
+          <h4>Ar galima parašyti papildomai?</h4>
+          <p>Taip, papildomą informaciją galima įrašyti į aprašymo lauką.</p>
         </div>
       </div>
     </section>
 
     <section class="footer-cta">
-      <h3>Trumpa užklausa. Aiškus atsakymas.</h3>
+      <h3>NT supirkimas Ukmergėje</h3>
       <p>
         Jei norite pateikti objektą pardavimui, užtenka kelių pagrindinių duomenų.
-        Likusią dalį suderinsime tiesiogiai.
+        Susisieksime dėl pasiūlymo ir tolesnių žingsnių.
       </p>
-      <div class="footer-contact">Paskambinkite arba užpildykite formą</div>
+      <div class="footer-contact">Palikite užklausą arba paskambinkite</div>
     </section>
 
     <div class="foot">© <span id="year"></span> Ukmergės NT supirkimas</div>
