@@ -524,6 +524,24 @@
     }
 
     @media (max-width:860px){
+      .cards-grid{grid-template-columns:1fr}
+      .group-card .group-content{padding:0 14px}
+      .group-card.is-open .group-content{padding:0 14px 14px}
+      .group-content-inner{padding-top:2px}
+      .calendar-subtitle{font-size:.84rem;line-height:1.4}
+      .calendar-grid{min-width:0;gap:5px}
+      .calendar-wrap{overflow:visible}
+      .weekday,.day{min-height:42px;border-radius:14px}
+      .service-card .service-top{grid-template-columns:auto minmax(0,1fr) auto;gap:10px}
+      .service-summary{font-size:.9rem;line-height:1.55}
+      .service-actions{margin-top:12px}
+      .about-shell{grid-template-columns:1fr;padding:16px;border-radius:24px;gap:14px}
+      .about-hero{padding-right:0}
+      .about-stat{padding:14px;border-radius:18px}
+      .about-accordion-card summary{padding:16px}
+      .about-accordion-body > div{padding:0 16px 16px}
+      .about-accordion-icon{width:36px;height:36px;border-radius:12px}
+
       .container{
         width:100%;
         padding-inline:8px;
@@ -665,8 +683,8 @@
         margin-top:2px;
       }
       .service-title{
-        font-size:.94rem;
-        line-height:1.16;
+        font-size:1rem;
+        line-height:1.18;
         -webkit-line-clamp:3;
       }
       .service-price{
@@ -1080,51 +1098,788 @@
       cursor:not-allowed;
       box-shadow:none;
     }
-    .services-reveal-row {
-      display:flex;
-      justify-content:center;
-      margin:0 0 18px;
+
+
+    .calendar-subtitle{
+      margin-top:4px;
+      color:#64748b;
+      font-size:.88rem;
+      line-height:1.45;
+      font-weight:600;
     }
-    .services-reveal-btn {
-      display:inline-flex;
+
+    .group-card .group-content{
+      display:grid;
+      grid-template-rows:0fr;
+      padding:0 20px;
+      transition:grid-template-rows .35s ease, padding .35s ease;
+    }
+    .group-card.is-open .group-content{
+      display:grid;
+      grid-template-rows:1fr;
+      padding:0 20px 20px;
+    }
+    .group-content > *{overflow:hidden}
+    .group-card .group-content > :first-child{overflow:hidden}
+
+    .service-summary{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:.92rem;
+      overflow-wrap:anywhere;
+    }
+    .service-actions{
+      margin-top:14px;
+      display:flex;
+      justify-content:flex-start;
       align-items:center;
-      justify-content:center;
       gap:10px;
-      min-height:52px;
-      padding:0 18px;
-      border-radius:999px;
-      border:1px solid rgba(37,99,235,.14);
+      flex-wrap:wrap;
+    }
+    .service-card .service-details,
+    .package-card .service-details{
+      display:grid;
+      grid-template-rows:0fr;
+      margin-top:12px;
+      padding-top:0;
+      border-top:1px solid rgba(15,23,42,.06);
+      transition:grid-template-rows .35s ease, margin-top .35s ease, padding-top .35s ease;
+    }
+    .service-card.is-open .service-details,
+    .package-card.is-open .service-details{
+      grid-template-rows:1fr;
+      margin-top:14px;
+      padding-top:14px;
+    }
+    .service-details > div,
+    .service-details > p,
+    .service-details > ul{
+      overflow:hidden;
+    }
+    .service-card.is-open .service-toggle,
+    .package-card.is-open .service-toggle{
+      background:rgba(37,99,235,.14);
+      border-color:rgba(37,99,235,.18);
+    }
+    .service-card .service-top{
+      align-items:start;
+      grid-template-columns:auto minmax(0,1fr) auto;
+      gap:12px;
+    }
+    .service-card .service-price{
+      margin-top:2px;
+    }
+    .service-card .service-toggle{
+      margin-top:auto;
+    }
+
+    .about-shell{
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+      gap:18px;
+      padding:24px;
+      border-radius:34px;
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,251,255,.98));
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:var(--shadow-card);
+    }
+    .about-hero{
+      padding:4px 2px 4px 0;
+    }
+    .about-stats{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+    .about-stat{
+      padding:16px 16px 15px;
+      border-radius:20px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 12px 24px rgba(15,23,42,.05);
+    }
+    .about-stat strong{
+      display:block;
+      margin-bottom:6px;
+      color:var(--primary-2);
+      font-size:1rem;
+      letter-spacing:-.02em;
+    }
+    .about-stat span{
+      display:block;
+      color:#475569;
+      line-height:1.7;
+      font-size:.95rem;
+    }
+    .about-accordion-list{
+      display:grid;
+      gap:12px;
+      align-content:start;
+    }
+    .about-accordion-card{
+      border-radius:22px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 12px 26px rgba(15,23,42,.05);
+      overflow:hidden;
+      transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .about-accordion-card:hover{
+      transform:translateY(-1px);
+      box-shadow:0 16px 32px rgba(15,23,42,.07);
+      border-color:rgba(37,99,235,.12);
+    }
+    .about-accordion-card summary{
+      list-style:none;
+      cursor:pointer;
+      padding:18px 18px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      background:linear-gradient(180deg, #ffffff, #f8fbff);
+      font-weight:850;
+    }
+    .about-accordion-card summary::-webkit-details-marker{display:none}
+    .about-accordion-card summary span:first-child{
+      display:grid;
+      gap:4px;
+      min-width:0;
+    }
+    .about-accordion-card summary strong{
+      font-size:1.02rem;
+      letter-spacing:-.02em;
+      color:#0f172a;
+    }
+    .about-accordion-card summary small{
+      color:#64748b;
+      font-size:.9rem;
+      line-height:1.45;
+      font-weight:600;
+    }
+    .about-accordion-icon{
+      flex:0 0 auto;
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(15,23,42,.08);
+      background:#fff;
+      color:#334155;
+      transition:transform .3s ease, background .3s ease, color .3s ease;
+    }
+    .about-accordion-card[open] .about-accordion-icon{
+      transform:rotate(180deg);
       background:rgba(37,99,235,.08);
       color:var(--primary-2);
-      font-weight:900;
-      cursor:pointer;
-      box-shadow:0 12px 26px rgba(15,23,42,.06);
-      transition:transform var(--transition), box-shadow var(--transition), background var(--transition), opacity var(--transition);
+      border-color:rgba(37,99,235,.12);
     }
-    .services-reveal-btn:hover{transform:translateY(-1px);box-shadow:0 16px 30px rgba(37,99,235,.10)}
-    .services-reveal-btn:disabled{
-      opacity:.5;
-      cursor:not-allowed;
-      transform:none;
-      box-shadow:none;
+    .about-accordion-body{
+      display:grid;
+      grid-template-rows:0fr;
+      transition:grid-template-rows .35s ease;
+      border-top:1px solid rgba(15,23,42,.06);
     }
-    .extra-services-wrap {
-      display:none;
-      margin-top:16px;
-      animation:fadeUp .28s ease both;
+    .about-accordion-card[open] .about-accordion-body{
+      grid-template-rows:1fr;
     }
-    .extra-services-wrap.is-visible { display:block; }
-    .section-mini-note {
-      margin:0 0 10px;
+    .about-accordion-body > div{
+      overflow:hidden;
+      padding:0 18px 18px;
+    }
+    .about-accordion-body p{
+      margin:14px 0 0;
+      color:#475569;
+      line-height:1.75;
+      font-size:.96rem;
+    }
+
+    .cards-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .calendar-subtitle{
+      margin-top:4px;
+      color:#64748b;
+      font-size:.88rem;
+      line-height:1.45;
+      font-weight:600;
+    }
+
+    .group-card .group-content{
+      display:grid;
+      grid-template-rows:0fr;
+      padding:0 20px;
+      transition:grid-template-rows .35s ease, padding .35s ease;
+    }
+    .group-card.is-open .group-content{
+      display:grid;
+      grid-template-rows:1fr;
+      padding:0 20px 20px;
+    }
+    .group-content-inner{
+      overflow:hidden;
+    }
+    .group-note{
+      margin:0 0 16px;
       color:var(--muted);
-      line-height:1.55;
-      font-size:.94rem;
-      text-align:center;
+      line-height:1.6;
+      font-size:.96rem;
+    }
+
+    .service-summary{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.6;
+      font-size:.92rem;
+      overflow-wrap:anywhere;
+    }
+    .service-actions{
+      margin-top:14px;
+      display:flex;
+      justify-content:flex-start;
+      align-items:center;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .service-card .service-details,
+    .package-card .service-details{
+      display:grid;
+      grid-template-rows:0fr;
+      margin-top:12px;
+      padding-top:0;
+      border-top:1px solid rgba(15,23,42,.06);
+      transition:grid-template-rows .35s ease, margin-top .35s ease, padding-top .35s ease;
+    }
+    .service-card.is-open .service-details,
+    .package-card.is-open .service-details{
+      grid-template-rows:1fr;
+      margin-top:14px;
+      padding-top:14px;
+    }
+    .service-details-inner{
+      overflow:hidden;
+    }
+    .service-card.is-open .service-toggle,
+    .package-card.is-open .service-toggle{
+      background:rgba(37,99,235,.14);
+      border-color:rgba(37,99,235,.18);
+    }
+    .service-card .service-top{
+      align-items:start;
+      grid-template-columns:auto minmax(0,1fr) auto;
+      gap:12px;
+    }
+    .service-card .service-price{
+      margin-top:2px;
+    }
+    .service-card .service-toggle{
+      margin-top:auto;
+    }
+
+    .about-shell{
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+      gap:18px;
+      padding:24px;
+      border-radius:34px;
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(248,251,255,.98));
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:var(--shadow-card);
+    }
+    .about-hero{
+      padding:4px 2px 4px 0;
+    }
+    .about-stats{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+    .about-stat{
+      padding:16px 16px 15px;
+      border-radius:20px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 12px 24px rgba(15,23,42,.05);
+    }
+    .about-stat strong{
+      display:block;
+      margin-bottom:6px;
+      color:var(--primary-2);
+      font-size:1rem;
+      letter-spacing:-.02em;
+    }
+    .about-stat span{
+      display:block;
+      color:#475569;
+      line-height:1.7;
+      font-size:.95rem;
+    }
+    .about-accordion-list{
+      display:grid;
+      gap:12px;
+      align-content:start;
+    }
+    .about-accordion-card{
+      border-radius:22px;
+      background:#fff;
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:0 12px 26px rgba(15,23,42,.05);
+      overflow:hidden;
+      transition:transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+    }
+    .about-accordion-card:hover{
+      transform:translateY(-1px);
+      box-shadow:0 16px 32px rgba(15,23,42,.07);
+      border-color:rgba(37,99,235,.12);
+    }
+    .about-accordion-card summary{
+      list-style:none;
+      cursor:pointer;
+      padding:18px 18px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      background:linear-gradient(180deg, #ffffff, #f8fbff);
+      font-weight:850;
+    }
+    .about-accordion-card summary::-webkit-details-marker{display:none}
+    .about-accordion-card summary span:first-child{
+      display:grid;
+      gap:4px;
+      min-width:0;
+    }
+    .about-accordion-card summary strong{
+      font-size:1.02rem;
+      letter-spacing:-.02em;
+      color:#0f172a;
+    }
+    .about-accordion-card summary small{
+      color:#64748b;
+      font-size:.9rem;
+      line-height:1.45;
+      font-weight:600;
+    }
+    .about-accordion-icon{
+      flex:0 0 auto;
+      width:40px;
+      height:40px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(15,23,42,.08);
+      background:#fff;
+      color:#334155;
+      transition:transform .3s ease, background .3s ease, color .3s ease;
+    }
+    .about-accordion-card[open] .about-accordion-icon{
+      transform:rotate(180deg);
+      background:rgba(37,99,235,.08);
+      color:var(--primary-2);
+      border-color:rgba(37,99,235,.12);
+    }
+    .about-accordion-body{
+      display:grid;
+      grid-template-rows:0fr;
+      transition:grid-template-rows .35s ease;
+      border-top:1px solid rgba(15,23,42,.06);
+    }
+    .about-accordion-card[open] .about-accordion-body{
+      grid-template-rows:1fr;
+    }
+    .about-accordion-body > div{
+      overflow:hidden;
+      padding:0 18px 18px;
+    }
+    .about-accordion-body p{
+      margin:14px 0 0;
+      color:#475569;
+      line-height:1.75;
+      font-size:.96rem;
+    }
+
+    .cards-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
     }
 
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
     }
+
+
+    /* Final polish overrides */
+    .group-head{
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto auto;
+      align-items:center;
+      gap:14px;
+    }
+    .group-head-left{
+      grid-column:1;
+    }
+    .group-pill{
+      grid-column:2;
+      justify-self:end;
+      margin-left:0;
+    }
+    .chev{
+      grid-column:3;
+      justify-self:end;
+    }
+    .cards-grid{
+      grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+    .service-card{
+      width:100%;
+    }
+
+    .about-shell{
+      display:grid;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+      gap:18px;
+      padding:24px;
+      border-radius:34px;
+      background:linear-gradient(180deg, rgba(255,255,255,.98), rgba(247,250,255,.98));
+      border:1px solid rgba(15,23,42,.06);
+      box-shadow:var(--shadow-card);
+      position:relative;
+      overflow:hidden;
+    }
+    .about-shell::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top right, rgba(37,99,235,.12), transparent 28%),
+        radial-gradient(circle at bottom left, rgba(15,23,42,.05), transparent 30%);
+      pointer-events:none;
+    }
+    .about-hero,
+    .about-feature-panel{
+      position:relative;
+      z-index:1;
+    }
+    .about-pill-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:18px;
+    }
+    .about-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:#fff;
+      border:1px solid rgba(37,99,235,.12);
+      color:#0f172a;
+      box-shadow:0 10px 22px rgba(15,23,42,.05);
+      font-size:.92rem;
+      font-weight:800;
+    }
+    .about-feature-panel{
+      border-radius:28px;
+      background:linear-gradient(180deg, rgba(15,23,42,.96), rgba(37,99,235,.94));
+      color:#fff;
+      padding:22px;
+      box-shadow:0 22px 50px rgba(15,23,42,.16);
+      display:grid;
+      align-content:start;
+      gap:14px;
+    }
+    .about-feature-head{
+      font-size:1.02rem;
+      font-weight:900;
+      letter-spacing:-.02em;
+      color:#fff;
+    }
+    .about-feature-grid{
+      display:grid;
+      gap:12px;
+    }
+    .about-feature-card{
+      padding:16px;
+      border-radius:20px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.14);
+      backdrop-filter:blur(10px);
+    }
+    .about-feature-card strong{
+      display:block;
+      margin-bottom:6px;
+      color:#fff;
+      font-size:.98rem;
+      letter-spacing:-.02em;
+    }
+    .about-feature-card span{
+      display:block;
+      color:rgba(255,255,255,.86);
+      line-height:1.7;
+      font-size:.95rem;
+    }
+    .about-feature-card-accent{
+      background:rgba(255,255,255,.16);
+      border-color:rgba(255,255,255,.20);
+    }
+
+    @media (max-width:860px){
+      .container{
+        width:100%;
+        padding-inline:6px;
+      }
+      .section{
+        padding:16px 0;
+      }
+      .hero-copy{
+        padding:20px 12px 16px;
+        border-radius:22px;
+      }
+      .hero-image img{
+        height:200px;
+      }
+      .section-glass,
+      .service-intro-shell,
+      .summary-panel,
+      .booking-panel,
+      .about-shell,
+      .contact-panel,
+      .review-card,
+      .faq-card,
+      .group-card{
+        border-radius:20px;
+      }
+      .services-layout{
+        gap:10px;
+      }
+      .summary-panel,
+      .booking-panel{
+        padding:14px;
+      }
+      .group-head{
+        padding:14px 12px;
+        gap:10px;
+        grid-template-columns:minmax(0,1fr) auto auto;
+      }
+      .group-title{
+        font-size:1rem;
+      }
+      .group-subtitle{
+        font-size:.9rem;
+        line-height:1.45;
+      }
+      .group-pill{
+        padding:8px 10px;
+        font-size:.8rem;
+      }
+      .group-content{
+        padding:0 12px 12px;
+      }
+      .cards-grid,
+      .package-grid{
+        grid-template-columns:1fr;
+        gap:10px;
+      }
+      .service-card{
+        padding:12px;
+        border-radius:18px;
+        box-shadow:0 10px 18px rgba(15,23,42,.04);
+      }
+      .service-top{
+        gap:8px;
+      }
+      .service-title{
+        font-size:.98rem;
+        line-height:1.18;
+      }
+      .service-summary{
+        font-size:.9rem;
+        line-height:1.55;
+      }
+      .service-actions{
+        margin-top:10px;
+      }
+      .service-toggle{
+        padding:9px 12px;
+        font-size:.92rem;
+      }
+      .date-picker{
+        padding:10px;
+        border-radius:18px;
+      }
+      .calendar-head{
+        padding:10px;
+        border-radius:14px;
+        gap:8px;
+        align-items:flex-start;
+      }
+      .calendar-grid{
+        min-width:0;
+        gap:4px;
+      }
+      .calendar-wrap{
+        overflow:visible;
+      }
+      .weekday,
+      .day{
+        min-height:40px;
+        border-radius:12px;
+      }
+      .about-shell{
+        grid-template-columns:1fr;
+        padding:14px;
+        gap:12px;
+      }
+      .about-pill-row{
+        gap:8px;
+        margin-top:14px;
+      }
+      .about-pill{
+        padding:9px 12px;
+        font-size:.84rem;
+      }
+      .about-feature-panel{
+        padding:16px;
+        border-radius:22px;
+      }
+      .about-feature-card{
+        padding:14px;
+        border-radius:18px;
+      }
+      .form-grid,
+      .contact-grid,
+      .reviews-grid,
+      .why-grid{
+        gap:10px;
+      }
+      .footer{
+        padding-bottom:88px;
+      }
+    }
+
+    @media (max-width:480px){
+      .hero-title{
+        font-size:clamp(1.78rem,8vw,2.45rem);
+      }
+      .service-intro-title{
+        font-size:clamp(1.72rem,8.3vw,2.5rem);
+      }
+      .section-title{
+        font-size:clamp(1.45rem,6.2vw,2rem);
+      }
+      .service-card .service-top{
+        grid-template-columns:auto minmax(0,1fr) auto;
+      }
+    }
+
+  
+    /* Overrides for list-style services and tighter mobile layout */
+    .cards-grid,
+    .package-grid{
+      grid-template-columns:1fr !important;
+      gap:12px !important;
+    }
+    .service-card{
+      display:block;
+      padding:14px 16px;
+    }
+    .service-top{
+      grid-template-columns:auto minmax(0,1fr) auto !important;
+      align-items:start;
+      gap:10px;
+    }
+    .service-copy{
+      min-width:0;
+    }
+    .service-title{
+      display:block;
+      -webkit-line-clamp:unset;
+      overflow:visible;
+      font-size:1rem;
+      line-height:1.18;
+    }
+    .service-summary{
+      margin-top:8px;
+      font-size:.93rem;
+      line-height:1.55;
+    }
+    .package-card{
+      padding:18px 16px;
+    }
+    .package-title{
+      margin:10px 0 0;
+    }
+    .package-summary{
+      display:none !important;
+    }
+    .package-actions{
+      margin-top:14px;
+      justify-content:flex-start;
+    }
+    .group-head{
+      grid-template-columns:minmax(0,1fr) auto auto !important;
+    }
+    .group-pill{
+      justify-self:end;
+      margin-left:0;
+    }
+    @media (max-width:860px){
+      .container{
+        width:100%;
+        padding-inline:4px;
+      }
+      .section{
+        padding:14px 0;
+      }
+      .section-glass,
+      .service-intro-shell,
+      .about-shell,
+      .summary-panel,
+      .booking-panel,
+      .contact-panel,
+      .review-card,
+      .faq-card,
+      .group-card{
+        border-radius:20px;
+      }
+      .services-layout{
+        gap:10px;
+      }
+      .group-head{
+        padding:14px 12px;
+        gap:10px;
+      }
+      .group-content{
+        padding:0 10px 10px !important;
+      }
+      .service-card,
+      .package-card{
+        padding:12px 12px 11px;
+      }
+      .service-top{
+        gap:8px;
+      }
+      .service-summary{
+        font-size:.9rem;
+      }
+      .package-features li{
+        padding:10px 12px;
+      }
+      .about-shell{
+        padding:14px;
+        gap:12px;
+      }
+      .about-feature-panel{
+        padding:16px;
+      }
+      .about-feature-card{
+        padding:14px;
+      }
+    }
+
 
   </style>
 </head>
@@ -1156,7 +1911,7 @@
               <span> paslaugos Ukmergėje</span>
             </h1>
             <p class="hero-text">
-              Salono ir kėbulo paruošimas, kad jūsų automobilis atrodytų nepriekaištingai tiek kasdienai, tiek pardavimui.
+              Kruopšti salono ir kėbulo priežiūra vienoje vietoje. Aiškios kainos ir patogi tuo pačiu greita registracija.
             </p>
             <div class="cta-row">
               <a class="btn btn-primary" href="#paslaugos">Peržiūrėti paslaugas</a>
@@ -1182,24 +1937,13 @@
               <span class="service-intro-line service-intro-line-blue">švaros paslaugos</span>
             </h2>
             <p class="service-intro-lead">
-              Pirmiausia pasirinkite paketą. Kai jis pažymėtas, galėsite pridėti papildomas paslaugas vienu mygtuku.
+              Pasirinkite pavienes paslaugas arba paruoštus paketus. Matysite kainą iš karto ir užsiregistruokite per kelias minutes.
             </p>
           </div>
         </div>
 
         <div class="services-layout">
-  <div>
-    <div class="services-stack" id="servicesStack"></div>
-
-    <div class="services-reveal-row">
-      <button class="services-reveal-btn" type="button" id="revealServicesBtn" disabled>Pridėti papildomų paslaugų</button>
-    </div>
-
-    <div class="extra-services-wrap" id="extraServicesWrap" aria-live="polite">
-      <div class="section-mini-note">Papildomos paslaugos atsirado žemiau. Pasirinkite tik tas, kurių tikrai reikia.</div>
-      <div class="services-stack" id="extraServicesStack"></div>
-    </div>
-  </div>
+  <div class="services-stack" id="servicesStack"></div>
 
   <aside class="summary-panel fade-in" aria-live="polite">
     <h3 style="margin:0 0 10px;">Dinaminė kaina</h3>
@@ -1219,7 +1963,7 @@
 <div class="booking-panel fade-in" id="registracija">
           <div class="section-title" style="margin-bottom:8px;">Registracija</div>
           <p class="section-lead" style="margin-bottom:18px;">
-            Užregistruokite automobilį tiesiogiai iš svetainės. Pasirinkta diena bus priskirta tik vienam klientui, o praeities dienos nėra aktyvios.
+            Užregistruokite automobilį tiesiogiai iš svetainės. Pasirinkta data bus priskirta tik vienam klientui, o praeities dienos nėra aktyvios.
           </p>
 
           <form id="bookingForm">
@@ -1247,20 +1991,19 @@
                   <div class="calendar-head">
                     <div>
                       <div class="calendar-month" id="calendarMonth">2026 m.</div>
-                      <div class="microcopy" style="margin-top:4px;">Pasirinkite dieną kalendoriuje.</div>
+                      <div class="calendar-subtitle">Pasirinkite vieną datą tiesiai kalendoriuje apačioje.</div>
                     </div>
                     <div class="calendar-nav">
                       <button class="icon-btn" type="button" id="prevMonth" aria-label="Ankstesnis mėnuo">‹</button>
                       <button class="icon-btn" type="button" id="nextMonth" aria-label="Kitas mėnuo">›</button>
                     </div>
                   </div>
-                  <div class="quick-date-row" id="quickDateRow" aria-label="Greitas datos pasirinkimas"></div>
                   <div class="calendar-wrap">
                     <div class="calendar-grid" id="calendarGrid"></div>
                   </div>
                   <div class="selected-date-chip" id="selectedDateChip" style="display:none;"></div>
                   <input id="data" name="Data" type="hidden" required />
-                  <div class="microcopy" id="dateHint">Pasirinkite laisvą dieną kalendoriuje.</div>
+                  <div class="microcopy" id="dateHint">Pasirinkite datą kalendoriuje.</div>
                 </div>
               </div>
 
@@ -1282,41 +2025,38 @@
       </div>
     </section>
 
+    
     <section id="apie" class="section">
       <div class="container">
-        <div class="about-grid">
-          <div class="about-panel fade-in">
-            <div class="section-title">Apie mus</div>
+        <div class="about-shell fade-in">
+          <div class="about-hero">
+            <div class="eyebrow">Apie mus</div>
+            <div class="section-title">Švarus automobilio vaizdas, aiškus procesas ir premium pojūtis telefone</div>
             <p class="section-lead">
-              Mes kuriame ne tik švarią, bet ir geriau parduodamą automobilio išvaizdą. Kiekviena procedūra parenkama taip, kad salonas atrodytų gaivesnis, kėbulas – tvarkingesnis, o bendras įspūdis – solidesnis tiek gyvai, tiek nuotraukose.
+              Dirbame taip, kad viskas būtų paprasta: pasirinkite paslaugą, matykite kainą, pažymėkite datą ir registruokitės be papildomo vargo.
             </p>
-            <p class="section-lead" style="margin-bottom:0;">
-              Dirbame aiškiai ir patogiai: matote paslaugas, pasirenkate norimus darbus, iš karto žinote kainą ir užsakymą pateikiate be papildomų žingsnių.
-            </p>
+
+            <div class="about-pill-row" aria-label="Pagrindiniai privalumai">
+              <span class="about-pill">Mėlyna, juoda, balta</span>
+              <span class="about-pill">Patogu telefone</span>
+              <span class="about-pill">Greita registracija</span>
+            </div>
           </div>
 
-          <div class="about-panel fade-in">
-            <div class="section-title">Kodėl rinktis mus</div>
-            <div class="why-grid">
-              <div class="why-item">
-                <strong>Aiškios paslaugos</strong>
-                <p>Kiekviena paslauga pateikta suprantamai, kad iš karto matytumėte, kas atliekama ir kokią vertę gaunate.</p>
+          <div class="about-feature-panel">
+            <div class="about-feature-head">Kodėl ši sistema atrodo kokybiškai</div>
+            <div class="about-feature-grid">
+              <div class="about-feature-card">
+                <strong>Aiškiai ir greitai</strong>
+                <span>Paslaugos, kainos ir data pateikti taip, kad nereikėtų ieškoti po kelis ekranus.</span>
               </div>
-              <div class="why-item">
-                <strong>Tvarkingas rezultatas</strong>
-                <p>Mūsų tikslas – ne tik išvalyti, bet ir sukurti vizualiai švaresnį, gaivesnį ir labiau prižiūrėtą automobilio įspūdį.</p>
+              <div class="about-feature-card">
+                <strong>Švarus vizualas</strong>
+                <span>Daug oro, minkšti šešėliai ir tvarkinga hierarchija sukuria aukštesnės klasės įspūdį.</span>
               </div>
-              <div class="why-item">
-                <strong>Patogi registracija</strong>
-                <p>Paslaugas pasirenkate vienoje vietoje, datą pažymite kalendoriuje ir užklausą pateikiate vos per kelias minutes.</p>
-              </div>
-              <div class="why-item">
-                <strong>Paketai pagal poreikį</strong>
-                <p>Nuo greito atnaujinimo iki pilnesnio paruošimo prieš pardavimą, kad galėtumėte pasirinkti tai, kas tikrai reikalinga.</p>
-              </div>
-              <div class="why-item">
-                <strong>Premium pateikimas</strong>
-                <p>Visa aplinka sukurta švariai, moderniai ir vientisai, kad jaustųsi aukštesnės klasės paslaugos įspūdis.</p>
+              <div class="about-feature-card about-feature-card-accent">
+                <strong>Premium akcentai</strong>
+                <span>Subtilūs mėlyni akcentai ir kontrastingas tekstas sustiprina modernų, solidų vaizdą.</span>
               </div>
             </div>
           </div>
@@ -1437,83 +2177,49 @@
     (function () {
       'use strict';
 
-      const groups = [
+      
+const groups = [
         {
           id: 'salonas',
           title: 'Salonas',
           subtitle: 'Tvarka, gaiva ir švara salone.',
-          pill: '10 paslaugų',
-          note: 'Šios paslaugos skirtos salono atnaujinimui prieš pardavimą, fotosesiją ar kasdienį naudojimą.',
+          pill: '5 paslaugų',
+          note: 'Salono paslaugos pateiktos nuo lengvesnio iki gilesnio valymo, kad rinktis būtų paprasta ir aišku.',
           services: [
             {
-              id: 18,
-              title: 'Stiklų valymas salone',
-              price: 15,
-              summary: 'Vidaus stiklų ir veidrodėlių valymas iki skaidraus rezultato.',
-              detail: 'Išvalomi priekinis ir galiniai stiklai, vidiniai veidrodėliai ir matomiausi kraštai, kad salono vaizdas būtų švaresnis, šviesesnis ir tvarkingesnis.'
-            },
-            {
-              id: 1,
-              title: 'Salono sausas valymas',
-              price: 25,
-              summary: 'Greitas ir kruopštus salono atnaujinimas be perteklinės drėgmės.',
-              detail: 'Pirmiausia kruopščiai išsiurbiamos sėdynės, kilimai, grindys ir visi tarpai. Tada sausu mikropluoštu nuvalomos dulkės, trupiniai ir lengvi nešvarumai, kad salonas iš karto atrodytų tvarkingesnis ir tinkamas fotosesijai.'
-            },
-            {
-              id: 19,
-              title: 'Panelės ir durelių valymas',
-              price: 30,
-              summary: 'Pagrindinių salono paviršių švarai ir vientisam įvaizdžiui.',
-              detail: 'Nuvaloma prietaisų panelė, durelių rankenos, porankiai ir kiti dažnai liečiami paviršiai, kad salonas atrodytų tvarkingas ir prižiūrėtas.'
-            },
-            {
-              id: 4,
-              title: 'Kilimėlių cheminis valymas',
-              price: 35,
-              summary: 'Kilimėlių gilesnis išvalymas ir gaivesnis vaizdas.',
-              detail: 'Kilimėliai išimami, išpurškiami aktyvia priemone, išvalomi nuo įsisenėjusių nešvarumų ir išdžiovinami, kad interjeras atrodytų švarus ir prižiūrėtas.'
-            },
-            {
-              id: 20,
-              title: 'Plastiko detalių atnaujinimas',
+              id: 101,
+              title: 'Pilnas salono sausas valymas',
               price: 40,
-              summary: 'Matinių plastikų gaivinimas be riebaus blizgesio.',
-              detail: 'Vidaus plastikai nuriebalinami, švelniai nuvalomi ir padengiami atnaujinančia priemone, kuri išlaiko natūralią, švarią išvaizdą.'
+              summary: 'Siurbimas, plastikai ir langai viename tvarkingame rezultate.',
+              detail: 'Išsiurbiamos pagrindinės salono vietos, nuvalomi plastikai ir stiklai, kad vidus atrodytų švarus, gaivus ir paruoštas naudojimui.'
             },
             {
-              id: 21,
-              title: 'Kvapų neutralizavimas',
-              price: 45,
-              summary: 'Nemalonių kvapų mažinimas ir gaivesnė salono aplinka.',
-              detail: 'Salono oras ir paviršiai apdorojami kvapus mažinančiomis priemonėmis, kad automobilis būtų malonesnis tiek pardavimui, tiek kasdieniam naudojimui.'
+              id: 102,
+              title: 'Kilimėlių cheminis valymas',
+              price: 20,
+              summary: 'Kilimėliai išvalomi nuo dėmių ir nešvarumų.',
+              detail: 'Kilimėliai išimami, išpurškiami ir išvalomi, kad interjeras atrodytų švaresnis ir gaivesnis.'
             },
             {
-              id: 22,
-              title: 'Sėdynių tarpų giluminis išsiurbimas',
-              price: 55,
-              summary: 'Tikslinis valymas ten, kur dažniausiai kaupiasi trupiniai.',
-              detail: 'Specialiais antgaliais pasiekiami tarpai tarp sėdynių, bėgeliai ir sunkiau prieinamos vietos, iš kurių pašalinamos dulkės, smulkūs trupiniai ir šiukšlės.'
+              id: 103,
+              title: 'Pilnas salono cheminis valymas',
+              price: 90,
+              summary: 'Gilus salono atnaujinimas ir ryškiai gaivesnis vaizdas.',
+              detail: 'Atliekamas gilesnis salono valymas su dėmių, dulkių ir įsisenėjusių nešvarumų mažinimu, kad automobilio vidus atrodytų stipriai atnaujintas.'
             },
             {
-              id: 3,
-              title: 'Plastikų atnaujinimas',
-              price: 60,
-              summary: 'Panelės, durų ir salono plastikų vizualinis atgaivinimas.',
-              detail: 'Paviršiai pirmiausia nuriebalinami, tada nuvalomi ir atnaujinami specialiomis priemonėmis, kurios sugrąžina vientisą, tvarkingą išvaizdą be riebaus blizgesio.'
+              id: 104,
+              title: 'Odinių sėdynių valymas',
+              price: 30,
+              summary: 'Odos paviršius švelniai nuvalomas ir atgaivinamas.',
+              detail: 'Odinės sėdynės valomos specialiomis priemonėmis, kurios padeda išlaikyti estetišką vaizdą ir tvarkingą paviršių.'
             },
             {
-              id: 23,
-              title: 'Sėdynių dėmių lokalus valymas',
-              price: 75,
-              summary: 'Tikslinis dėmių mažinimas ant tekstilės ar odos.',
-              detail: 'Įsisenėjusios dėmės apdorojamos pagal paviršiaus tipą, kad sėdynės atrodytų švaresnės, lygesnės ir vizualiai patrauklesnės.'
-            },
-            {
-              id: 2,
-              title: 'Cheminis salono valymas',
-              price: 110,
-              summary: 'Gilesnis salono atnaujinimas su dėmių ir kvapų mažinimu.',
-              detail: 'Naudojamos aktyvios priemonės pagal medžiagą: tekstilei, odai ar plastikui. Pirmiausia apdorojamos dėmės, po to paviršiai išvalomi ir ištraukiami nešvarumai, kad salonas taptų švaresnis ir gaivesnis.'
+              id: 105,
+              title: 'Plastmasinių dalių atnaujinimas',
+              price: 30,
+              summary: 'Plastikai nuvalomi ir vizualiai sugaivinami.',
+              detail: 'Vidaus plastiko detalės nuvalomos ir atnaujinamos, kad salonas atrodytų modernesnis ir švaresnis.'
             }
           ]
         },
@@ -1521,78 +2227,71 @@
           id: 'kebulas',
           title: 'Kėbulas',
           subtitle: 'Išorės blizgesys, apsauga ir vizualinis efektas.',
-          pill: '10 paslaugų',
-          note: 'Kėbulo grupė apima tiek vizualinį atnaujinimą, tiek pasiruošimą gražesniam pardavimo įvaizdžiui.',
+          pill: '9 paslaugos',
+          note: 'Kėbulo paslaugos sudėtos pagal kainą, nuo greito atnaujinimo iki stipresnio vizualinio efekto.',
           services: [
             {
-              id: 10,
+              id: 201,
+              title: 'Vabzdžių likučių šalinimas',
+              price: 5,
+              summary: 'Pašalinami vabzdžių likučiai nuo priekinės dalies.',
+              detail: 'Kruopščiai nuvalomi vabzdžių pėdsakai nuo bamperio, kapoto ir kitų matomų vietų.'
+            },
+            {
+              id: 202,
               title: 'Padangų juodinimas',
-              price: 8,
-              summary: 'Padangoms suteikiama sodresnė ir švaresnė išvaizda.',
-              detail: 'Padangos nuvalomos nuo dulkių ir senų priemonių likučių, tuomet padengiamos juodinimo priemone, kuri vizualiai suvienodina spalvą ir paryškina automobilio stovą.'
+              price: 5,
+              summary: 'Padangos paryškinamos tamsesnei ir švaresnei išvaizdai.',
+              detail: 'Padangos padengiamos juodinimo priemone, kad automobilis vizualiai atrodytų tvarkingesnis.'
             },
             {
-              id: 5,
-              title: 'Plovimas',
+              id: 203,
+              title: 'Bekontaktis plovimas',
               price: 20,
-              summary: 'Kruopštus išorės plovimas prieš fotosesiją ar paruošimą.',
-              detail: 'Kėbulas plaunamas etapais: pašalinami purvai, dulkės, druskos ir kelio nuosėdos. Ypatingas dėmesys skiriamas vietoms aplink ratų arkas, slenksčius ir sunkiau pasiekiamus kampus.'
+              summary: 'Kėbulas plaunamas švelniai, be prisilietimo šepečiais.',
+              detail: 'Pašalinami pagrindiniai nešvarumai, druskos ir kelio apnašos, išlaikant saugų ir vizualiai švarų rezultatą.'
             },
             {
-              id: 11,
-              title: 'Vaško padengimas (antras etapas)',
-              price: 25,
-              summary: 'Papildomas apsauginis sluoksnis ir sodresnis blizgesys.',
-              detail: 'Antras sluoksnis naudojamas tuomet, kai norisi dar sodresnio blizgesio ir papildomo paviršiaus užbaigimo prieš automobilio pardavimą.'
+              id: 204,
+              title: 'Kėbulo džiovinimas',
+              price: 10,
+              summary: 'Nuimami vandens lašai ir paliekamas švaresnis paviršius.',
+              detail: 'Po plovimo kėbulas džiovinamas taip, kad neliktų ryškių lašų žymių ar nubėgimų.'
             },
             {
-              id: 24,
-              title: 'Ratlankių valymas',
-              price: 30,
-              summary: 'Ratlankių paviršiaus ir tarpo atnaujinimas.',
-              detail: 'Ratlankiai išvalomi nuo dulkių, stabdžių apnašų ir kelių nešvarumų, kad automobilio išorė atrodytų kur kas tvarkingiau.'
+              id: 205,
+              title: 'Ratlankių giluminis valymas',
+              price: 15,
+              summary: 'Išvalomos stabdžių dulkės ir susikaupę nešvarumai.',
+              detail: 'Ratlankiai išvalomi giliau, kad automobilio išorė atrodytų ryškiau ir tvarkingiau.'
             },
             {
-              id: 6,
-              title: 'Vaško padengimas',
+              id: 206,
+              title: 'Vaškavimas',
+              price: 10,
+              summary: 'Suteikiamas blizgesys ir papildoma paviršiaus apsauga.',
+              detail: 'Ant švaraus kėbulo padengiamas vaško sluoksnis, padedantis išlaikyti gražesnį blizgesį ir geresnį paviršiaus užbaigimą.'
+            },
+            {
+              id: 207,
+              title: 'Smulkių defektų maskavimas',
               price: 35,
-              summary: 'Didesnis blizgesys ir apsauginis sluoksnis kėbului.',
-              detail: 'Po švaraus plovimo ant kėbulo padengiamas vaško sluoksnis, kuris sustiprina blizgesį, padeda vandeniui nubėgti nuo paviršiaus ir suteikia vizualiai sodresnį efektą.'
+              summary: 'Maži įbrėžimai vizualiai sumažinami pagal spalvą.',
+              detail: 'Smulkūs defektai maskuojami pagal spalvos kodą, kad jie būtų mažiau matomi gyvai ir nuotraukose.'
             },
             {
-              id: 8,
+              id: 208,
               title: 'Žibintų poliravimas',
-              price: 45,
-              summary: 'Skaidresni ir gražesni priekiniai žibintai.',
-              detail: 'Žibintų paviršius atnaujinamas, mažinamas matinimas ir pageltimas, kad automobilio priekis atrodytų tvarkingiau ir šviesa būtų paskirstoma tolygiau.'
+              price: 35,
+              summary: 'Žibintai išskaidrinami ir vizualiai atnaujinami.',
+              detail: 'Poliruojami žibintai, mažinamas matinimas ir pageltimas, kad automobilio priekis atrodytų švaresnis.'
             },
             {
-              id: 9,
-              title: 'Smulkių defektų maskavimas su markeriu / dažais pagal spalvą',
-              price: 55,
-              summary: 'Smulkių įbrėžimų ir nelygumų vizualinis sumažinimas.',
-              detail: 'Maži defektai įvertinami, lokalizuojami ir koreguojami markeriu arba dažais pagal spalvą taip, kad jie mažiau matytųsi gyvai bei nuotraukose.'
-            },
-            {
-              id: 25,
-              title: 'Apsauginio sealanto padengimas',
-              price: 65,
-              summary: 'Ilgiau išliekantis paviršiaus gaivumo efektas.',
-              detail: 'Ant švaraus kėbulo padengiamas apsauginis sluoksnis, padedantis ilgiau išlaikyti švaresnę išvaizdą ir geresnį blizgesį.'
-            },
-            {
-              id: 26,
-              title: 'Mikroįbrėžimų korekcija',
-              price: 95,
-              summary: 'Paviršinių defektų mažinimas ir vientisesnis vaizdas.',
-              detail: 'Smulkūs lako defektai koreguojami taip, kad automobilio kėbulas vizualiai atrodytų lygesnis ir tvarkingesnis.'
-            },
-            {
-              id: 7,
-              title: 'Kėbulo poliravimas',
-              price: 160,
-              summary: 'Lako paviršiaus atgaivinimas ir vizualiai geresnis blizgesys.',
-              detail: 'Atliekamas pagal lako būklę parinktas poliravimo procesas, kuris padeda sumažinti smulkius paviršinius defektus, sustiprinti blizgesį ir padaryti automobilį patrauklesnį nuotraukose.'
+              id: 209,
+              title: 'Poliravimas (1 žingsnio)',
+              price: 100,
+              summary: 'Atgaivinamas lako paviršius ir sustiprinamas blizgesys.',
+              detail: 'Vieno žingsnio poliravimas skirtas kėbulo paviršiui atnaujinti, sumažinti smulkius defektus ir vizualiai pagerinti blizgesį.'
             }
           ]
         },
@@ -1614,58 +2313,7 @@
               features: ['Siurbimas', 'Stiklų valymas', 'Panelės valymas', 'Plastikų valymas'],
               detail: 'Atliekamas bazinis, bet tvarkingas salono atnaujinimas: išsiurbiamos pagrindinės zonos, nuvalomi stiklai, panelė ir plastikai, kad automobilio vidus iškart atrodytų švaresnis ir gaivesnis. Tai geras pasirinkimas, kai reikia greito rezultato prieš kasdienį naudojimą ar trumpą pardavimo paruošimą.',
               detailTitle: 'Kas atliekama šiame pakete',
-              detailPoints: ["Salonas kruopščiai išsiurbiamas ir paruošiamas vizualiai švaresniam vaizdui.", "Nuvalomi stiklai, panelė ir pagrindiniai plastikai.", "Atliekamas greitas, bet tvarkingas atgaivinimas prieš kasdienį naudojimą.", "Tinka, kai reikia gaivaus rezultato be ilgos procedūros."]
-            },
-            {
-              id: 16,
-              title: 'Vidutinis paketas – 129 €',
-              price: 129,
-              badge: 'Populiariausias',
-              ribbon: 'Geriausias balansas',
-              summary: 'Standartinis paketas ir papildomai cheminis salono valymas, kilimėlių cheminis valymas, žibintų poliravimas.',
-              features: ['Viskas iš standartinio', 'Salono cheminis valymas', 'Kilimėlių cheminis valymas', 'Žibintų poliravimas'],
-              detail: 'Šis variantas sujungia bazinę švarą su gilesniu atnaujinimu: papildomai atliekamas cheminis salono valymas, tvarkomi kilimėliai, atgaivinami žibintai ir išvalomi dažniausiai matomi paviršiai. Rezultatas — gaivesnis, tvarkingesnis ir labiau pardavimui paruoštas automobilis.',
-              detailTitle: 'Kas atliekama šiame pakete',
-              detailPoints: ["Atliekamas viso bazinio paketo darbų komplektas.", "Papildomai naudojamas cheminis salono valymas ir kilimėlių atnaujinimas.", "Žibintai poliruojami, kad automobilio priekis atrodytų skaidresnis ir tvarkingesnis.", "Rezultatas labiau orientuotas į pardavimo įspūdį ir bendrą gaivą."]
-            },
-            {
-              id: 17,
-              title: 'MAXI paketas – 249 €',
-              price: 249,
-              badge: 'Maksimalus',
-              ribbon: 'Premium rezultatas',
-              summary: 'Standartinis ir vidutinis paketai + kėbulo 1 step poliravimas, padangų juodinimas, vidaus plastikų atnaujinimas.',
-              features: ['Viskas iš ankstesnių paketų', 'Kėbulo 1 step poliravimas', 'Padangų juodinimas', 'Vidaus plastikų atnaujinimas'],
-              detail: 'Pilnas paruošimas skirtas stipriausiam vizualiniam efektui: be standartinių ir vidutinių veiksmų atliekamas 1 step kėbulo poliravimas, juodinamos padangos, atnaujinami vidiniai plastikų paviršiai ir paruošiamas itin tvarkingas bendras pateikimas. Šis paketas sukurtas tada, kai norisi, kad automobilis atrodytų maksimaliai tvarkingas ir įsimintinas.',
-              detailTitle: 'Kas atliekama šiame pakete',
-              detailPoints: ["Atliekami visi baziniai ir vidutinio paketo darbai.", "Kėbulas papildomai poliruojamas 1 step principu.", "Padangos juodinamos, o vidaus plastikai atnaujinami.", "Tai pilnesnis vizualinis paruošimas stipresniam įspūdžiui."]
-            }
-          ]
-        },
-        {
-          id: 'paketai',
-          type: 'packages',
-          title: 'Automobilio paruošimas pardavimui',
-          subtitle: 'Trys paketai, sukurti skirtingam biudžetui ir rezultatui.',
-          pill: '3 paketai',
-          note: 'Paketai sukurti taip, kad juose jau būtų sudėta svarbiausia kombinacija pagal pasirinktą lygį.',
-          services: [
-            {
-              id: 12,
-              title: 'Standartinis paketas – 89 €',
-              price: 89,
-              badge: 'Startas',
-              ribbon: 'Bazinis',
-              summary: 'Auto plovimas, vaško padengimas, pilnas sausas salono valymas, nuotraukų padarymas, skelbimo įdėjimas į Autoplius.',
-              features: [
-                'Auto plovimas ir vaško padengimas',
-                'Pilnas sausas salono valymas',
-                'Nuotraukų paruošimas',
-                'Skelbimo įdėjimas į Autoplius'
-              ],
-              detail: 'Šis paketas apima pagrindinį paruošimą pardavimui: automobilis nuplaunamas, nuvalomi langai, išsiurbiamas salonas, sutvarkomi pagrindiniai paviršiai ir uždedamas vaško sluoksnis. Papildomai paruošiamos pardavimui tinkamos nuotraukos bei skelbimo bazinis turinys, kad automobilio pateikimas būtų tvarkingas ir aiškus.',
-              detailTitle: 'Kas atliekama šiame pakete',
-              detailPoints: ["Automobilis nuplaunamas ir padengiamas vaško sluoksniu.", "Pilnai išsiurbiamas sausas salonas, nuvalomi pagrindiniai paviršiai.", "Padaromos pardavimui tinkamos nuotraukos ir paruošiamas skelbimas.", "Šis paketas skirtas greitam, tvarkingam startui prieš pardavimą."]
+              detailPoints: ["Salonas kruopščiai išsiurbiamas ir paruošiamas vizualiai švaresniam vaizdui.", "Nuvalomi stiklai ir matomiausi vidiniai paviršiai.", "Panelė ir plastikai atgaivinami, kad salonas atrodytų tvarkingesnis."]
             },
             {
               id: 13,
@@ -1674,12 +2322,7 @@
               badge: 'Populiariausias',
               ribbon: 'Rekomenduojama',
               summary: 'Viskas iš standartinio paketo + cheminis salono valymas, padangų juodinimas, žibintų poliravimas.',
-              features: [
-                'Standartinio paketo darbai',
-                'Cheminis salono valymas',
-                'Padangų juodinimas',
-                'Žibintų poliravimas'
-              ],
+              features: ['Standartinio paketo darbai', 'Cheminis salono valymas', 'Padangų juodinimas', 'Žibintų poliravimas'],
               detail: 'Į šį paketą įeina visi baziniai darbai, papildomai atliekamas cheminis salono valymas, giliau sutvarkomi kilimėliai, atnaujinami žibintai ir suvienodinami matomiausi salono paviršiai. Rezultatas — švaresnis, gaivesnis ir vizualiai solidesnis automobilis, kuris pardavimui atrodo žymiai stipriau.',
               detailTitle: 'Kas atliekama šiame pakete',
               detailPoints: ["Atliekami visi standartinio paketo darbai.", "Pridedamas cheminis salono valymas ir padangų juodinimas.", "Žibintai poliruojami, kad automobilis vizualiai atrodytų naujesnis.", "Tai geras balansas tarp kainos, švaros ir pardavimo efekto."]
@@ -1691,15 +2334,86 @@
               badge: 'Maksimalus',
               ribbon: 'TOP',
               summary: 'Viskas iš standartinio ir vidutinio paketo + 1 step poliravimas, skelbimų kėlimas į 3 populiariausius portalus su iškėlimais.',
-              features: [
-                'Standartinio ir vidutinio paketo darbai',
-                '1 step kėbulo poliravimas',
-                'Skelbimai į 3 portalus',
-                'Iškėlimai ir maksimalus matomumas'
-              ],
+              features: ['Standartinio ir vidutinio paketo darbai', '1 step kėbulo poliravimas', 'Skelbimai į 3 portalus', 'Iškėlimai ir maksimalus matomumas'],
               detail: 'Tai pilniausias variantas: atliekami baziniai ir vidutiniai darbai, papildomas 1 step poliravimas, sustiprinamas kėbulo blizgesys ir pasirūpinama platesniu skelbimų matomumu. Šis paketas skirtas maksimaliai stipriam įspūdžiui, kai svarbu ir automobilio išvaizda, ir jo pateikimo kokybė.',
               detailTitle: 'Kas atliekama šiame pakete',
               detailPoints: ["Atliekami baziniai ir vidutiniai darbai, kad automobilis būtų paruoštas kompleksiškai.", "Papildomai atliekamas 1 step poliravimas, kad kėbulas atrodytų blizgesnis.", "Skelbimai keliami į 3 populiariausius portalus su iškėlimais.", "Skirtas maksimaliam matomumui ir stipriausiam bendram pateikimui."]
+            }
+          ]
+        },
+        {
+          id: 'paruosimas-pardavimui',
+          type: 'packages',
+          title: 'Automobilių paruošimas pardavimui',
+          subtitle: 'Trys paketai, sudėti pagal augantį rezultatą ir biudžetą.',
+          pill: '3 paketai',
+          note: 'Pilnas pardavimui skirtas paruošimas nuo bazinio starto iki maksimalaus vizualinio efekto.',
+          services: [
+            {
+              id: 301,
+              title: 'Standartinis paketas – 89 €',
+              price: 89,
+              badge: 'Startas',
+              ribbon: 'Bazinis',
+              summary: 'Auto plovimas, vaško padengimas, pilnas sausas salono valymas, nuotraukų paruošimas ir skelbimo įdėjimas į Autoplius.',
+              features: [
+                'Auto plovimas ir vaško padengimas',
+                'Pilnas sausas salono valymas',
+                'Nuotraukų paruošimas',
+                'Skelbimo įdėjimas į Autoplius'
+              ],
+              detail: 'Bazinis, bet labai tvarkingas paruošimas pardavimui: automobilis nuplaunamas, nuvalomi langai, išsiurbiamas salonas, sutvarkomi pagrindiniai paviršiai ir uždedamas vaško sluoksnis. Papildomai paruošiamos pardavimui tinkamos nuotraukos bei skelbimo bazinis turinys, kad automobilis būtų pateiktas aiškiai ir patraukliai.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: [
+                'Automobilis nuplaunamas ir padengiamas vaško sluoksniu.',
+                'Pilnai išsiurbiamas sausas salonas, nuvalomi pagrindiniai paviršiai.',
+                'Padaromos pardavimui tinkamos nuotraukos ir paruošiamas skelbimas.',
+                'Šis paketas skirtas greitam ir tvarkingam startui prieš pardavimą.'
+              ]
+            },
+            {
+              id: 302,
+              title: 'Vidutinis paketas – 149 €',
+              price: 149,
+              badge: 'Populiariausias',
+              ribbon: 'Rekomenduojama',
+              summary: 'Viskas iš standartinio paketo + cheminis salono valymas, padangų juodinimas ir žibintų poliravimas.',
+              features: [
+                'Standartinio paketo darbai',
+                'Cheminis salono valymas',
+                'Padangų juodinimas',
+                'Žibintų poliravimas'
+              ],
+              detail: 'Į šį paketą įeina visi baziniai darbai, papildomai atliekamas cheminis salono valymas, giliau sutvarkomi kilimėliai, atnaujinami žibintai ir suvienodinami matomiausi salono paviršiai. Rezultatas — švaresnis, gaivesnis ir vizualiai solidesnis automobilis, kuris pardavimui atrodo žymiai stipriau.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: [
+                'Atliekami visi standartinio paketo darbai.',
+                'Pridedamas cheminis salono valymas ir padangų juodinimas.',
+                'Žibintai poliruojami, kad automobilis vizualiai atrodytų naujesnis.',
+                'Tai geras balansas tarp kainos, švaros ir pardavimo efekto.'
+              ]
+            },
+            {
+              id: 303,
+              title: 'MAXI paketas – 249 €',
+              price: 249,
+              badge: 'Maksimalus',
+              ribbon: 'Premium rezultatas',
+              summary: 'Standartinis ir vidutinis paketai + kėbulo 1 step poliravimas, padangų juodinimas ir vidaus plastikų atnaujinimas.',
+              features: [
+                'Viskas iš ankstesnių paketų',
+                'Kėbulo 1 step poliravimas',
+                'Padangų juodinimas',
+                'Vidaus plastikų atnaujinimas'
+              ],
+              detail: 'Pilnas paruošimas stipriausiam vizualiniam efektui: be standartinių ir vidutinių veiksmų atliekamas 1 step kėbulo poliravimas, juodinamos padangos, atnaujinami vidiniai plastikų paviršiai ir paruošiamas itin tvarkingas bendras pateikimas. Šis paketas sukurtas tada, kai norisi, kad automobilis atrodytų maksimaliai tvarkingas ir įsimintinas.',
+              detailTitle: 'Kas atliekama šiame pakete',
+              detailPoints: [
+                'Atliekami visi baziniai ir vidutinio paketo darbai.',
+                'Kėbulas papildomai poliruojamas 1 step principu.',
+                'Padangos juodinamos, o vidaus plastikai atnaujinami.',
+                'Tai pilnesnis vizualinis paruošimas stipresniam įspūdžiui.'
+              ]
             }
           ]
         }
@@ -1708,15 +2422,11 @@
       const state = {
         selected: new Set(),
         currentMonth: new Date(),
-        bookedDates: new Set(JSON.parse(localStorage.getItem('automobiliusBookedDates') || '[]')),
-        extrasVisible: false
+        bookedDates: new Set(JSON.parse(localStorage.getItem('automobiliusBookedDates') || '[]'))
       };
 
       const els = {
         servicesStack: document.getElementById('servicesStack'),
-        extraServicesStack: document.getElementById('extraServicesStack'),
-        extraServicesWrap: document.getElementById('extraServicesWrap'),
-        revealServicesBtn: document.getElementById('revealServicesBtn'),
         totalAmount: document.getElementById('totalAmount'),
         selectedList: document.getElementById('selectedList'),
         selectedCount: document.getElementById('selectedCount'),
@@ -1765,13 +2475,8 @@
         els.summaryBox.value = selected.length
           ? `Pasirinkti darbai:\n${selected.map((s) => `• ${s.title} — ${money(s.price)}`).join('\n')}\n\nSuma: ${money(total)}`
           : `Pasirinkti darbai:\nNėra pasirinktų paslaugų.\n\nSuma: ${money(total)}`;
-
-        if (els.revealServicesBtn && !state.extrasVisible) {
-          const enabled = hasSelectedPackage();
-          els.revealServicesBtn.disabled = !enabled;
-          els.revealServicesBtn.textContent = enabled ? 'Pridėti papildomų paslaugų' : 'Pirmiausia pasirinkite paketą';
-        }
       }
+
       function buildServiceCard(service) {
         const card = document.createElement('article');
         card.className = 'service-card fade-in';
@@ -1779,24 +2484,21 @@
         card.innerHTML = `
           <div class="service-top">
             <input class="check" type="checkbox" aria-label="Pasirinkti ${service.title}" data-service-id="${service.id}">
-            <div>
+            <div class="service-copy">
               <h3 class="service-title">${service.title}</h3>
+              <p class="service-summary">${service.summary}</p>
             </div>
             <div class="service-price">${money(service.price)}</div>
-          </div>
-          <button class="service-toggle" type="button" aria-expanded="false">Plačiau</button>
-          <div class="service-details">
-            <div class="package-detail-title">Kas atliekama šiame darbe</div>
-            <p class="package-detail-copy">${service.summary}</p>
-            <p class="package-detail-copy">${service.detail}</p>
           </div>
         `;
 
         const checkbox = card.querySelector('input[type="checkbox"]');
-        const toggle = card.querySelector('.service-toggle');
-        const selected = state.selected.has(service.id);
-        checkbox.checked = selected;
-        card.classList.toggle('selected', selected);
+
+        card.addEventListener('click', (event) => {
+          if (event.target.closest('input')) return;
+          checkbox.checked = !checkbox.checked;
+          checkbox.dispatchEvent(new Event('change', { bubbles: true }));
+        });
 
         checkbox.addEventListener('change', () => {
           if (checkbox.checked) state.selected.add(service.id);
@@ -1805,14 +2507,9 @@
           updateSummary();
         });
 
-        toggle.addEventListener('click', () => {
-          const open = card.classList.toggle('is-open');
-          toggle.textContent = open ? 'Sutraukti' : 'Plačiau';
-          toggle.setAttribute('aria-expanded', String(open));
-        });
-
         return card;
       }
+
 
       function buildPackageCard(service) {
         const card = document.createElement('article');
@@ -1824,7 +2521,6 @@
             <div class="package-copy">
               <div class="package-badge">${service.badge || 'Paketas'}</div>
               <h3 class="package-title">${service.title}</h3>
-              <p class="package-summary">${service.summary}</p>
             </div>
             <div class="package-price-wrap">
               <div class="package-price-label">Kaina</div>
@@ -1841,24 +2537,13 @@
               <input class="check" type="checkbox" aria-label="Pasirinkti ${service.title}" data-service-id="${service.id}">
               <span>Pasirinkti paketą</span>
             </label>
-            <button class="service-toggle" type="button" aria-expanded="false">Plačiau</button>
-          </div>
-
-          <div class="service-details">
-            <div class="package-detail-title">${service.detailTitle || 'Kas atliekama šiame pakete'}</div>
-            <p class="package-detail-copy">${service.detail}</p>
-            ${detailPoints.length ? `<ul class="package-detail-list">${detailPoints.map((item) => `<li>${item}</li>`).join('')}</ul>` : ''}
           </div>
         `;
 
         const checkbox = card.querySelector('input[type="checkbox"]');
-        const toggle = card.querySelector('.service-toggle');
-        const selected = state.selected.has(service.id);
-        checkbox.checked = selected;
-        card.classList.toggle('selected', selected);
 
         card.addEventListener('click', (event) => {
-          if (event.target.closest('button') || event.target.closest('input')) return;
+          if (event.target.closest('input')) return;
           checkbox.checked = !checkbox.checked;
           checkbox.dispatchEvent(new Event('change', { bubbles: true }));
         });
@@ -1870,16 +2555,12 @@
           updateSummary();
         });
 
-        toggle.addEventListener('click', () => {
-          const open = card.classList.toggle('is-open');
-          toggle.textContent = open ? 'Sutraukti' : 'Plačiau';
-          toggle.setAttribute('aria-expanded', String(open));
-        });
-
         return card;
       }
 
       function formatDateLabel(date) {
+
+
         return date.toLocaleDateString('lt-LT', {
           weekday: 'short',
           day: 'numeric',
@@ -1942,8 +2623,10 @@
             <div class="chev" aria-hidden="true">⌄</div>
           </button>
           <div class="group-content">
-            <p class="group-note">${group.note}</p>
-            <div class="${isPackageGroup ? 'package-grid' : 'cards-grid'}"></div>
+            <div class="group-content-inner">
+              <p class="group-note">${group.note}</p>
+              <div class="${isPackageGroup ? 'package-grid' : 'cards-grid'}"></div>
+            </div>
           </div>
         `;
 
@@ -1956,11 +2639,6 @@
           sortedServices.forEach((service) => cardsGrid.appendChild(buildServiceCard(service)));
         }
 
-        if (isPackageGroup) {
-          card.classList.add('is-open');
-          head.setAttribute('aria-expanded', 'true');
-        }
-
         head.addEventListener('click', () => {
           const open = card.classList.toggle('is-open');
           head.setAttribute('aria-expanded', String(open));
@@ -1971,58 +2649,8 @@
 
       function renderServices() {
         els.servicesStack.innerHTML = '';
-        groups.filter((group) => group.type === 'packages').forEach((group) => {
-          els.servicesStack.appendChild(buildGroupCard(group));
-        });
-
-        if (els.extraServicesStack) {
-          els.extraServicesStack.innerHTML = '';
-        }
-
-        if (state.extrasVisible) {
-          renderExtraServices();
-        } else if (els.extraServicesWrap) {
-          els.extraServicesWrap.classList.remove('is-visible');
-          els.extraServicesWrap.style.display = 'none';
-        }
-
+        groups.forEach((group) => els.servicesStack.appendChild(buildGroupCard(group)));
         observeFadeIns();
-      }
-
-      function renderExtraServices() {
-        if (!els.extraServicesStack || !els.extraServicesWrap) return;
-
-        els.extraServicesStack.innerHTML = '';
-        groups.filter((group) => group.type !== 'packages').forEach((group) => {
-          els.extraServicesStack.appendChild(buildGroupCard(group));
-        });
-
-        els.extraServicesWrap.style.display = 'block';
-        requestAnimationFrame(() => {
-          els.extraServicesWrap.classList.add('is-visible');
-        });
-        observeFadeIns();
-      }
-
-      function hasSelectedPackage() {
-        return groups
-          .filter((group) => group.type === 'packages')
-          .some((group) => group.services.some((service) => state.selected.has(service.id)));
-      }
-
-      function revealExtraServices() {
-        if (state.extrasVisible) return;
-        if (!hasSelectedPackage()) {
-          els.revealServicesBtn?.focus();
-          return;
-        }
-        state.extrasVisible = true;
-        renderExtraServices();
-        if (els.revealServicesBtn) {
-          els.revealServicesBtn.textContent = 'Papildomos paslaugos atidarytos';
-          els.revealServicesBtn.disabled = true;
-        }
-        els.extraServicesWrap?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
       function getMonthLabel(date) {
@@ -2074,7 +2702,7 @@
         const today = todayStart();
         state.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
         els.dateField.value = '';
-        els.dateHint.textContent = 'Pasirinkite laisvą dieną kalendoriuje.';
+        els.dateHint.textContent = 'Pasirinkite datą kalendoriuje.';
         els.selectedDateChip.style.display = 'none';
         renderQuickDates();
       }
@@ -2161,44 +2789,20 @@
         renderCalendar();
       });
 
-      els.revealServicesBtn?.addEventListener('click', revealExtraServices);
-
       els.clearBooking.addEventListener('click', () => {
         state.selected.clear();
-        state.extrasVisible = false;
         els.bookingForm.reset();
         clearSelectedDate();
-
-        if (els.revealServicesBtn) {
-          els.revealServicesBtn.disabled = true;
-          els.revealServicesBtn.textContent = 'Pirmiausia pasirinkite paketą';
-        }
-
-        if (els.extraServicesWrap) {
-          els.extraServicesWrap.classList.remove('is-visible');
-          els.extraServicesWrap.style.display = 'none';
-        }
-
-        renderServices();
-
         document.querySelectorAll('.service-card').forEach((card) => {
-          card.classList.remove('selected', 'is-open');
+          card.classList.remove('selected');
           const check = card.querySelector('input[type="checkbox"]');
-          const toggle = card.querySelector('.service-toggle');
           if (check) check.checked = false;
-          if (toggle) {
-            toggle.textContent = 'Plačiau';
-            toggle.setAttribute('aria-expanded', 'false');
-          }
         });
-
         document.querySelectorAll('.group-card').forEach((card) => {
-          const isPackage = card.dataset.groupType === 'packages';
-          card.classList.toggle('is-open', isPackage);
+          card.classList.remove('is-open');
           const head = card.querySelector('.group-head');
-          if (head) head.setAttribute('aria-expanded', String(isPackage));
+          if (head) head.setAttribute('aria-expanded', 'false');
         });
-
         updateSummary();
         renderCalendar();
       });
@@ -2254,28 +2858,17 @@
           saveBookedDates();
           openModal();
           state.selected.clear();
-          state.extrasVisible = false;
           els.bookingForm.reset();
           clearSelectedDate();
-          if (els.revealServicesBtn) {
-            els.revealServicesBtn.disabled = true;
-            els.revealServicesBtn.textContent = 'Pirmiausia pasirinkite paketą';
-          }
-          if (els.extraServicesWrap) {
-            els.extraServicesWrap.classList.remove('is-visible');
-            els.extraServicesWrap.style.display = 'none';
-          }
-          renderServices();
           document.querySelectorAll('.service-card').forEach((card) => {
             card.classList.remove('selected');
             const check = card.querySelector('input[type="checkbox"]');
             if (check) check.checked = false;
           });
           document.querySelectorAll('.group-card').forEach((card) => {
-            const isPackage = card.dataset.groupType === 'packages';
-            card.classList.toggle('is-open', isPackage);
+            card.classList.remove('is-open');
             const head = card.querySelector('.group-head');
-            if (head) head.setAttribute('aria-expanded', String(isPackage));
+            if (head) head.setAttribute('aria-expanded', 'false');
           });
           updateSummary();
           renderCalendar();
@@ -2288,6 +2881,9 @@
       function initDateDefaults() {
         const today = todayStart();
         state.currentMonth = new Date(today.getFullYear(), today.getMonth(), 1);
+        els.dateField.value = '';
+        els.dateHint.textContent = 'Pasirinkite datą kalendoriuje.';
+        els.selectedDateChip.style.display = 'none';
         renderCalendar();
       }
 
@@ -2302,14 +2898,6 @@
       updateSummary();
       initDateDefaults();
       initReveal();
-
-      const defaultDate = new Date();
-      defaultDate.setDate(defaultDate.getDate() + 1);
-      const defKey = dateKey(defaultDate);
-      if (!state.bookedDates.has(defKey) && !isPastDate(defaultDate)) {
-        setSelectedDate(defKey);
-        renderCalendar();
-      }
     })();
   </script>
 
