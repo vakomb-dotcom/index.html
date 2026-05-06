@@ -1080,6 +1080,47 @@
       cursor:not-allowed;
       box-shadow:none;
     }
+    .services-reveal-row {
+      display:flex;
+      justify-content:center;
+      margin:0 0 18px;
+    }
+    .services-reveal-btn {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-height:52px;
+      padding:0 18px;
+      border-radius:999px;
+      border:1px solid rgba(37,99,235,.14);
+      background:rgba(37,99,235,.08);
+      color:var(--primary-2);
+      font-weight:900;
+      cursor:pointer;
+      box-shadow:0 12px 26px rgba(15,23,42,.06);
+      transition:transform var(--transition), box-shadow var(--transition), background var(--transition), opacity var(--transition);
+    }
+    .services-reveal-btn:hover{transform:translateY(-1px);box-shadow:0 16px 30px rgba(37,99,235,.10)}
+    .services-reveal-btn:disabled{
+      opacity:.5;
+      cursor:not-allowed;
+      transform:none;
+      box-shadow:none;
+    }
+    .extra-services-wrap {
+      display:none;
+      margin-top:16px;
+      animation:fadeUp .28s ease both;
+    }
+    .extra-services-wrap.is-visible { display:block; }
+    .section-mini-note {
+      margin:0 0 10px;
+      color:var(--muted);
+      line-height:1.55;
+      font-size:.94rem;
+      text-align:center;
+    }
 
     @media (prefers-reduced-motion:reduce){
       *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
@@ -1141,13 +1182,24 @@
               <span class="service-intro-line service-intro-line-blue">švaros paslaugos</span>
             </h2>
             <p class="service-intro-lead">
-              Pasirinkite pavienes paslaugas arba paruoštus paketus. Matysite kainą iš karto ir užsiregistruokite per kelias minutes.
+              Pirmiausia pasirinkite paketą. Kai jis pažymėtas, galėsite pridėti papildomas paslaugas vienu mygtuku.
             </p>
           </div>
         </div>
 
         <div class="services-layout">
-  <div class="services-stack" id="servicesStack"></div>
+  <div>
+    <div class="services-stack" id="servicesStack"></div>
+
+    <div class="services-reveal-row">
+      <button class="services-reveal-btn" type="button" id="revealServicesBtn" disabled>Pridėti papildomų paslaugų</button>
+    </div>
+
+    <div class="extra-services-wrap" id="extraServicesWrap" aria-live="polite">
+      <div class="section-mini-note">Papildomos paslaugos atsirado žemiau. Pasirinkite tik tas, kurių tikrai reikia.</div>
+      <div class="services-stack" id="extraServicesStack"></div>
+    </div>
+  </div>
 
   <aside class="summary-panel fade-in" aria-live="polite">
     <h3 style="margin:0 0 10px;">Dinaminė kaina</h3>
@@ -1167,7 +1219,7 @@
 <div class="booking-panel fade-in" id="registracija">
           <div class="section-title" style="margin-bottom:8px;">Registracija</div>
           <p class="section-lead" style="margin-bottom:18px;">
-            Užregistruokite automobilį tiesiogiai iš svetainės. Pasirinkta data bus priskirta tik vienam klientui, o praeities dienos nėra aktyvios.
+            Užregistruokite automobilį tiesiogiai iš svetainės. Pasirinkta diena bus priskirta tik vienam klientui, o praeities dienos nėra aktyvios.
           </p>
 
           <form id="bookingForm">
@@ -1195,7 +1247,7 @@
                   <div class="calendar-head">
                     <div>
                       <div class="calendar-month" id="calendarMonth">2026 m.</div>
-                      <div class="microcopy" style="margin-top:4px;">Greitas pasirinkimas arba kalendorius žemiau.</div>
+                      <div class="microcopy" style="margin-top:4px;">Pasirinkite dieną kalendoriuje.</div>
                     </div>
                     <div class="calendar-nav">
                       <button class="icon-btn" type="button" id="prevMonth" aria-label="Ankstesnis mėnuo">‹</button>
@@ -1656,11 +1708,15 @@
       const state = {
         selected: new Set(),
         currentMonth: new Date(),
-        bookedDates: new Set(JSON.parse(localStorage.getItem('automobiliusBookedDates') || '[]'))
+        bookedDates: new Set(JSON.parse(localStorage.getItem('automobiliusBookedDates') || '[]')),
+        extrasVisible: false
       };
 
       const els = {
         servicesStack: document.getElementById('servicesStack'),
+        extraServicesStack: document.getElementById('extraServicesStack'),
+        extraServicesWrap: document.getElementById('extraServicesWrap'),
+        revealServicesBtn: document.getElementById('revealServicesBtn'),
         totalAmount: document.getElementById('totalAmount'),
         selectedList: document.getElementById('selectedList'),
         selectedCount: document.getElementById('selectedCount'),
@@ -1709,6 +1765,12 @@
         els.summaryBox.value = selected.length
           ? `Pasirinkti darbai:\n${selected.map((s) => `• ${s.title} — ${money(s.price)}`).join('\n')}\n\nSuma: ${money(total)}`
           : `Pasirinkti darbai:\nNėra pasirinktų paslaugų.\n\nSuma: ${money(total)}`;
+
+        if (els.revealServicesBtn && !state.extrasVisible) {
+          const enabled = hasSelectedPackage();
+          els.revealServicesBtn.disabled = !enabled;
+          els.revealServicesBtn.textContent = enabled ? 'Pridėti papildomų paslaugų' : 'Pirmiausia pasirinkite paketą';
+        }
       }
       function buildServiceCard(service) {
         const card = document.createElement('article');
@@ -1732,6 +1794,9 @@
 
         const checkbox = card.querySelector('input[type="checkbox"]');
         const toggle = card.querySelector('.service-toggle');
+        const selected = state.selected.has(service.id);
+        checkbox.checked = selected;
+        card.classList.toggle('selected', selected);
 
         checkbox.addEventListener('change', () => {
           if (checkbox.checked) state.selected.add(service.id);
@@ -1788,6 +1853,9 @@
 
         const checkbox = card.querySelector('input[type="checkbox"]');
         const toggle = card.querySelector('.service-toggle');
+        const selected = state.selected.has(service.id);
+        checkbox.checked = selected;
+        card.classList.toggle('selected', selected);
 
         card.addEventListener('click', (event) => {
           if (event.target.closest('button') || event.target.closest('input')) return;
@@ -1888,6 +1956,11 @@
           sortedServices.forEach((service) => cardsGrid.appendChild(buildServiceCard(service)));
         }
 
+        if (isPackageGroup) {
+          card.classList.add('is-open');
+          head.setAttribute('aria-expanded', 'true');
+        }
+
         head.addEventListener('click', () => {
           const open = card.classList.toggle('is-open');
           head.setAttribute('aria-expanded', String(open));
@@ -1898,8 +1971,58 @@
 
       function renderServices() {
         els.servicesStack.innerHTML = '';
-        groups.forEach((group) => els.servicesStack.appendChild(buildGroupCard(group)));
+        groups.filter((group) => group.type === 'packages').forEach((group) => {
+          els.servicesStack.appendChild(buildGroupCard(group));
+        });
+
+        if (els.extraServicesStack) {
+          els.extraServicesStack.innerHTML = '';
+        }
+
+        if (state.extrasVisible) {
+          renderExtraServices();
+        } else if (els.extraServicesWrap) {
+          els.extraServicesWrap.classList.remove('is-visible');
+          els.extraServicesWrap.style.display = 'none';
+        }
+
         observeFadeIns();
+      }
+
+      function renderExtraServices() {
+        if (!els.extraServicesStack || !els.extraServicesWrap) return;
+
+        els.extraServicesStack.innerHTML = '';
+        groups.filter((group) => group.type !== 'packages').forEach((group) => {
+          els.extraServicesStack.appendChild(buildGroupCard(group));
+        });
+
+        els.extraServicesWrap.style.display = 'block';
+        requestAnimationFrame(() => {
+          els.extraServicesWrap.classList.add('is-visible');
+        });
+        observeFadeIns();
+      }
+
+      function hasSelectedPackage() {
+        return groups
+          .filter((group) => group.type === 'packages')
+          .some((group) => group.services.some((service) => state.selected.has(service.id)));
+      }
+
+      function revealExtraServices() {
+        if (state.extrasVisible) return;
+        if (!hasSelectedPackage()) {
+          els.revealServicesBtn?.focus();
+          return;
+        }
+        state.extrasVisible = true;
+        renderExtraServices();
+        if (els.revealServicesBtn) {
+          els.revealServicesBtn.textContent = 'Papildomos paslaugos atidarytos';
+          els.revealServicesBtn.disabled = true;
+        }
+        els.extraServicesWrap?.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
       function getMonthLabel(date) {
@@ -2038,10 +2161,26 @@
         renderCalendar();
       });
 
+      els.revealServicesBtn?.addEventListener('click', revealExtraServices);
+
       els.clearBooking.addEventListener('click', () => {
         state.selected.clear();
+        state.extrasVisible = false;
         els.bookingForm.reset();
         clearSelectedDate();
+
+        if (els.revealServicesBtn) {
+          els.revealServicesBtn.disabled = true;
+          els.revealServicesBtn.textContent = 'Pirmiausia pasirinkite paketą';
+        }
+
+        if (els.extraServicesWrap) {
+          els.extraServicesWrap.classList.remove('is-visible');
+          els.extraServicesWrap.style.display = 'none';
+        }
+
+        renderServices();
+
         document.querySelectorAll('.service-card').forEach((card) => {
           card.classList.remove('selected', 'is-open');
           const check = card.querySelector('input[type="checkbox"]');
@@ -2052,11 +2191,14 @@
             toggle.setAttribute('aria-expanded', 'false');
           }
         });
+
         document.querySelectorAll('.group-card').forEach((card) => {
-          card.classList.remove('is-open');
+          const isPackage = card.dataset.groupType === 'packages';
+          card.classList.toggle('is-open', isPackage);
           const head = card.querySelector('.group-head');
-          if (head) head.setAttribute('aria-expanded', 'false');
+          if (head) head.setAttribute('aria-expanded', String(isPackage));
         });
+
         updateSummary();
         renderCalendar();
       });
@@ -2112,17 +2254,28 @@
           saveBookedDates();
           openModal();
           state.selected.clear();
+          state.extrasVisible = false;
           els.bookingForm.reset();
           clearSelectedDate();
+          if (els.revealServicesBtn) {
+            els.revealServicesBtn.disabled = true;
+            els.revealServicesBtn.textContent = 'Pirmiausia pasirinkite paketą';
+          }
+          if (els.extraServicesWrap) {
+            els.extraServicesWrap.classList.remove('is-visible');
+            els.extraServicesWrap.style.display = 'none';
+          }
+          renderServices();
           document.querySelectorAll('.service-card').forEach((card) => {
             card.classList.remove('selected');
             const check = card.querySelector('input[type="checkbox"]');
             if (check) check.checked = false;
           });
           document.querySelectorAll('.group-card').forEach((card) => {
-            card.classList.remove('is-open');
+            const isPackage = card.dataset.groupType === 'packages';
+            card.classList.toggle('is-open', isPackage);
             const head = card.querySelector('.group-head');
-            if (head) head.setAttribute('aria-expanded', 'false');
+            if (head) head.setAttribute('aria-expanded', String(isPackage));
           });
           updateSummary();
           renderCalendar();
