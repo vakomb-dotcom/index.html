@@ -4326,12 +4326,14 @@ Suma: ${money(total)}`;
           checkbox.dispatchEvent(new Event('change', { bubbles: true }));
         });
 
-
         checkbox.addEventListener('change', () => {
           if (checkbox.checked) state.selected.add(service.id);
           else state.selected.delete(service.id);
           card.classList.toggle('selected', checkbox.checked);
           updateSummary();
+          if (els.addonsSection && !els.addonsSection.classList.contains('hidden')) {
+            renderAddonServices();
+          }
         });
 
         const addonsButton = card.querySelector('[data-open-addons]');
@@ -4347,6 +4349,7 @@ Suma: ${money(total)}`;
       }
 
       function formatDateLabel(date) {
+
 
         return date.toLocaleDateString('lt-LT', {
           weekday: 'short',
@@ -4393,6 +4396,53 @@ Suma: ${money(total)}`;
       }
 
       const ADDON_GROUPS = groups.filter((group) => group.type !== 'packages');
+
+      const PACKAGE_ADDON_EXCLUSIONS = {
+        15: [101, 105],
+        13: [101, 102, 103, 105, 202, 208],
+        14: [101, 102, 103, 105, 202, 208, 209],
+        301: [101, 105, 203, 206],
+        302: [101, 102, 103, 105, 202, 203, 206, 208],
+        303: [101, 102, 103, 105, 202, 203, 206, 208, 209]
+      };
+
+      function getSelectedPackageIds() {
+        return groups
+          .filter((group) => group.type === 'packages')
+          .flatMap((group) => group.services)
+          .filter((service) => state.selected.has(service.id))
+          .map((service) => service.id);
+      }
+
+      function getExcludedAddonIds() {
+        const excluded = new Set();
+
+        getSelectedPackageIds().forEach((packageId) => {
+          (PACKAGE_ADDON_EXCLUSIONS[packageId] || []).forEach((serviceId) => excluded.add(serviceId));
+        });
+
+        return excluded;
+      }
+
+      function formatAddonCount(count) {
+        if (count === 1) return '1 paslauga';
+        return `${count} paslaugų`;
+      }
+
+      function getAddonGroups() {
+        const excludedIds = getExcludedAddonIds();
+
+        return ADDON_GROUPS
+          .map((group) => {
+            const services = group.services.filter((service) => !excludedIds.has(service.id));
+            return {
+              ...group,
+              services,
+              pill: formatAddonCount(services.length)
+            };
+          })
+          .filter((group) => group.services.length > 0);
+      }
 
       function buildGroupCard(group) {
         const card = document.createElement('section');
@@ -4443,17 +4493,25 @@ Suma: ${money(total)}`;
       function renderAddonServices() {
         if (!els.addonsStack) return;
         els.addonsStack.innerHTML = '';
-        ADDON_GROUPS.forEach((group) => els.addonsStack.appendChild(buildGroupCard(group)));
+        const availableGroups = getAddonGroups();
+
+        if (!availableGroups.length) {
+          const empty = document.createElement('div');
+          empty.className = 'about-result-box';
+          empty.innerHTML = '<strong>Šiam paketui papildomų paslaugų nėra</strong><p>Šis paketas jau apima viską, ką šiuo metu galima papildomai pasirinkti.</p>';
+          els.addonsStack.appendChild(empty);
+          return;
+        }
+
+        availableGroups.forEach((group) => els.addonsStack.appendChild(buildGroupCard(group)));
         observeFadeIns();
       }
 
 
       function openAddonServices() {
         if (!els.addonsSection || !els.addonsStack) return;
-        if (els.addonsSection.classList.contains('hidden') || !els.addonsStack.children.length) {
-          els.addonsSection.classList.remove('hidden');
-          renderAddonServices();
-        }
+        els.addonsSection.classList.remove('hidden');
+        renderAddonServices();
         els.addonsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
 
